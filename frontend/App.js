@@ -1,8 +1,14 @@
-import { LogBox } from "react-native";
-LogBox.ignoreAllLogs(true);
+//import { LogBox } from "react-native";
+//LogBox.ignoreAllLogs(true);
+import { NativeBaseProvider } from "native-base";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
 
-import React from "react";
-
+import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers } from "redux";
+import { Provider } from "react-redux";
+import { FontAwesome5 } from "@expo/vector-icons";
 import SignInScreen from "./screens/SignIn";
 import SignUpScreen from "./screens/SignUp";
 import HomeScreen from "./screens/Home";
@@ -18,21 +24,11 @@ import ListFriend from "./screens/Friend";
 import ChatScreen from "./screens/Chat";
 import ResumeScreen from "./screens/Resume";
 
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
+//import pseudo from "./reducers/pseudo";
 
-import { FontAwesome5 } from "@expo/vector-icons";
-
-import { createStore, combineReducers } from "redux";
-import { Provider } from "react-redux";
-import pseudo from "./reducers/pseudo";
-import photo from "./reducers/photo";
-
-const store = createStore(combineReducers({ pseudo, photo }));
+const store = configureStore({ reducer: combineReducers({  }) });
 
 const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
 
 const BottomMenuTabs = () => {
   return (
@@ -46,11 +42,12 @@ const BottomMenuTabs = () => {
             iconName = "hiking";
           } else if (route.name === "Search") {
             iconName = "search";
-          } else if (route.name === "Profil") {
+          } else if (route.name === "Profile") {
             iconName = "user-alt";
           }
           return <FontAwesome5 name={iconName} size={25} color={color} />;
         },
+        headerShown: false,
       })}
       tabBarOptions={{
         activeTintColor: "#009788",
@@ -63,29 +60,32 @@ const BottomMenuTabs = () => {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="List" component={ListScreen} />
       <Tab.Screen name="Search" component={SearchScreen} />
-      <Tab.Screen name="Profil" component={MyprofileScreen} />
+      <Tab.Screen name="Profile" component={MyprofileScreen} />
     </Tab.Navigator>
   );
 };
 
+const Stack = createStackNavigator();
 export default function App() {
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="SignIn" component={SignInScreen} />
-          <Stack.Screen name="SignUp" component={SignUpScreen} />
-          <Stack.Screen name="Create" component={CreateScreen} />
-          <Stack.Screen name="Map" component={MapScreen} />
-          <Stack.Screen name="Description" component={DescriptionScreen} />
-          <Stack.Screen name="Otherprofile" component={OtherprofileScreen} />
-          <Stack.Screen name="Friend" component={ListFriend} />
-          <Stack.Screen name="History" component={HistoryScreen} />
-          <Stack.Screen name="Chat" component={ChatScreen} />
-          <Stack.Screen name="Resume" component={ResumeScreen} />
-          <Stack.Screen name="BottomMenuTabs" component={BottomMenuTabs} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <NativeBaseProvider>
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="SignIn" component={SignInScreen} />
+            <Stack.Screen name="SignUp" component={SignUpScreen} />
+            <Stack.Screen name="Create" component={CreateScreen} />
+            <Stack.Screen name="Map" component={MapScreen} />
+            <Stack.Screen name="Description" component={DescriptionScreen} />
+            <Stack.Screen name="Otherprofile" component={OtherprofileScreen} />
+            <Stack.Screen name="Friend" component={ListFriend} />
+            <Stack.Screen name="History" component={HistoryScreen} />
+            <Stack.Screen name="Chat" component={ChatScreen} />
+            <Stack.Screen name="Resume" component={ResumeScreen} />
+            <Stack.Screen name="BottomMenuTabs" component={BottomMenuTabs} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </NativeBaseProvider>
     </Provider>
   );
 }

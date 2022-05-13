@@ -23,10 +23,11 @@ import HistoryScreen from "./screens/History";
 import ListFriend from "./screens/Friend";
 import ChatScreen from "./screens/Chat";
 import ResumeScreen from "./screens/Resume";
+import PresentScreen from "./screens/PresentScreen";
 
 //import pseudo from "./reducers/pseudo";
 
-const store = configureStore({ reducer: combineReducers({  }) });
+//const store = configureStore({ reducer: combineReducers({  }) });
 
 const Tab = createBottomTabNavigator();
 
@@ -68,10 +69,10 @@ const BottomMenuTabs = () => {
 const Stack = createStackNavigator();
 export default function App() {
   return (
-    <Provider store={store}>
       <NativeBaseProvider>
         <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={''}>
+            <Stack.Screen name="Present" component={PresentScreen} />
             <Stack.Screen name="SignIn" component={SignInScreen} />
             <Stack.Screen name="SignUp" component={SignUpScreen} />
             <Stack.Screen name="Create" component={CreateScreen} />
@@ -86,6 +87,5 @@ export default function App() {
           </Stack.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>
-    </Provider>
   );
 }

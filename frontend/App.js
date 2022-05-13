@@ -5,9 +5,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import { configureStore } from "@reduxjs/toolkit";
+/*import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
-import { Provider } from "react-redux";
+import { Provider } from "react-redux";*/
 import { FontAwesome5 } from "@expo/vector-icons";
 import SignInScreen from "./screens/SignIn";
 import SignUpScreen from "./screens/SignUp";
@@ -57,6 +57,7 @@ const BottomMenuTabs = () => {
           backgroundColor: "#111224",
         },
       }}
+      initialRouteName="Home"
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="List" component={ListScreen} />
@@ -74,7 +75,7 @@ export default function App() {
           <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={''}>
             <Stack.Screen name="Present" component={PresentScreen} />
             <Stack.Screen name="SignIn" component={SignInScreen} />
-            <Stack.Screen name="SignUp" component={SignUpScreen} />
+            <Stack.Screen name='Home' component={BottomMenuTabs} />
             <Stack.Screen name="Create" component={CreateScreen} />
             <Stack.Screen name="Map" component={MapScreen} />
             <Stack.Screen name="Description" component={DescriptionScreen} />

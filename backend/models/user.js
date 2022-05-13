@@ -7,7 +7,7 @@ let userSchema = new mongoose.Schema({
     password: String,
     name: String,
     lastname: String, 
-    tracks: [], // use foreign key for tracks
+    tracks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'tracks' }], // use foreign key for tracks
 });
 
 // link schema to collection

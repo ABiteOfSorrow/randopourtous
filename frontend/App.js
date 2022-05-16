@@ -67,12 +67,28 @@ const BottomMenuTabs = () => {
           ...styles.shadow,
         },
       }}
+<<<<<<< HEAD
       initialRouteName='Home'>
 
+=======
+<<<<<<< HEAD
+      initialRouteName='Home'>
+      <Tab.Screen name='Home' component={HomeScreen} />
+      <Tab.Screen name='List' component={ListScreen} />
+      <Tab.Screen name='Search' component={SearchScreen} />
+      <Tab.Screen name='Profile' component={CreateScreen} />
+=======
+      initialRouteName="Home"
+    >
+>>>>>>> 61ce87020111f12a10e18a2384d1c91bc05765f6
       <Tab.Screen name="Home" options={{ gestureEnabled: false }} component={HomeScreen} />
       <Tab.Screen name="List" component={ListScreen} />
       <Tab.Screen name="Search" component={DetailScreen} />
       <Tab.Screen name="Profile" component={HistoryScreen} />
+<<<<<<< HEAD
+=======
+>>>>>>> bffca9cb71a7402b547bc65388e37505d17d1863
+>>>>>>> 61ce87020111f12a10e18a2384d1c91bc05765f6
     </Tab.Navigator>
   )
 }

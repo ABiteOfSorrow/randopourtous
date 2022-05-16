@@ -1,12 +1,20 @@
-import React from 'react'
-import {Text} from 'native-base'
+import React, {useEffect} from 'react';
+import { Text } from 'native-base';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-function Home() {
+function Home(props) {
+  useEffect(() => {
+    props.navigation.canGoBack(false);
+  }, []);
+
   return (
-    <Text fontFamily='Roboto' fontSize={20}>
-      Hom
-    </Text>
+    <SafeAreaView style={{ flex:1, justifyContent:'center' }}>
+      <Text fontSize={20}>
+        Home
+      </Text>
+    </SafeAreaView>
+
   )
 }
 
-export default Home
+export default Home;

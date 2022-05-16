@@ -6,7 +6,10 @@ let userSchema = new mongoose.Schema({
     email: String,
     password: String,
     name: String,
-    lastname: String, 
+    lastname: String,
+    averageRating: Number,
+    createdAccount: Date,
+    token: String,
     tracks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'tracks' }], // use foreign key for tracks
 });
 

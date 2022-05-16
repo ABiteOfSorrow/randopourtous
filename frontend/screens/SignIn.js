@@ -1,15 +1,53 @@
-import React from 'react'
-import {StatusBar} from 'expo-status-bar'
-import {Button} from 'native-base'
-import {Text} from 'react-native'
-import {SafeAreaView} from 'react-native-safe-area-context'
+import React, { useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { Button, Input, Divider } from 'native-base';
+import { Text, StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 export default function SignIn(props) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  let handleSubmit = () => {
+    props.navigation.navigate('Home');
+  }
+
   return (
-    <SafeAreaView style={{flex: 1, justifyContent: 'center'}}>
-      <Text style={{fontSize: 20, marginBottom: 10}}>Sign up page</Text>
-      <Button onPress={() => props.navigation.navigate('Home')}>Go home</Button>
+    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
+      <Text style={{ fontSize: 26, marginBottom: 25,  }}>RandoPourTous</Text>
+      <Text style={{ fontSize: 20, marginBottom: 45 }}>Connexion</Text>
+      <View style={styles.inputContainer} >
+        <Input placeholder='Email' width={'80%'} onChangeText={(text) => setEmail(text)} value={email} style={styles.input} />
+      </View>
+      <View style={styles.inputContainer} >
+        <Input style={styles.input} value={password} onChangeText={(text) => setPassword(text)} type={"password"} width={'80%'} placeholder="Mot de passe" />
+      </View>
+      <Button style={styles.button} w={'80%'} onPress={() => handleSubmit()}>Connexion</Button>
+      <Divider orientation='horizontal' w={'80%'} mt={10} mb={5} />
+      <Text style={{ fontSize: 16, marginBottom: 14 }}>Se connecter avec</Text>
+      <View style={{ width: '80%', display: 'flex', flexDirection: 'row', justifyContent: 'center' }} >
+        <FontAwesome5 style={{ marginHorizontal: 16 }} name="google" size={48} color="#DB4437" onPress={() => alert('Sign up avec Google. Merci.')} />
+        <FontAwesome5 style={{ marginHorizontal: 16 }} name="facebook" size={48} color="#4267B2" />
+      </View>
+      <View style={{ marginTop: 110, width: '80%', display: 'flex', alignItems: 'center' }} >
+        <Text>Vous n'avez pas de compte?</Text>
+        <Button style={{ backgroundColor: '#bbb' }} mt={2} w={'100%'} onPress={() => props.navigation.navigate('SignUp')}>Créer un compte</Button>
+      </View>
       <StatusBar style='auto' />
     </SafeAreaView>
   )
 }
+
+const styles = StyleSheet.create({
+  input: {
+    width: '80%',
+  },
+  inputContainer: {
+    marginBottom: 10
+  },
+  button: {
+    backgroundColor: '#78E08F',
+    marginTop: 12
+  }
+});

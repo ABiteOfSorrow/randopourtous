@@ -13,7 +13,7 @@ import PresentScreen from "./screens/PresentScreen";
 import SignInScreen from "./screens/SignIn";
 import SignUpScreen from "./screens/SignUp";
 import HomeScreen from "./screens/Home";
-// import CreateScreen from './screens/Create'
+import CreateScreen from './screens/Create'
 import SearchScreen from "./screens/Search";
 // import MapScreen from './screens/Map'
 import ListScreen from "./screens/List";
@@ -66,7 +66,7 @@ const BottomMenuTabs = () => {
       initialRouteName="Home"
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="List" component={ListScreen} />
+      <Tab.Screen name="List" component={ListScreen} />    
       <Tab.Screen name="Search" component={DetailScreen} />
       <Tab.Screen name="Profile" component={MyprofileScreen} />
     </Tab.Navigator>

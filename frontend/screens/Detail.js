@@ -28,8 +28,9 @@ import HamburgerMenu from "./HamburgerMenu";
 function Detail() {
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
+            <ScrollView>
       <HamburgerMenu />
-      <ScrollView>
+
         <VStack space={2} alignItems="center">
           <Heading size="xl">Rando 1</Heading>
           <Heading size="lg">Data / Lieu</Heading>
@@ -38,7 +39,7 @@ function Detail() {
           </Box>
           <Heading size="lg">Organisé par: </Heading>
           <Button 
-            w={80}
+            w={350}
             h={10}
             bg="#bbbbbb">
             Toto1: Voir profil
@@ -49,11 +50,13 @@ function Detail() {
           <Heading size="lg">Liste des participants: </Heading>
           {/* User profil box */}
           <Center
-            w={80}
-            h={20}
+            w={350}
+            h={62}
+            p={0}
+            mb={2}
             bg="#079992"
             rounded="lg"
-            shadow={3}
+            shadow={8}
             display="flex"
             flexDirection="row"
             justifyContent="space-around"
@@ -89,11 +92,13 @@ function Detail() {
             </Button>
           </Center>
           <Center
-            w={80}
-            h={20}
+            w={350}
+            h={62}
+            p={0}
+            mb={2}
             bg="#079992"
             rounded="lg"
-            shadow={3}
+            shadow={8}
             display="flex"
             flexDirection="row"
             justifyContent="space-around"
@@ -129,11 +134,13 @@ function Detail() {
             </Button>
           </Center>
           <Center
-            w={80}
-            h={20}
+            w={350}
+            h={62}
+            p={0}
+            mb={2}
             bg="#079992"
             rounded="lg"
-            shadow={3}
+            shadow={8}
             display="flex"
             flexDirection="row"
             justifyContent="space-around"
@@ -200,21 +207,4 @@ const styles = StyleSheet.create({
   },
 });
 
-// map
-// Organisé par:
-// Toto1: Voir profil
-// Nombre de participant: 2/14
-// Liste des participants:
-
-// 프로필
-
-// 리턴버튼 참여
-// <div class="row">
-// <img class="avatar" src="avatar-3.jpg">
-// <div>
-//     <h6>Adam Keval</h6>
-//     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae unde vel magni possimus libero, alias suscipit nobis officia accusantium. Laborum ipsam accusamus iusto deserunt mollitia. Repudiandae alias sequi nobis ipsum.</p>
-// </div>
-// <img class="trash" src="trash.png">
-// </div>
 export default Detail;

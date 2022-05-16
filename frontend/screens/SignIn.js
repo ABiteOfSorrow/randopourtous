@@ -1,15 +1,38 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Button, Input, Divider } from 'native-base';
-import { Text, StyleSheet, View } from 'react-native';
+import { Text, StyleSheet, View, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FontAwesome5 } from '@expo/vector-icons';
+
+const backendAdress = 'http://' + '192.168.10.160' +':3000' 
 
 export default function SignIn(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  let handleSubmit = () => {
+  let handleSubmit = async () => {
+    if (!email || !password) {
+      Alert.alert('Erreur.', 'Veuillez entrer les données.');
+      return;
+    }
+    let result = await fetch(backendAdress + '/users/sign-in', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password
+      })
+    });
+    let data = await result.json();
+    if (!data.result) {
+      Alert.alert('Erreur', data.error);
+      return;
+    }
+    // store to redux here
+
     props.navigation.navigate('Home');
   }
 
@@ -23,7 +46,7 @@ export default function SignIn(props) {
       <View style={styles.inputContainer} >
         <Input style={styles.input} value={password} onChangeText={(text) => setPassword(text)} type={"password"} width={'80%'} placeholder="Mot de passe" />
       </View>
-      <Button style={styles.button} w={'80%'} onPress={() => handleSubmit()}>Connexion</Button>
+      <Button style={styles.button} w={'80%'} onPress={async () => await handleSubmit()}>Connexion</Button>
       <Divider orientation='horizontal' w={'80%'} mt={10} mb={5} />
       <Text style={{ fontSize: 16, marginBottom: 14 }}>Se connecter avec</Text>
       <View style={{ width: '80%', display: 'flex', flexDirection: 'row', justifyContent: 'center' }} >

@@ -14,6 +14,11 @@ router.post('/sign-up', async (req, res) => {
   if (!req.body.email || !req.body.username || !req.body.password) {
     return res.json({ result: false, error: 'Input is missing.' })
   }
+  // search if user already exists
+  let alreadyUser = await User.findOne({ email: req.body.email });
+  if (alreadyUser) {
+    return res.json({ result: false, error: 'User already exists.' })
+  }
   const hash = bcrypt.hashSync(req.body.password, cost);
   let user = new User({
     username: req.body.username,

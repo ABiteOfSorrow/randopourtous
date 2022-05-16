@@ -1,13 +1,13 @@
 // import { LogBox } from "react-native";
 // LogBox.ignoreAllLogs(true);
-import React from "react";
-import { StyleSheet } from "react-native";
-import { NativeBaseProvider } from "native-base";
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
+import React from 'react'
+import {StyleSheet} from 'react-native'
+import {NativeBaseProvider} from 'native-base'
+import {NavigationContainer} from '@react-navigation/native'
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
+import {createStackNavigator} from '@react-navigation/stack'
 
-import { FontAwesome5 } from "@expo/vector-icons";
+import {FontAwesome5} from '@expo/vector-icons'
 
 import PresentScreen from "./screens/PresentScreen";
 import SignInScreen from "./screens/SignIn";
@@ -16,51 +16,51 @@ import HomeScreen from "./screens/Home";
 import CreateScreen from './screens/Create'
 import SearchScreen from "./screens/Search";
 // import MapScreen from './screens/Map'
-import ListScreen from "./screens/List";
-import DetailScreen from "./screens/Detail";
-import MyprofileScreen from "./screens/MyProfile";
+import ListScreen from './screens/List'
+import DetailScreen from './screens/Detail'
+import MyprofileScreen from './screens/MyProfile'
 // import OtherprofileScreen from './screens/Otherprofile'
 // import HistoryScreen from './screens/History'
 // import ListFriend from './screens/Friend'
 // import ChatScreen from './screens/Chat'
 // import ResumeScreen from './screens/Resume'
-import HamburgerMenuScreen from "./screens/HamburgerMenu";
+import HamburgerMenuScreen from './screens/HamburgerMenu'
 //const store = configureStore({ reducer: combineReducers({  }) });
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator()
 
 const BottomMenuTabs = () => {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ color }) => {
-          let iconName;
-          if (route.name === "Home") {
-            iconName = "home";
-          } else if (route.name === "List") {
-            iconName = "hiking";
-          } else if (route.name === "Search") {
-            iconName = "search";
-          } else if (route.name === "Profile") {
-            iconName = "user-alt";
+      screenOptions={({route}) => ({
+        tabBarIcon: ({color}) => {
+          let iconName
+          if (route.name === 'Home') {
+            iconName = 'home'
+          } else if (route.name === 'List') {
+            iconName = 'hiking'
+          } else if (route.name === 'Search') {
+            iconName = 'search'
+          } else if (route.name === 'Profile') {
+            iconName = 'user-alt'
           }
-          return <FontAwesome5 name={iconName} size={25} color={color} />;
+          return <FontAwesome5 name={iconName} size={25} color={color} />
         },
         headerShown: false,
       })}
       tabBarOptions={{
-        activeTintColor: "#009788",
-        inactiveTintColor: "#FFFFFF",
+        activeTintColor: '#009788',
+        inactiveTintColor: '#FFFFFF',
         style: {
-          backgroundColor: "#78E08F",
-          position: "absolute",
+          backgroundColor: '#78E08F',
+          position: 'absolute',
           bottom: 5,
           left: 20,
           right: 20,
           elevation: 0,
           borderRadius: 15,
           height: 60,
-          ...styles.shadow
+          ...styles.shadow,
         },
       }}
       initialRouteName="Home"
@@ -70,20 +70,22 @@ const BottomMenuTabs = () => {
       <Tab.Screen name="Search" component={DetailScreen} />
       <Tab.Screen name="Profile" component={MyprofileScreen} />
     </Tab.Navigator>
-  );
-};
+  )
+}
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator()
 export default function App() {
   return (
     <NativeBaseProvider>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={""}>
-          <Stack.Screen name="Present" component={PresentScreen} />
-          <Stack.Screen name="SignIn" component={SignInScreen} />
-          <Stack.Screen name="SignUp" component={SignUpScreen} />
-          <Stack.Screen name="Home" component={BottomMenuTabs} />
-          <Stack.Screen name="Detail" component={DetailScreen} />
+        <Stack.Navigator
+          screenOptions={{headerShown: false}}
+          initialRouteName={''}>
+          <Stack.Screen name='Present' component={PresentScreen} />
+          <Stack.Screen name='SignIn' component={SignInScreen} />
+          <Stack.Screen name='SignUp' component={SignUpScreen} />
+          <Stack.Screen name='Home' component={BottomMenuTabs} />
+          <Stack.Screen name='Detail' component={DetailScreen} />
           {/* <Stack.Screen name='Create' component={CreateScreen} />
           <Stack.Screen name='Map' component={MapScreen} />
           <Stack.Screen name='Otherprofile' component={OtherprofileScreen} />
@@ -91,12 +93,12 @@ export default function App() {
           <Stack.Screen name='History' component={HistoryScreen} />
           <Stack.Screen name='Chat' component={ChatScreen} /> */}
           {/* <Stack.Screen name='Resume' component={ResumeScreen} /> */}
-          <Stack.Screen name="HamburgerMenu" component={HamburgerMenuScreen} />
-          <Stack.Screen name="BottomMenuTabs" component={BottomMenuTabs} />
+          <Stack.Screen name='HamburgerMenu' component={HamburgerMenuScreen} />
+          <Stack.Screen name='BottomMenuTabs' component={BottomMenuTabs} />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -108,6 +110,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 1,
     shadowRadius: 3.5,
-    elevation: 5
-    }
+    elevation: 5,
+  },
 })

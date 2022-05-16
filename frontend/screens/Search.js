@@ -16,12 +16,9 @@ import {
 
 function Search() {
   const [level, setLevel] = useState()
-  const [date, setDate] = useState(new Date(Date.now()))
-  const [hour, setHour] = useState()
+  const [date, setDate] = useState()
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false)
   const [isHourPickerVisible, setHourPickerVisibility] = useState(false)
-  const [buttonDateTitle, setButtonDateTitle] = useState('Date & Heure')
-  const [openHour, setOpenHour] = useState(false)
 
   const showDatePicker = () => {
     setDatePickerVisibility(true)
@@ -30,10 +27,6 @@ function Search() {
   const hidePicker = () => {
     setDatePickerVisibility(false)
     setHourPickerVisibility(false)
-  }
-
-  const handleConfirm = (date) => {
-    hidePicker()
   }
 
   return (
@@ -59,16 +52,25 @@ function Search() {
         variant='outline'
         mt='1.5'
         w='100%'
-        title={buttonDateTitle}
         colorScheme='secondary'
         onPress={showDatePicker}>
-        <Text color='grey'>{buttonDateTitle}</Text>
+        <Text color='grey'>
+          {!date
+            ? 'Date & Heure'
+            : date.toLocaleDateString('fr') +
+              ' ' +
+              date.getHours() +
+              ':' +
+              date.getMinutes()}
+        </Text>
       </Button>
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode='date'
-        onConfirm={() => {
+        date={date}
+        onConfirm={(date) => {
           setDatePickerVisibility(false)
+          setDate(date)
           setHourPickerVisibility(true)
         }}
         onCancel={hidePicker}
@@ -77,7 +79,12 @@ function Search() {
       <DateTimePickerModal
         isVisible={isHourPickerVisible}
         mode='time'
-        onConfirm={handleConfirm}
+        locale='fr-FR'
+        date={date}
+        onConfirm={(date) => {
+          setHourPickerVisibility(false)
+          setDate(date)
+        }}
         onCancel={hidePicker}
       />
 

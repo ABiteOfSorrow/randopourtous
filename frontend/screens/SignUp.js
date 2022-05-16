@@ -4,13 +4,16 @@ import { Button, Input, Divider } from 'native-base';
 import { Text, StyleSheet, View, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { connect } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const backendAdress = 'http://' + '192.168.10.160' +':3000' 
 
-export default function SignUp(props) {
+function SignUp(props) {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
 
+  const [isLogin, setIsLogin] = useState(false);
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -43,20 +46,26 @@ export default function SignUp(props) {
       return;
     }
     // store in redux here
+    props.signUp(data.user);
+    // save in async storage
+    try {
+      await AsyncStorage.setItem('user', JSON.stringify(data.user));
+    } catch (e) {
+      console.log(e)
+    }
 
     props.navigation.navigate('Home');
   }
 
   useEffect(() => {
-
-  }, []);
+  }, [])
 
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
       <Text style={{ fontSize: 26, marginBottom: 25, marginTop: -25 }}>RandoPourTous</Text>
       <Text style={{ fontSize: 20, marginBottom: 45 }}>Créer un compte</Text>
       <View style={styles.inputContainer} >
-        <Input placeholder='Email' width={'80%'} value={email} onChangeText={(text) => setEmail(text)} style={styles.input} />
+        <Input placeholder='Email' width={'80%'} type='text' value={email} onChangeText={(text) => setEmail(text)} style={styles.input} />
       </View>
       <View style={styles.inputContainer} >
         <Input placeholder="Nom d'utilisateur" value={username} onChangeText={(text) => setUsername(text)} width={'80%'} style={styles.input} />
@@ -97,3 +106,16 @@ const styles = StyleSheet.create({
     marginTop: 12,
   }
 });
+
+function mapDispatchToProps(dispatch) {
+  return {
+    signUp: (user) => dispatch({ type: 'USER_LOGIN', user:user })
+  }
+}
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

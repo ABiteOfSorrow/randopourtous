@@ -4,10 +4,12 @@ import { Button, Input, Divider } from 'native-base';
 import { Text, StyleSheet, View, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { connect } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const backendAdress = 'http://' + '192.168.10.160' +':3000' 
 
-export default function SignIn(props) {
+function SignIn(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -32,7 +34,14 @@ export default function SignIn(props) {
       return;
     }
     // store to redux here
-
+    props.signUp(data.user);
+    console.log(data.user);
+    // save in async storage
+    try {
+      await AsyncStorage.setItem('user', JSON.stringify(data.user));
+    } catch (e) {
+      console.log(e)
+    }
     props.navigation.navigate('Home');
   }
 
@@ -74,3 +83,11 @@ const styles = StyleSheet.create({
     marginTop: 12
   }
 });
+
+function mapDispatchToProps(dispatch) {
+  return {
+    signUp: (user) => dispatch({ type: 'USER_LOGIN', user:user })
+  };
+}
+
+export default connect(null, mapDispatchToProps)(SignIn);

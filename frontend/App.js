@@ -9,12 +9,12 @@ import {createStackNavigator} from '@react-navigation/stack'
 
 import {FontAwesome5} from '@expo/vector-icons'
 
-import PresentScreen from "./screens/PresentScreen";
-import SignInScreen from "./screens/SignIn";
-import SignUpScreen from "./screens/SignUp";
-import HomeScreen from "./screens/Home";
+import PresentScreen from './screens/PresentScreen'
+import SignInScreen from './screens/SignIn'
+import SignUpScreen from './screens/SignUp'
+import HomeScreen from './screens/Home'
 import CreateScreen from './screens/Create'
-import SearchScreen from "./screens/Search";
+import SearchScreen from './screens/Search'
 // import MapScreen from './screens/Map'
 import ListScreen from './screens/List'
 import DetailScreen from './screens/Detail'
@@ -63,12 +63,11 @@ const BottomMenuTabs = () => {
           ...styles.shadow,
         },
       }}
-      initialRouteName="Home"
-    >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="List" component={ListScreen} />    
-      <Tab.Screen name="Search" component={DetailScreen} />
-      <Tab.Screen name="Profile" component={MyprofileScreen} />
+      initialRouteName='Home'>
+      <Tab.Screen name='Home' component={HomeScreen} />
+      <Tab.Screen name='List' component={ListScreen} />
+      <Tab.Screen name='Search' component={SearchScreen} />
+      <Tab.Screen name='Profile' component={CreateScreen} />
     </Tab.Navigator>
   )
 }

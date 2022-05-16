@@ -1,30 +1,12 @@
 import React from "react";
-import {
-  Avatar,
-  HStack,
-  VStack,
-  Center,
-  Heading,
-  Menu,
-  Box,
-  HamburgerIcon,
-  Divider,
-  Button,
-  Text,
-  Flex,
-  Spacer,
-  Stack,
-  Switch,
-} from "native-base";
-import { StyleSheet, View, ScrollView, Pressable } from "react-native";
+import { HStack, VStack, Center, Heading, Box, Button, Text, Switch } from "native-base";
+import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FontAwesome5 } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
 import HamburgerMenu from "./HamburgerMenu";
 
 function List() {
   return (
-    <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         <HStack justifyContent="space-between" mb={4}>
           <HamburgerMenu />
@@ -55,6 +37,11 @@ function List() {
         </VStack>
         <VStack space={2} alignItems="center">
           {/* Journey List */}
+          <Box w={320} mb={0} borderRadius="15" bg="#78E08F">
+            <Heading size="md" textAlign="center">
+              Totos's Rando pour tous
+            </Heading>
+          </Box>
           <Center
             w={350}
             h={62}
@@ -67,16 +54,14 @@ function List() {
             flexDirection="row"
             justifyContent="space-around"
           >
-            <VStack space={2} alignItems="center">
-              <Heading size="md">Rando 1</Heading>
+            <Heading size="md">Vincennes</Heading>
+
+            <VStack space={2} alignItems="flex-start">
               <Text fontSize="sm" bold>
                 Sportif
               </Text>
-            </VStack>
-            <VStack space={2} alignItems="flex-start">
-              <Heading size="md">Vincennes</Heading>
               <Text fontSize="sm" bold>
-                12 particpants
+                5 / 12 particpants
               </Text>
             </VStack>
             <Button
@@ -92,6 +77,8 @@ function List() {
           </Center>
         </VStack>
       </ScrollView>
+      {/* To prevent leaving the content area */}
+      <Box w={320} h={60} alignSelf="center" />
     </SafeAreaView>
   );
 }

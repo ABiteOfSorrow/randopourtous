@@ -1,23 +1,17 @@
 import React from "react";
 import {
   Avatar,
-  HStack,
   VStack,
   Center,
   Heading,
-  Menu,
   Box,
-  HamburgerIcon,
-  Divider,
   Button,
   Text,
   Flex,
-  Spacer,
   Stack,
 } from "native-base";
-import { StyleSheet, View, ScrollView, Pressable } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FontAwesome5 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import HamburgerMenu from "./HamburgerMenu";
 
@@ -27,9 +21,9 @@ import HamburgerMenu from "./HamburgerMenu";
 
 function Detail() {
   return (
-    <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
-            <ScrollView>
-      <HamburgerMenu />
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView>
+        <HamburgerMenu />
 
         <VStack space={2} alignItems="center">
           <Heading size="xl">Rando 1</Heading>
@@ -38,10 +32,7 @@ function Detail() {
             Map
           </Box>
           <Heading size="lg">Organisé par: </Heading>
-          <Button 
-            w={350}
-            h={10}
-            bg="#bbbbbb">
+          <Button w={350} h={10} bg="#bbbbbb">
             Toto1: Voir profil
           </Button>
           <Heading size="lg">Nombre de participant: 2/14 </Heading>

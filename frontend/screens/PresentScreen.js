@@ -8,7 +8,7 @@ export default function PresentScreen(props) {
    return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center' }}>
          <Text style={{ fontSize: 20, marginBottom: 10 }}>Bienvnue à RandoPourTous!</Text>
-         <Button onPress={() => props.navigation.navigate('SignUp')} >Sign up</Button>
+         <Button onPress={() => props.navigation.navigate('SignUp')} >Suivant</Button>
       </SafeAreaView>
    )
 }

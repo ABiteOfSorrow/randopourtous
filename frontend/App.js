@@ -1,14 +1,15 @@
 //import { LogBox } from "react-native";
 // LogBox.ignoreAllLogs(true);
-import React from 'react'
-import {StyleSheet} from 'react-native'
-import {NativeBaseProvider} from 'native-base'
-import {NavigationContainer} from '@react-navigation/native'
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import {createStackNavigator} from '@react-navigation/stack'
-import {FontAwesome5} from '@expo/vector-icons'
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { NativeBaseProvider } from 'native-base';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+import { FontAwesome5 } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import PresentScreen from './screens/PresentScreen'
+import PresentScreen from './screens/PresentScreen';
 import SignInScreen from './screens/SignIn'
 import SignUpScreen from './screens/SignUp'
 import HomeScreen from './screens/Home'
@@ -25,19 +26,20 @@ import HistoryScreen from './screens/History'
 // import ResumeScreen from './screens/Resume'
 import HamburgerMenuScreen from './screens/HamburgerMenu'
 
-import {combineReducers} from 'redux'
-import {configureStore} from '@reduxjs/toolkit'
+import { combineReducers } from 'redux'
+import { configureStore } from '@reduxjs/toolkit'
 import user from './reducers/user.reducer'
-const store = configureStore({reducer: combineReducers({user})})
-import {Provider} from 'react-redux'
+const store = configureStore({ reducer: combineReducers({ user }) })
+import { Provider } from 'react-redux'
+import { useEffect } from 'react';
 
 const Tab = createBottomTabNavigator()
 
 const BottomMenuTabs = () => {
   return (
     <Tab.Navigator
-      screenOptions={({route}) => ({
-        tabBarIcon: ({color}) => {
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color }) => {
           let iconName
           if (route.name === 'Home') {
             iconName = 'home'
@@ -70,7 +72,7 @@ const BottomMenuTabs = () => {
       initialRouteName='Home'>
       <Tab.Screen
         name='Home'
-        options={{gestureEnabled: false}}
+        options={{ gestureEnabled: false }}
         component={HomeScreen}
       />
       <Tab.Screen name='List' component={CreateScreen} />
@@ -82,14 +84,30 @@ const BottomMenuTabs = () => {
 
 const Stack = createStackNavigator()
 export default function App() {
+
+  const [routes, setRoutes] = React.useState((<><Stack.Screen name="Present" component={PresentScreen} />
+    <Stack.Screen options={{ gestureEnabled: false }} name="SignIn" component={SignInScreen} />
+    <Stack.Screen name="SignUp" options={{ gestureEnabled: false, headerLeft: false }} component={SignUpScreen} /></>))
+  useEffect(() => {
+    AsyncStorage.getItem('user').then(user => {
+      if (user) {
+        setRoutes((<>
+          <Stack.Screen name="Present" component={PresentScreen} />
+          <Stack.Screen options={{ gestureEnabled: false }} name="SignIn" component={SignInScreen} />
+          <Stack.Screen name="SignUp" options={{ gestureEnabled: false, headerLeft: false }} component={SignUpScreen} />
+        </>))
+      }
+    }).catch(err => {
+      console.log(err)
+    })
+  }, []);
+
   return (
     <Provider store={store}>
       <NativeBaseProvider>
         <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={""}>
-            <Stack.Screen name="Present" component={PresentScreen} />
-            <Stack.Screen options={{ gestureEnabled: false }} name="SignIn" component={SignInScreen} />
-            <Stack.Screen name="SignUp" options={{ gestureEnabled: false, headerLeft: false }} component={SignUpScreen} />
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            {routes}
             <Stack.Screen name="Home" options={{ gestureEnabled: false, headerLeft: false }} component={BottomMenuTabs} />
             <Stack.Screen name="Detail" component={DetailScreen} />
             {/* <Stack.Screen name='Create' component={CreateScreen} />

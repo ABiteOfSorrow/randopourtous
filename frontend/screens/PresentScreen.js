@@ -19,7 +19,7 @@ export default function PresentScreen(props) {
 
       <Button
         style={{backgroundColor: '#78E08F'}}
-        onPress={() => props.navigation.navigate('Home')}>
+        onPress={() => props.navigation.navigate('SignUp')}>
         Suivant
       </Button>
       <StatusBar style='auto' />

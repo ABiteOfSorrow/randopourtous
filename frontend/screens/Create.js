@@ -8,15 +8,16 @@ import {
   Heading,
   Box,
   Switch,
+  Pressable,
 } from 'native-base'
 import {SafeAreaView} from 'react-native-safe-area-context'
 import HamburgerMenu from './HamburgerMenu'
-import {StyleSheet, ScrollView} from 'react-native'
+import {StyleSheet, View, ScrollView} from 'react-native'
 import MapView from 'react-native-maps'
 
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 
-function Creat() {
+function Create() {
   const [date, setDate] = useState()
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false)
   const [isHourPickerVisible, setHourPickerVisibility] = useState(false)
@@ -31,7 +32,7 @@ function Creat() {
   }
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <HStack justifyContent='space-between' mb={4}>
         <HamburgerMenu />
         <Button
@@ -125,11 +126,11 @@ function Creat() {
 
         <View style={styles.container}>
           <MapView style={styles.map}></MapView>
-          <Pressable style={styles.libelle} bg='#F5F5F5'>
+          <Box style={styles.libelle} bg='#F5F5F5'>
             <Text fontSize={10} style={{color: '#AAAAAA'}}>
               Placez le point de départ
             </Text>
-          </Pressable>
+          </Box>
         </View>
 
         <Button w={170} h={10} bg='#78E08F'>
@@ -200,4 +201,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Creat
+export default Create

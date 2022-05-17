@@ -19,7 +19,7 @@ import MapScreen from './screens/Map'
 import ListScreen from './screens/List'
 import DetailScreen from './screens/Detail'
 import MyprofileScreen from './screens/MyProfile'
-import OtherprofileScreen from './screens/Otherprofile'
+import OtherprofileScreen from './screens/OtherProfile'
 import HistoryScreen from './screens/History'
 import FriendScreen from './screens/Friend'
 import ChatScreen from './screens/Chat'
@@ -77,7 +77,7 @@ const BottomMenuTabs = () => {
       />
       <Tab.Screen name="List" component={ListScreen} />
       <Tab.Screen name="Search" component={SearchScreen} />
-      <Tab.Screen name="Profile" component={MyprofileScreen} />
+      <Tab.Screen name="Profile" component={OtherprofileScreen} />
     </Tab.Navigator>
   );
 };

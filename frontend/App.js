@@ -25,7 +25,6 @@ import FriendScreen from './screens/Friend'
 import ChatScreen from './screens/Chat'
 import ResumeScreen from './screens/Resume'
 
-
 import { combineReducers } from 'redux'
 import { configureStore } from '@reduxjs/toolkit'
 import user from './reducers/user.reducer'
@@ -78,7 +77,7 @@ const BottomMenuTabs = () => {
       />
       <Tab.Screen name="List" component={ListScreen} />
       <Tab.Screen name="Search" component={SearchScreen} />
-      <Tab.Screen name="Profile" component={FriendScreen} />
+      <Tab.Screen name="Profile" component={MyprofileScreen} />
     </Tab.Navigator>
   );
 };
@@ -111,7 +110,7 @@ export default function App() {
             {routes}
             <Stack.Screen name="Home" options={{ gestureEnabled: false, headerLeft: false }} component={BottomMenuTabs} />
             <Stack.Screen name="Detail" component={DetailScreen} />
-
+            <Stack.Screen name='MyProfile' component={MyprofileScreen} />
             <Stack.Screen name='BottomMenuTabs' component={BottomMenuTabs} />
             <Stack.Screen name="Create" component={CreateScreen} />
             <Stack.Screen name="Map" component={MapScreen} />

@@ -81,6 +81,7 @@ function Friend(props) {
                 Voir Profil
               </Text>
             </Button>
+            
           </Center>
         </VStack>
       </ScrollView>

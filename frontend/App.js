@@ -1,35 +1,35 @@
-// import { LogBox } from "react-native";
+//import { LogBox } from "react-native";
 // LogBox.ignoreAllLogs(true);
-import React from "react";
-import { StyleSheet } from "react-native";
-import { NativeBaseProvider } from "native-base";
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
-import { FontAwesome5 } from "@expo/vector-icons";
+import React from 'react'
+import {StyleSheet} from 'react-native'
+import {NativeBaseProvider} from 'native-base'
+import {NavigationContainer} from '@react-navigation/native'
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
+import {createStackNavigator} from '@react-navigation/stack'
+import {FontAwesome5} from '@expo/vector-icons'
 
-import PresentScreen from "./screens/PresentScreen";
-import SignInScreen from "./screens/SignIn";
-import SignUpScreen from "./screens/SignUp";
-import HomeScreen from "./screens/Home";
+import PresentScreen from './screens/PresentScreen'
+import SignInScreen from './screens/SignIn'
+import SignUpScreen from './screens/SignUp'
+import HomeScreen from './screens/Home'
 import CreateScreen from './screens/Create'
-import SearchScreen from "./screens/Search";
+import SearchScreen from './screens/Search'
 // import MapScreen from './screens/Map'
 import ListScreen from './screens/List'
 import DetailScreen from './screens/Detail'
 import MyprofileScreen from './screens/MyProfile'
 // import OtherprofileScreen from './screens/Otherprofile'
-// import HistoryScreen from './screens/History'
+import HistoryScreen from './screens/History'
 // import ListFriend from './screens/Friend'
 // import ChatScreen from './screens/Chat'
 // import ResumeScreen from './screens/Resume'
-import HamburgerMenuScreen from "./screens/HamburgerMenu";
+import HamburgerMenuScreen from './screens/HamburgerMenu'
 
-import { combineReducers } from 'redux';
-import { configureStore } from '@reduxjs/toolkit'
-import user from "./reducers/user.reducer"
-const store = configureStore({ reducer: combineReducers({ user }) });
-import { Provider } from 'react-redux';
+import {combineReducers} from 'redux'
+import {configureStore} from '@reduxjs/toolkit'
+import user from './reducers/user.reducer'
+const store = configureStore({reducer: combineReducers({user})})
+import {Provider} from 'react-redux'
 
 const Tab = createBottomTabNavigator()
 
@@ -67,12 +67,15 @@ const BottomMenuTabs = () => {
           ...styles.shadow,
         },
       }}
-      initialRouteName="Home"
-    >
-      <Tab.Screen name="Home" options={{ gestureEnabled: false }} component={HomeScreen} />
-      <Tab.Screen name="List" component={ListScreen} />
-      <Tab.Screen name="Search" component={DetailScreen} />
-      <Tab.Screen name="Profile" component={MyprofileScreen} />
+      initialRouteName='Home'>
+      <Tab.Screen
+        name='Home'
+        options={{gestureEnabled: false}}
+        component={HomeScreen}
+      />
+      <Tab.Screen name='List' component={CreateScreen} />
+      <Tab.Screen name='Search' component={SearchScreen} />
+      <Tab.Screen name='Profile' component={HistoryScreen} />
     </Tab.Navigator>
   )
 }
@@ -96,13 +99,16 @@ export default function App() {
           <Stack.Screen name='History' component={HistoryScreen} />
           <Stack.Screen name='Chat' component={ChatScreen} /> */}
             {/* <Stack.Screen name='Resume' component={ResumeScreen} /> */}
-            <Stack.Screen name="HamburgerMenu" component={HamburgerMenuScreen} />
-            <Stack.Screen name="BottomMenuTabs" component={BottomMenuTabs} />
+            <Stack.Screen
+              name='HamburgerMenu'
+              component={HamburgerMenuScreen}
+            />
+            <Stack.Screen name='BottomMenuTabs' component={BottomMenuTabs} />
           </Stack.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>
     </Provider>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -114,6 +120,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 1,
     shadowRadius: 3.5,
-    elevation: 5
-  }
+    elevation: 5,
+  },
 })

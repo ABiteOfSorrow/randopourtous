@@ -4,9 +4,10 @@ import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HamburgerMenu from "../components/HamburgerMenu";
 
-function History() {
+function History(props) {
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <ScrollView h="80%">
         <HStack justifyContent="space-between" mb={4}>
           <HamburgerMenu />
@@ -18,8 +19,9 @@ function History() {
             mr={2}
             variant="outline"
             borderColor="#38ADA9"
+            onPress={() => props.navigation.goBack()}
           >
-            <Text fontSize="xs" bold color="#38ADA9">
+            <Text style={{ fontSize: 12, fontWeight: 'bold', color:'#38ADA9' }} >
               Retour
             </Text>
           </Button>
@@ -27,8 +29,8 @@ function History() {
         {/* List Body */}
 
         <VStack space={2} alignItems="center">
-          <Heading size="lg" mb={5}>
-            Liste des Randonnées
+          <Heading size='md' mb={4}>
+            Mes randonnées créées
           </Heading>
           {/* Button Line */}
           <Box display="flex" flexDirection="row" alignItems="center" mb={5}>
@@ -42,7 +44,7 @@ function History() {
                 En cours
               </Text>
             </Button>
-            <Button w={100} h={8} p={0} mt={2} mr={2} borderColor="#38ADA9">
+            <Button w={100} h={8} p={0} mt={2} mr={2} bg="#bbb">
               <Text fontSize="xs" bold color="white">
                 Achevée
               </Text>

@@ -4,21 +4,13 @@ import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HamburgerMenu from "../components/HamburgerMenu";
 
-function List() {
+function List(props) {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor:'#fff' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <ScrollView>
         <HStack justifyContent="space-between" mb={4}>
           <HamburgerMenu />
-          <Button
-            w={90}
-            h={8}
-            p={0}
-            mt={2}
-            mr={2}
-            variant="outline"
-            borderColor="#38ADA9"
-          >
+          <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9" onPress={() => props.navigation.goBack()}>
             <Text fontSize="xs" bold color="#38ADA9">
               Retour
             </Text>
@@ -37,23 +29,12 @@ function List() {
         </VStack>
         <VStack space={2} alignItems="center">
           {/* Journey List */}
-          <Box w={'75%'} mb={0} borderRadius="15" bg="#78E08F">
+          <Box w={"75%"} mb={0} borderRadius="15" bg="#78E08F">
             <Heading size="md" textAlign="center">
               Totos's Rando pour tous
             </Heading>
           </Box>
-          <Center
-            w={'80%'}
-            h={62}
-            p={0}
-            mb={2}
-            bg="#FAFAFA"
-            rounded="lg"
-            shadow={8}
-            display="flex"
-            flexDirection="row"
-            justifyContent="space-around"
-          >
+          <Center w={"80%"} h={62} p={0} mb={2} bg="#FAFAFA" rounded="lg" shadow={8} display="flex" flexDirection="row" justifyContent="space-around">
             <Heading size="md">Vincennes</Heading>
 
             <VStack space={2} alignItems="flex-start">
@@ -64,22 +45,16 @@ function List() {
                 5 / 12 particpants
               </Text>
             </VStack>
-            <Button
-              size="md"
-              backgroundColor="#78E08F"
-              alignSelf="center"
-              onPress={() => console.log("I'm Pressed")}
-            >
+            <Button size="md" backgroundColor="#78E08F" alignSelf="center" onPress={() => console.log("I'm Pressed")}>
               <Text style={styles.contentText} fontSize="md">
                 Voir
               </Text>
             </Button>
           </Center>
-        
         </VStack>
       </ScrollView>
       {/* To prevent leaving the content area */}
-      <Box w="100%" h="8.5%" alignSelf="center" bg="#fff"/>
+      <Box w="100%" h="8.5%" alignSelf="center" bg="#fff" />
     </SafeAreaView>
   );
 }

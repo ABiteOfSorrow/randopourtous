@@ -75,7 +75,7 @@ const BottomMenuTabs = () => {
       />
       <Tab.Screen name="List" component={ListScreen} />
       <Tab.Screen name="Search" component={SearchScreen} />
-      <Tab.Screen name="Profile" component={MyprofileScreen} />
+      <Tab.Screen name="Profile" component={FriendScreen} />
     </Tab.Navigator>
   );
 };

@@ -10,7 +10,7 @@ import {
   Switch,
 } from 'native-base'
 import {SafeAreaView} from 'react-native-safe-area-context'
-import HamburgerMenu from './HamburgerMenu'
+import HamburgerMenu from '../components/HamburgerMenu'
 import {StyleSheet, ScrollView} from 'react-native'
 import MapView from 'react-native-maps'
 

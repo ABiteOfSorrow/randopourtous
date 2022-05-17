@@ -13,7 +13,7 @@ import {
 import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign } from "@expo/vector-icons";
-import HamburgerMenu from "./HamburgerMenu";
+import HamburgerMenu from "../components/HamburgerMenu";
 
 // import MapView, { Marker } from "react-native-maps";
 // import * as Location from "expo-location";
@@ -21,7 +21,7 @@ import HamburgerMenu from "./HamburgerMenu";
 
 function Detail() {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
       <ScrollView>
         <HamburgerMenu />
 
@@ -32,7 +32,7 @@ function Detail() {
             Map
           </Box>
           <Heading size="lg">Organisé par: </Heading>
-          <Button w={350} h={10} bg="#bbbbbb">
+          <Button w={"80%"} h={10} bg="#bbbbbb">
             Toto1: Voir profil
           </Button>
           <Heading size="lg">Nombre de participant: 2/14 </Heading>
@@ -41,91 +41,7 @@ function Detail() {
           <Heading size="lg">Liste des participants: </Heading>
           {/* User profil box */}
           <Center
-            w={350}
-            h={62}
-            p={0}
-            mb={2}
-            bg="#079992"
-            rounded="lg"
-            shadow={8}
-            display="flex"
-            flexDirection="row"
-            justifyContent="space-around"
-          >
-            <Avatar
-              me="10"
-              bg="amber.500"
-              source={{
-                uri: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-              }}
-            ></Avatar>
-            <VStack space={2} alignItems="flex-start">
-              <Heading style={styles.contentText} size="xs">
-                Toto
-              </Heading>
-              <Flex direction="row" alignSelf="center">
-                <AntDesign name="star" size={24} color="yellow" />
-                <AntDesign name="star" size={24} color="yellow" />
-                <AntDesign name="star" size={24} color="yellow" />
-                <AntDesign name="star" size={24} color="yellow" />
-                <AntDesign name="star" size={24} color="yellow" />
-              </Flex>
-            </VStack>
-            <Button
-              size="xs"
-              backgroundColor="#BBBBBB"
-              alignSelf="center"
-              onPress={() => console.log("I'm Pressed")}
-            >
-              <Text style={styles.contentText} fontSize="xs">
-                Voir Profil
-              </Text>
-            </Button>
-          </Center>
-          <Center
-            w={350}
-            h={62}
-            p={0}
-            mb={2}
-            bg="#079992"
-            rounded="lg"
-            shadow={8}
-            display="flex"
-            flexDirection="row"
-            justifyContent="space-around"
-          >
-            <Avatar
-              me="10"
-              bg="amber.500"
-              source={{
-                uri: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-              }}
-            ></Avatar>
-            <VStack space={2} alignItems="flex-start">
-              <Heading style={styles.contentText} size="xs">
-                Toto
-              </Heading>
-              <Flex direction="row" alignSelf="center">
-                <AntDesign name="star" size={24} color="yellow" />
-                <AntDesign name="star" size={24} color="yellow" />
-                <AntDesign name="star" size={24} color="yellow" />
-                <AntDesign name="star" size={24} color="yellow" />
-                <AntDesign name="star" size={24} color="yellow" />
-              </Flex>
-            </VStack>
-            <Button
-              size="xs"
-              backgroundColor="#BBBBBB"
-              alignSelf="center"
-              onPress={() => console.log("I'm Pressed")}
-            >
-              <Text style={styles.contentText} fontSize="xs">
-                Voir Profil
-              </Text>
-            </Button>
-          </Center>
-          <Center
-            w={350}
+            w={"90%"}
             h={62}
             p={0}
             mb={2}
@@ -181,10 +97,10 @@ function Detail() {
           md: "0",
         }}
       >
-        <Button w={170} h={10} variant="outline" borderColor="#38ADA9">
+        <Button w="42%" h={10} variant="outline" borderColor="#38ADA9">
           <Text color="#38ADA9">Retour</Text>
         </Button>
-        <Button w={170} h={10} bg="#78E08F">
+        <Button w="42%" h={10} bg="#78E08F">
           Participer
         </Button>
       </Stack>

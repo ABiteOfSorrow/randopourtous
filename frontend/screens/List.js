@@ -2,11 +2,11 @@ import React from "react";
 import { HStack, VStack, Center, Heading, Box, Button, Text, Switch } from "native-base";
 import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import HamburgerMenu from "./HamburgerMenu";
+import HamburgerMenu from "../components/HamburgerMenu";
 
 function List() {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor:'#fff' }}>
       <ScrollView>
         <HStack justifyContent="space-between" mb={4}>
           <HamburgerMenu />
@@ -37,13 +37,13 @@ function List() {
         </VStack>
         <VStack space={2} alignItems="center">
           {/* Journey List */}
-          <Box w={320} mb={0} borderRadius="15" bg="#78E08F">
+          <Box w={'75%'} mb={0} borderRadius="15" bg="#78E08F">
             <Heading size="md" textAlign="center">
               Totos's Rando pour tous
             </Heading>
           </Box>
           <Center
-            w={350}
+            w={'80%'}
             h={62}
             p={0}
             mb={2}
@@ -75,10 +75,11 @@ function List() {
               </Text>
             </Button>
           </Center>
+        
         </VStack>
       </ScrollView>
       {/* To prevent leaving the content area */}
-      <Box w={320} h={60} alignSelf="center" />
+      <Box w="100%" h="8.5%" alignSelf="center" bg="#fff"/>
     </SafeAreaView>
   );
 }

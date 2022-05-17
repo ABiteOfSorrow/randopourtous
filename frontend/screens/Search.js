@@ -14,6 +14,7 @@ import {
   ScrollView,
   View,
 } from 'native-base'
+import {SafeAreaView} from 'react-native-safe-area-context'
 
 function Search() {
   const [level, setLevel] = useState()

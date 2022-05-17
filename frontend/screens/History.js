@@ -2,7 +2,7 @@ import React from "react";
 import { HStack, VStack, Heading, Box, Button, Text } from "native-base";
 import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import HamburgerMenu from "./HamburgerMenu";
+import HamburgerMenu from "../components/HamburgerMenu";
 
 function History() {
   return (
@@ -52,7 +52,7 @@ function History() {
 
         {/* History contents Line (Proceeding)*/}
         <Box
-          w={320}
+          w={'80%'}
           alignSelf="center"
           bg="#78E08F"
           p={3}
@@ -98,7 +98,7 @@ function History() {
         </Box>
         {/* History contents Line (Finished)*/}
         <Box
-          w={320}
+          w={'80%'}
           alignSelf="center"
           bg="#bbbbbb"
           p={3}
@@ -144,7 +144,7 @@ function History() {
         </Box>
       </ScrollView>
       {/* To prevent leaving the content area */}
-      <Box w={320} h={60} alignSelf="center" />
+      <Box w={'100%'} h={60} alignSelf="center" />
     </SafeAreaView>
   );
 }

@@ -8,15 +8,16 @@ import {
   Heading,
   Box,
   Switch,
+  Pressable,
 } from 'native-base'
 import {SafeAreaView} from 'react-native-safe-area-context'
-import HamburgerMenu from './HamburgerMenu'
-import {StyleSheet, ScrollView} from 'react-native'
+import HamburgerMenu from '../components/HamburgerMenu'
+import {StyleSheet, View, ScrollView} from 'react-native'
 import MapView from 'react-native-maps'
 
-import DateTimePickerModal from 'react-native-modal-datetime-picker'
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-function Creat() {
+function Create() {
   const [date, setDate] = useState()
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false)
   const [isHourPickerVisible, setHourPickerVisibility] = useState(false)
@@ -31,7 +32,7 @@ function Creat() {
   }
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <HStack justifyContent='space-between' mb={4}>
         <HamburgerMenu />
         <Button
@@ -125,11 +126,11 @@ function Creat() {
 
         <View style={styles.container}>
           <MapView style={styles.map}></MapView>
-          <Pressable style={styles.libelle} bg='#F5F5F5'>
+          <Box style={styles.libelle} bg='#F5F5F5'>
             <Text fontSize={10} style={{color: '#AAAAAA'}}>
               Placez le point de départ
             </Text>
-          </Pressable>
+          </Box>
         </View>
 
         <Button w={170} h={10} bg='#78E08F'>
@@ -139,36 +140,42 @@ function Creat() {
 
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
-        mode='date'
+        mode="date"
         date={date}
         onConfirm={(date) => {
-          setDatePickerVisibility(false)
-          setDate(date)
-          setHourPickerVisibility(true)
+          setDatePickerVisibility(false);
+          setDate(date);
+          setHourPickerVisibility(true);
         }}
         onCancel={hidePicker}
       />
 
       <DateTimePickerModal
         isVisible={isHourPickerVisible}
-        mode='time'
-        locale='fr-FR'
+        mode="time"
+        locale="fr-FR"
         date={date}
         onConfirm={(date) => {
-          setHourPickerVisibility(false)
-          setDate(date)
+          setHourPickerVisibility(false);
+          setDate(date);
         }}
         onCancel={hidePicker}
       />
     </SafeAreaView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   allInput: {
-    backgroundColor: '#EEEEEE',
+    backgroundColor: "#EEEEEE",
     borderWidth: 0.5,
-    borderColor: '#CCCCCC',
+    borderColor: "#CCCCCC",
+  },
+  allInputPressable: {
+    backgroundColor: "#EEEEEE",
+    borderWidth: 1.1,
+    borderColor: "#CCCCCC",
+    borderRadius: 4,
   },
   allInputPressable: {
     backgroundColor: '#EEEEEE',
@@ -180,11 +187,11 @@ const styles = StyleSheet.create({
     width: 350,
     height: 250,
     borderWidth: 10,
-    borderColor: '#CCCCCC',
+    borderColor: "#CCCCCC",
   },
   container: {
     borderWidth: 1.5,
-    borderColor: '#CCCCCC',
+    borderColor: "#CCCCCC",
   },
   libelle: {
     position: 'absolute',
@@ -198,6 +205,6 @@ const styles = StyleSheet.create({
     paddingRight: 3,
     paddingLeft: 3,
   },
-})
+});
 
-export default Creat
+export default Create

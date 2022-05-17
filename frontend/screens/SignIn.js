@@ -1,17 +1,30 @@
-import React, { useState } from "react";
-import { StatusBar } from "expo-status-bar";
-import { Button, Input, Divider } from "native-base";
-import { Text, StyleSheet, View, Alert } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { FontAwesome5 } from "@expo/vector-icons";
-import { connect } from "react-redux";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useState, useEffect } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { Button, Input, Divider } from 'native-base';
+import { Text, StyleSheet, View, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { connect } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const backendAdress = "http://" + "192.168.10.119" + ":3000";
+const backendAdress = 'http://' + '192.168.10.119' +':3000' 
 
 function SignIn(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    // read from async storage and if user exists, redirect to home
+    AsyncStorage.getItem('user').then(user => {
+      if (user) {
+        console.log('user found in async storage');
+        props.signUp(JSON.parse(user));
+        props.navigation.replace('Home');
+      }
+    }).catch(err => {
+      console.log(err);
+    });
+  }, []);
 
   let handleSubmit = async () => {
     if (!email || !password) {
@@ -38,12 +51,13 @@ function SignIn(props) {
     console.log(data.user);
     // save in async storage
     try {
-      await AsyncStorage.setItem("user", JSON.stringify(data.user));
+      await AsyncStorage.setItem('user', JSON.stringify(data.user));
+      console.log('User data saved in storage.')
     } catch (e) {
       console.log(e);
     }
-    props.navigation.navigate("Home");
-  };
+    props.navigation.replace('Home');
+  }
 
   return (
     <SafeAreaView

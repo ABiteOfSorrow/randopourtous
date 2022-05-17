@@ -6,7 +6,7 @@ import HamburgerMenu from "../components/HamburgerMenu";
 
 function List() {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor:"#fff"}}>
+    <SafeAreaView style={{ flex: 1, backgroundColor:'#fff' }}>
       <ScrollView>
         <HStack justifyContent="space-between" mb={4}>
           <HamburgerMenu />
@@ -37,13 +37,13 @@ function List() {
         </VStack>
         <VStack space={2} alignItems="center">
           {/* Journey List */}
-          <Box w="75%" mb={0} borderRadius="15" bg="#78E08F">
+          <Box w={'75%'} mb={0} borderRadius="15" bg="#78E08F">
             <Heading size="md" textAlign="center">
               Totos's Rando pour tous
             </Heading>
           </Box>
           <Center
-            w="80%"
+            w={'80%'}
             h={62}
             p={0}
             mb={2}

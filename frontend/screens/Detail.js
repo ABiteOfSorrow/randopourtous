@@ -32,7 +32,7 @@ function Detail() {
             Map
           </Box>
           <Heading size="lg">Organisé par: </Heading>
-          <Button w="80%" h={10} bg="#bbbbbb">
+          <Button w={"80%"} h={10} bg="#bbbbbb">
             Toto1: Voir profil
           </Button>
           <Heading size="lg">Nombre de participant: 2/14 </Heading>
@@ -41,7 +41,7 @@ function Detail() {
           <Heading size="lg">Liste des participants: </Heading>
           {/* User profil box */}
           <Center
-            w="90%"
+            w={"90%"}
             h={62}
             p={0}
             mb={2}
@@ -82,7 +82,6 @@ function Detail() {
               </Text>
             </Button>
           </Center>
-   
         </VStack>
       </ScrollView>
       <Stack

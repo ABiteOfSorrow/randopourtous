@@ -1,7 +1,7 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import MapView from 'react-native-maps'
-import {StyleSheet, TouchableOpacity, Viex} from 'react-native'
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
+import { StyleSheet, TouchableOpacity, Viex } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import AutoComplete from 'react-native-autocomplete-input'
 import {
@@ -14,7 +14,8 @@ import {
   Button,
   CheckIcon,
   ScrollView,
-} from "native-base";
+} from 'native-base'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 function Search() {
   const [level, setLevel] = useState();
@@ -54,122 +55,124 @@ function Search() {
   }
 
   return (
-    <KeyboardAwareScrollView>
-      <Box
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          marginTop: 25,
-        }}>
+    <SafeAreaView style={{ flex:1, backgroundColor: '#fff' }} >
+      <KeyboardAwareScrollView>
         <Box
           style={{
             flex: 1,
-            width: '90%',
-
-            // justifyContent: 'center',
-
             alignItems: 'center',
+            marginTop: 5,
           }}>
-          <Text h1 fontFamily='Roboto' fontSize={20}>
-            Chercher une randonnée
-          </Text>
+          <Box
+            style={{
+              flex: 1,
+              width: '90%',
 
-          <AutoComplete
-            containerStyle={{flex: 1, width: '100%'}}
-            autoCorrect={false}
-            placeholder='Ville / département / région'
-            data={listCities}
-            onChangeText={(e) => searchCities(e)}
-            value={citie}
-            listStyle={styles.itemText}
-            flatListProps={{
-              keyboardShouldPersistTaps: 'always',
-              renderItem: ({item}) => (
-                <TouchableOpacity
-                  style={{backgroundColor: '#FFFFFF'}}
-                  onPress={() => {
-                    setCitie(item.nom)
-                    setListCities()
-                  }}>
-                  <Text>{item.nom + ' (' + item.codePostal + ')'}</Text>
-                </TouchableOpacity>
-              ),
-            }}
-          />
+              // justifyContent: 'center',
 
-          <HStack alignItems='center' space={4}>
-            <Text>Rando mixte</Text>
-            <Switch size='sm' />
-          </HStack>
-          <Input
-            style={styles.allInput}
-            placeholder="Age de l'organisateur"></Input>
+              alignItems: 'center',
+            }}>
+            <Text h1 fontFamily='Roboto' fontSize={20}>
+              Chercher une randonnée
+            </Text>
 
-          {/* sélection de la date */}
+            <AutoComplete
+              containerStyle={{ flex: 1, width: '100%' }}
+              autoCorrect={false}
+              placeholder='Ville / département / région'
+              data={listCities}
+              onChangeText={(e) => searchCities(e)}
+              value={citie}
+              listStyle={styles.itemText}
+              flatListProps={{
+                keyboardShouldPersistTaps: 'always',
+                renderItem: ({ item }) => (
+                  <TouchableOpacity
+                    style={{ backgroundColor: '#FFFFFF' }}
+                    onPress={() => {
+                      setCitie(item.nom)
+                      setListCities()
+                    }}>
+                    <Text>{item.nom + ' (' + item.codePostal + ')'}</Text>
+                  </TouchableOpacity>
+                ),
+              }}
+            />
 
-          <Button
-            style={styles.allInput}
-            variant='outline'
-            mt='2'
-            w='100%'
-            colorScheme='secondary'
-            onPress={showDatePicker}>
-            <Text color='grey'>
-              {!date
-                ? 'Date & Heure'
-                : date.toLocaleDateString('fr') +
+            <HStack alignItems='center' space={4}>
+              <Text>Rando mixte</Text>
+              <Switch size='sm' />
+            </HStack>
+            <Input
+              style={styles.allInput}
+              placeholder="Age de l'organisateur"></Input>
+
+            {/* sélection de la date */}
+
+            <Button
+              style={styles.allInput}
+              variant='outline'
+              mt='2'
+              w='100%'
+              colorScheme='secondary'
+              onPress={showDatePicker}>
+              <Text color='grey'>
+                {!date
+                  ? 'Date & Heure'
+                  : date.toLocaleDateString('fr') +
                   ' ' +
                   date.getHours() +
                   ':' +
                   date.getMinutes()}
-            </Text>
-          </Button>
-          <DateTimePickerModal
-            isVisible={isDatePickerVisible}
-            mode='date'
-            date={date}
-            onConfirm={(date) => {
-              setDatePickerVisibility(false)
-              setDate(date)
-              setHourPickerVisibility(true)
-            }}
-            onCancel={hidePicker}
-          />
+              </Text>
+            </Button>
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode='date'
+              date={date}
+              onConfirm={(date) => {
+                setDatePickerVisibility(false)
+                setDate(date)
+                setHourPickerVisibility(true)
+              }}
+              onCancel={hidePicker}
+            />
 
-          <DateTimePickerModal
-            isVisible={isHourPickerVisible}
-            mode='time'
-            locale='fr-FR'
-            date={date}
-            onConfirm={(date) => {
-              setHourPickerVisibility(false)
-              setDate(date)
-            }}
-            onCancel={hidePicker}
-          />
+            <DateTimePickerModal
+              isVisible={isHourPickerVisible}
+              mode='time'
+              locale='fr-FR'
+              date={date}
+              onConfirm={(date) => {
+                setHourPickerVisibility(false)
+                setDate(date)
+              }}
+              onCancel={hidePicker}
+            />
 
-          <Select
-            selectedValue={level}
-            w='100%'
-            accessibilityLabel='Niveau'
-            placeholder='Niveau'
-            _selectedItem={{
-              endIcon: <CheckIcon size='5' />,
-            }}
-            mt='1.5'
-            onValueChange={(itemValue) => setLevel(itemValue)}>
-            <Select.Item label='Facile' value='facile' />
-            <Select.Item label='Intermédiaire' value='intermediaire' />
-            <Select.Item label='Difficile' value='difficile' />
-          </Select>
+            <Select
+              selectedValue={level}
+              w='100%'
+              accessibilityLabel='Niveau'
+              placeholder='Niveau'
+              _selectedItem={{
+                endIcon: <CheckIcon size='5' />,
+              }}
+              mt='1.5'
+              onValueChange={(itemValue) => setLevel(itemValue)}>
+              <Select.Item label='Facile' value='facile' />
+              <Select.Item label='Intermédiaire' value='intermediaire' />
+              <Select.Item label='Difficile' value='difficile' />
+            </Select>
 
-          <Button mt='2' w='100%' bg='#78E08F'>
-            Rechercher
-          </Button>
-          <MapView style={styles.map}></MapView>
+            <Button mt='2' w='100%' bg='#78E08F'>
+              Rechercher
+            </Button>
+            <MapView style={styles.map}></MapView>
+          </Box>
         </Box>
-      </Box>
-    </KeyboardAwareScrollView>
+      </KeyboardAwareScrollView>
+    </SafeAreaView>
   )
 }
 

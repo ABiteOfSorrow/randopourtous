@@ -17,9 +17,8 @@ export default function PresentScreen(props) {
       <Text style={{ fontSize: 20, marginBottom: 20 }}>Bienvenue à RandoPourTous!</Text>
 
       <Button
-        style={{ backgroundColor: "#78E08F" }}
-        onPress={() => props.navigation.navigate("Home")}
-      >
+        style={{backgroundColor: '#78E08F'}}
+        onPress={() => props.navigation.replace('SignUp')}>
         Suivant
       </Button>
       <StatusBar style="auto" />

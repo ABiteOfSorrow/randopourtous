@@ -9,16 +9,23 @@ import { MaterialIcons } from '@expo/vector-icons';
 export default function MyProfile(props) {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', alignItems: 'center' }}>
-      <View style={{ display: 'flex', width: '100%', flexDirection: 'row' }} >
-        <HamburgerMenu />
+      <View style={{ display: 'flex', width: '100%', flexDirection: 'row', justifyContent: 'space-between' }} >
+        <View style={{ width: '30%' }} >
+          <HamburgerMenu />
+        </View>
+        
+        <View style={{ width: '30%', display:'flex', alignItems:'center', justifyContent: 'center' }} >
+          <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>Mon compte</Text>
+        </View>
+        <View style={{ width: '30%' }}></View>
       </View>
-      <Text style={{ fontSize: 24, marginBottom: 10, fontWeight: 'bold' }}>Mon compte</Text>
+      
       <Text style={{ fontSize: 18 }} >JeanMichel_du75</Text>
       <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 12 }} >
         <View style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 8, paddingHorizontal: 12 }} >
           <View style={{ width: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
           <Avatar
-              me="10"
+              
               size="2xl"
               bg="amber.500"
               source={{
@@ -43,13 +50,13 @@ export default function MyProfile(props) {
         <MaterialIcons name="star" size={40} color="#F8F808" />
         <MaterialIcons name="star" size={40} color="#F8F808" />
         <MaterialIcons name="star" size={40} color="#F8F808" />
-        <MaterialIcons name="star" size={40} color="#F8F808" />
+        <MaterialIcons name="star" size={40} color="gray" />
       </View>
       <Text>Note moyenne des randos: 4.2</Text>
       <View style={{ flex: 1, width: '100%', marginTop: 74, display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
         <Button my={1} bg={'#78E08F'} onPress={() => props.navigation.navigate("History")} w={'80%'} >Voir mes randos</Button>
         <Button my={1} bg={'#bbb'} onPress={() => props.navigation.navigate("Friend")} w={'80%'} >Voir mes amis</Button>
-        <Button mt={5} bg={'#bbb'} onPress={() => props.navigation.navigate("Friend")} w={'80%'} >Editer mes informations</Button>
+        <Button mt={5} bg={'#bbb'} onPress={() => props.navigation.navigate('EditProfile')} w={'80%'} >Modifier mon compte</Button>
       </View>
 
       <StatusBar style="auto" />

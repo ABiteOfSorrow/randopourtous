@@ -1,24 +1,17 @@
 import React from "react";
 import {
-  Avatar,
-  HStack,
-  VStack,
   Center,
   Heading,
   Menu,
   Box,
   HamburgerIcon,
   Divider,
-  Button,
-  Text,
-  Flex,
-  Spacer,
   Pressable,
 } from "native-base";
 
 function HamburgerMenu() {
   return (
-    <Box alignItems="flex-start" ml="5" mt="2" >
+    <Box alignItems="flex-start" ml="5" my="3">
       <Menu
         w="190"
         trigger={(triggerProps) => {

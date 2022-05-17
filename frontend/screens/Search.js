@@ -3,29 +3,33 @@ import MapView from 'react-native-maps'
 import {StyleSheet, TouchableOpacity} from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import {
-  Box,
   Text,
   Input,
-  HStack,
   Switch,
   Select,
   Button,
   CheckIcon,
   ScrollView,
   View,
+  Heading,
+  HStack,
 } from 'native-base'
 import {SafeAreaView} from 'react-native-safe-area-context'
+import { StatusBar } from 'expo-status-bar'
 
 function Search() {
   const [level, setLevel] = useState()
   const [date, setDate] = useState()
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false)
   const [isHourPickerVisible, setHourPickerVisibility] = useState(false)
-  const [citie, setCitie] = useState()
+  const [citie, setCitie] = useState({})
   const [listCities, setListCities] = useState([])
   const [age, setAge] = useState()
   const [mixte, setMixte] = useState(false)
+  const [coord, setCoord] = useState({lat: 48.856614, long: 2.3522219})
+  const [map, setMap] = useState()
 
+  // gestion du date picker
   const showDatePicker = () => {
     setDatePickerVisibility(true)
   }
@@ -35,6 +39,9 @@ function Search() {
     setHourPickerVisibility(false)
   }
 
+  //************************* */
+
+  // gestion de l'autocompletion des villes avec l'API du gouvernement
   const searchCities = async (e) => {
     setCitie(e)
     if (e.length > 3) {
@@ -54,6 +61,9 @@ function Search() {
     }
   }
 
+  //*************************************** */
+
+  // initialisation de la liste déroulante des ages
   let listAge = []
   for (let i = 18; i < 99; i++) {
     listAge.push(i)
@@ -63,40 +73,40 @@ function Search() {
     <Select.Item label={e.toString()} value={e.toString()} key={i} />
   ))
 
+  //***************************************** */
+
   var getSearch = function (data) {}
 
   return (
-    <Box
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        marginTop: 25,
-      }}>
-      <Box
-        style={{
-          flex: 1,
-          width: '90%',
-          alignItems: 'center',
-        }}>
+    <View style={styles.mainContainer}>
+      <View style={styles.secondContainer}>
         <Text h1 fontFamily='Roboto' fontSize={20}>
           Chercher une randonnée
         </Text>
-
         {/* sélection de la ville */}
         <Input
+          style={styles.allInput}
+          mt='1.5'
           placeholder='Ville / département'
           onChangeText={(e) => searchCities(e)}
-          value={citie}></Input>
+          value={citie.nom}></Input>
         {listCities.length > 1 ? (
           <View style={{height: 200, width: '100%'}}>
             <ScrollView>
               {listCities.map((e, i) => (
                 <TouchableOpacity
                   key={i}
-                  style={{backgroundColor: '#FFFFFF', width: '100%'}}
-                  onPress={() => {
-                    setCitie(e.nom)
+                  onPress={async () => {
+                    setCitie(e)
                     setListCities([])
+                    var result = await fetch(
+                      `https://api-adresse.data.gouv.fr/search/?q=${e.nom}&limit=1`
+                    )
+                    var response = await result.json()
+                    setCoord({
+                      lat: response.features[0].geometry.coordinates[1],
+                      long: response.features[0].geometry.coordinates[0],
+                    })
                   }}>
                   <Text key={i}>{e.nom + ' (' + e.codePostal + ')'}</Text>
                 </TouchableOpacity>
@@ -107,10 +117,16 @@ function Search() {
           <Text></Text>
         )}
 
-        <HStack alignItems='center' space={4}>
-          <Text>Rando mixte</Text>
+        <HStack alignItems='center'>
+          <Heading size='xs'>Rando mixte</Heading>
           <Switch
-            size='sm'
+            mt={0}
+            pt={0}
+            marginTop='0'
+            paddingTop={0}
+            offTrackColor='#C4C4C4'
+            onTrackColor='#78E08F'
+            size='lg'
             onValueChange={() => {
               setMixte(!mixte)
               console.log(mixte)
@@ -119,9 +135,9 @@ function Search() {
         </HStack>
 
         {/* sélection de l'age */}
-
         <Select
           selectedValue={age}
+          bgColor='#EEEEEE'
           w='100%'
           accessibilityLabel='age'
           placeholder="Age de l'organisateur"
@@ -132,12 +148,11 @@ function Search() {
           onValueChange={(itemValue) => setAge(itemValue)}>
           {listAgeDisplay}
         </Select>
-
         {/* sélection de la date */}
         <Button
           style={styles.allInput}
           variant='outline'
-          mt='2'
+          mt='1.5'
           w='100%'
           colorScheme='secondary'
           onPress={showDatePicker}>
@@ -173,24 +188,21 @@ function Search() {
           }}
           onCancel={hidePicker}
         />
-
         <Select
           selectedValue={level}
+          bgColor='#EEEEEE'
           w='100%'
           accessibilityLabel='Niveau'
           placeholder='Niveau'
-          _selectedItem={{
-            endIcon: <CheckIcon size='5' />,
-          }}
           mt='1.5'
           onValueChange={(itemValue) => setLevel(itemValue)}>
           <Select.Item label='Facile' value='facile' />
           <Select.Item label='Intermédiaire' value='intermediaire' />
           <Select.Item label='Difficile' value='difficile' />
         </Select>
-
         <Button
-          mt='2'
+          style={styles.shadow}
+          mt='1.5'
           w='100%'
           bg='#78E08F'
           onPress={() => {
@@ -205,9 +217,23 @@ function Search() {
           }}>
           Rechercher
         </Button>
-        <MapView style={styles.map}></MapView>
-      </Box>
-    </Box>
+
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: coord.lat,
+            longitude: coord.long,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+          region={{
+            latitude: coord.lat,
+            longitude: coord.long,
+            latitudeDelta: 0.0992,
+            longitudeDelta: 0.0421,
+          }}></MapView>
+      </View>
+    </View>
   )
 }
 
@@ -215,38 +241,37 @@ const styles = StyleSheet.create({
   allInput: {
     backgroundColor: '#EEEEEE',
     borderWidth: 0.5,
-    zindex: -1,
-    zIndex: 0,
-
     borderColor: '#CCCCCC',
   },
+
+  mainContainer: {
+    flex: 1,
+    alignItems: 'center',
+    marginTop: 25,
+  },
+  secondContainer: {
+    flex: 1,
+    width: '90%',
+    alignItems: 'center',
+  },
+
+  shadow: {
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 3.5,
+    elevation: 5,
+  },
+
   map: {
     width: '100%',
     marginTop: 10,
-    height: 200,
-    borderWidth: 10,
+    height: 170,
+    borderWidth: 0.5,
     borderColor: '#CCCCCC',
-  },
-  completeContainer: {
-    flex: 1,
-    borderWidth: 1.5,
-    borderColor: '#CCCCCC',
-    backgroundColor: '#FFFFFF',
-    zindex: 1,
-  },
-  comlete: {
-    width: '100%',
-    position: 'absolute',
-    zIndex: 3,
-  },
-  itemText: {
-    fontSize: 15,
-    backgroundColor: '#FFFFFF',
-    height: 25,
-    zIndex: -1,
-    paddingTop: 5,
-    paddingBottom: 5,
-    margin: 2,
   },
 })
 

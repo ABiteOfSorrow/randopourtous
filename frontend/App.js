@@ -9,21 +9,22 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { FontAwesome5 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import PresentScreen from "./screens/PresentScreen";
-import SignInScreen from "./screens/SignIn";
-import SignUpScreen from "./screens/SignUp";
-import HomeScreen from "./screens/Home";
-import CreateScreen from "./screens/Create";
-import SearchScreen from "./screens/Search";
-import MapScreen from "./screens/Map";
-import ListScreen from "./screens/List";
-import DetailScreen from "./screens/Detail";
-import MyprofileScreen from "./screens/MyProfile";
-import OtherprofileScreen from "./screens/OtherProfile";
-import HistoryScreen from "./screens/History";
-import FriendScreen from "./screens/Friend";
-import ChatScreen from "./screens/Chat";
-import ResumeScreen from "./screens/Resume";
+import PresentScreen from './screens/PresentScreen';
+import SignInScreen from './screens/SignIn'
+import SignUpScreen from './screens/SignUp'
+import HomeScreen from './screens/Home'
+import CreateScreen from './screens/Create'
+import SearchScreen from './screens/Search'
+import MapScreen from './screens/Map'
+import ListScreen from './screens/List'
+import DetailScreen from './screens/Detail'
+import MyprofileScreen from './screens/MyProfile'
+import OtherprofileScreen from './screens/OtherProfile'
+import HistoryScreen from './screens/History'
+import FriendScreen from './screens/Friend'
+import ChatScreen from './screens/Chat'
+import ResumeScreen from './screens/Resume'
+import EditProfileScreen from './screens/EditProfile';
 
 import { combineReducers } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
@@ -39,15 +40,15 @@ const BottomMenuTabs = () => {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color }) => {
-          let iconName;
-          if (route.name === "Home") {
-            iconName = "home";
-          } else if (route.name === "List") {
-            iconName = "hiking";
-          } else if (route.name === "Search") {
-            iconName = "search";
-          } else if (route.name === "Profile") {
-            iconName = "user-alt";
+          let iconName
+          if (route.name === 'Home') {
+            iconName = 'home'
+          } else if (route.name === 'Randos') {
+            iconName = 'hiking'
+          } else if (route.name === 'Chercher') {
+            iconName = 'search'
+          } else if (route.name === 'Profil') {
+            iconName = 'user-alt'
           }
           return <FontAwesome5 name={iconName} size={25} color={color} />;
         },
@@ -70,10 +71,14 @@ const BottomMenuTabs = () => {
       }}
       initialRouteName="Home"
     >
-      <Tab.Screen name="Home" options={{ gestureEnabled: false }} component={HomeScreen} />
-      <Tab.Screen name="List" component={ListScreen} />
-      <Tab.Screen name="Search" component={SearchScreen} />
-      <Tab.Screen name="Profile" component={ChatScreen} />
+      <Tab.Screen
+        name="Home"
+        options={{ gestureEnabled: false }}
+        component={HomeScreen}
+      />
+      <Tab.Screen name="Randos" component={ListScreen} />
+      <Tab.Screen name="Chercher" component={SearchScreen} />
+      <Tab.Screen name="Profil" component={MyprofileScreen} />
     </Tab.Navigator>
   );
 };
@@ -122,6 +127,8 @@ export default function App() {
             <Stack.Screen name="History" component={HistoryScreen} />
             <Stack.Screen name="Chat" component={ChatScreen} />
             <Stack.Screen name="Resume" component={ResumeScreen} />
+            <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+            
           </Stack.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>

@@ -7,7 +7,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const backendAdress = 'http://' + '192.168.10.160' +':3000' 
+const backendAdress = 'http://' + '192.168.10.169' +':3000' 
 
 function SignUp(props) {
   const [show, setShow] = useState(false);

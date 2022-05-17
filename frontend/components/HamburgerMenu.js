@@ -18,7 +18,7 @@ import {
 
 function HamburgerMenu() {
   return (
-    <Box alignItems="flex-start" ml="5" mt="2">
+    <Box alignItems="flex-start" ml="5" mt="2" >
       <Menu
         w="190"
         trigger={(triggerProps) => {

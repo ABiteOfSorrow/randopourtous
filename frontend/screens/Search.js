@@ -1,9 +1,7 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import MapView from 'react-native-maps'
-import {StyleSheet, FlatList} from 'react-native'
-
+import {StyleSheet, TouchableOpacity} from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
-
 import {
   Box,
   Text,
@@ -14,16 +12,37 @@ import {
   Button,
   CheckIcon,
   ScrollView,
+  View,
 } from 'native-base'
+import {SafeAreaView} from 'react-native-safe-area-context'
 
 function Search() {
   const [level, setLevel] = useState()
   const [date, setDate] = useState()
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false)
   const [isHourPickerVisible, setHourPickerVisibility] = useState(false)
-  const [citie, setCitie] = useState()
+  const [citie, setCitie] = useState({})
   const [listCities, setListCities] = useState([])
+  const [age, setAge] = useState()
+  const [mixte, setMixte] = useState(false)
+  const [coord, setCoord] = useState({lat: 48.856614, long: 2.3522219})
+  const [map, setMap] = useState()
 
+  // useEffect(() => {
+  //   console.log(coord)
+  //   setMap(
+  //     <MapView
+  //       style={styles.map}
+  //       initialRegion={{
+  //         latitude: coord.lat,
+  //         longitude: coord.long,
+  //         latitudeDelta: 0.0922,
+  //         longitudeDelta: 0.0421,
+  //       }}></MapView>
+  //   )
+  // }, [coord])
+
+  // gestion du date picker
   const showDatePicker = () => {
     setDatePickerVisibility(true)
   }
@@ -33,19 +52,43 @@ function Search() {
     setHourPickerVisibility(false)
   }
 
+  //************************* */
+
+  // gestion de l'autocompletion des villes avec l'API du gouvernement
   const searchCities = async (e) => {
     setCitie(e)
-    var result = await fetch(`https://geo.api.gouv.fr/communes?nom=${e}`)
-    var response = await result.json()
-    var listCities = response.map((e) => e.nom)
-    setListCities([...listCities])
+    if (e.length > 3) {
+      var result = await fetch(`https://geo.api.gouv.fr/communes?nom=${e}`)
+      var response = await result.json()
+      let listCities = []
+      for (let item of response) {
+        listCities.push({
+          nom: item.nom,
+          dpt: item.codeDepartement,
+          codePostal: item.codesPostaux[0],
+        })
+      }
+      setListCities([...listCities])
+    } else {
+      setListCities([])
+    }
   }
 
-  var listCitiesDisplay = (
-    <FlatList data={listCities} renderItem={({item}) => <Text>{item}</Text>} />
-  )
+  //*************************************** */
 
-  console.log(listCities)
+  // initialisation de la liste déroulante des ages
+  let listAge = []
+  for (let i = 18; i < 99; i++) {
+    listAge.push(i)
+  }
+
+  let listAgeDisplay = listAge.map((e, i) => (
+    <Select.Item label={e.toString()} value={e.toString()} key={i} />
+  ))
+
+  //***************************************** */
+
+  var getSearch = function (data) {}
 
   return (
     <Box
@@ -58,32 +101,67 @@ function Search() {
         style={{
           flex: 1,
           width: '90%',
-
-          // justifyContent: 'center',
-
           alignItems: 'center',
         }}>
         <Text h1 fontFamily='Roboto' fontSize={20}>
           Chercher une randonnée
         </Text>
-
+        {/* sélection de la ville */}
         <Input
-          style={styles.allInput}
-          placeholder='Ville / département / région'
+          placeholder='Ville / département'
           onChangeText={(e) => searchCities(e)}
-          value={citie}></Input>
-        {listCitiesDisplay}
-
+          value={citie.nom}></Input>
+        {listCities.length > 1 ? (
+          <View style={{height: 200, width: '100%'}}>
+            <ScrollView>
+              {listCities.map((e, i) => (
+                <TouchableOpacity
+                  key={i}
+                  style={{backgroundColor: '#FFFFFF', width: '100%'}}
+                  onPress={async () => {
+                    setCitie(e)
+                    setListCities([])
+                    var result = await fetch(
+                      `https://api-adresse.data.gouv.fr/search/?q=${e.nom}&limit=1`
+                    )
+                    var response = await result.json()
+                    setCoord({
+                      lat: response.features[0].geometry.coordinates[1],
+                      long: response.features[0].geometry.coordinates[0],
+                    })
+                  }}>
+                  <Text key={i}>{e.nom + ' (' + e.codePostal + ')'}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+        ) : (
+          <Text></Text>
+        )}
         <HStack alignItems='center' space={4}>
           <Text>Rando mixte</Text>
-          <Switch size='sm' />
+          <Switch
+            size='sm'
+            onValueChange={() => {
+              setMixte(!mixte)
+              console.log(mixte)
+            }}
+          />
         </HStack>
-        <Input
-          style={styles.allInput}
-          placeholder="Age de l'organisateur"></Input>
-
+        {/* sélection de l'age */}
+        <Select
+          selectedValue={age}
+          w='100%'
+          accessibilityLabel='age'
+          placeholder="Age de l'organisateur"
+          _selectedItem={{
+            endIcon: <CheckIcon size='5' />,
+          }}
+          mt='1.5'
+          onValueChange={(itemValue) => setAge(itemValue)}>
+          {listAgeDisplay}
+        </Select>
         {/* sélection de la date */}
-
         <Button
           style={styles.allInput}
           variant='outline'
@@ -112,7 +190,6 @@ function Search() {
           }}
           onCancel={hidePicker}
         />
-
         <DateTimePickerModal
           isVisible={isHourPickerVisible}
           mode='time'
@@ -124,7 +201,6 @@ function Search() {
           }}
           onCancel={hidePicker}
         />
-
         <Select
           selectedValue={level}
           w='100%'
@@ -139,11 +215,37 @@ function Search() {
           <Select.Item label='Intermédiaire' value='intermediaire' />
           <Select.Item label='Difficile' value='difficile' />
         </Select>
-
-        <Button mt='2' w='100%' bg='#78E08F'>
+        <Button
+          mt='2'
+          w='100%'
+          bg='#78E08F'
+          onPress={() => {
+            let sendObject = {
+              ville: citie,
+              mixte: mixte,
+              age: age,
+              date: date,
+              niveau: level,
+            }
+            getSearch(sendObject)
+          }}>
           Rechercher
         </Button>
-        <MapView style={styles.map}></MapView>
+
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: coord.lat,
+            longitude: coord.long,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+          region={{
+            latitude: coord.lat,
+            longitude: coord.long,
+            latitudeDelta: 0.0992,
+            longitudeDelta: 0.0421,
+          }}></MapView>
       </Box>
     </Box>
   )
@@ -153,7 +255,9 @@ const styles = StyleSheet.create({
   allInput: {
     backgroundColor: '#EEEEEE',
     borderWidth: 0.5,
-    //height: 10,
+    zindex: -1,
+    zIndex: 0,
+
     borderColor: '#CCCCCC',
   },
   map: {
@@ -163,14 +267,26 @@ const styles = StyleSheet.create({
     borderWidth: 10,
     borderColor: '#CCCCCC',
   },
-  container: {
+  completeContainer: {
+    flex: 1,
     borderWidth: 1.5,
     borderColor: '#CCCCCC',
+    backgroundColor: '#FFFFFF',
+    zindex: 1,
   },
-  libelle: {
+  comlete: {
+    width: '100%',
     position: 'absolute',
-    zIndex: 1,
-    marginTop: 350,
+    zIndex: 3,
+  },
+  itemText: {
+    fontSize: 15,
+    backgroundColor: '#FFFFFF',
+    height: 25,
+    zIndex: -1,
+    paddingTop: 5,
+    paddingBottom: 5,
+    margin: 2,
   },
 })
 

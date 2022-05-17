@@ -1,4 +1,4 @@
-//import { LogBox } from "react-native";
+// import { LogBox } from "react-native";
 // LogBox.ignoreAllLogs(true);
 import React from "react";
 import { StyleSheet } from "react-native";
@@ -75,7 +75,7 @@ const BottomMenuTabs = () => {
       />
       <Tab.Screen name="List" component={ListScreen} />
       <Tab.Screen name="Search" component={SearchScreen} />
-      <Tab.Screen name="Profile" component={FriendScreen} />
+      <Tab.Screen name="Profile" component={DetailScreen} />
     </Tab.Navigator>
   );
 };

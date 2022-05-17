@@ -15,16 +15,16 @@ import SignUpScreen from './screens/SignUp'
 import HomeScreen from './screens/Home'
 import CreateScreen from './screens/Create'
 import SearchScreen from './screens/Search'
-// import MapScreen from './screens/Map'
+import MapScreen from './screens/Map'
 import ListScreen from './screens/List'
 import DetailScreen from './screens/Detail'
 import MyprofileScreen from './screens/MyProfile'
-// import OtherprofileScreen from './screens/Otherprofile'
+import OtherprofileScreen from './screens/Otherprofile'
 import HistoryScreen from './screens/History'
-// import ListFriend from './screens/Friend'
-// import ChatScreen from './screens/Chat'
-// import ResumeScreen from './screens/Resume'
-import HamburgerMenuScreen from './screens/HamburgerMenu'
+import FriendScreen from './screens/Friend'
+import ChatScreen from './screens/Chat'
+import ResumeScreen from './screens/Resume'
+
 
 import { combineReducers } from 'redux'
 import { configureStore } from '@reduxjs/toolkit'
@@ -111,10 +111,7 @@ export default function App() {
             {routes}
             <Stack.Screen name="Home" options={{ gestureEnabled: false, headerLeft: false }} component={BottomMenuTabs} />
             <Stack.Screen name="Detail" component={DetailScreen} />
-            <Stack.Screen
-              name='HamburgerMenu'
-              component={HamburgerMenuScreen}
-            />
+
             <Stack.Screen name='BottomMenuTabs' component={BottomMenuTabs} />
             <Stack.Screen name="Create" component={CreateScreen} />
             <Stack.Screen name="Map" component={MapScreen} />
@@ -123,7 +120,7 @@ export default function App() {
             <Stack.Screen name="History" component={HistoryScreen} />
             <Stack.Screen name="Chat" component={ChatScreen} />
             <Stack.Screen name="Resume" component={ResumeScreen} />
-            <Stack.Screen name="BottomMenuTabs" component={BottomMenuTabs} />
+            
           </Stack.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>

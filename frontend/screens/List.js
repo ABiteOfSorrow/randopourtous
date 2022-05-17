@@ -6,7 +6,7 @@ import HamburgerMenu from "../components/HamburgerMenu";
 
 function List() {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor:'#fff' }}>
       <ScrollView>
         <HStack justifyContent="space-between" mb={4}>
           <HamburgerMenu />

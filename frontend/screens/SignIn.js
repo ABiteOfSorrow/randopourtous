@@ -42,7 +42,7 @@ function SignIn(props) {
     } catch (e) {
       console.log(e)
     }
-    props.navigation.navigate('Home');
+    props.navigation.replace('Home');
   }
 
   return (

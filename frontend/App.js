@@ -86,8 +86,8 @@ export default function App() {
           <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={""}>
             <Stack.Screen name="Present" component={PresentScreen} />
             <Stack.Screen options={{ gestureEnabled: false }} name="SignIn" component={SignInScreen} />
-            <Stack.Screen name="SignUp" options={{ gestureEnabled: false }} component={SignUpScreen} />
-            <Stack.Screen name="Home" options={{ gestureEnabled: false }} component={BottomMenuTabs} />
+            <Stack.Screen name="SignUp" options={{ gestureEnabled: false, headerLeft: false }} component={SignUpScreen} />
+            <Stack.Screen name="Home" options={{ gestureEnabled: false, headerLeft: false }} component={BottomMenuTabs} />
             <Stack.Screen name="Detail" component={DetailScreen} />
             {/* <Stack.Screen name='Create' component={CreateScreen} />
           <Stack.Screen name='Map' component={MapScreen} />

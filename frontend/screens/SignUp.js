@@ -54,7 +54,7 @@ function SignUp(props) {
       console.log(e)
     }
 
-    props.navigation.navigate('Home');
+    props.navigation.replace('Home');
   }
 
   useEffect(() => {

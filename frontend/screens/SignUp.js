@@ -38,6 +38,7 @@ function SignUp(props) {
         email: email,
         username: username,
         password: password,
+        
       }),
     })
     let data = await result.json()

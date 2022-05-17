@@ -15,6 +15,7 @@ import {
   View,
 } from 'native-base'
 import {SafeAreaView} from 'react-native-safe-area-context'
+import { StatusBar } from 'expo-status-bar'
 
 function Search() {
   const [level, setLevel] = useState()
@@ -91,11 +92,12 @@ function Search() {
   var getSearch = function (data) {}
 
   return (
+    <SafeAreaView style={{flex:1, backgroundColor: '#fff'}}>
     <Box
       style={{
         flex: 1,
         alignItems: 'center',
-        marginTop: 25,
+        backgroundColor: '#fff',
       }}>
       <Box
         style={{
@@ -247,7 +249,9 @@ function Search() {
             longitudeDelta: 0.0421,
           }}></MapView>
       </Box>
+      <StatusBar style='auto' />
     </Box>
+    </SafeAreaView>
   )
 }
 

@@ -24,6 +24,7 @@ import HistoryScreen from './screens/History'
 import FriendScreen from './screens/Friend'
 import ChatScreen from './screens/Chat'
 import ResumeScreen from './screens/Resume'
+import EditProfileScreen from './screens/EditProfile';
 
 import { combineReducers } from 'redux'
 import { configureStore } from '@reduxjs/toolkit'
@@ -119,6 +120,7 @@ export default function App() {
             <Stack.Screen name="History" component={HistoryScreen} />
             <Stack.Screen name="Chat" component={ChatScreen} />
             <Stack.Screen name="Resume" component={ResumeScreen} />
+            <Stack.Screen name="EditProfile" component={EditProfileScreen} />
             
           </Stack.Navigator>
         </NavigationContainer>

@@ -2,11 +2,13 @@
 import React, { useState } from 'react';
 import { Button, Input, Text, HStack, VStack, Heading, Box, Switch, View, Pressable, Select } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
-import HamburgerMenu from "./HamburgerMenu";
+import HamburgerMenu from "../components/HamburgerMenu";
 import { StyleSheet, ScrollView } from "react-native";
 import MapView from 'react-native-maps';
 
-import DateTimePickerModal from 'react-native-modal-datetime-picker'
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+
+const backendAdress = '192.168.10.169'
 
 function Creat() {
     const [date, setDate] = useState();
@@ -34,7 +36,7 @@ function Creat() {
 
     const handleSubmit = async () => {
         var randoData = { userToken: "007X666", mixed: mixed, randoName: randoName, depart: depart, estim_time: estim_time, date: date, maxRunner: maxRunner, description: description, level: level }
-        var randoInBDD = await fetch('http://192.168.10.169:3000/create-track', {
+        var randoInBDD = await fetch('http://'+backendAdress+':3000/create-track', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `randoData=${randoData}`
@@ -44,7 +46,7 @@ function Creat() {
 
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
             <HStack justifyContent="space-between" mb={4}>
                 <HamburgerMenu />
                 <Button

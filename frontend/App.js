@@ -8,56 +8,55 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { FontAwesome5 } from "@expo/vector-icons";
 
-import PresentScreen from './screens/PresentScreen'
-import SignInScreen from './screens/SignIn'
-import SignUpScreen from './screens/SignUp'
-import HomeScreen from './screens/Home'
-import CreateScreen from './screens/Create'
-import SearchScreen from './screens/Search'
-// import MapScreen from './screens/Map'
-import ListScreen from './screens/List'
-import DetailScreen from './screens/Detail'
-import MyprofileScreen from './screens/MyProfile'
-// import OtherprofileScreen from './screens/Otherprofile'
+import PresentScreen from "./screens/PresentScreen";
+import SignInScreen from "./screens/SignIn";
+import SignUpScreen from "./screens/SignUp";
+import HomeScreen from "./screens/Home";
+import CreateScreen from "./screens/Create";
+import SearchScreen from "./screens/Search";
+import MapScreen from './screens/Map'
+import ListScreen from "./screens/List";
+import DetailScreen from "./screens/Detail";
+import MyprofileScreen from "./screens/MyProfile";
+import OtherprofileScreen from './screens/Otherprofile'
+import FriendScreen from "./screens/Friend";
 import HistoryScreen from "./screens/History";
-// import ListFriend from './screens/Friend'
-// import ChatScreen from './screens/Chat'
-// import ResumeScreen from './screens/Resume'
-import HamburgerMenuScreen from "./screens/HamburgerMenu";
+import ChatScreen from './screens/Chat'
+import ResumeScreen from './screens/Resume'
 
-import { combineReducers } from 'redux';
-import { configureStore } from '@reduxjs/toolkit'
-import user from "./reducers/user.reducer"
+import { combineReducers } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
+import user from "./reducers/user.reducer";
 const store = configureStore({ reducer: combineReducers({ user }) });
-import { Provider } from 'react-redux';
+import { Provider } from "react-redux";
 
-const Tab = createBottomTabNavigator()
+const Tab = createBottomTabNavigator();
 
 const BottomMenuTabs = () => {
   return (
     <Tab.Navigator
-      screenOptions={({route}) => ({
-        tabBarIcon: ({color}) => {
-          let iconName
-          if (route.name === 'Home') {
-            iconName = 'home'
-          } else if (route.name === 'List') {
-            iconName = 'hiking'
-          } else if (route.name === 'Search') {
-            iconName = 'search'
-          } else if (route.name === 'Profile') {
-            iconName = 'user-alt'
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color }) => {
+          let iconName;
+          if (route.name === "Home") {
+            iconName = "home";
+          } else if (route.name === "List") {
+            iconName = "hiking";
+          } else if (route.name === "Search") {
+            iconName = "search";
+          } else if (route.name === "Profile") {
+            iconName = "user-alt";
           }
-          return <FontAwesome5 name={iconName} size={25} color={color} />
+          return <FontAwesome5 name={iconName} size={25} color={color} />;
         },
         headerShown: false,
       })}
       tabBarOptions={{
-        activeTintColor: '#009788',
-        inactiveTintColor: '#FFFFFF',
+        activeTintColor: "#009788",
+        inactiveTintColor: "#FFFFFF",
         style: {
-          backgroundColor: '#78E08F',
-          position: 'absolute',
+          backgroundColor: "#78E08F",
+          position: "absolute",
           bottom: 5,
           left: 20,
           right: 20,
@@ -69,16 +68,19 @@ const BottomMenuTabs = () => {
       }}
       initialRouteName="Home"
     >
-      <Tab.Screen name="Home" options={{ gestureEnabled: false }} component={HomeScreen} />
+      <Tab.Screen
+        name="Home"
+        options={{ gestureEnabled: false }}
+        component={HomeScreen}
+      />
       <Tab.Screen name="List" component={ListScreen} />
-      <Tab.Screen name="Search" component={DetailScreen} />
-      <Tab.Screen name="Profile" component={HistoryScreen} />
-
+      <Tab.Screen name="Search" component={SearchScreen} />
+      <Tab.Screen name="Profile" component={MyprofileScreen} />
     </Tab.Navigator>
-  )
-}
+  );
+};
 
-const Stack = createStackNavigator()
+const Stack = createStackNavigator();
 export default function App() {
   return (
     <Provider store={store}>
@@ -86,18 +88,30 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={""}>
             <Stack.Screen name="Present" component={PresentScreen} />
-            <Stack.Screen options={{ gestureEnabled: false }} name="SignIn" component={SignInScreen} />
-            <Stack.Screen name="SignUp" options={{ gestureEnabled: false }} component={SignUpScreen} />
-            <Stack.Screen name="Home" options={{ gestureEnabled: false }} component={BottomMenuTabs} />
+            <Stack.Screen
+              options={{ gestureEnabled: false }}
+              name="SignIn"
+              component={SignInScreen}
+            />
+            <Stack.Screen
+              name="SignUp"
+              options={{ gestureEnabled: false }}
+              component={SignUpScreen}
+            />
+            <Stack.Screen
+              name="Home"
+              options={{ gestureEnabled: false }}
+              component={HomeScreen}
+            />
             <Stack.Screen name="Detail" component={DetailScreen} />
-            {/* <Stack.Screen name='Create' component={CreateScreen} />
-          <Stack.Screen name='Map' component={MapScreen} />
-          <Stack.Screen name='Otherprofile' component={OtherprofileScreen} />
-          <Stack.Screen name='Friend' component={ListFriend} />
-          <Stack.Screen name='History' component={HistoryScreen} />
-          <Stack.Screen name='Chat' component={ChatScreen} /> */}
-            {/* <Stack.Screen name='Resume' component={ResumeScreen} /> */}
-            <Stack.Screen name="HamburgerMenu" component={HamburgerMenuScreen} />
+            <Stack.Screen name="Create" component={CreateScreen} />
+            <Stack.Screen name='Map' component={MapScreen} />
+            <Stack.Screen name='Otherprofile' component={OtherprofileScreen} />
+            <Stack.Screen name="Friend" component={FriendScreen} />
+            <Stack.Screen name="History" component={HistoryScreen} />
+            <Stack.Screen name='Search' component={SearchScreen} />
+            <Stack.Screen name='Chat' component={ChatScreen} />
+            <Stack.Screen name='Resume' component={ResumeScreen} />
             <Stack.Screen name="BottomMenuTabs" component={BottomMenuTabs} />
           </Stack.Navigator>
         </NavigationContainer>
@@ -115,6 +129,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 1,
     shadowRadius: 3.5,
-    elevation: 5
-  }
-})
+    elevation: 5,
+  },
+});

@@ -2,7 +2,7 @@ import React from "react";
 import { HStack, VStack, Center, Heading, Box, Button, Text, Switch } from "native-base";
 import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import HamburgerMenu from "./HamburgerMenu";
+import HamburgerMenu from "../components/HamburgerMenu";
 
 function List() {
   return (

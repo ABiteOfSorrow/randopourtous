@@ -33,7 +33,7 @@ const store = configureStore({ reducer: combineReducers({ user }) })
 import { Provider } from 'react-redux'
 import { useEffect } from 'react';
 
-const Tab = createBottomTabNavigator()
+const Tab = createBottomTabNavigator();
 
 const BottomMenuTabs = () => {
   return (
@@ -50,16 +50,16 @@ const BottomMenuTabs = () => {
           } else if (route.name === 'Profile') {
             iconName = 'user-alt'
           }
-          return <FontAwesome5 name={iconName} size={25} color={color} />
+          return <FontAwesome5 name={iconName} size={25} color={color} />;
         },
         headerShown: false,
       })}
       tabBarOptions={{
-        activeTintColor: '#009788',
-        inactiveTintColor: '#FFFFFF',
+        activeTintColor: "#009788",
+        inactiveTintColor: "#FFFFFF",
         style: {
-          backgroundColor: '#78E08F',
-          position: 'absolute',
+          backgroundColor: "#78E08F",
+          position: "absolute",
           bottom: 5,
           left: 20,
           right: 20,
@@ -69,20 +69,21 @@ const BottomMenuTabs = () => {
           ...styles.shadow,
         },
       }}
-      initialRouteName='Home'>
+      initialRouteName="Home"
+    >
       <Tab.Screen
-        name='Home'
+        name="Home"
         options={{ gestureEnabled: false }}
         component={HomeScreen}
       />
-      <Tab.Screen name='List' component={CreateScreen} />
-      <Tab.Screen name='Search' component={SearchScreen} />
-      <Tab.Screen name='Profile' component={HistoryScreen} />
+      <Tab.Screen name="List" component={ListScreen} />
+      <Tab.Screen name="Search" component={SearchScreen} />
+      <Tab.Screen name="Profile" component={FriendScreen} />
     </Tab.Navigator>
-  )
-}
+  );
+};
 
-const Stack = createStackNavigator()
+const Stack = createStackNavigator();
 export default function App() {
 
   const [routes, setRoutes] = React.useState((<><Stack.Screen name="Present" component={PresentScreen} />
@@ -110,28 +111,29 @@ export default function App() {
             {routes}
             <Stack.Screen name="Home" options={{ gestureEnabled: false, headerLeft: false }} component={BottomMenuTabs} />
             <Stack.Screen name="Detail" component={DetailScreen} />
-            {/* <Stack.Screen name='Create' component={CreateScreen} />
-          <Stack.Screen name='Map' component={MapScreen} />
-          <Stack.Screen name='Otherprofile' component={OtherprofileScreen} />
-          <Stack.Screen name='Friend' component={ListFriend} />
-          <Stack.Screen name='History' component={HistoryScreen} />
-          <Stack.Screen name='Chat' component={ChatScreen} /> */}
-            {/* <Stack.Screen name='Resume' component={ResumeScreen} /> */}
             <Stack.Screen
               name='HamburgerMenu'
               component={HamburgerMenuScreen}
             />
             <Stack.Screen name='BottomMenuTabs' component={BottomMenuTabs} />
+            <Stack.Screen name="Create" component={CreateScreen} />
+            <Stack.Screen name="Map" component={MapScreen} />
+            <Stack.Screen name="Otherprofile" component={OtherprofileScreen} />
+            <Stack.Screen name="Friend" component={FriendScreen} />
+            <Stack.Screen name="History" component={HistoryScreen} />
+            <Stack.Screen name="Chat" component={ChatScreen} />
+            <Stack.Screen name="Resume" component={ResumeScreen} />
+            <Stack.Screen name="BottomMenuTabs" component={BottomMenuTabs} />
           </Stack.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>
     </Provider>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   shadow: {
-    shadowColor: '#000000',
+    shadowColor: "#000000",
     shadowOffset: {
       width: 0,
       height: 10,
@@ -140,4 +142,4 @@ const styles = StyleSheet.create({
     shadowRadius: 3.5,
     elevation: 5,
   },
-})
+});

@@ -13,7 +13,7 @@ import {
 import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign } from "@expo/vector-icons";
-import HamburgerMenu from "./HamburgerMenu";
+import HamburgerMenu from "../components/HamburgerMenu";
 
 // import MapView, { Marker } from "react-native-maps";
 // import * as Location from "expo-location";

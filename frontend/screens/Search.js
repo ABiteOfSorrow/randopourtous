@@ -18,21 +18,21 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 function Search() {
-  const [level, setLevel] = useState()
-  const [date, setDate] = useState()
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false)
-  const [isHourPickerVisible, setHourPickerVisibility] = useState(false)
-  const [citie, setCitie] = useState()
-  const [listCities, setListCities] = useState([])
+  const [level, setLevel] = useState();
+  const [date, setDate] = useState();
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [isHourPickerVisible, setHourPickerVisibility] = useState(false);
+  const [citie, setCitie] = useState();
+  const [listCities, setListCities] = useState([]);
 
   const showDatePicker = () => {
-    setDatePickerVisibility(true)
-  }
+    setDatePickerVisibility(true);
+  };
 
   const hidePicker = () => {
-    setDatePickerVisibility(false)
-    setHourPickerVisibility(false)
-  }
+    setDatePickerVisibility(false);
+    setHourPickerVisibility(false);
+  };
 
   const searchCities = async (e) => {
     setCitie(e)
@@ -178,7 +178,7 @@ function Search() {
 
 const styles = StyleSheet.create({
   allInput: {
-    backgroundColor: '#EEEEEE',
+    backgroundColor: "#EEEEEE",
     borderWidth: 0.5,
     zindex: -1,
     zIndex: 0,
@@ -186,11 +186,11 @@ const styles = StyleSheet.create({
     borderColor: '#CCCCCC',
   },
   map: {
-    width: '100%',
+    width: "100%",
     marginTop: 10,
     height: 200,
     borderWidth: 10,
-    borderColor: '#CCCCCC',
+    borderColor: "#CCCCCC",
   },
   completeContainer: {
     flex: 1,
@@ -212,6 +212,6 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     margin: 2,
   },
-})
+});
 
-export default Search
+export default Search;

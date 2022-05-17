@@ -42,11 +42,11 @@ const BottomMenuTabs = () => {
           let iconName
           if (route.name === 'Home') {
             iconName = 'home'
-          } else if (route.name === 'List') {
+          } else if (route.name === 'Randos') {
             iconName = 'hiking'
-          } else if (route.name === 'Search') {
+          } else if (route.name === 'Chercher') {
             iconName = 'search'
-          } else if (route.name === 'Profile') {
+          } else if (route.name === 'Profil') {
             iconName = 'user-alt'
           }
           return <FontAwesome5 name={iconName} size={25} color={color} />;
@@ -75,9 +75,9 @@ const BottomMenuTabs = () => {
         options={{ gestureEnabled: false }}
         component={HomeScreen}
       />
-      <Tab.Screen name="List" component={ListScreen} />
-      <Tab.Screen name="Search" component={SearchScreen} />
-      <Tab.Screen name="Profile" component={OtherprofileScreen} />
+      <Tab.Screen name="Randos" component={ListScreen} />
+      <Tab.Screen name="Chercher" component={SearchScreen} />
+      <Tab.Screen name="Profil" component={MyprofileScreen} />
     </Tab.Navigator>
   );
 };

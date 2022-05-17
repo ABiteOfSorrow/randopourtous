@@ -29,8 +29,9 @@ function Friend(props) {
             mr={2}
             variant="outline"
             borderColor="#38ADA9"
+            onPress={() => props.navigation.goBack()}
           >
-            <Text fontSize="xs" bold color="#38ADA9">
+            <Text style={{ fontSize: 12, fontWeight: 'bold', color:'#38ADA9' }} >
               Retour
             </Text>
           </Button>

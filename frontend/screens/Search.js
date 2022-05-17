@@ -21,11 +21,28 @@ function Search() {
   const [date, setDate] = useState()
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false)
   const [isHourPickerVisible, setHourPickerVisibility] = useState(false)
-  const [citie, setCitie] = useState()
+  const [citie, setCitie] = useState({})
   const [listCities, setListCities] = useState([])
   const [age, setAge] = useState()
   const [mixte, setMixte] = useState(false)
+  const [coord, setCoord] = useState({lat: 48.856614, long: 2.3522219})
+  const [map, setMap] = useState()
 
+  // useEffect(() => {
+  //   console.log(coord)
+  //   setMap(
+  //     <MapView
+  //       style={styles.map}
+  //       initialRegion={{
+  //         latitude: coord.lat,
+  //         longitude: coord.long,
+  //         latitudeDelta: 0.0922,
+  //         longitudeDelta: 0.0421,
+  //       }}></MapView>
+  //   )
+  // }, [coord])
+
+  // gestion du date picker
   const showDatePicker = () => {
     setDatePickerVisibility(true)
   }
@@ -35,6 +52,9 @@ function Search() {
     setHourPickerVisibility(false)
   }
 
+  //************************* */
+
+  // gestion de l'autocompletion des villes avec l'API du gouvernement
   const searchCities = async (e) => {
     setCitie(e)
     if (e.length > 3) {
@@ -54,6 +74,9 @@ function Search() {
     }
   }
 
+  //*************************************** */
+
+  // initialisation de la liste déroulante des ages
   let listAge = []
   for (let i = 18; i < 99; i++) {
     listAge.push(i)
@@ -62,6 +85,8 @@ function Search() {
   let listAgeDisplay = listAge.map((e, i) => (
     <Select.Item label={e.toString()} value={e.toString()} key={i} />
   ))
+
+  //***************************************** */
 
   var getSearch = function (data) {}
 
@@ -81,12 +106,11 @@ function Search() {
         <Text h1 fontFamily='Roboto' fontSize={20}>
           Chercher une randonnée
         </Text>
-
         {/* sélection de la ville */}
         <Input
           placeholder='Ville / département'
           onChangeText={(e) => searchCities(e)}
-          value={citie}></Input>
+          value={citie.nom}></Input>
         {listCities.length > 1 ? (
           <View style={{height: 200, width: '100%'}}>
             <ScrollView>
@@ -94,9 +118,17 @@ function Search() {
                 <TouchableOpacity
                   key={i}
                   style={{backgroundColor: '#FFFFFF', width: '100%'}}
-                  onPress={() => {
-                    setCitie(e.nom)
+                  onPress={async () => {
+                    setCitie(e)
                     setListCities([])
+                    var result = await fetch(
+                      `https://api-adresse.data.gouv.fr/search/?q=${e.nom}&limit=1`
+                    )
+                    var response = await result.json()
+                    setCoord({
+                      lat: response.features[0].geometry.coordinates[1],
+                      long: response.features[0].geometry.coordinates[0],
+                    })
                   }}>
                   <Text key={i}>{e.nom + ' (' + e.codePostal + ')'}</Text>
                 </TouchableOpacity>
@@ -106,7 +138,6 @@ function Search() {
         ) : (
           <Text></Text>
         )}
-
         <HStack alignItems='center' space={4}>
           <Text>Rando mixte</Text>
           <Switch
@@ -117,9 +148,7 @@ function Search() {
             }}
           />
         </HStack>
-
         {/* sélection de l'age */}
-
         <Select
           selectedValue={age}
           w='100%'
@@ -132,7 +161,6 @@ function Search() {
           onValueChange={(itemValue) => setAge(itemValue)}>
           {listAgeDisplay}
         </Select>
-
         {/* sélection de la date */}
         <Button
           style={styles.allInput}
@@ -173,7 +201,6 @@ function Search() {
           }}
           onCancel={hidePicker}
         />
-
         <Select
           selectedValue={level}
           w='100%'
@@ -188,7 +215,6 @@ function Search() {
           <Select.Item label='Intermédiaire' value='intermediaire' />
           <Select.Item label='Difficile' value='difficile' />
         </Select>
-
         <Button
           mt='2'
           w='100%'
@@ -205,7 +231,21 @@ function Search() {
           }}>
           Rechercher
         </Button>
-        <MapView style={styles.map}></MapView>
+
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: coord.lat,
+            longitude: coord.long,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+          region={{
+            latitude: coord.lat,
+            longitude: coord.long,
+            latitudeDelta: 0.0992,
+            longitudeDelta: 0.0421,
+          }}></MapView>
       </Box>
     </Box>
   )

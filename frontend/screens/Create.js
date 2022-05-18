@@ -7,7 +7,9 @@ import MapView, { Marker } from 'react-native-maps';
 import { connect } from 'react-redux';
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 
-const backendAdress = '192.168.1.26'
+
+import backendConfig from '../backend.config.json';
+const backendAdress = backendConfig.address;
 
 function Create(props) {
    const [date, setDate] = useState();
@@ -61,7 +63,7 @@ function Create(props) {
    const handleSubmit = async () => {
     console.log("handlesubmit",props.user.token)
     var randoData = { userToken: props.user.token, mixed: mixed, name: randoName, departure: citie, latitude: thePOI.coordinate.latitude, longitude: thePOI.coordinate.longitude, estim_time: estim_time, date: date, maxRunner: maxRunner, description: description, level: level }
-    var randoInBDD = await fetch('http://' + backendAdress + ':3000/create-track', {
+    var randoInBDD = await fetch(backendAdress + '/create-track', {
        method: 'POST',
        headers: { 'Content-Type': 'application/json' },
        body: JSON.stringify(randoData)

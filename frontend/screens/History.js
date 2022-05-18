@@ -8,42 +8,42 @@ function History(props) {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <ScrollView h="80%">
-        <HStack justifyContent="space-between" mb={4}>
+        <HStack style={{ justifyContent:"space-between" }} mb={4}>
           <HamburgerMenu />
-          <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9" onPress={() => props.navigation.goBack()}>
-            <Text style={{ fontSize: 12, fontWeight: "bold", color: "#38ADA9" }} onPress={() => props.navigation.goBack()}>
+          <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" style={{ borderColor:"#38ADA9" }} onPress={() => props.navigation.goBack()}>
+            <Text style={{ fontSize: 12, fontWeight: "bold", color: "#38ADA9" }} >
               Retour
             </Text>
           </Button>
         </HStack>
         {/* List Body */}
 
-        <VStack space={2} alignItems="center">
+        <VStack space={2} style={{ alignItems:"center" }} >
           <Heading size="md" mb={4}>
             Mes randonnées créées
           </Heading>
           {/* Button Line */}
-          <Box display="flex" flexDirection="row" alignItems="center" mb={5}>
-            <Button w={100} h={8} p={0} mt={2} mr={2} borderColor="#38ADA9">
-              <Text fontSize="xs" bold color="white">
-                Tout
+          <Box style={{ alignItems:"center", flexDirection:"row", display:"flex" }} mb={5}>
+            <Button w={100} h={8} p={0} mt={2} mr={2} style={{ borderColor:"#38ADA9" }} >
+              <Text fontSize="xs" style={{ color:"white", fontWeight: 'bold' }} >
+                Toutes
               </Text>
             </Button>
-            <Button w={100} h={8} p={0} mt={2} mr={2} color="red">
-              <Text fontSize="xs" bold color="white">
+            <Button w={100} h={8} p={0} mt={2} mr={2} style={{ backgroundColor:"green" }} >
+              <Text fontSize="xs" style={{ fontWeight: 'bold', color:"white" }} >
                 En cours
               </Text>
             </Button>
             <Button w={100} h={8} p={0} mt={2} mr={2} bg="#bbb">
-              <Text fontSize="xs" bold color="white">
-                Achevée
+              <Text fontSize="xs" style={{ fontWeight: 'bold', color:"white" }} >
+                Achevées
               </Text>
             </Button>
           </Box>
         </VStack>
 
         {/* History contents Line (Proceeding)*/}
-        <Box w={"80%"} alignSelf="center" bg="#78E08F" p={3} borderRadius="15" shadow={8} mb={2}>
+        <Box w={"80%"} alignSelf="center" bg="#78E08F" p={3} style={{ borderRadius: 15 }} shadow={8} mb={2}>
           <Box
             alignSelf="center"
             _text={{
@@ -55,7 +55,7 @@ function History(props) {
           >
             Toto's Rando Pour Tous
           </Box>
-          <Box flex="1" flexDirection="row" justifyContent="space-between">
+          <Box style={{ flex:1, flexDirection:"row", justifyContent:"space-between" }} >
             <Box
               alignSelf="center"
               _text={{
@@ -93,7 +93,7 @@ function History(props) {
           >
             Toto's Rando Pour Tous
           </Box>
-          <Box flex="1" flexDirection="row" justifyContent="space-between">
+          <Box style={{ flex:1, flexDirection:"row", justifyContent:"space-between" }} >
             <Box
               alignSelf="center"
               _text={{

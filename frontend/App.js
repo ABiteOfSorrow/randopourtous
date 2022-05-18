@@ -19,7 +19,7 @@ import MapScreen from "./screens/Map";
 import ListScreen from "./screens/List";
 import DetailScreen from "./screens/Detail";
 import MyprofileScreen from "./screens/MyProfile";
-import OtherProfileScreen from "./screens/OtherProfile";
+import OtherprofileScreen from "./screens/OtherProfile";
 import HistoryScreen from "./screens/History";
 import FriendScreen from "./screens/Friend";
 import ChatScreen from "./screens/Chat";
@@ -34,17 +34,6 @@ import { Provider } from "react-redux";
 import { useEffect } from "react";
 
 const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
-
-const HomeNavigator = () => {
-
-    return (
-      <Stack.Navigator screenOptions={{ headerShown: false  }} initialRouteName='Home'>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Create" component={CreateScreen} />
-      </Stack.Navigator>
-    )
-}
 
 const BottomMenuTabs = () => {
   return (
@@ -82,7 +71,7 @@ const BottomMenuTabs = () => {
       }}
       initialRouteName="Home"
     >
-      <Tab.Screen name="Home" options={{ gestureEnabled: false }} component={HomeNavigator} />
+      <Tab.Screen name="Home" options={{ gestureEnabled: false }} component={HomeScreen} />
       <Tab.Screen name="Randos" component={ListScreen} />
       <Tab.Screen name="Chercher" component={SearchScreen} />
       <Tab.Screen name="Profil" component={MyprofileScreen} />
@@ -90,7 +79,7 @@ const BottomMenuTabs = () => {
   );
 };
 
-
+const Stack = createStackNavigator();
 export default function App() {
   const [routes, setRoutes] = React.useState(
     <>
@@ -129,7 +118,7 @@ export default function App() {
             <Stack.Screen name="BottomMenuTabs" component={BottomMenuTabs} />
             <Stack.Screen name="Create" component={CreateScreen} />
             <Stack.Screen name="Map" component={MapScreen} />
-            <Stack.Screen name="OtherProfile" component={OtherProfileScreen} />
+            <Stack.Screen name="Otherprofile" component={OtherprofileScreen} />
             <Stack.Screen name="Friend" component={FriendScreen} />
             <Stack.Screen name="History" component={HistoryScreen} />
             <Stack.Screen name="Chat" component={ChatScreen} />

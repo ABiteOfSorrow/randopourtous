@@ -1,15 +1,13 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, Input, Text, HStack, VStack, Heading, Box, Switch, View, Pressable, Select } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HamburgerMenu from "../components/HamburgerMenu";
 import { StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import MapView, { Marker } from 'react-native-maps';
 import { connect } from 'react-redux';
+import DateTimePickerModal from 'react-native-modal-datetime-picker'
 
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
-
-const backendAdress = '192.168.10.169'
+const backendAdress = '192.168.1.26'
 
 function Create(props) {
    const [date, setDate] = useState();
@@ -234,57 +232,57 @@ var trackMarker = () => {
 }
 
 const styles = StyleSheet.create({
-   allInput: {
-      backgroundColor: "#EEEEEE",
-      borderWidth: 0.5,
-      borderColor: "#CCCCCC",
-   },
-   allInputPressable: {
-      backgroundColor: "#EEEEEE",
-      borderWidth: 1.1,
-      borderColor: "#CCCCCC",
-      borderRadius: 4,
-   },
-   mapContainer: {
-      borderWidth: 1.5,
-      borderColor: "#CCCCCC",
-      flex: 1,
-      minHeight: 150,
-   },
-   allInputSelect: {
-      borderWidth: 0.5,
-      borderColor: "#CCCCCC",
-      backgroundColor: "#EEEEEE",
-      borderRightWidth: 0,
-   },
-   map: {
-      width: 350,
-      height: '100%',
-      borderWidth: 10,
-      borderColor: "#CCCCCC",
-   },
-   container: {
-      borderWidth: 1.5,
-      borderColor: "#CCCCCC",
-   },
-   libelle: {
-      position: 'absolute',
-      top: -1.5,
-      left: -1.5,
-      borderColor: "#CCCCCC",
-      borderWidth: 1.3,
-      borderBottomRightRadius: 5,
-      paddingTop: 1,
-      paddingBottom: 1,
-      paddingRight: 3,
-      paddingLeft: 3,
-   }
-});
+  allInput: {
+    backgroundColor: '#EEEEEE',
+    borderWidth: 0.5,
+    borderColor: '#CCCCCC',
+  },
+  allInputPressable: {
+    backgroundColor: '#EEEEEE',
+    borderWidth: 1.1,
+    borderColor: '#CCCCCC',
+    borderRadius: 4,
+  },
+  mapContainer: {
+    borderWidth: 1.5,
+    borderColor: '#CCCCCC',
+    flex: 1,
+    minHeight: 150,
+  },
+  allInputSelect: {
+    borderWidth: 0.5,
+    borderColor: '#CCCCCC',
+    backgroundColor: '#EEEEEE',
+    borderRightWidth: 0,
+  },
+  map: {
+    width: 350,
+    height: '100%',
+    borderWidth: 10,
+    borderColor: '#CCCCCC',
+  },
+  container: {
+    borderWidth: 1.5,
+    borderColor: '#CCCCCC',
+  },
+  libelle: {
+    position: 'absolute',
+    top: -1.5,
+    left: -1.5,
+    borderColor: '#CCCCCC',
+    borderWidth: 1.3,
+    borderBottomRightRadius: 5,
+    paddingTop: 1,
+    paddingBottom: 1,
+    paddingRight: 3,
+    paddingLeft: 3,
+  },
+})
 
 function mapStateToProps(state) {
-    return {
-        user: state.user
-    }
+   return {
+      user: state.user
+   }
 }
 
-export default connect(mapStateToProps, null)(Create);
+export default connect(mapStateToProps, null)(Create)

@@ -7,7 +7,8 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { connect } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const backendAdress = "http://" + "192.168.43.159" + ":3000";
+import backendConfig from '../backend.config.json';
+const backendAdress = backendConfig.address;
 
 function SignIn(props) {
   const [email, setEmail] = useState("");

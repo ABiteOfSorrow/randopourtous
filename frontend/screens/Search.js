@@ -1,7 +1,9 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import MapView from 'react-native-maps'
 import {StyleSheet, TouchableOpacity} from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
+import {connect} from 'react-redux'
+
 import {
   Text,
   Input,
@@ -15,9 +17,8 @@ import {
   HStack,
 } from 'native-base'
 import {SafeAreaView} from 'react-native-safe-area-context'
-import { StatusBar } from 'expo-status-bar'
 
-function Search() {
+function Search(props) {
   const [level, setLevel] = useState()
   const [date, setDate] = useState()
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false)
@@ -28,6 +29,9 @@ function Search() {
   const [mixte, setMixte] = useState(false)
   const [coord, setCoord] = useState({lat: 48.856614, long: 2.3522219})
   const [map, setMap] = useState()
+
+  // Type de localisation: ville ou département
+  const [typeLocalisation, setTypeLocalisation] = useState()
 
   // gestion du date picker
   const showDatePicker = () => {
@@ -44,21 +48,35 @@ function Search() {
   // gestion de l'autocompletion des villes avec l'API du gouvernement
   const searchCities = async (e) => {
     setCitie(e)
-    if (e.length > 3) {
-      var result = await fetch(`https://geo.api.gouv.fr/communes?nom=${e}`)
+    let listCities = []
+    // console.log(typeof parseInt(e))
+    if (isNaN(e)) {
+      if (e.length > 3) {
+        var result = await fetch(`https://geo.api.gouv.fr/communes?nom=${e}`)
+        var response = await result.json()
+
+        for (let item of response) {
+          listCities.push({
+            nom: item.nom,
+            dpt: item.codeDepartement,
+            codePostal: item.codesPostaux[0],
+          })
+        }
+      }
+    } else {
+      var result = await fetch(
+        `https://geo.api.gouv.fr/departements?code=${parseInt(e)}`
+      )
       var response = await result.json()
-      let listCities = []
       for (let item of response) {
         listCities.push({
           nom: item.nom,
-          dpt: item.codeDepartement,
-          codePostal: item.codesPostaux[0],
+          dpt: item.code,
+          codePostal: `${item.code}`,
         })
       }
-      setListCities([...listCities])
-    } else {
-      setListCities([])
     }
+    setListCities([...listCities])
   }
 
   //*************************************** */
@@ -75,10 +93,17 @@ function Search() {
 
   //***************************************** */
 
-  var getSearch = function (data) {}
+  var getSearch = function (data) {
+    // ajout des données de recherche dans le reduceur
+    props.addData(data)
+
+    props.navigation.navigate('ResultSearch')
+
+    console.log(data)
+  }
 
   return (
-    <View style={styles.mainContainer}>
+    <SafeAreaView style={styles.mainContainer}>
       <View style={styles.secondContainer}>
         <Text h1 fontFamily='Roboto' fontSize={20}>
           Chercher une randonnée
@@ -90,7 +115,7 @@ function Search() {
           placeholder='Ville / département'
           onChangeText={(e) => searchCities(e)}
           value={citie.nom}></Input>
-        {listCities.length > 1 ? (
+        {listCities.length >= 1 ? (
           <View style={{height: 200, width: '100%'}}>
             <ScrollView>
               {listCities.map((e, i) => (
@@ -98,15 +123,20 @@ function Search() {
                   key={i}
                   onPress={async () => {
                     setCitie(e)
+                    console.log(e)
                     setListCities([])
-                    var result = await fetch(
-                      `https://api-adresse.data.gouv.fr/search/?q=${e.nom}&limit=1`
-                    )
-                    var response = await result.json()
-                    setCoord({
-                      lat: response.features[0].geometry.coordinates[1],
-                      long: response.features[0].geometry.coordinates[0],
-                    })
+                    // si la longueur du CP>2 cela veut dire que ce n'est pas un département, on zoom donc sur la ville
+                    if (e.codePostal.length > 2) {
+                      var result = await fetch(
+                        `https://api-adresse.data.gouv.fr/search/?q=${e.nom}&limit=1`
+                      )
+                      var response = await result.json()
+
+                      setCoord({
+                        lat: response.features[0].geometry.coordinates[1],
+                        long: response.features[0].geometry.coordinates[0],
+                      })
+                    }
                   }}>
                   <Text key={i}>{e.nom + ' (' + e.codePostal + ')'}</Text>
                 </TouchableOpacity>
@@ -210,7 +240,7 @@ function Search() {
               ville: citie,
               mixte: mixte,
               age: age,
-              date: date,
+              date: date.toString(),
               niveau: level,
             }
             getSearch(sendObject)
@@ -233,7 +263,7 @@ function Search() {
             longitudeDelta: 0.0421,
           }}></MapView>
       </View>
-    </View>
+    </SafeAreaView>
   )
 }
 
@@ -247,7 +277,6 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     alignItems: 'center',
-    marginTop: 25,
   },
   secondContainer: {
     flex: 1,
@@ -269,10 +298,19 @@ const styles = StyleSheet.create({
   map: {
     width: '100%',
     marginTop: 10,
-    height: 170,
+    flex: 1,
+    marginBottom: 72,
     borderWidth: 0.5,
     borderColor: '#CCCCCC',
   },
 })
 
-export default Search
+function mapDispatchToProps(dispatch) {
+  return {
+    addData: function (data) {
+      dispatch({type: 'addData', data: data})
+    },
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Search)

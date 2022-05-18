@@ -27,6 +27,7 @@ router.post('/sign-up', async (req, res) => {
     name: '',
     lastname: '',
     averageRating: -1,
+    age: -1,
     createdAccount: new Date(),
     token: uid(32),
     tracks: []

@@ -15,7 +15,7 @@ export default function MyProfile(props) {
         </View>
         
         <View style={{ width: '30%', display:'flex', alignItems:'center', justifyContent: 'center' }} >
-          <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>Mon compte</Text>
+          <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>Mon profil</Text>
         </View>
         <View style={{ width: '30%' }}></View>
       </View>

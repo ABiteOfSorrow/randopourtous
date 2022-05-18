@@ -36,14 +36,14 @@ router.post('/create-track', async function (req, res, next) {
     departure: randoData.departure,
     latitude: randoData.latitude,
     longitude: randoData.longitude,
-    maxRunner: parseInt(randoData.maxRunner),
+    maxUsers: parseInt(randoData.maxRunner),
+    users: [],
     date: new Date(randoData.date),
     estimation_time: estimation_time,
     description: randoData.description,
-    users: [],
     level: randoData.level,
   });
-  console.log('rando save')
+  console.log('rando save');
   var randoSaved = await newRando.save();
   console.log(randoSaved)
 

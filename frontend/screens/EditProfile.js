@@ -128,7 +128,7 @@ function EditProfile(props) {
          </View>
          <View style={{ paddingHorizontal: 20, width: '100%', flex: 1, display: 'flex', justifyContent: 'flex-end', paddingBottom: 20 }} >
             <View style={{ width: '100%' }} >
-               <Button bg='#78E08F' onPress={async () => await handleSubmit()} style={{ width: '100%' }}>Savegarder</Button>
+               <Button bg='#78E08F' onPress={async () => await handleSubmit()} style={{ width: '100%' }}>Sauvegarder</Button>
             </View>
 
          </View>

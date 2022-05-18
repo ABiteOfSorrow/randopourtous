@@ -75,7 +75,7 @@ function SignUp(props) {
       <View style={styles.inputContainer}>
         <Input
           placeholder='Email'
-          width={'80%'}
+          w={'80%'}
           type='text'
           value={email}
           onChangeText={(text) => setEmail(text)}
@@ -87,7 +87,7 @@ function SignUp(props) {
           placeholder="Nom d'utilisateur"
           value={username}
           onChangeText={(text) => setUsername(text)}
-          width={'80%'}
+          w={'80%'}
           style={styles.input}
         />
       </View>
@@ -97,7 +97,7 @@ function SignUp(props) {
           value={password}
           onChangeText={(text) => setPassword(text)}
           type={show ? 'text' : 'password'}
-          width={'80%'}
+          w={'80%'}
           InputRightElement={
             <Button
               size='xs'
@@ -118,7 +118,7 @@ function SignUp(props) {
           value={password2}
           onChangeText={(text) => setPassword2(text)}
           type={show ? 'text' : 'password'}
-          width={'80%'}
+          w={'80%'}
           placeholder='Confirmation mot de passe'
         />
       </View>

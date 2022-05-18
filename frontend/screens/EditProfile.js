@@ -4,6 +4,9 @@ import { Button, Input } from 'native-base';
 import HamburgerMenu from '../components/HamburgerMenu';
 
 export default function EditProfile(props) {
+   const [name, setName] = React.useState('');
+   const [lastName, setLastName] = React.useState('');
+   const [age, setAge] = React.useState('');
 
 
    return (
@@ -36,12 +39,12 @@ export default function EditProfile(props) {
             <Text style={{ fontSize: 18, marginLeft: 10 }} >Email</Text>
             <Text>toto@mail.com</Text>
             <Text style={{ marginTop: 20 }} >Prénom</Text>
-            <Input my={3} placeholder='Veuillez entrer le prénom...'></Input>
-            <Text style={{ marginTop: 20 }} >Nom</Text>
-            <Input my={3} placeholder='Veuillez entrer le nom...'></Input>
+            <Input my={3} placeholder='Veuillez entrer le prénom...' value={name} onChangeText={(text) => setName(text)} />
+            <Text style={{ marginTop: 14 }} >Nom</Text>
+            <Input my={3} placeholder='Veuillez entrer le nom...' value={lastName} onChangeText={(text) => setLastName(text)} ></Input>
 
          </View>
-         <View style={{ paddingHorizontal: 20, width: '100%', flex: 1, display: 'flex', justifyContent:'flex-end', paddingBottom: 10}} >
+         <View style={{ paddingHorizontal: 20, width: '100%', flex: 1, display: 'flex', justifyContent:'flex-end', paddingBottom: 20}} >
             <View style={{ width: '100%' }} >
                <Button bg='#78E08F' style={{ width: '100%' }}>Savegarder</Button>
             </View>

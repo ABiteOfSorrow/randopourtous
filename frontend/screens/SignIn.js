@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
-import { Button, Input, Divider } from "native-base";
-import { Text, StyleSheet, View, Alert } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { FontAwesome5 } from "@expo/vector-icons";
-import { connect } from "react-redux";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, {useState, useEffect} from 'react'
+import {StatusBar} from 'expo-status-bar'
+import {Button, Input, Divider} from 'native-base'
+import {Text, StyleSheet, View, Alert} from 'react-native'
+import {SafeAreaView} from 'react-native-safe-area-context'
+import {FontAwesome5} from '@expo/vector-icons'
+import {connect} from 'react-redux'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import backendConfig from '../backend.config.json';
 const backendAdress = backendConfig.address;

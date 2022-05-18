@@ -12,21 +12,21 @@ var messageSchema = mongoose.Schema({
 
 // create rando schema
 let randoSchema = new mongoose.Schema({
-    id: Number,
     mixed: Boolean,
     name: String,
     departure: Object,  //Ne pas oublier la log et lat
-    arrival: Object,       //Ne pas oublier la log et lat
-    maxRunner: Number,
-    estimation_time: String,
-    running_time: String,
+    latitude: Number,
+    longitude: Number,
+    maxUsers: Number,
+    users: Array,
+    estimation_time: Number,
     messages: [messageSchema],
-    date: String,
+    date: Date,
     description: String,
     evaluations: [evaluationsSchema],
     finished: Boolean,
     level: String,
-    tokenCreator: String,
+    userToken: String,
 });
 
 // link schema to collection

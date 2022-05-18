@@ -7,7 +7,7 @@ const cost = 10;
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  res.json({ result: false, error: 'Please use a correct route.' });
 });
 
 router.post('/sign-up', async (req, res) => {
@@ -49,6 +49,18 @@ router.post('/sign-in', async (req, res) => {
   }
   if (!bcrypt.compareSync(req.body.password, foundUser.password)) {
     return res.json({ result: false, error: 'Wrong password.' })
+  }
+  return res.json({ result: true, user: foundUser })
+});
+
+router.get('/my-data', async (req, res) => {
+  if (!req.query.token) {
+    return res.json({ result: false, error: 'Token is missing.' })
+  }
+  // search user in db by token
+  let foundUser = await User.findOne({ token: req.query.token });
+  if (!foundUser) {
+    return res.json({ result: false, error: 'User not found.' })
   }
   return res.json({ result: true, user: foundUser })
 });

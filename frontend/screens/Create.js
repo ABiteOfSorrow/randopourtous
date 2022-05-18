@@ -20,7 +20,7 @@ import {connect} from 'react-redux'
 
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 
-const backendAdress = '192.168.10.169'
+const backendAdress = '192.168.1.26'
 
 function Create(props) {
   const [date, setDate] = useState()

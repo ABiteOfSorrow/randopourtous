@@ -10,8 +10,8 @@ function History(props) {
       <ScrollView h="80%">
         <HStack justifyContent="space-between" mb={4}>
           <HamburgerMenu />
-          <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9" onPress={() => props.navigation.goBack()}>
-            <Text style={{ fontSize: 12, fontWeight: "bold", color: "#38ADA9" }} onPress={() => props.navigation.goBack()}>
+          <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" style={{ borderColor:"#38ADA9" }} onPress={() => props.navigation.goBack()}>
+            <Text style={{ fontSize: 12, fontWeight: "bold", color: "#38ADA9" }} >
               Retour
             </Text>
           </Button>

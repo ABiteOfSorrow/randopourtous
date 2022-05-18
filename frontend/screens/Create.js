@@ -17,9 +17,31 @@ import HamburgerMenu from '../components/HamburgerMenu'
 import {StyleSheet, ScrollView} from 'react-native'
 import MapView from 'react-native-maps'
 
+import React, {useState} from 'react'
+import {
+  Button,
+  Input,
+  Text,
+  HStack,
+  VStack,
+  Heading,
+  Box,
+  Switch,
+  View,
+  Pressable,
+  Select,
+} from 'native-base'
+import {SafeAreaView} from 'react-native-safe-area-context'
+import HamburgerMenu from '../components/HamburgerMenu'
+import {StyleSheet, ScrollView} from 'react-native'
+import MapView from 'react-native-maps'
+import {connect} from 'react-redux'
+
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 
-function Creat() {
+const backendAdress = '192.168.10.169'
+
+function Create(props) {
   const [date, setDate] = useState()
   const [mixed, setMixed] = useState(false)
   const toggleSwitch = () => setMixed((previousState) => !previousState) //fonction qui change la valeur du swicth
@@ -45,7 +67,7 @@ function Creat() {
 
   const handleSubmit = async () => {
     var randoData = {
-      userToken: '007X666',
+      userToken: props.user.token,
       mixed: mixed,
       randoName: randoName,
       depart: depart,
@@ -55,16 +77,30 @@ function Creat() {
       description: description,
       level: level,
     }
-    var randoInBDD = await fetch('http://192.168.10.169:3000/create-track', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      body: `randoData=${randoData}`,
-    })
-    console.log('handle', randoData)
+    var randoInBDD = await fetch(
+      'http://' + backendAdress + ':3000/create-track',
+      {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(randoData),
+      }
+    )
+    var result = await randoInBDD.json()
+    console.log(JSON.stringify(result))
   }
 
+  ;<Box display='flex' flexDirection='row' alignItems='center'>
+    <Switch
+      offTrackColor='#C4C4C4'
+      onTrackColor='#78E08F'
+      onValueChange={toggleSwitch}
+      value={mixed}
+    />
+    <Heading size='xs'>Rando mixte</Heading>
+  </Box>
+
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <HStack justifyContent='space-between' mb={4}>
         <HamburgerMenu />
         <Button
@@ -74,14 +110,20 @@ function Creat() {
           mt={2}
           mr={2}
           variant='outline'
-          borderColor='#38ADA9'>
-          <Text fontSize='xs' bold color='#38ADA9'>
+          style={{borderColor: '#38ADA9'}}>
+          <Text
+            fontSize='xs'
+            bold
+            style={{color: '#38ADA9'}}
+            onPress={() => props.navigation.goBack()}>
             Retour
           </Text>
         </Button>
       </HStack>
 
-      <VStack space={2} alignItems='center'>
+      <VStack
+        space={2}
+        style={{alignItems: 'center', flex: 1, paddingBottom: 74}}>
         <Heading size='md'> Créer une Randonnée </Heading>
 
         <Box display='flex' flexDirection='row' alignItems='center'>
@@ -99,9 +141,8 @@ function Creat() {
           size='xs'
           placeholder='Nom de la randonnée'
           w='100%'
-          h='4.5%'
+          h={8}
           maxWidth='330px'
-          color='#AAAAAA'
           onChangeText={(e) => setRandoName(e)}
         />
         <Input
@@ -109,9 +150,8 @@ function Creat() {
           size='xs'
           placeholder='Ville de départ'
           w='100%'
-          h='4.5%'
+          h={8}
           maxWidth='330px'
-          color='#AAAAAA'
           onChangeText={(e) => setDepart(e)}
         />
         <Input
@@ -119,9 +159,8 @@ function Creat() {
           size='xs'
           placeholder='Estimation (en minutes) du temps de marche'
           w='100%'
-          h='4.5%'
+          h={8}
           maxWidth='330px'
-          color='#AAAAAA'
           onChangeText={(e) => setEstimation(e.replace(/[^0-9]/g, ''))}
         />
 
@@ -130,19 +169,18 @@ function Creat() {
           size='xs'
           placeholder='Nombre max de personnes'
           w='100%'
-          h='4.5%'
+          h={8}
           maxWidth='330px'
           onChangeText={(e) => setMaxRunner(e)}
         />
         <Pressable
           style={styles.allInputPressable}
           w='84%'
-          h='4.5%'
+          h={8}
           onPress={showDatePicker}>
           <Text
             fontSize={10}
-            color='#AAAAAA'
-            style={{marginLeft: 11, marginTop: 5}}>
+            style={{marginLeft: 11, color: '#AAAAAA', marginTop: 5}}>
             {!date
               ? 'Date & Heure'
               : date.toLocaleDateString('fr') +
@@ -157,9 +195,8 @@ function Creat() {
           size='xs'
           placeholder='Description'
           w='100%'
-          h='4.5%'
+          h={8}
           maxWidth='330px'
-          color='#AAAAAA'
           onChangeText={(e) => setDescription(e)}
         />
         <View
@@ -168,16 +205,14 @@ function Creat() {
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'center',
-            height: '4.5%',
           }}>
           <Select
             style={styles.allInputSelect}
             placeholder={level}
             selectedValue={language}
             w={'330px'}
-            height={'100%'}
+            height={8}
             fontSize={10}
-            color='#AAAAAA'
             bg='#EEEEEE'
             onValueChange={(text) => setLevel(text)}>
             <Select.Item label='Débutant' value='Débutant' />
@@ -187,7 +222,7 @@ function Creat() {
           </Select>
         </View>
 
-        <View style={styles.container}>
+        <View style={styles.mapContainer}>
           <MapView style={styles.map}></MapView>
           <Pressable style={styles.libelle} bg='#F5F5F5'>
             <Text fontSize={10} style={{color: '#AAAAAA'}}>
@@ -196,7 +231,7 @@ function Creat() {
           </Pressable>
         </View>
 
-        <Button w={170} h={10} bg='#78E08F' onPress={() => handleSubmit()}>
+        <Button w={'80%'} h={10} bg='#78E08F' onPress={() => handleSubmit()}>
           Créer
         </Button>
       </VStack>
@@ -224,6 +259,18 @@ function Creat() {
         }}
         onCancel={hidePicker}
       />
+
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode='date'
+        date={date}
+        onConfirm={(date) => {
+          setDatePickerVisibility(false)
+          setDate(date)
+          setHourPickerVisibility(true)
+        }}
+        onCancel={hidePicker}
+      />
     </SafeAreaView>
   )
 }
@@ -240,6 +287,12 @@ const styles = StyleSheet.create({
     borderColor: '#CCCCCC',
     borderRadius: 4,
   },
+  mapContainer: {
+    borderWidth: 1.5,
+    borderColor: '#CCCCCC',
+    flex: 1,
+    minHeight: 150,
+  },
   allInputSelect: {
     borderWidth: 0.5,
     borderColor: '#CCCCCC',
@@ -248,7 +301,7 @@ const styles = StyleSheet.create({
   },
   map: {
     width: 350,
-    height: 250,
+    height: '100%',
     borderWidth: 10,
     borderColor: '#CCCCCC',
   },
@@ -270,4 +323,10 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Creat
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+  }
+}
+
+export default connect(mapStateToProps, null)(Create)

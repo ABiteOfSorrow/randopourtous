@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, KeyboardAvoidingView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, Input } from 'native-base';
+import { Button, Input, ScrollView } from 'native-base';
 import { connect } from 'react-redux';
 import HamburgerMenu from '../components/HamburgerMenu';
 import { useIsFocused } from '@react-navigation/native';
@@ -23,6 +23,7 @@ function EditProfile(props) {
                if (rawresponse.status == 200) {
                   let response = await rawresponse.json();
                   if (response.result) {
+                     // save data in redux
                      props.login(response.user)
                      // save user in async storage
                      try {
@@ -71,22 +72,35 @@ function EditProfile(props) {
    }
 
    const handleSubmit = async () => {
-      let rawresponse = await fetch(backendAdress + '/users/edit-profile', {
-         method: 'POST',
-         headers: {
-            'Content-Type': 'application/json'
-         },
-         body: ''
-      })
-      if (rawresponse.status == 200) {
-         let response = await rawresponse.json();
-         if (response.result) {
-            props.login(response.user)
-            alert('Modifications enregistrées.')
-         }
-      } else {
-         alert('Erreur de connexion au serveur.');
+      let body = {
+         name: name,
+         lastname: lastName,
+         age: age,
+         token: props.user.token
       }
+      try {
+         let rawresponse = await fetch(backendAdress + '/users/edit-profile', {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+         })
+         if (rawresponse.status == 200) {
+            let response = await rawresponse.json();
+            if (response.result) {
+               props.login(response.user)
+               alert('Modifications enregistrées.')
+            } else {
+               alert(response.error);
+            }
+         } else {
+            alert('Erreur de connexion au serveur.');
+         }
+      } catch (e) {
+         console.log(e)
+      }
+      
    }
 
    return (
@@ -115,7 +129,7 @@ function EditProfile(props) {
                </Button>
             </View>
          </View>
-         <View style={{ width: '100%', paddingHorizontal: 20, marginTop: 10 }} >
+         <ScrollView style={{ width: '100%', paddingHorizontal: 20, marginTop: 10 }} >
             <Text style={{ fontSize: 18, marginLeft: 10 }} >Email</Text>
             <Text>toto@mail.com</Text>
             <Text style={{ fontSize: 14, marginTop: 8, marginLeft: 10 }} >Compte créé le: {createdAccount.toLocaleDateString('fr-FR')}</Text>
@@ -125,13 +139,13 @@ function EditProfile(props) {
             <Input my={3} placeholder='Veuillez entrer le nom...' value={lastName} onChangeText={(text) => setLastName(text)} ></Input>
             <Text style={{ marginTop: 12, marginLeft: 10 }} >Age</Text>
             <Input my={3} maxLength={2} placeholder="Veuillez entrer l'age..." value={age} onChangeText={(text) => handleAge(text)} />
-         </View>
-         <View style={{ paddingHorizontal: 20, width: '100%', flex: 1, display: 'flex', justifyContent: 'flex-end', paddingBottom: 20 }} >
+         </ScrollView>
+         <KeyboardAvoidingView style={{ paddingHorizontal: 20, width: '100%', flex: 1, display: 'flex', justifyContent: 'flex-end', paddingBottom: 20 }} >
             <View style={{ width: '100%' }} >
-               <Button bg='#78E08F' onPress={async () => await handleSubmit()} style={{ width: '100%' }}>Savegarder</Button>
+               <Button bg='#78E08F' onPress={async () => await handleSubmit()} style={{ width: '100%' }}>Sauvegarder</Button>
             </View>
 
-         </View>
+         </KeyboardAvoidingView>
 
       </SafeAreaView>
    )

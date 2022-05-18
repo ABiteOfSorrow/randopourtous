@@ -11,6 +11,7 @@ let userSchema = new mongoose.Schema({
     averageRating: Number,
     createdAccount: Date,
     token: String,
+    friends: [],
     tracks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'tracks' }], // use foreign key for tracks
 });
 

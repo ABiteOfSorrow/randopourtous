@@ -36,6 +36,18 @@ import {Provider} from 'react-redux'
 import {useEffect} from 'react'
 
 const Tab = createBottomTabNavigator()
+const Stack = createStackNavigator()
+
+const HomeNavigator = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName='Home'
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name='Home' component={HomeScreen} />
+      <Stack.Screen name='Create' component={CreateScreen} />
+    </Stack.Navigator>
+  )
+}
 
 const BottomMenuTabs = () => {
   return (
@@ -75,7 +87,7 @@ const BottomMenuTabs = () => {
       <Tab.Screen
         name='Home'
         options={{gestureEnabled: false}}
-        component={HomeScreen}
+        component={HomeNavigator}
       />
       <Tab.Screen name='Randos' component={ListScreen} />
       <Tab.Screen name='Chercher' component={SearchScreen} />
@@ -84,7 +96,6 @@ const BottomMenuTabs = () => {
   )
 }
 
-const Stack = createStackNavigator()
 export default function App() {
   const [routes, setRoutes] = React.useState(
     <>

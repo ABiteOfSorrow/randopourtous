@@ -11,22 +11,22 @@ import backendConfig from '../backend.config.json';
 const backendAdress = backendConfig.address;
 
 function SignUp(props) {
-  const [show, setShow] = useState(false)
-  const handleClick = () => setShow(!show)
+  const [show, setShow] = useState(false);
+  const handleClick = () => setShow(!show);
 
-  const [isLogin, setIsLogin] = useState(false)
-  const [email, setEmail] = useState('')
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [password2, setPassword2] = useState('')
+  //const [isLogin, setIsLogin] = useState(false)
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
 
   let handleSubmit = async () => {
     if (password !== password2) {
-      Alert.alert('Attention', 'Les mots de passe ne correspondent pas.')
+      Alert.alert('Attention', 'Les mots de passe ne correspondent pas.');
       return
     }
     if (!email || !username || !password) {
-      Alert.alert('Attention', 'Veuillez remplir tous les champs.')
+      Alert.alert('Attention', 'Veuillez remplir tous les champs.');
       return
     }
     // fetch to backend ici
@@ -44,19 +44,18 @@ function SignUp(props) {
     })
     let data = await result.json()
     if (!data.result) {
-      Alert.alert('Erreur', data.error)
+      Alert.alert('Erreur', data.error);
       return
     }
     // store in redux here
     props.signUp(data.user)
     // save in async storage
     try {
-      await AsyncStorage.setItem('user', JSON.stringify(data.user))
+      await AsyncStorage.setItem('user', JSON.stringify(data.user));
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-
-    props.navigation.replace('Home')
+    props.navigation.replace('Home');
   }
 
   useEffect(() => {}, [])

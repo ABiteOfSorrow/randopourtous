@@ -19,17 +19,19 @@ import MapScreen from './screens/Map'
 import ListScreen from './screens/List'
 import DetailScreen from './screens/Detail'
 import MyprofileScreen from './screens/MyProfile'
-import OtherprofileScreen from './screens/OtherProfile'
+import OtherprofileScreen from './screens/Otherprofile'
 import HistoryScreen from './screens/History'
 import FriendScreen from './screens/Friend'
 import ChatScreen from './screens/Chat'
 import ResumeScreen from './screens/Resume'
 import EditProfileScreen from './screens/EditProfile'
+import ResultSearch from './screens/ResultSearch'
 
 import {combineReducers} from 'redux'
 import {configureStore} from '@reduxjs/toolkit'
 import user from './reducers/user.reducer'
-const store = configureStore({reducer: combineReducers({user})})
+import searchData from './reducers/search.reducer'
+const store = configureStore({reducer: combineReducers({user, searchData})})
 import {Provider} from 'react-redux'
 import {useEffect} from 'react'
 
@@ -146,6 +148,7 @@ export default function App() {
             <Stack.Screen name='History' component={HistoryScreen} />
             <Stack.Screen name='Chat' component={ChatScreen} />
             <Stack.Screen name='Resume' component={ResumeScreen} />
+            <Stack.Screen name='ResultSearch' component={ResultSearch} />
             <Stack.Screen name='EditProfile' component={EditProfileScreen} />
           </Stack.Navigator>
         </NavigationContainer>

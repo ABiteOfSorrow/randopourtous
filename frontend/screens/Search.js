@@ -28,7 +28,6 @@ function Search(props) {
   const [age, setAge] = useState()
   const [mixte, setMixte] = useState(false)
   const [coord, setCoord] = useState({lat: 48.856614, long: 2.3522219})
-  const [map, setMap] = useState()
 
   // Type de localisation: ville ou département
   const [typeLocalisation, setTypeLocalisation] = useState()
@@ -99,7 +98,7 @@ function Search(props) {
 
     props.navigation.navigate('ResultSearch')
 
-    console.log(data)
+    console.log('donnees: ', data)
   }
 
   return (
@@ -123,7 +122,6 @@ function Search(props) {
                   key={i}
                   onPress={async () => {
                     setCitie(e)
-                    console.log(e)
                     setListCities([])
                     // si la longueur du CP>2 cela veut dire que ce n'est pas un département, on zoom donc sur la ville
                     if (e.codePostal.length > 2) {
@@ -226,9 +224,11 @@ function Search(props) {
           placeholder='Niveau'
           mt='1.5'
           onValueChange={(itemValue) => setLevel(itemValue)}>
-          <Select.Item label='Facile' value='facile' />
-          <Select.Item label='Intermédiaire' value='intermediaire' />
-          <Select.Item label='Difficile' value='difficile' />
+          <Select.Item label='Débutant' value='Débutant' />
+          <Select.Item label='Amateur' value='Amateur' />
+          <Select.Item label='Sportif' value='Sportif' />
+          <Select.Item label='Expert' value='Expert' />
+          <Select.Item label='Bouc' value='Bouc' />
         </Select>
         <Button
           style={styles.shadow}
@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
 function mapDispatchToProps(dispatch) {
   return {
     addData: function (data) {
-      dispatch({type: 'addData', data: data})
+      dispatch({type: 'addData', dataAdd: data})
     },
   }
 }

@@ -15,7 +15,7 @@ export default function MyProfile(props) {
         </View>
         
         <View style={{ width: '30%', display:'flex', alignItems:'center', justifyContent: 'center' }} >
-          <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>Mon compte</Text>
+          <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>Mon profil</Text>
         </View>
         <View style={{ width: '30%' }}></View>
       </View>
@@ -56,7 +56,7 @@ export default function MyProfile(props) {
       <View style={{ flex: 1, width: '100%', marginTop: 74, display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
         <Button my={1} bg={'#78E08F'} onPress={() => props.navigation.navigate("History")} w={'80%'} >Voir mes randos</Button>
         <Button my={1} bg={'#bbb'} onPress={() => props.navigation.navigate("Friend")} w={'80%'} >Voir mes amis</Button>
-        <Button mt={5} bg={'#bbb'} onPress={() => alert('Please make this page.')} w={'80%'} >Editer mes informations</Button>
+        <Button mt={5} bg={'#bbb'} onPress={() => props.navigation.navigate('EditProfile')} w={'80%'} >Modifier mon compte</Button>
       </View>
 
       <StatusBar style="auto" />

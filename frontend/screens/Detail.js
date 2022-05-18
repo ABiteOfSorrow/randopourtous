@@ -12,12 +12,12 @@ import {
 } from "native-base";
 import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import MapView, { Marker } from "react-native-maps";
+
 import { AntDesign } from "@expo/vector-icons";
 import HamburgerMenu from "../components/HamburgerMenu";
 
-// import MapView, { Marker } from "react-native-maps";
-// import * as Location from "expo-location";
-// import * as Permissions from "expo-permissions";
+
 
 function Detail() {
   return (
@@ -28,9 +28,7 @@ function Detail() {
         <VStack space={2} alignItems="center">
           <Heading size="xl">Rando 1</Heading>
           <Heading size="lg">Data / Lieu</Heading>
-          <Box w="250" h="200" bg="#BBBBBB">
-            Map
-          </Box>
+          <MapView style={styles.map}></MapView>
           <Heading size="lg">Organisé par: </Heading>
           <Button w={"80%"} h={10} bg="#bbbbbb">
             Toto1: Voir profil
@@ -85,6 +83,7 @@ function Detail() {
         </VStack>
       </ScrollView>
       <Stack
+      p={0}
         mb="20"
         mt="1.5"
         direction={{
@@ -111,6 +110,11 @@ function Detail() {
 const styles = StyleSheet.create({
   contentText: {
     color: "white",
+  },
+  map: {
+    width: '90%',
+    marginTop: 10,
+    height: 200,
   },
 });
 

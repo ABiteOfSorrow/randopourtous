@@ -65,4 +65,35 @@ router.get('/my-data', async (req, res) => {
   return res.json({ result: true, user: foundUser })
 });
 
+router.post('/edit-profile', async (req, res) => {
+  if (!req.body.token) {
+    return res.json({ result: false, error: 'Token manquant.' })
+  }
+  // search user in db by token
+  let foundUser = await User.findOne({ token: req.body.token });
+  if (!foundUser) {
+    return res.json({ result: false, error: 'Mauvais token.' })
+  }
+  console.log(JSON.stringify(req.body));
+  if (typeof req.body.name !== 'string' || typeof req.body.lastname !== 'string' || typeof req.body.age !== 'string') {
+    return res.json({ result: false, error: 'Mauvais type de données.' })
+  }
+  let age = req.body.age
+  if (!age) {
+    age = -1
+  } else {
+    age = parseInt(age)
+  }
+  let name = req.body.name.toString();
+  let lastname = req.body.lastname.toString();
+  foundUser.name = name;
+  foundUser.lastname = lastname;
+  foundUser.age = age;
+  let savedUser = await foundUser.save();
+  if (savedUser) {
+    return res.json({ result: true, user: savedUser })
+  }
+  return res.json({ result: false, error: 'Erreur lors de la sauvegarde.', user: foundUser })
+})
+
 module.exports = router;

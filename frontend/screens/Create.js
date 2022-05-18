@@ -39,10 +39,11 @@ function Create(props) {
       var randoData = { userToken: props.user.token, mixed: mixed, randoName: randoName, depart: depart, estim_time: estim_time, date: date, maxRunner: maxRunner, description: description, level: level }
       var randoInBDD = await fetch('http://' + backendAdress + ':3000/create-track', {
          method: 'POST',
-         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-         body: `randoData=${randoData}`
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify(randoData)
       });
-      console.log("handle", randoData)
+      var result = await randoInBDD.json();
+      console.log(JSON.stringify(result))
    }
 
 
@@ -58,9 +59,8 @@ function Create(props) {
                mr={2}
                variant="outline"
                style={{ borderColor:"#38ADA9" }}
-               
             >
-               <Text fontSize="xs" bold style={{ color:"#38ADA9" }} >
+               <Text fontSize="xs" bold style={{ color:"#38ADA9" }} onPress={() => props.navigation.goBack()} >
                   Retour
                </Text>
             </Button>

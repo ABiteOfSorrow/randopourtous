@@ -7,6 +7,7 @@ let userSchema = new mongoose.Schema({
     password: String,
     name: String,
     lastname: String,
+    age: Number,
     averageRating: Number,
     createdAccount: Date,
     token: String,

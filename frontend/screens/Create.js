@@ -16,25 +16,6 @@ import {SafeAreaView} from 'react-native-safe-area-context'
 import HamburgerMenu from '../components/HamburgerMenu'
 import {StyleSheet, ScrollView} from 'react-native'
 import MapView from 'react-native-maps'
-
-import React, {useState} from 'react'
-import {
-  Button,
-  Input,
-  Text,
-  HStack,
-  VStack,
-  Heading,
-  Box,
-  Switch,
-  View,
-  Pressable,
-  Select,
-} from 'native-base'
-import {SafeAreaView} from 'react-native-safe-area-context'
-import HamburgerMenu from '../components/HamburgerMenu'
-import {StyleSheet, ScrollView} from 'react-native'
-import MapView from 'react-native-maps'
 import {connect} from 'react-redux'
 
 import DateTimePickerModal from 'react-native-modal-datetime-picker'

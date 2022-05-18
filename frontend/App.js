@@ -35,22 +35,19 @@ const store = configureStore({reducer: combineReducers({user, searchRando})})
 import {Provider} from 'react-redux'
 import {useEffect} from 'react'
 
-<<<<<<< HEAD
 const Tab = createBottomTabNavigator()
-=======
-const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
+const Stack = createStackNavigator()
 
 const HomeNavigator = () => {
-
-    return (
-      <Stack.Navigator screenOptions={{ headerShown: false  }} initialRouteName='Home'>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Create" component={CreateScreen} />
-      </Stack.Navigator>
-    )
+  return (
+    <Stack.Navigator
+      screenOptions={{headerShown: false}}
+      initialRouteName='Home'>
+      <Stack.Screen name='Home' component={HomeScreen} />
+      <Stack.Screen name='Create' component={CreateScreen} />
+    </Stack.Navigator>
+  )
 }
->>>>>>> c4b67a00d44c95649055cb57cf41f57040206e1c
 
 const BottomMenuTabs = () => {
   return (
@@ -86,33 +83,19 @@ const BottomMenuTabs = () => {
           ...styles.shadow,
         },
       }}
-<<<<<<< HEAD
       initialRouteName='Home'>
       <Tab.Screen
         name='Home'
         options={{gestureEnabled: false}}
-        component={HomeScreen}
+        component={HomeNavigator}
       />
       <Tab.Screen name='Randos' component={ListScreen} />
       <Tab.Screen name='Chercher' component={SearchScreen} />
       <Tab.Screen name='Profil' component={MyprofileScreen} />
-=======
-      initialRouteName="Home"
-    >
-      <Tab.Screen name="Home" options={{ gestureEnabled: false }} component={HomeNavigator} />
-      <Tab.Screen name="Randos" component={ListScreen} />
-      <Tab.Screen name="Chercher" component={SearchScreen} />
-      <Tab.Screen name="Profil" component={MyprofileScreen} />
->>>>>>> c4b67a00d44c95649055cb57cf41f57040206e1c
     </Tab.Navigator>
   )
 }
 
-<<<<<<< HEAD
-const Stack = createStackNavigator()
-=======
-
->>>>>>> c4b67a00d44c95649055cb57cf41f57040206e1c
 export default function App() {
   const [routes, setRoutes] = React.useState(
     <>

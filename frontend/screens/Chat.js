@@ -1,13 +1,11 @@
 import React, { useState, useCallback, useEffect } from "react";
-import {Bubble, GiftedChat, Send, MessageText} from 'react-native-gifted-chat';
-import { HStack, VStack, Center, Heading, Box, Button, Text, Switch, Input } from "native-base";
+import { Bubble, GiftedChat, Send, MessageText } from "react-native-gifted-chat";
+import { HStack, VStack, Center, Heading, Box, Button, Text, Switch, Input, Badge } from "native-base";
 import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput, TouchableWithoutFeedback, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HamburgerMenu from "../components/HamburgerMenu";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-
+import { FontAwesome } from '@expo/vector-icons';
 
 function Chat(props) {
   const [input, setInput] = useState("");
@@ -18,60 +16,46 @@ function Chat(props) {
     !isOwner ? setIsOwner(true) : setIsOwner(false);
   };
 
-
   useEffect(() => {
     setMessages([
       {
         _id: 1,
-        text: 'Hello developer',
+        text: "Hello developer",
         createdAt: new Date(),
         user: {
           _id: 2,
-          name: 'Toto',
-          avatar: 'https://placeimg.com/140/140/any',
+          name: "React Native",
+          avatar: "https://placeimg.com/140/140/any",
         },
       },
       {
         _id: 2,
-        text: 'Hello world',
+        text: "Hello world",
         createdAt: new Date(),
         user: {
           _id: 1,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
+          name: "React Native",
+          avatar: "https://placeimg.com/140/140/any",
         },
       },
     ]);
   }, []);
 
   const onSend = useCallback((messages = []) => {
-    setMessages((previousMessages) =>
-      GiftedChat.append(previousMessages, messages),
-    );
+    setMessages((previousMessages) => GiftedChat.append(previousMessages, messages));
   }, []);
 
   const renderSend = (props) => {
     return (
-      <Send {...props} width="20" height={"100%"} backgroundColor="78E08F">
-        {/* <Button w={20} h={"100%"} bg={"78E08F"}> */}
-        <Ionicons name={"send"} size={24} color={"#2B68E6"} />
-        {/* </Button> */}
+      <Send {...props}>
+        <View>
+          <Box w={20} h={"100%"} bg={"#079992"} justifyContent={"center"} alignItems={"center"}>
+          <FontAwesome name={"send"} size={28} color={"white"} />
+          </Box>
+        </View>
       </Send>
     );
   };
-
-  // const renderMessage  = (props) => {
-  //   return (
-  //     <MessageText {...props} backgroundColor="#2e64e5">
-  //       <View>
-          
-           
-           
-          
-  //       </View>
-  //     </MessageText>
-  //   );
-  // };
 
   const renderBubble = (props) => {
     return (
@@ -79,12 +63,12 @@ function Chat(props) {
         {...props}
         wrapperStyle={{
           right: {
-            backgroundColor: '#2e64e5',
+            backgroundColor: "#2e64e5",
           },
         }}
         textStyle={{
           right: {
-            color: '#fff',
+            color: "#fff",
           },
         }}
       />
@@ -92,18 +76,12 @@ function Chat(props) {
   };
 
   const scrollToBottomComponent = () => {
-    return(
-      <FontAwesome name='angle-double-down' size={22} color='#333' />
-    );
-  }
-
-
+    return <FontAwesome name="angle-double-down" size={22} color="#333" />;
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container} keyboardVerticalOffset={90}>
-        {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
-
         <HStack justifyContent="space-between" mb={4}>
           <HamburgerMenu />
           <Switch offTrackColor="#C4C4C4" onTrackColor="#78E08F" mr={4} onValueChange={setIsOwner} />
@@ -129,19 +107,26 @@ function Chat(props) {
           </Box>
           {isOwner ? (
             <>
-              <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" onPress={() => console.log("I'm Pressed")}>
+              <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" onPress={() => (console.log("I'm Pressed"))}>
                 <Text style={styles.contentText} fontSize="md">
                   Voir la Rando
                 </Text>
               </Button>
-              <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" nPress={() => console.log("I'm Pressed")}>
+              
+              <Badge // bg="red.400"
+      colorScheme="danger" rounded="full" mb={-7} mr={8} zIndex={1} variant="solid" alignSelf="flex-end" _text={{
+        fontSize: 12
+      }}>
+          2
+        </Badge>
+              <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" onPress={() => (console.log("I'm Pressed"))}>
                 <Text style={styles.contentText} fontSize="md">
                   Gestion de la Rando
                 </Text>
               </Button>
             </>
           ) : (
-            <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" onPress={() => console.log("I'm Pressed")}>
+            <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" onPress={() => (console.log("I'm Pressed"))}>
               <Text style={styles.contentText} fontSize="md">
                 Voir la Rando
               </Text>
@@ -149,22 +134,22 @@ function Chat(props) {
           )}
         </VStack>
 
-        <Box w={"90%"} h={"50%"} bg="#ffffff" alignSelf={"center"} mt={5} borderWidth={2} borderColor={"#bbbbbb"}>
-        <GiftedChat
-      messages={messages}
-      onSend={(messages) => onSend(messages)}
-      user={{
-        _id: 1,
-      }}
-      renderUsernameOnMessage ={true}
-      renderBubble={renderBubble}
-      alwaysShowSend
-      renderSend={renderSend}
-      // renderMessage={renderMessage}
-      scrollToBottom
-      scrollToBottomComponent={scrollToBottomComponent}
-    />
-     </Box>
+        <Box w={"90%"} h={"60%"} bg="#ffffff" alignSelf={"center"} mt={5} borderWidth={2} borderColor={"#bbbbbb"}>
+          <GiftedChat
+          height={200}
+            messages={messages}
+            onSend={(messages) => onSend(messages)}
+            user={{
+              _id: 1,
+            }}
+            renderUsernameOnMessage={true}
+            renderBubble={renderBubble}
+            alwaysShowSend
+            renderSend={renderSend}
+            scrollToBottom
+            scrollToBottomComponent={scrollToBottomComponent}
+          />
+        </Box>
 
         <View style={styles.footer}>
           {/* <Input
@@ -184,6 +169,8 @@ function Chat(props) {
         <Box w="100%" h="8.5%" alignSelf="center" bg="#fff" />
         {/* </TouchableWithoutFeedback> */}
       </KeyboardAvoidingView>
+            {/* To prevent leaving the content area */}
+            <Box w="100%" h="8.5%" alignSelf="center" bg="#fff" />
     </SafeAreaView>
   );
 }

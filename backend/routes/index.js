@@ -10,8 +10,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/create-track', async function (req, res, next) {
-  console.log("route", req.body.randoData)
-    var randoData = req.body.randoData
+  console.log(JSON.stringify(req.body))
+    /*var randoData = req.body.randoData
       var newRando = new randoModel({
         mixed: randoData.mixed,
         userToken: randoData.token,
@@ -23,7 +23,7 @@ router.post('/create-track', async function (req, res, next) {
         description: randoData.description,
         level: randoData.level,
       });
-      var randoSaved = await newRando.save();
+      var randoSaved = await newRando.save();*/
   return res.json({ success:true })
   });
 

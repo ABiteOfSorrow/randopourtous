@@ -1,12 +1,14 @@
 
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Button, Input, Text, HStack, VStack, Heading, Box, Switch, View, Pressable, Select } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
-import HamburgerMenu from "./HamburgerMenu";
-import { StyleSheet, ScrollView } from "react-native";
-import MapView from 'react-native-maps';
+import HamburgerMenu from "../components/HamburgerMenu";
+import { StyleSheet, ScrollView,TouchableOpacity} from "react-native";
+import MapView, {Marker} from 'react-native-maps';
 
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
+
+const backendAdress = '192.168.10.169'
 
 function Creat() {
     const [date, setDate] = useState();
@@ -20,7 +22,30 @@ function Creat() {
     const [level, setLevel] = useState('Niveau Sportif');
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false)
     const [isHourPickerVisible, setHourPickerVisibility] = useState(false)
+    const [thePOI, setThePOI]= useState([]);
 
+    const [citie, setCitie] = useState({})
+    const [listCities, setListCities] = useState([])
+    const [coord, setCoord] = useState({ lat: 48.856614, long: 2.3522219 })
+    // gestion de l'autocompletion des villes avec l'API du gouvernement
+    const searchCities = async (e) => {
+        setCitie(e)
+        if (e.length >= 3) {
+            var result = await fetch(`https://geo.api.gouv.fr/communes?nom=${e}`)
+            var response = await result.json()
+            let listCities = []
+            for (let item of response) {
+                listCities.push({
+                    nom: item.nom,
+                    dpt: item.codeDepartement,
+                    codePostal: item.codesPostaux[0],
+                })
+            }
+            setListCities([...listCities])
+        } else {
+            setListCities([])
+        }
+    }
     let [language, setLanguage] = React.useState('key0');
 
     const showDatePicker = () => {
@@ -31,21 +56,46 @@ function Creat() {
         setDatePickerVisibility(false)
         setHourPickerVisibility(false)
     }
-
     const handleSubmit = async () => {
         var randoData = { userToken: "007X666", mixed: mixed, randoName: randoName, depart: depart, estim_time: estim_time, date: date, maxRunner: maxRunner, description: description, level: level }
-        var randoInBDD = await fetch('http://192.168.10.169:3000/create-track', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `randoData=${randoData}`
+        var randoInBDD = await fetch('http://' + backendAdress + ':3000/create-track', {
+           method: 'POST',
+           headers: { 'Content-Type': 'application/json' },
+           body: JSON.stringify(randoData)
         });
-        console.log("handle", randoData)
+        var result = await randoInBDD.json();
+        console.log(JSON.stringify(result))
+     }
+
+    // const handleSubmit = async () => {
+    //     var departure = {ville: depart, latitude: thePOI.coordinate.latitude, longitude: thePOI.coordinate.longitude}
+    //     var randoData = { userToken: "007X666", mixed: mixed, randoName: randoName, departure: departure, estim_time: estim_time, date: date, maxRunner: maxRunner, description: description, level: level }
+    //     var randoInBDD = await fetch('http://192.168.10.169:3000/create-track', {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify(randoData)
+    //     });
+    //     console.log("handle", randoData)
+    // }
+
+    const addPress = async (nativeEvent) => {
+        console.log(nativeEvent)
+        setThePOI(nativeEvent)
+        console.log("tehPOI",thePOI)
     }
 
+    var trackMarker = () => {
+        if(thePOI.length != 0){
+        return(<Marker pinColor='#78E08F' coordinate={{latitude: thePOI.coordinate.latitude, longitude: thePOI.coordinate.longitude}}/>);
+        }
+        else{
+        return (<></>)
+        }
+    }
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <HStack justifyContent="space-between" mb={4}>
+            <HStack justifyContent="space-between" mb={1}>
                 <HamburgerMenu />
                 <Button
                     w={90}
@@ -71,10 +121,35 @@ function Creat() {
                 </Box>
 
                 <Input style={styles.allInput} size="xs" placeholder="Nom de la randonnée" w="100%" h="4.5%" maxWidth="330px" color='#AAAAAA' onChangeText={(e) => setRandoName(e)} />
-                <Input style={styles.allInput} size="xs" placeholder="Ville de départ" w="100%" h="4.5%" maxWidth="330px" color='#AAAAAA' onChangeText={(e) => setDepart(e)} />
-                <Input style={styles.allInput} size="xs" placeholder="Estimation (en minutes) du temps de marche" w="100%" h="4.5%" maxWidth="330px" color='#AAAAAA' onChangeText={(e) => setEstimation(e.replace(/[^0-9]/g, ''))} />
-
-
+                <Input style={styles.allInput} size="xs" placeholder="Ville de départ" w="100%" h="4.5%" maxWidth="330px" color='#AAAAAA' onChangeText={(e) => searchCities(e)} value={citie.nom} />
+                {listCities.length > 1 ? (
+                    <View style={{ height: 200, width: '100%' }}>
+                        <ScrollView>
+                            {listCities.map((e, i) => (
+                                <TouchableOpacity
+                                    key={i}
+                                    style={{ backgroundColor: '#FFFFFF', width: '100%' }}
+                                    onPress={async () => {
+                                        setCitie(e)
+                                        setListCities([])
+                                        var result = await fetch(
+                                            `https://api-adresse.data.gouv.fr/search/?q=${e.nom}&limit=1`
+                                        )
+                                        var response = await result.json()
+                                        setCoord({
+                                            lat: response.features[0].geometry.coordinates[1],
+                                            long: response.features[0].geometry.coordinates[0],
+                                        })
+                                    }}>
+                                    <Text key={i}>{e.nom + ' (' + e.codePostal + ')'}</Text>
+                                </TouchableOpacity>
+                            ))}
+                        </ScrollView>
+                    </View>
+                ) : (
+                    null
+                )}
+                <Input style={styles.allInput} size="xs" placeholder="Estimation (en minutes) du temps de marche" w="100%" h="4.5%" maxWidth="330px" color='#AAAAAA' onChangeText={(e) => setEstimation(e)} />
                 <Input style={styles.allInput} size="xs" placeholder="Nombre max de personnes" w="100%" h="4.5%" maxWidth="330px" onChangeText={(e) => setMaxRunner(e)} />
                 <Pressable style={styles.allInputPressable} w='84%' h="4.5%" onPress={showDatePicker}>
                     <Text fontSize={10} color='#AAAAAA' style={{ marginLeft: 11, marginTop: 5 }}>
@@ -88,17 +163,31 @@ function Creat() {
                     </Text>
                 </Pressable>
                 <Input style={styles.allInput} size="xs" placeholder="Description" w="100%" h="4.5%" maxWidth="330px" color='#AAAAAA' onChangeText={(e) => setDescription(e)} />
-                <View style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center', height: '4.5%'}}>
-                    <Select style={styles.allInputSelect} placeholder={level} selectedValue={language} w={"330px"}  height={'100%'} fontSize={10} color='#AAAAAA' bg="#EEEEEE" onValueChange={(text) => setLevel(text)}>
+                <View style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'center', height: '4.5%' }}>
+                    <Select style={styles.allInputSelect} placeholder={level} selectedValue={language} w={"330px"} height={'100%'} fontSize={10} color='#AAAAAA' bg="#EEEEEE" onValueChange={(text) => setLevel(text)}>
                         <Select.Item label="Débutant" value="Débutant" />
                         <Select.Item label="Amateur" value="Amateur" />
                         <Select.Item label="Sportif" value="Sportif" />
                         <Select.Item label="Expert" value="Expert" />
+                        <Select.Item label="Bouc" value="Bouc" />
                     </Select>
                 </View>
 
                 <View style={styles.container}>
-                    <MapView style={styles.map}>
+                    <MapView style={styles.map}  onPress={e => addPress(e.nativeEvent)}
+                        initialRegion={{
+                        latitude: coord.lat,
+                        longitude: coord.long,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }}
+                        region={{
+                            latitude: coord.lat,
+                            longitude: coord.long,
+                            latitudeDelta: 0.0992,
+                            longitudeDelta: 0.0421,
+                        }}>
+                    {trackMarker()}
                     </MapView>
                     <Pressable style={styles.libelle} bg="#F5F5F5">
                         <Text fontSize={10} style={{ color: "#AAAAAA" }}>Placez le point de départ</Text>
@@ -154,7 +243,7 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         borderColor: "#CCCCCC",
         backgroundColor: "#EEEEEE",
-        borderRightWidth:0,
+        borderRightWidth: 0,
     },
     map: {
         width: 350,

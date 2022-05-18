@@ -19,7 +19,7 @@ import MapScreen from './screens/Map'
 import ListScreen from './screens/List'
 import DetailScreen from './screens/Detail'
 import MyprofileScreen from './screens/MyProfile'
-import OtherprofileScreen from './screens/OtherProfile'
+import OtherProfileScreen from './screens/OtherProfile'
 import HistoryScreen from './screens/History'
 import FriendScreen from './screens/Friend'
 import ChatScreen from './screens/Chat'
@@ -114,7 +114,7 @@ export default function App() {
             <Stack.Screen name='BottomMenuTabs' component={BottomMenuTabs} />
             <Stack.Screen name="Create" component={CreateScreen} />
             <Stack.Screen name="Map" component={MapScreen} />
-            <Stack.Screen name="Otherprofile" component={OtherprofileScreen} />
+            <Stack.Screen name="OtherProfile" component={OtherProfileScreen} />
             <Stack.Screen name="Friend" component={FriendScreen} />
             <Stack.Screen name="History" component={HistoryScreen} />
             <Stack.Screen name="Chat" component={ChatScreen} />

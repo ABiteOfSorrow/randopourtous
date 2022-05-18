@@ -16,7 +16,6 @@ function Create(props) {
    const [mixed, setMixed] = useState(false);
    const toggleSwitch = () => setMixed(previousState => !previousState); //fonction qui change la valeur du swicth
    const [randoName, setRandoName] = useState('');
-   //const [depart, setDepart] = useState('');
    const [estim_time, setEstimation] = useState('');
    const [maxRunner, setMaxRunner] = useState('');
    const [description, setDescription] = useState('');
@@ -49,8 +48,6 @@ function Create(props) {
       }
    }
 
-   // let [language, setLanguage] = React.useState('key0');
-
    const showDatePicker = () => {
       setDatePickerVisibility(true)
    }
@@ -68,6 +65,7 @@ function Create(props) {
       console.log("handlesubmit", props.user.token)
       let coordinate = thePOI.coordinate
       var randoData = { token: props.user.token, mixed: mixed, name: randoName, departure: citie, coordinate, estimation_time: estim_time, date, maxRunner, description, level }
+      //sécurité véri
       try {
          var rawresponse = await fetch(backendAdress + '/create-track', {
             method: 'POST',
@@ -235,9 +233,7 @@ function Create(props) {
             }}
             onCancel={hidePicker}
          />
-
-
-      </SafeAreaView>
+ </SafeAreaView>
    );
 }
 

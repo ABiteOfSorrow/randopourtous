@@ -3,18 +3,19 @@ import MapView from 'react-native-maps'
 import {StyleSheet, TouchableOpacity} from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import {
-  Box,
   Text,
   Input,
-  HStack,
   Switch,
   Select,
   Button,
   CheckIcon,
   ScrollView,
   View,
+  Heading,
+  HStack,
 } from 'native-base'
 import {SafeAreaView} from 'react-native-safe-area-context'
+import { StatusBar } from 'expo-status-bar'
 
 function Search() {
   const [level, setLevel] = useState()
@@ -27,20 +28,6 @@ function Search() {
   const [mixte, setMixte] = useState(false)
   const [coord, setCoord] = useState({lat: 48.856614, long: 2.3522219})
   const [map, setMap] = useState()
-
-  // useEffect(() => {
-  //   console.log(coord)
-  //   setMap(
-  //     <MapView
-  //       style={styles.map}
-  //       initialRegion={{
-  //         latitude: coord.lat,
-  //         longitude: coord.long,
-  //         latitudeDelta: 0.0922,
-  //         longitudeDelta: 0.0421,
-  //       }}></MapView>
-  //   )
-  // }, [coord])
 
   // gestion du date picker
   const showDatePicker = () => {
@@ -91,23 +78,15 @@ function Search() {
   var getSearch = function (data) {}
 
   return (
-    <Box
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        marginTop: 25,
-      }}>
-      <Box
-        style={{
-          flex: 1,
-          width: '90%',
-          alignItems: 'center',
-        }}>
+    <SafeAreaView style={styles.mainContainer}>
+      <View style={styles.secondContainer}>
         <Text h1 fontFamily='Roboto' fontSize={20}>
           Chercher une randonnée
         </Text>
         {/* sélection de la ville */}
         <Input
+          style={styles.allInput}
+          mt='1.5'
           placeholder='Ville / département'
           onChangeText={(e) => searchCities(e)}
           value={citie.nom}></Input>
@@ -117,7 +96,6 @@ function Search() {
               {listCities.map((e, i) => (
                 <TouchableOpacity
                   key={i}
-                  style={{backgroundColor: '#FFFFFF', width: '100%'}}
                   onPress={async () => {
                     setCitie(e)
                     setListCities([])
@@ -138,19 +116,28 @@ function Search() {
         ) : (
           <Text></Text>
         )}
-        <HStack alignItems='center' space={4}>
-          <Text>Rando mixte</Text>
+
+        <HStack alignItems='center'>
+          <Heading size='xs'>Rando mixte</Heading>
           <Switch
-            size='sm'
+            mt={0}
+            pt={0}
+            marginTop='0'
+            paddingTop={0}
+            offTrackColor='#C4C4C4'
+            onTrackColor='#78E08F'
+            size='lg'
             onValueChange={() => {
               setMixte(!mixte)
               console.log(mixte)
             }}
           />
         </HStack>
+
         {/* sélection de l'age */}
         <Select
           selectedValue={age}
+          bgColor='#EEEEEE'
           w='100%'
           accessibilityLabel='age'
           placeholder="Age de l'organisateur"
@@ -165,7 +152,7 @@ function Search() {
         <Button
           style={styles.allInput}
           variant='outline'
-          mt='2'
+          mt='1.5'
           w='100%'
           colorScheme='secondary'
           onPress={showDatePicker}>
@@ -203,12 +190,10 @@ function Search() {
         />
         <Select
           selectedValue={level}
+          bgColor='#EEEEEE'
           w='100%'
           accessibilityLabel='Niveau'
           placeholder='Niveau'
-          _selectedItem={{
-            endIcon: <CheckIcon size='5' />,
-          }}
           mt='1.5'
           onValueChange={(itemValue) => setLevel(itemValue)}>
           <Select.Item label='Facile' value='facile' />
@@ -216,7 +201,8 @@ function Search() {
           <Select.Item label='Difficile' value='difficile' />
         </Select>
         <Button
-          mt='2'
+          style={styles.shadow}
+          mt='1.5'
           w='100%'
           bg='#78E08F'
           onPress={() => {
@@ -246,8 +232,8 @@ function Search() {
             latitudeDelta: 0.0992,
             longitudeDelta: 0.0421,
           }}></MapView>
-      </Box>
-    </Box>
+      </View>
+    </SafeAreaView>
   )
 }
 
@@ -255,38 +241,37 @@ const styles = StyleSheet.create({
   allInput: {
     backgroundColor: '#EEEEEE',
     borderWidth: 0.5,
-    zindex: -1,
-    zIndex: 0,
-
     borderColor: '#CCCCCC',
   },
+
+  mainContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  secondContainer: {
+    flex: 1,
+    width: '90%',
+    alignItems: 'center',
+  },
+
+  shadow: {
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 3.5,
+    elevation: 5,
+  },
+
   map: {
     width: '100%',
     marginTop: 10,
-    height: 200,
-    borderWidth: 10,
+    flex:1,
+    marginBottom: 72,
+    borderWidth: 0.5,
     borderColor: '#CCCCCC',
-  },
-  completeContainer: {
-    flex: 1,
-    borderWidth: 1.5,
-    borderColor: '#CCCCCC',
-    backgroundColor: '#FFFFFF',
-    zindex: 1,
-  },
-  comlete: {
-    width: '100%',
-    position: 'absolute',
-    zIndex: 3,
-  },
-  itemText: {
-    fontSize: 15,
-    backgroundColor: '#FFFFFF',
-    height: 25,
-    zIndex: -1,
-    paddingTop: 5,
-    paddingBottom: 5,
-    margin: 2,
   },
 })
 

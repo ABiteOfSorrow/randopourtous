@@ -10,20 +10,28 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/create-track', async function (req, res, next) {
-  console.log(JSON.stringify(req.body))
-    /*var randoData = req.body.randoData
+ // console.log(JSON.stringify(req.body))
+    var randoData = req.body
+   // console.log(randoData.name)
+
+//    console.log(JSON.stringify(randoData))
       var newRando = new randoModel({
         mixed: randoData.mixed,
-        userToken: randoData.token,
+        userToken: randoData.userToken,
         name: randoData.name,
         departure: randoData.departure,
-        maxRunner: randoData.maxRunner,
+        latitude: randoData.latitude,
+        longitude: randoData.longitude,
+        maxRunner: parseInt(randoData.maxRunner),
         date: randoData.date,
-        estimation_time: randoData.estim_time,
+        estimation_time: parseInt(randoData.estim_time),
         description: randoData.description,
         level: randoData.level,
       });
-      var randoSaved = await newRando.save();*/
+      console.log('rando save')
+      var randoSaved = await newRando.save();
+      console.log(randoSaved)
+      randoModel.deleteMany()
   return res.json({ success:true })
   });
 

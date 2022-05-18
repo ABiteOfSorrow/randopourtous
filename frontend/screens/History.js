@@ -5,23 +5,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import HamburgerMenu from "../components/HamburgerMenu";
 
 function History(props) {
-
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <ScrollView h="80%">
         <HStack justifyContent="space-between" mb={4}>
           <HamburgerMenu />
-          <Button
-            w={90}
-            h={8}
-            p={0}
-            mt={2}
-            mr={2}
-            variant="outline"
-            borderColor="#38ADA9"
-            onPress={() => props.navigation.goBack()}
-          >
-            <Text style={{ fontSize: 12, fontWeight: 'bold', color:'#38ADA9' }} >
+          <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9" onPress={() => props.navigation.goBack()}>
+            <Text style={{ fontSize: 12, fontWeight: "bold", color: "#38ADA9" }} onPress={() => props.navigation.goBack()}>
               Retour
             </Text>
           </Button>
@@ -29,7 +19,7 @@ function History(props) {
         {/* List Body */}
 
         <VStack space={2} alignItems="center">
-          <Heading size='md' mb={4}>
+          <Heading size="md" mb={4}>
             Mes randonnées créées
           </Heading>
           {/* Button Line */}
@@ -53,15 +43,7 @@ function History(props) {
         </VStack>
 
         {/* History contents Line (Proceeding)*/}
-        <Box
-          w={'80%'}
-          alignSelf="center"
-          bg="#78E08F"
-          p={3}
-          borderRadius="15"
-          shadow={8}
-          mb={2}
-        >
+        <Box w={"80%"} alignSelf="center" bg="#78E08F" p={3} borderRadius="15" shadow={8} mb={2}>
           <Box
             alignSelf="center"
             _text={{
@@ -99,15 +81,7 @@ function History(props) {
           </Box>
         </Box>
         {/* History contents Line (Finished)*/}
-        <Box
-          w={'80%'}
-          alignSelf="center"
-          bg="#bbbbbb"
-          p={3}
-          borderRadius="15"
-          shadow={8}
-          mb={2}
-        >
+        <Box w={"80%"} alignSelf="center" bg="#bbbbbb" p={3} borderRadius="15" shadow={8} mb={2}>
           <Box
             alignSelf="center"
             _text={{
@@ -146,7 +120,7 @@ function History(props) {
         </Box>
       </ScrollView>
       {/* To prevent leaving the content area */}
-      <Box w={'100%'} h={60} alignSelf="center" />
+      <Box w={"100%"} h={60} alignSelf="center" />
     </SafeAreaView>
   );
 }

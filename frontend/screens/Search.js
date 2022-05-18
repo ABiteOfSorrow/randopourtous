@@ -19,8 +19,7 @@ function Search(props) {
   const [listCities, setListCities] = useState([])
   const [age, setAge] = useState()
   const [mixte, setMixte] = useState(false)
-  const [coord, setCoord] = useState({ lat: 48.856614, long: 2.3522219 })
-  const [map, setMap] = useState()
+  const [coord, setCoord] = useState({lat: 48.856614, long: 2.3522219})
 
   // Type de localisation: ville ou département
   const [typeLocalisation, setTypeLocalisation] = useState()
@@ -91,7 +90,7 @@ function Search(props) {
 
     props.navigation.navigate('ResultSearch')
 
-    console.log(data)
+    console.log('donnees: ', data)
   }
 
   return (
@@ -286,7 +285,7 @@ const styles = StyleSheet.create({
 function mapDispatchToProps(dispatch) {
   return {
     addData: function (data) {
-      dispatch({ type: 'addData', data: data })
+      dispatch({type: 'addData', dataAdd: data})
     },
   }
 }

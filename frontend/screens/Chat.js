@@ -1,77 +1,179 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
+import {Bubble, GiftedChat, Send, MessageText} from 'react-native-gifted-chat';
 import { HStack, VStack, Center, Heading, Box, Button, Text, Switch, Input } from "native-base";
 import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput, TouchableWithoutFeedback, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HamburgerMenu from "../components/HamburgerMenu";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-function Chat() {
+
+function Chat(props) {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
+  const [isOwner, setIsOwner] = useState(false);
 
-  const sendMessage = () => {
-    Keyboard.dismiss();
-    // db.collection("chats").doc(route.params.id).collection("messages").add({
-    //   timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    //   message: input,
-    //   displayName: auth.currentUser.displayName,
-    //   email: auth.currentUser.email,
-    //   photoURL: auth.currentUser.photoURL,
-    // });
-    console.log("hello");
-    setInput("");
+  const ownerClick = () => {
+    !isOwner ? setIsOwner(true) : setIsOwner(false);
   };
+
+
+  useEffect(() => {
+    setMessages([
+      {
+        _id: 1,
+        text: 'Hello developer',
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: 'Toto',
+          avatar: 'https://placeimg.com/140/140/any',
+        },
+      },
+      {
+        _id: 2,
+        text: 'Hello world',
+        createdAt: new Date(),
+        user: {
+          _id: 1,
+          name: 'React Native',
+          avatar: 'https://placeimg.com/140/140/any',
+        },
+      },
+    ]);
+  }, []);
+
+  const onSend = useCallback((messages = []) => {
+    setMessages((previousMessages) =>
+      GiftedChat.append(previousMessages, messages),
+    );
+  }, []);
+
+  const renderSend = (props) => {
+    return (
+      <Send {...props} width="20" height={"100%"} backgroundColor="78E08F">
+        {/* <Button w={20} h={"100%"} bg={"78E08F"}> */}
+        <Ionicons name={"send"} size={24} color={"#2B68E6"} />
+        {/* </Button> */}
+      </Send>
+    );
+  };
+
+  // const renderMessage  = (props) => {
+  //   return (
+  //     <MessageText {...props} backgroundColor="#2e64e5">
+  //       <View>
+          
+           
+           
+          
+  //       </View>
+  //     </MessageText>
+  //   );
+  // };
+
+  const renderBubble = (props) => {
+    return (
+      <Bubble
+        {...props}
+        wrapperStyle={{
+          right: {
+            backgroundColor: '#2e64e5',
+          },
+        }}
+        textStyle={{
+          right: {
+            color: '#fff',
+          },
+        }}
+      />
+    );
+  };
+
+  const scrollToBottomComponent = () => {
+    return(
+      <FontAwesome name='angle-double-down' size={22} color='#333' />
+    );
+  }
+
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container} keyboardVerticalOffset={90}>
         {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
-        <ScrollView>
-          <HStack justifyContent="space-between" mb={4}>
-            <HamburgerMenu />
-            <Switch offTrackColor="#C4C4C4" onTrackColor="#78E08F" mr={4} />
-            <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9">
-              <Text fontSize="xs" bold color="#38ADA9">
-                Retour
-              </Text>
-            </Button>
-          </HStack>
-          {/* List Body */}
-          <VStack space={2} alignItems="center">
-            <Heading size="lg" mb={5}>
-              Nom de Rando
-            </Heading>
-            {/* Switch Line */}
-          </VStack>
-          <VStack space={2} alignItems="center">
-            {/* Journey List */}
-            <Box w={"75%"} mb={0} borderRadius="15" bg="#079992">
-              <Text color="white" fontSize="md" textAlign="center">
-                8 / 15 Participants
-              </Text>
-            </Box>
+
+        <HStack justifyContent="space-between" mb={4}>
+          <HamburgerMenu />
+          <Switch offTrackColor="#C4C4C4" onTrackColor="#78E08F" mr={4} onValueChange={setIsOwner} />
+          <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9">
+            <Text fontSize="xs" bold color="#38ADA9">
+              Retour
+            </Text>
+          </Button>
+        </HStack>
+        {/* List Body */}
+        <VStack space={2} alignItems="center">
+          <Heading size="lg" mb={5}>
+            Nom de Rando
+          </Heading>
+          {/* Switch Line */}
+        </VStack>
+        <VStack space={2} alignItems="center">
+          {/* Journey List */}
+          <Box w={"75%"} mb={0} borderRadius="15" bg="#079992">
+            <Text color="white" fontSize="md" textAlign="center">
+              8 / 15 Participants
+            </Text>
+          </Box>
+          {isOwner ? (
+            <>
+              <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" onPress={() => console.log("I'm Pressed")}>
+                <Text style={styles.contentText} fontSize="md">
+                  Voir la Rando
+                </Text>
+              </Button>
+              <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" nPress={() => console.log("I'm Pressed")}>
+                <Text style={styles.contentText} fontSize="md">
+                  Gestion de la Rando
+                </Text>
+              </Button>
+            </>
+          ) : (
             <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" onPress={() => console.log("I'm Pressed")}>
               <Text style={styles.contentText} fontSize="md">
                 Voir la Rando
               </Text>
             </Button>
-            <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" onPress={() => console.log("I'm Pressed")}>
-              <Text style={styles.contentText} fontSize="md">
-                Gestion de la Rando
-              </Text>
-            </Button>
-          </VStack>
-        </ScrollView>
+          )}
+        </VStack>
+
+        <Box w={"90%"} h={"50%"} bg="#ffffff" alignSelf={"center"} mt={5} borderWidth={2} borderColor={"#bbbbbb"}>
+        <GiftedChat
+      messages={messages}
+      onSend={(messages) => onSend(messages)}
+      user={{
+        _id: 1,
+      }}
+      renderUsernameOnMessage ={true}
+      renderBubble={renderBubble}
+      alwaysShowSend
+      renderSend={renderSend}
+      // renderMessage={renderMessage}
+      scrollToBottom
+      scrollToBottomComponent={scrollToBottomComponent}
+    />
+     </Box>
 
         <View style={styles.footer}>
           {/* <Input
-            value={input}
-            onChangeText={(text) => setInput(text)}
-            onSubmitEditing={sendMessage}
-            placeholder={"Entrez votre texte ici..."}
-            InputRightElement={<Button size="xs" rounded="none" w="1/6" h="full" onPress={handleClick}></Button>}
-          /> */}
+              value={input}
+              onChangeText={(text) => setInput(text)}
+              onSubmitEditing={sendMessage}
+              placeholder={"Entrez votre texte ici..."}
+              InputRightElement={<Button size="xs" rounded="none" w="1/6" h="full" onPress={handleClick}></Button>}
+            /> */}
 
           {/* <TouchableOpacity onPress={sendMessage} activeOpacity={0.5}>
               <Ionicons name={"send"} size={24} color={"#2B68E6"} />
@@ -144,6 +246,19 @@ const styles = StyleSheet.create({
 });
 
 export default Chat;
+
+//   const sendMessage = () => {
+//     Keyboard.dismiss();
+//     // db.collection("chats").doc(route.params.id).collection("messages").add({
+//     //   timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+//     //   message: input,
+//     //   displayName: auth.currentUser.displayName,
+//     //   email: auth.currentUser.email,
+//     //   photoURL: auth.currentUser.photoURL,
+//     // });
+//     console.log("hello");
+//     setInput("");
+//   };
 
 // import React, { useEffect, useState } from "react";
 // import { Keyboard, KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";

@@ -8,7 +8,7 @@ import MapView from 'react-native-maps';
 
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
-const backendAdress = '192.168.10.169'
+const backendAdress = '192.168.1.26'
 
 function Creat() {
     const [date, setDate] = useState();

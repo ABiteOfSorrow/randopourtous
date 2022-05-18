@@ -9,7 +9,7 @@ import {
   Pressable,
 } from "native-base";
 
-function HamburgerMenu() {
+function HamburgerMenu(props) {
   return (
     <Box alignItems="flex-start" ml="5" my="3">
       <Menu

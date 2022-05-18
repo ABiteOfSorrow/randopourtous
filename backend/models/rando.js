@@ -14,7 +14,7 @@ var messageSchema = mongoose.Schema({
 let randoSchema = new mongoose.Schema({
     mixed: Boolean,
     name: String,
-    city: Object,  //Ne pas oublier la log et lat
+    city: Object,
     coordinate: Object,
     maxUsers: Number,
     users: Array,

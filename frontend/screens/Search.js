@@ -78,7 +78,7 @@ function Search() {
   var getSearch = function (data) {}
 
   return (
-    <View style={styles.mainContainer}>
+    <SafeAreaView style={styles.mainContainer}>
       <View style={styles.secondContainer}>
         <Text h1 fontFamily='Roboto' fontSize={20}>
           Chercher une randonnée
@@ -233,7 +233,7 @@ function Search() {
             longitudeDelta: 0.0421,
           }}></MapView>
       </View>
-    </View>
+    </SafeAreaView>
   )
 }
 
@@ -247,7 +247,6 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     alignItems: 'center',
-    marginTop: 25,
   },
   secondContainer: {
     flex: 1,
@@ -269,7 +268,8 @@ const styles = StyleSheet.create({
   map: {
     width: '100%',
     marginTop: 10,
-    height: 170,
+    flex:1,
+    marginBottom: 72,
     borderWidth: 0.5,
     borderColor: '#CCCCCC',
   },

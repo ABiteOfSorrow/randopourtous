@@ -64,40 +64,30 @@ function Create(props) {
       alert("Placez le point de départ sur la carte.");
       return;
     }
-
     console.log("handlesubmit", props.user.token);
-    var randoData = {
-      userToken: props.user.token,
-      mixed: mixed,
-      name: randoName,
-      departure: citie,
-      latitude: thePOI.coordinate.latitude,
-      longitude: thePOI.coordinate.longitude,
-      estim_time: estim_time,
-      date: date,
-      maxRunner: maxRunner,
-      description: description,
-      level: level,
-    };
-    var randoInBDD = await fetch(backendAdress + "/create-track", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(randoData),
-    });
-    var result = await randoInBDD.json();
-    alert(JSON.stringify(result));
+    let coordinate = thePOI.coordinate;
+    var randoData = { token: props.user.token, mixed: mixed, name: randoName, departure: citie, coordinate, estimation_time: estim_time, date, maxRunner, description, level };
+    try {
+      var rawresponse = await fetch(backendAdress + "/create-track", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(randoData),
+      });
+      if (rawresponse.ok) {
+        var result = await rawresponse.json();
+        props.navigation.replace("Detail");
+        if (result.result) {
+          alert("Merci!");
+        } else {
+          alert("Une erreur est survenue.");
+        }
+      } else {
+        alert("Le serveur ne répond pas.");
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
-
-  //    const handleSubmit = async () => {
-  //       var departure = {ville: depart, latitude: thePOI.coordinate.latitude, longitude: thePOI.coordinate.longitude}
-  //       var randoData = { userToken: props.user.token, mixed: mixed, randoName: randoName, departure: departure, estim_time: estim_time, date: date, maxRunner: maxRunner, description: description, level: level }
-  //       var randoInBDD = await fetch('http://' + backendAdress + ':3000/create-track', {
-  //          method: 'POST',
-  //          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-  //          body: `randoData=${randoData}`
-  //       });
-  //       console.log("handle", randoData)
-  //    }
 
   const addPress = async (nativeEvent) => {
     console.log(nativeEvent);
@@ -177,12 +167,12 @@ function Create(props) {
           onChangeText={(e) => setMaxRunner(e.replace(/[^0-9]/g, ""))}
         />
         <Pressable style={styles.allInputPressable} w="80%" h={8} onPress={showDatePicker}>
-          <Text fontSize={10} style={{ marginLeft: 11, color: "#AAAAAA", marginTop: 5 }}>
+          <Text fontSize={10} style={{ marginLeft: 11, color: "black", marginTop: "auto", marginBottom: "auto" }}>
             {!date ? "Date & Heure" : date.toLocaleDateString("fr") + " " + date.getHours() + ":" + date.getMinutes()}
           </Text>
         </Pressable>
         <Input style={styles.allInput} size="xs" placeholder="Description" w="80%" h={8} onChangeText={(e) => setDescription(e)} />
-        <View w="80%" style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+        <View style={{ width: "80%", display: "flex", flexDirection: "row", justifyContent: "center" }}>
           <Select
             style={styles.allInputSelect}
             placeholder={level}
@@ -255,7 +245,7 @@ function Create(props) {
         }}
         onCancel={hidePicker}
       />
-            {/* To prevent leaving the content area */}
+      {/* To prevent leaving the content area */}
       <Box w="100%" h="8.5%" alignSelf="center" bg="#fff" />
     </SafeAreaView>
   );
@@ -266,6 +256,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#EEEEEE",
     borderWidth: 0.5,
     borderColor: "#CCCCCC",
+    color: "#000",
   },
   allInputPressable: {
     backgroundColor: "#EEEEEE",
@@ -284,6 +275,7 @@ const styles = StyleSheet.create({
     borderColor: "#CCCCCC",
     backgroundColor: "#EEEEEE",
     borderRightWidth: 0,
+    color: "#000",
   },
   map: {
     width: 350,

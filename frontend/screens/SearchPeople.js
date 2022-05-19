@@ -18,7 +18,7 @@ export default function SearchPeople(props) {
             </Box>
 
 
-            <Text style={{ marginTop: 14 }} >Entrez le nom d'utilisateur</Text>
+            <Text style={{ marginTop: 14, fontSize: 18 }} >Entrez le nom d'utilisateur</Text>
          </ScrollView>
       </SafeAreaView>
    )

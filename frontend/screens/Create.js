@@ -156,8 +156,8 @@ function Create(props) {
 
     {/* Le body */}
       <VStack
-        space={2}
-        style={{alignItems: 'center', flex: 1, paddingBottom: 74}}>
+        space={1.5}
+        style={{ alignItems: 'center', flex: 1 }}>
         <Heading size='md'> Créer une Randonnée </Heading>
 
         <Box display='flex' flexDirection='row' alignItems='center'>
@@ -372,7 +372,6 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: '#CCCCCC',
     flex: 1,
-    minHeight: 150,
   },
   allInputSelect: {
     borderWidth: 0.5,

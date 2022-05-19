@@ -43,13 +43,13 @@ function Home(props) {
           <Button my={1} bg={'#78E08F'} onPress={() => props.navigation.navigate("Chercher")} >Chercher une randonnée</Button>
           <Button my={1} bg={'#78E08F'} onPress={() => props.navigation.navigate("Create")} >Créer une randonnée</Button>
         </View>
-        <View style={{ marginTop: '8%' }} >
+        <View style={{ marginTop: '10%' }} >
           <MaterialIcons name="account-circle" size={96} color="black" />
         </View>
-        <View style={{ width: '100%', marginTop: '8%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
+        <View style={{ width: '100%', marginTop: '6%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
           <Text>{props.user.username}</Text>
           <Button my={2} bg={'#079992'} onPress={() => props.navigation.navigate('Profil')} >Mon compte</Button>
-          <Button my={2} bg={'#bbb'} onPress={() => alert("Faut créer l'écran!")} >Chercher un utilisateur</Button>
+          <Button my={2} bg={'#bbb'} onPress={() => props.navigation.navigate('SearchPeople')} >Chercher un utilisateur</Button>
         </View>
       </ScrollView>
     </SafeAreaView>

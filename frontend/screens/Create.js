@@ -69,12 +69,12 @@ function Create(props) {
   }
   //Fonction d'envois de formulaire
   const handleSubmit = async () => {
-    //Sécurité si oublie d'entrer la location de la rando 
+    //Sécurité si oublie d'entrer la location de la rando
     if (!thePOI.coordinate) {
       alert('Placez le point de départ sur la carte.')
       return
     }
-    
+
     let coordinate = thePOI.coordinate
     var randoData = {
       token: props.user.token,
@@ -88,7 +88,7 @@ function Create(props) {
       description,
       level,
     }
-    //Envois au router sécurisé 
+    //Envois au router sécurisé
     try {
       var rawresponse = await fetch(backendAdress + '/create-track', {
         method: 'POST',
@@ -135,8 +135,7 @@ function Create(props) {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
-
-    {/* l'entête/header */}
+      {/* l'entête/header */}
       <HStack justifyContent='space-between' mb={4}>
         <HamburgerMenu />
         <Button
@@ -154,10 +153,8 @@ function Create(props) {
         </Button>
       </HStack>
 
-    {/* Le body */}
-      <VStack
-        space={2}
-        style={{alignItems: 'center', flex: 1, paddingBottom: 74}}>
+      {/* Le body */}
+      <VStack space={2} style={{alignItems: 'center', flex: 1}}>
         <Heading size='md'> Créer une Randonnée </Heading>
 
         <Box display='flex' flexDirection='row' alignItems='center'>
@@ -189,7 +186,6 @@ function Create(props) {
         />
         {listCities.length > 1 ? (
           <View style={{height: 200, width: '100%'}}>
-
             {/* Menu déroulant pour la selection de la ville */}
             <ScrollView>
               {listCities.map((e, i) => (
@@ -212,7 +208,6 @@ function Create(props) {
                 </TouchableOpacity>
               ))}
             </ScrollView>
-
           </View>
         ) : null}
 

@@ -9,6 +9,7 @@ import { Entypo } from '@expo/vector-icons';
 
 import { Text, Input, Switch, Select, Button, CheckIcon, ScrollView, View, Heading, HStack, VStack, Pressable, Box } from 'native-base'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { StatusBar } from 'expo-status-bar';
 
 function Search(props) {
   const [level, setLevel] = useState()
@@ -95,7 +96,7 @@ function Search(props) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
-      <HStack justifyContent="space-between" mb={4}>
+      <HStack justifyContent="space-between" mb={1.5}>
         <HamburgerMenu />
         <Button
           w={90}
@@ -107,22 +108,22 @@ function Search(props) {
           style={{ borderColor: "#38ADA9" }}
           onPress={() => props.navigation.goBack()}
         >
-          <Text fontSize="xs" bold style={{ color: "#38ADA9" }} >
+          <Text fontSize="xs" style={{ color: "#38ADA9", fontWeight: 'bold' }} >
             Retour
           </Text>
         </Button>
       </HStack>
 
-      <VStack space={2} style={{ alignItems: 'center', flex: 1, paddingBottom: 74 }}>
+      <VStack space={1} style={{ alignItems: 'center', flex: 1, paddingBottom: 70 }}>
         <Heading size="md"> Chercher une randonnée </Heading>
 
         {/* sélection de la ville */}
-        <Input style={styles.allInput} mt='2' w='100%' h={8} maxWidth="330px" placeholder='Ville / département' onChangeText={(e) => searchCities(e)} value={citie.nom} />
+        <Input style={styles.allInput} mt='2' w='84%' h={8} placeholder='Ville / département' onChangeText={(e) => searchCities(e)} value={citie.nom} />
         {listCities.length >= 1 ? (
-          <View style={{ height: 200, width: '100%' }}>
+          <View style={{ width: '84%' }}>
             <ScrollView>
               {listCities.map((e, i) => (
-                <TouchableOpacity key={i} onPress={async () => {
+                <TouchableOpacity key={i} style={{ borderWidth: 1, borderColor: '#ddd', paddingVertical: 1, width: '100%' }} onPress={async () => {
                   setCitie(e)
                   console.log(e)
                   setListCities([])
@@ -143,18 +144,19 @@ function Search(props) {
           <></>
         )}
 
-        <Box display="flex" flexDirection="row" alignItems="center">
-          <Switch mt={0} pt={0} marginTop='0' paddingTop={0} offTrackColor='#C4C4C4' onTrackColor='#78E08F' size='lg'
+        <Box style={{ display:"flex", flexDirection:"row", alignItems:"center", justifyContent: 'center' }} >
+          <Switch mt={0} padding={0} offTrackColor='#C4C4C4' onTrackColor='#78E08F' size='md'
             onValueChange={() => {
               setMixte(!mixte)
               console.log(mixte)
             }}
           />
-          <Heading size='md' mb='1.5'>Rando mixte </Heading><Entypo name="info-with-circle" style={{ paddingBottom:13 }} size={10} color="black" />
+          <Heading size='md' >Rando mixte </Heading>
+          <Entypo name="info-with-circle" size={14} color="black" onPress={() => alert('Une rando mixte veut dire que les participants sont mixés.')} />
         </Box>
 
         {/* sélection de l'age */}
-        <Select style={styles.allInputSelect} selectedValue={age} w={"330px"} height={8} fontSize={10} bg="#EEEEEE" accessibilityLabel='age' placeholder="Âge de l'organisateur" onValueChange={(itemValue) => setAge(itemValue)}
+        <Select style={styles.allInputSelect} selectedValue={age} w={'84%'} height={8} fontSize={10} bg="#EEEEEE" accessibilityLabel='age' placeholder="Âge de l'organisateur" onValueChange={(itemValue) => setAge(itemValue)}
           _selectedItem={{
             endIcon: <CheckIcon size='5' />,
           }}>
@@ -174,13 +176,13 @@ function Search(props) {
           </Text>
         </Pressable>
 
-        <Select style={styles.allInputSelect} selectedValue={level} w={"330px"} height={8} fontSize={10} mt='1' bg="#EEEEEE" accessibilityLabel='Niveau' placeholder='Niveau' onValueChange={(itemValue) => setLevel(itemValue)}>
+        <Select style={styles.allInputSelect} selectedValue={level} w={'84%'} height={8} fontSize={10} mt='1' bg="#EEEEEE" accessibilityLabel='Niveau' placeholder='Niveau' onValueChange={(itemValue) => setLevel(itemValue)}>
           <Select.Item label='Facile' value='facile' />
           <Select.Item label='Intermédiaire' value='intermediaire' />
           <Select.Item label='Difficile' value='difficile' />
         </Select>
 
-        <Button style={styles.shadow} mt='1.5' mb='8'  w={'84%'} h={10} bg="#78E08F"
+        <Button style={styles.shadow} mt='1.5' mb='1'  w={'84%'} h={10} bg="#78E08F"
           onPress={() => {
             let sendObject = {
               ville: citie,
@@ -208,9 +210,9 @@ function Search(props) {
               longitude: coord.long,
               latitudeDelta: 0.0992,
               longitudeDelta: 0.0421,
-            }}></MapView>
-          </View>
-
+            }}>
+          </MapView>
+        </View>
       </VStack>
       
       <DateTimePickerModal isVisible={isDatePickerVisible} mode='date' date={date}
@@ -228,7 +230,7 @@ function Search(props) {
           }}
           onCancel={hidePicker}
         />
-
+      <StatusBar style='auto' />
     </SafeAreaView>
   )
 }
@@ -273,9 +275,10 @@ const styles = StyleSheet.create({
     borderColor: '#CCCCCC',
     flex: 1,
     minHeight: 150,
+    width: '90%'
  },
   map: {
-    width: 350,
+    width: '100%',
     height: '100%',
     borderWidth: 10,
     borderColor: '#CCCCCC',

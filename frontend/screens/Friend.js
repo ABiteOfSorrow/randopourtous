@@ -1,18 +1,9 @@
 import React from "react";
-import {
-  Avatar,
-  HStack,
-  VStack,
-  Center,
-  Heading,
-  Button,
-  Text,
-  Flex,
-  Box,
-} from "native-base";
+import { Avatar, HStack, VStack, Center, Heading, Button, Text,Flex, Box } from "native-base";
 import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign } from "@expo/vector-icons";
+import { connect } from "react-redux";
 import HamburgerMenu from "../components/HamburgerMenu";       
 
 function Friend(props) {
@@ -28,7 +19,7 @@ function Friend(props) {
             mt={2}
             mr={2}
             variant="outline"
-            borderColor="#38ADA9"
+            style={{ borderColor:"#38ADA9" }}
             onPress={() => props.navigation.goBack()}
           >
             <Text style={{ fontSize: 12, fontWeight: 'bold', color:'#38ADA9' }} >
@@ -36,7 +27,7 @@ function Friend(props) {
             </Text>
           </Button>
         </HStack>
-        <VStack space={2} alignItems="center">
+        <VStack space={2} style={{ alignItems:"center" }} >
           <Heading size="lg" mb={10}>
             Mes amis{" "}
           </Heading>
@@ -49,9 +40,7 @@ function Friend(props) {
             bg="#079992"
             rounded="lg"
             shadow={8}
-            display="flex"
-            flexDirection="row"
-            justifyContent="space-around"
+            style={{ display:"flex", flexDirection:"row", justifyContent:"space-around" }}
           >
             <Avatar
               me="10"
@@ -60,7 +49,7 @@ function Friend(props) {
                 uri: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
               }}
             ></Avatar>
-            <VStack space={2} alignItems="flex-start">
+            <VStack space={2} style={{ }} >
               <Heading style={styles.contentText} size="xs">
                 Toto
               </Heading>
@@ -74,8 +63,7 @@ function Friend(props) {
             </VStack>
             <Button
               size="xs"
-              backgroundColor="#BBBBBB"
-              alignSelf="center"
+              style={{ backgroundColor:"#BBBBBB" ,alignSelf:"center" }}
               onPress={() => console.log("I'm Pressed")}
             >
               <Text style={styles.contentText} fontSize="xs">
@@ -98,4 +86,11 @@ const styles = StyleSheet.create({
   },
 });
 
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  }
+}
 export default Friend;
+
+//export default connect(mapStateToProps, null)(Friend);

@@ -22,16 +22,12 @@ router.post('/create-track', async function (req, res, next) {
   } else {
     estimation_time = parseInt(estimation_time)
   }
-  let token = req.body.token
+  let token = randoData.token
   if (!token) {
     return res.json({result: false, error: 'Token manquant.'})
   }
-  if (
-    (!randoData.userToken,
-    !randoData.name,
-    !randoData.coordinate,
-    !randoData.date)
-  ) {
+  if ( !token || !randoData.name || !randoData.coordinate || !randoData.date ) {
+    console.log(JSON.stringify(randoData))
     return res.json({result: false, error: 'Inputs incorrects'})
   }
 
@@ -54,10 +50,10 @@ router.post('/create-track', async function (req, res, next) {
     mixed: randoData.mixed,
     userId: foundUser.id,
     name: randoData.name,
-    city: randoData.departure,
     coordinate: randoData.coordinate,
     maxUsers: parseInt(randoData.maxRunner),
     users,
+    departure: randoData.departure,
     date: new Date(randoData.date),
     estimation_time: estimation_time,
     description: randoData.description,

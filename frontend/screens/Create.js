@@ -1,29 +1,17 @@
-import React, {useState} from 'react'
-import {
-  Button,
-  Input,
-  Text,
-  HStack,
-  VStack,
-  Heading,
-  Box,
-  Switch,
-  View,
-  Pressable,
-  Select,
-} from 'native-base'
-import {SafeAreaView} from 'react-native-safe-area-context'
+import React, { useState } from 'react'
+import { Button, Input, Text, HStack, VStack, Heading, Box, Switch, View, Pressable, Select } from 'native-base'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import HamburgerMenu from '../components/HamburgerMenu'
-import {StyleSheet, ScrollView, TouchableOpacity} from 'react-native'
-import MapView, {Marker} from 'react-native-maps'
-import {connect} from 'react-redux'
+import { StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
+import MapView, { Marker } from 'react-native-maps'
+import { connect } from 'react-redux'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 
 import backendConfig from '../backend.config.json'
 const backendAdress = backendConfig.address
 
 function Create(props) {
-  const [date, setDate] = useState()
+  const [date, setDate] = useState(null)
   const [mixed, setMixed] = useState(false)
   const toggleSwitch = () => setMixed((previousState) => !previousState) //fonction qui change la valeur du swicth
   const [randoName, setRandoName] = useState('')
@@ -37,7 +25,7 @@ function Create(props) {
 
   const [citie, setCitie] = useState({})
   const [listCities, setListCities] = useState([])
-  const [coord, setCoord] = useState({lat: 48.856614, long: 2.3522219})
+  const [coord, setCoord] = useState({ lat: 48.856614, long: 2.3522219 })
 
   // gestion de l'autocompletion des villes avec l'API du gouvernement
   const searchCities = async (e) => {
@@ -74,14 +62,16 @@ function Create(props) {
       alert('Placez le point de départ sur la carte.')
       return
     }
-    
+    if(!date){
+      alert('Veuillez entrer une date.')
+    }
     let coordinate = thePOI.coordinate
     var randoData = {
       token: props.user.token,
       mixed: mixed,
       name: randoName,
       departure: citie,
-      coordinate,
+      coordinate: coordinate,
       estimation_time: estim_time,
       date,
       maxRunner,
@@ -92,7 +82,7 @@ function Create(props) {
     try {
       var rawresponse = await fetch(backendAdress + '/create-track', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(randoData),
       })
       if (rawresponse.ok) {
@@ -101,7 +91,8 @@ function Create(props) {
         if (result.result) {
           alert('Merci!')
         } else {
-          alert('Une erreur est survenue.')
+          alert('Une erreur est survenue.');
+          console.log(JSON.stringify(result));
         }
       } else {
         alert('Le serveur ne répond pas.')
@@ -134,10 +125,10 @@ function Create(props) {
   }
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+    <SafeAreaView style={{ flex: 1, width: '100%', backgroundColor: '#fff' }}>
 
-    {/* l'entête/header */}
-      <HStack justifyContent='space-between' mb={4}>
+      {/* l'entête/header */}
+      <HStack justifyContent='space-between' mb={1}>
         <HamburgerMenu />
         <Button
           w={90}
@@ -146,21 +137,20 @@ function Create(props) {
           mt={2}
           mr={2}
           variant='outline'
-          style={{borderColor: '#38ADA9'}}
+          style={{ borderColor: '#38ADA9' }}
           onPress={() => props.navigation.goBack()}>
-          <Text fontSize='xs' bold style={{color: '#38ADA9'}}>
+          <Text fontSize='xs' style={{ color: '#38ADA9', fontWeight: 'bold' }}>
             Retour
           </Text>
         </Button>
       </HStack>
 
-    {/* Le body */}
+      {/* Le body */}
       <VStack
-        space={1.5}
-        style={{ alignItems: 'center', flex: 1 }}>
-        <Heading size='md'> Créer une Randonnée </Heading>
-
-        <Box display='flex' flexDirection='row' alignItems='center'>
+        space={1}
+        style={{ alignItems: 'center', flex:1, width:'100%' }}>
+        <Text style={{ fontWeight: 'bold', fontSize: 18 }} > Créer une Randonnée </Text>
+        <Box style={{ display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'center', width: '100%' }}>
           <Switch
             offTrackColor='#C4C4C4'
             onTrackColor='#78E08F'
@@ -174,7 +164,7 @@ function Create(props) {
           style={styles.allInput}
           size='xs'
           placeholder='Nom de la randonnée'
-          w='80%'
+          w='84%'
           h={8}
           onChangeText={(e) => setRandoName(e)}
         />
@@ -182,20 +172,20 @@ function Create(props) {
           style={styles.allInput}
           size='xs'
           placeholder='Ville de départ'
-          w='80%'
+          w='84%'
           h={8}
           value={citie.nom}
           onChangeText={(e) => searchCities(e)}
         />
         {listCities.length > 1 ? (
-          <View style={{height: 200, width: '100%'}}>
+          <View style={{ width: '100%', display:'flex', justifyContent: 'center', flexDirection: 'row', alignItems: 'center' }}>
 
             {/* Menu déroulant pour la selection de la ville */}
-            <ScrollView>
+            <View style={{ width: '100%', display:'flex', flexDirection:'column', alignItems: 'center' }}>
               {listCities.map((e, i) => (
                 <TouchableOpacity
                   key={i}
-                  style={{backgroundColor: '#FFFFFF', width: '100%'}}
+                  style={{ backgroundColor: '#FFFFFF', width: '84%', backgroundColor: '#ddd' }}
                   onPress={async () => {
                     setCitie(e)
                     setListCities([])
@@ -211,7 +201,7 @@ function Create(props) {
                   <Text key={i}>{e.nom + ' (' + e.codePostal + ')'}</Text>
                 </TouchableOpacity>
               ))}
-            </ScrollView>
+            </View>
 
           </View>
         ) : null}
@@ -222,7 +212,7 @@ function Create(props) {
           size='xs'
           placeholder='Estimation (en minutes) du temps de marche'
           value={estim_time}
-          w='80%'
+          w='84%'
           h={8}
           onChangeText={(e) => setEstimation(e.replace(/[^0-9]/g, ''))}
         />
@@ -231,7 +221,7 @@ function Create(props) {
           size='xs'
           placeholder='Nombre max de personnes'
           value={maxRunner}
-          w='80%'
+          w='84%'
           h={8}
           onChangeText={(e) => setMaxRunner(e.replace(/[^0-9]/g, ''))}
         />
@@ -239,7 +229,7 @@ function Create(props) {
         {/* Fake input avec pop up d'entré de date */}
         <Pressable
           style={styles.allInputPressable}
-          w='80%'
+          w='84%'
           h={8}
           onPress={showDatePicker}>
           <Text
@@ -253,10 +243,10 @@ function Create(props) {
             {!date
               ? 'Date & Heure'
               : date.toLocaleDateString('fr') +
-                ' ' +
-                date.getHours() +
-                ':' +
-                date.getMinutes()}
+              ' ' +
+              date.getHours() +
+              ':' +
+              date.getMinutes()}
           </Text>
         </Pressable>
 
@@ -264,7 +254,7 @@ function Create(props) {
           style={styles.allInput}
           size='xs'
           placeholder='Description'
-          w='80%'
+          w='84%'
           h={8}
           onChangeText={(e) => setDescription(e)}
         />
@@ -272,7 +262,7 @@ function Create(props) {
         {/* Sélection de niveau */}
         <View
           style={{
-            width: '80%',
+            width: '100%',
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'center',
@@ -281,7 +271,7 @@ function Create(props) {
             style={styles.allInputSelect}
             placeholder={level}
             selectedValue={level}
-            w={'315px'}
+            minWidth={'84%'}
             height={8}
             fontSize={10}
             bg='#EEEEEE'
@@ -314,13 +304,13 @@ function Create(props) {
             {trackMarker()}
           </MapView>
           <Pressable style={styles.libelle} bg='#F5F5F5'>
-            <Text fontSize={10} style={{color: '#AAAAAA'}}>
+            <Text fontSize={10} style={{ color: '#AAAAAA' }}>
               Placez le point de départ
             </Text>
           </Pressable>
         </View>
 
-        <Button w={'80%'} h={10} bg='#78E08F' onPress={() => handleSubmit()}>
+        <Button w={'84%'} h={10} bg='#78E08F' onPress={() => handleSubmit()}>
           Créer
         </Button>
       </VStack>

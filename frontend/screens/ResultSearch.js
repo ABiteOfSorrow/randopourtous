@@ -8,12 +8,14 @@ import {
   Button,
   Text,
   Switch,
+  View,
 } from 'native-base'
 import {StyleSheet, ScrollView} from 'react-native'
 import {SafeAreaView} from 'react-native-safe-area-context'
 import HamburgerMenu from '../components/HamburgerMenu'
 import {connect} from 'react-redux'
 import backendConfig from '../backend.config.json'
+import MapView, {Marker} from 'react-native-maps'
 
 const backendAdress = backendConfig.address
 
@@ -22,7 +24,7 @@ function ResultSearch(props) {
   const [resultSearch, setResultSearch] = useState([])
 
   //*** state de l'affichage de la carte (changement d'état avec le switch) */
-  const [mapdisplay, setMapDisplay] = false
+  const [mapdisplay, setMapDisplay] = useState(false)
 
   //**** iniatilisation de la liste des résultat de recherche via requête dans la BDD */
   useEffect(() => {
@@ -96,7 +98,10 @@ function ResultSearch(props) {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
-      <ScrollView>
+      <View
+        style={{
+          flex: 1,
+        }}>
         <HStack justifyContent='space-between' mb={4}>
           <HamburgerMenu />
           <Button
@@ -124,10 +129,7 @@ function ResultSearch(props) {
               offTrackColor='#C4C4C4'
               onTrackColor='#78E08F'
               mr={4}
-              onValueChange={() => {
-                setMixte(!mixte)
-                console.log(mixte)
-              }}
+              onValueChange={setMapDisplay}
             />
             <Heading size='md'>Vue carte</Heading>
           </Box>
@@ -135,19 +137,57 @@ function ResultSearch(props) {
 
         {/* Journey List */}
 
-        {listRando}
-      </ScrollView>
+        {mapdisplay === false ? (
+          listRando
+        ) : (
+          <View style={styles.mapContainer}>
+            <MapView
+              style={styles.map}
+              //onPress={(e) => addPress(e.nativeEvent)}
+              initialRegion={{
+                latitude: 48.856614,
+                longitude: 2.3522219,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              }}
+              // region={{
+              //   latitude: coord.lat,
+              //   longitude: coord.long,
+              //   latitudeDelta: 0.0992,
+              //   longitudeDelta: 0.0421,
+              // }}
+            ></MapView>
+          </View>
+        )}
+      </View>
       {/* To prevent leaving the content area */}
-      <Box w='100%' h='8.5%' alignSelf='center' bg='#fff' />
+      {/* <Box w='100%' h='8.5%' alignSelf='center' bg='#fff' /> */}
     </SafeAreaView>
   )
 }
+
+//***** styles */
 
 const styles = StyleSheet.create({
   contentText: {
     color: 'white',
   },
+  map: {
+    flex: 1,
+    width: 350,
+    height: '100%',
+    borderWidth: 10,
+    borderColor: '#CCCCCC',
+  },
+  mapContainer: {
+    flex: 1,
+    borderWidth: 1.5,
+    borderColor: '#CCCCCC',
+    minHeight: 150,
+  },
 })
+
+//**** réduceur */
 
 function mapStateToProps(state) {
   return {

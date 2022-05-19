@@ -19,7 +19,7 @@ import MapScreen from './screens/Map'
 import ListScreen from './screens/List'
 import DetailScreen from './screens/Detail'
 import MyprofileScreen from './screens/MyProfile'
-import OtherprofileScreen from './screens/OtherProfile'
+import OtherProfileScreen from './screens/OtherProfile'
 import HistoryScreen from './screens/History'
 import FriendScreen from './screens/Friend'
 import ChatScreen from './screens/Chat'
@@ -27,6 +27,7 @@ import ResumeScreen from './screens/Resume'
 import EditProfileScreen from './screens/EditProfile'
 import ResultSearch from './screens/ResultSearch'
 import SearchPeopleScreen from './screens/SearchPeople'
+import ManagementScreen from './screens/Management'
 
 import {combineReducers} from 'redux'
 import {configureStore} from '@reduxjs/toolkit'
@@ -105,7 +106,7 @@ const BottomMenuTabs = () => {
       />
       <Tab.Screen name='Randos' component={ListScreen} />
       <Tab.Screen name='Chercher' component={SearchScreen} />
-      <Tab.Screen name='Profil' component={ProfileNavigator} />
+      <Tab.Screen name='Profil' component={ResumeScreen} />
     </Tab.Navigator>
   )
 }
@@ -168,10 +169,11 @@ export default function App() {
             <Stack.Screen name='BottomMenuTabs' component={BottomMenuTabs} />
             <Stack.Screen name='Create' component={CreateScreen} />
             <Stack.Screen name='Map' component={MapScreen} />
-            <Stack.Screen name='Otherprofile' component={OtherprofileScreen} />
+            <Stack.Screen name='Otherprofile' component={OtherProfileScreen} />
             <Stack.Screen name='Chat' component={ChatScreen} />
             <Stack.Screen name='Resume' component={ResumeScreen} />
             <Stack.Screen name='ResultSearch' component={ResultSearch} />
+            <Stack.Screen name='Management' component={ManagementScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>

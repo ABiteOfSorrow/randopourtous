@@ -1,22 +1,14 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import MapView from 'react-native-maps'
-import {StyleSheet, TouchableOpacity} from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+import HamburgerMenu from "../components/HamburgerMenu";
 
-import {
-  Text,
-  Input,
-  Switch,
-  Select,
-  Button,
-  CheckIcon,
-  ScrollView,
-  View,
-  Heading,
-  HStack,
-} from 'native-base'
-import {SafeAreaView} from 'react-native-safe-area-context'
+import { Entypo } from '@expo/vector-icons';
+
+import { Text, Input, Switch, Select, Button, CheckIcon, ScrollView, View, Heading, HStack, VStack, Pressable, Box } from 'native-base'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 function Search(props) {
   const [level, setLevel] = useState()
@@ -102,139 +94,93 @@ function Search(props) {
   }
 
   return (
-    <SafeAreaView style={styles.mainContainer}>
-      <View style={styles.secondContainer}>
-        <Text h1 fontFamily='Roboto' fontSize={20}>
-          Chercher une randonnée
-        </Text>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+      <HStack justifyContent="space-between" mb={4}>
+        <HamburgerMenu />
+        <Button
+          w={90}
+          h={8}
+          p={0}
+          mt={2}
+          mr={2}
+          variant="outline"
+          style={{ borderColor: "#38ADA9" }}
+          onPress={() => props.navigation.goBack()}
+        >
+          <Text fontSize="xs" bold style={{ color: "#38ADA9" }} >
+            Retour
+          </Text>
+        </Button>
+      </HStack>
+
+      <VStack space={2} style={{ alignItems: 'center', flex: 1, paddingBottom: 74 }}>
+        <Heading size="md"> Chercher une randonnée </Heading>
+
         {/* sélection de la ville */}
-        <Input
-          style={styles.allInput}
-          mt='1.5'
-          placeholder='Ville / département'
-          onChangeText={(e) => searchCities(e)}
-          value={citie.nom}></Input>
+        <Input style={styles.allInput} mt='2' w='100%' h={8} maxWidth="330px" placeholder='Ville / département' onChangeText={(e) => searchCities(e)} value={citie.nom} />
         {listCities.length >= 1 ? (
-          <View style={{height: 200, width: '100%'}}>
+          <View style={{ height: 200, width: '100%' }}>
             <ScrollView>
               {listCities.map((e, i) => (
-                <TouchableOpacity
-                  key={i}
-                  onPress={async () => {
-                    setCitie(e)
-                    setListCities([])
-                    // si la longueur du CP>2 cela veut dire que ce n'est pas un département, on zoom donc sur la ville
-                    if (e.codePostal.length > 2) {
-                      var result = await fetch(
-                        `https://api-adresse.data.gouv.fr/search/?q=${e.nom}&limit=1`
-                      )
-                      var response = await result.json()
+                <TouchableOpacity key={i} onPress={async () => {
+                  setCitie(e)
+                  console.log(e)
+                  setListCities([])
 
-                      setCoord({
-                        lat: response.features[0].geometry.coordinates[1],
-                        long: response.features[0].geometry.coordinates[0],
-                      })
-                    }
-                  }}>
+                  // si la longueur du CP>2 cela veut dire que ce n'est pas un département, on zoom donc sur la ville
+                  if (e.codePostal.length > 2) {
+                    var result = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${e.nom}&limit=1`)
+                    var response = await result.json()
+                    setCoord({ lat: response.features[0].geometry.coordinates[1], long: response.features[0].geometry.coordinates[0], })
+                  }
+                }}>
                   <Text key={i}>{e.nom + ' (' + e.codePostal + ')'}</Text>
                 </TouchableOpacity>
               ))}
             </ScrollView>
           </View>
         ) : (
-          <Text></Text>
+          <></>
         )}
 
-        <HStack alignItems='center'>
-          <Heading size='xs'>Rando mixte</Heading>
-          <Switch
-            mt={0}
-            pt={0}
-            marginTop='0'
-            paddingTop={0}
-            offTrackColor='#C4C4C4'
-            onTrackColor='#78E08F'
-            size='lg'
+        <Box display="flex" flexDirection="row" alignItems="center">
+          <Switch mt={0} pt={0} marginTop='0' paddingTop={0} offTrackColor='#C4C4C4' onTrackColor='#78E08F' size='lg'
             onValueChange={() => {
               setMixte(!mixte)
               console.log(mixte)
             }}
           />
-        </HStack>
+          <Heading size='md' mb='1.5'>Rando mixte </Heading><Entypo name="info-with-circle" size={10} color="black" />
+        </Box>
 
         {/* sélection de l'age */}
-        <Select
-          selectedValue={age}
-          bgColor='#EEEEEE'
-          w='100%'
-          accessibilityLabel='age'
-          placeholder="Age de l'organisateur"
+        <Select style={styles.allInputSelect} selectedValue={age} w={"330px"} height={8} fontSize={10} bg="#EEEEEE" accessibilityLabel='age' placeholder="Âge de l'organisateur" onValueChange={(itemValue) => setAge(itemValue)}
           _selectedItem={{
             endIcon: <CheckIcon size='5' />,
-          }}
-          mt='1.5'
-          onValueChange={(itemValue) => setAge(itemValue)}>
+          }}>
           {listAgeDisplay}
         </Select>
+
         {/* sélection de la date */}
-        <Button
-          style={styles.allInput}
-          variant='outline'
-          mt='1.5'
-          w='100%'
-          colorScheme='secondary'
-          onPress={showDatePicker}>
-          <Text color='grey'>
+        <Pressable style={styles.allInputPressable} w='84%' h={8} variant='outline' mt='1.5' colorScheme='secondary' onPress={showDatePicker}>
+          <Text fontSize={10} style={{ marginLeft: 11, color: '#000', marginTop: 5 }}>
             {!date
               ? 'Date & Heure'
               : date.toLocaleDateString('fr') +
-                ' ' +
-                date.getHours() +
-                ':' +
-                date.getMinutes()}
+              ' ' +
+              date.getHours() +
+              ':' +
+              date.getMinutes()}
           </Text>
-        </Button>
-        <DateTimePickerModal
-          isVisible={isDatePickerVisible}
-          mode='date'
-          date={date}
-          onConfirm={(date) => {
-            setDatePickerVisibility(false)
-            setDate(date)
-            setHourPickerVisibility(true)
-          }}
-          onCancel={hidePicker}
-        />
-        <DateTimePickerModal
-          isVisible={isHourPickerVisible}
-          mode='time'
-          locale='fr-FR'
-          date={date}
-          onConfirm={(date) => {
-            setHourPickerVisibility(false)
-            setDate(date)
-          }}
-          onCancel={hidePicker}
-        />
-        <Select
-          selectedValue={level}
-          bgColor='#EEEEEE'
-          w='100%'
-          accessibilityLabel='Niveau'
-          placeholder='Niveau'
-          mt='1.5'
-          onValueChange={(itemValue) => setLevel(itemValue)}>
-          <Select.Item label='Débutant' value='Débutant' />
-          <Select.Item label='Amateur' value='Amateur' />
-          <Select.Item label='Sportif' value='Sportif' />
-          <Select.Item label='Expert' value='Expert' />
-          <Select.Item label='Bouc' value='Bouc' />
+        </Pressable>
+
+        <Select style={styles.allInputSelect} selectedValue={level} w={"330px"} height={8} fontSize={10} mt='1' bg="#EEEEEE" accessibilityLabel='Niveau' placeholder='Niveau' onValueChange={(itemValue) => setLevel(itemValue)}>
+          <Select.Item label='Facile' value='facile' />
+          <Select.Item label='Intermédiaire' value='intermediaire' />
+          <Select.Item label='Difficile' value='difficile' />
         </Select>
-        <Button
-          style={styles.shadow}
-          mt='1.5'
-          w='100%'
-          bg='#78E08F'
+
+        <Button style={styles.shadow} mt='1.5' mb='8'  w={'84%'} h={10} bg="#78E08F"
           onPress={() => {
             let sendObject = {
               ville: citie,
@@ -248,21 +194,41 @@ function Search(props) {
           Rechercher
         </Button>
 
-        <MapView
-          style={styles.map}
-          initialRegion={{
-            latitude: coord.lat,
-            longitude: coord.long,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+        <View style={styles.mapContainer}>
+          <MapView
+            style={styles.map}
+            initialRegion={{
+              latitude: coord.lat,
+              longitude: coord.long,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+            region={{
+              latitude: coord.lat,
+              longitude: coord.long,
+              latitudeDelta: 0.0992,
+              longitudeDelta: 0.0421,
+            }}></MapView>
+          </View>
+
+      </VStack>
+      
+      <DateTimePickerModal isVisible={isDatePickerVisible} mode='date' date={date}
+          onConfirm={(date) => {
+            setDatePickerVisibility(false)
+            setDate(date)
+            setHourPickerVisibility(true)
           }}
-          region={{
-            latitude: coord.lat,
-            longitude: coord.long,
-            latitudeDelta: 0.0992,
-            longitudeDelta: 0.0421,
-          }}></MapView>
-      </View>
+          onCancel={hidePicker}
+        />
+        <DateTimePickerModal isVisible={isHourPickerVisible} mode='time' locale='fr-FR' date={date}
+          onConfirm={(date) => {
+            setHourPickerVisibility(false)
+            setDate(date)
+          }}
+          onCancel={hidePicker}
+        />
+
     </SafeAreaView>
   )
 }
@@ -273,11 +239,19 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#CCCCCC',
   },
-
-  mainContainer: {
-    flex: 1,
-    alignItems: 'center',
+  allInputPressable: {
+    backgroundColor: '#EEEEEE',
+    borderWidth: 1.1,
+    borderColor: '#CCCCCC',
+    borderRadius: 4,
   },
+  allInputSelect: {
+    borderWidth: 0.5,
+    borderColor: '#CCCCCC',
+    backgroundColor: '#EEEEEE',
+    borderRightWidth: 0,
+    color: '#000'
+ },
   secondContainer: {
     flex: 1,
     width: '90%',
@@ -294,15 +268,18 @@ const styles = StyleSheet.create({
     shadowRadius: 3.5,
     elevation: 5,
   },
-
-  map: {
-    width: '100%',
-    marginTop: 10,
-    flex: 1,
-    marginBottom: 72,
-    borderWidth: 0.5,
+  mapContainer: {
+    borderWidth: 1.5,
     borderColor: '#CCCCCC',
-  },
+    flex: 1,
+    minHeight: 150,
+ },
+  map: {
+    width: 350,
+    height: '100%',
+    borderWidth: 10,
+    borderColor: '#CCCCCC',
+ },
 })
 
 function mapDispatchToProps(dispatch) {

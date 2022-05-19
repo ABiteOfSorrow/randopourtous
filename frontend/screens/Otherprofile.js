@@ -7,13 +7,28 @@ import HamburgerMenu from "../components/HamburgerMenu";
 import { MaterialIcons } from "@expo/vector-icons";
 
 export default function OtherProfile(props) {
+  const user = props.route.params.user;
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff", alignItems: "center" }}>
-      <View style={{ display: "flex", width: "100%", flexDirection: "row" }}>
+      <View style={{ display: "flex", width: "100%", flexDirection: "row", justifyContent: 'space-between', alignItems: 'center' }}>
         <HamburgerMenu />
+        <Button
+          w={70}
+          h={8}
+          p={0}
+          mr={2}
+          variant="outline"
+          borderColor="#38ADA9"
+          onPress={() => props.navigation.goBack()}
+        >
+          <Text style={{ fontSize: 12, fontWeight: 'bold', color: '#38ADA9' }} >
+            Retour
+          </Text>
+        </Button>
       </View>
-      <Text style={{ fontSize: 24, marginBottom: 10, fontWeight: "bold" }}>Mon compte</Text>
-      <Text style={{ fontSize: 18 }}>JeanMichel_du75</Text>
+      <Text style={{ fontSize: 24, marginBottom: 10, fontWeight: "bold" }}>Profil d'un utilisateur</Text>
+      <Text style={{ fontSize: 18 }}>{user.username}</Text>
       <View
         style={{
           display: "flex",
@@ -61,8 +76,8 @@ export default function OtherProfile(props) {
               alignItems: "center",
             }}
           >
-            <Text style={{ fontSize: 18 }}>Nom</Text>
-            <Text style={{ fontSize: 18 }}>Prénom</Text>
+            <Text style={{ fontSize: 18 }}>Nom : {user.lastname}</Text>
+            <Text style={{ fontSize: 18 }}>Prénom : {user.name}</Text>
           </View>
         </View>
         <View
@@ -112,10 +127,10 @@ export default function OtherProfile(props) {
           alignItems: "center",
         }}
       >
-        <Button my={1} bg={"#78E08F"} onPress={() => props.navigation.navigate("History")} w={"80%"}>
-          Voir l’historique des randos
+        <Button my={1} bg={"#78E08F"} onPress={() => alert('Faut le faire!')} w={"80%"}>
+          Voir ses randos
         </Button>
-        <Button my={1} bg={"#bbb"} onPress={() => props.navigation.navigate("Friend")} w={"80%"}>
+        <Button my={1} bg={"#bbb"} onPress={() => alert('Faire la fonction!')} w={"80%"}>
           Ajouter en ami
         </Button>
       </View>

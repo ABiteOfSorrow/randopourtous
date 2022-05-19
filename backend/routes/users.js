@@ -96,4 +96,25 @@ router.post('/edit-profile', async (req, res) => {
   return res.json({ result: false, error: 'Erreur lors de la sauvegarde.', user: foundUser })
 })
 
+router.get('/search-people', async (req, res) => {
+  if (!req.query.username) {
+    return res.json({ result: false, error: 'Username is missing.' });
+  }
+  let foundUsers = await User.find({ username: req.query.username }).populate('tracks').exec();
+  let cleanUsers = [];
+  foundUsers.forEach(user => {
+    cleanUsers.push({
+      username: user.username,
+      name: user.name,
+      lastname: user.lastname,
+      age: user.age,
+      averageRating: user.averageRating,
+      createdAccount: user.createdAccount,
+      tracks: user.tracks,
+      age: user.age
+    })
+  })
+  return res.json({ result: true, users: cleanUsers });
+});
+
 module.exports = router;

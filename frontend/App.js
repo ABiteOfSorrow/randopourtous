@@ -166,7 +166,6 @@ export default function App() {
               component={BottomMenuTabs}
             />
             <Stack.Screen name='Detail' component={DetailScreen} />
-            <Stack.Screen name='MyProfile' component={MyprofileScreen} />
             <Stack.Screen name='BottomMenuTabs' component={BottomMenuTabs} />
             <Stack.Screen name='Create' component={CreateScreen} />
             <Stack.Screen name='Map' component={MapScreen} />

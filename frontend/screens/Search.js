@@ -240,7 +240,7 @@ function Search(props) {
               ville: citie,
               mixte: mixte,
               age: age,
-              date: date.toString(),
+              date: date ? date.toString() : undefined,
               niveau: level,
             }
             getSearch(sendObject)

@@ -86,7 +86,7 @@ router.post('/search-track', async function (req, res, next) {
 
   var result = await randoModel.find({
     'departure.nom': citie,
-    level: null || level,
+    level: level !== null ? level : {$exists: true},
   })
 
   console.log(result)

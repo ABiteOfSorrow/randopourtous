@@ -85,7 +85,7 @@ const BottomMenuTabs = () => {
       <Tab.Screen name="Home" options={{ gestureEnabled: false }} component={HomeNavigator} />
       <Tab.Screen name="Randos" component={ListScreen} />
       <Tab.Screen name="Chercher" component={SearchScreen} />
-      <Tab.Screen name="Profil" component={MyprofileScreen} />
+      <Tab.Screen name="Profil" component={ChatScreen} />
     </Tab.Navigator>
   );
 };

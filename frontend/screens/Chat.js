@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Bubble, GiftedChat, Send, MessageText } from "react-native-gifted-chat";
-import { HStack, VStack, Center, Heading, Box, Button, Text, Switch, Input, Badge } from "native-base";
+import { Bubble, GiftedChat, Send, MessageText, InputToolbar, SystemMessage } from "react-native-gifted-chat";
+import { HStack, VStack, Center, Heading, Box, Button, Text, Switch, Input, Badge  } from "native-base";
 import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput, TouchableWithoutFeedback, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HamburgerMenu from "../components/HamburgerMenu";
@@ -75,6 +75,24 @@ function Chat(props) {
     );
   };
 
+
+  const customtInputToolbar = props => {
+    return (
+      <InputToolbar
+        {...props}
+        containerStyle={{
+          backgroundColor: "white",
+          borderTopColor: "#BBBBBB",
+          borderTopWidth: 1,
+          borderBottomLeftRadius: 8,
+          borderBottomRightRadius: 8,
+        }}
+      />
+    );
+  };
+
+ 
+
   const scrollToBottomComponent = () => {
     return <FontAwesome name="angle-double-down" size={22} color="#333" />;
   };
@@ -134,15 +152,18 @@ function Chat(props) {
           )}
         </VStack>
 
-        <Box w={"90%"} h={"60%"} bg="#ffffff" alignSelf={"center"} mt={5} borderWidth={2} borderColor={"#bbbbbb"}>
+        <Box w={"90%"} h={"60%"} bg="#ffffff" alignSelf={"center"} mt={5} borderWidth={2} borderColor={"#bbbbbb"} borderRadius={8}>
           <GiftedChat
-          height={200}
+          borderRadius={8}
             messages={messages}
             onSend={(messages) => onSend(messages)}
             user={{
               _id: 1,
             }}
+            
+            renderAvatarOnTop ={true}
             renderUsernameOnMessage={true}
+            renderInputToolbar={customtInputToolbar}
             renderBubble={renderBubble}
             alwaysShowSend
             renderSend={renderSend}
@@ -233,6 +254,99 @@ const styles = StyleSheet.create({
 });
 
 export default Chat;
+
+
+// import React, { useEffect, useState } from "react";
+// import socketIOClient from "socket.io-client";
+// //if message not working, change adress (ipconfig - ip)
+// var socket = socketIOClient("http://192.168.1.26:3000");
+// import { View, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
+
+// import { Button, ListItem, Input } from "react-native-elements";
+// import { Ionicons } from "@expo/vector-icons";
+// import { connect } from "react-redux";
+// // import { Dimensions } from "react-native";
+// // for using width 100%
+// // const Width = Dimensions.get('window').width;
+// // for using height 100%
+// // const height = Dimensions.get('window').height;
+// // style = {{width: Width}}
+
+// function ChatScreen(props) {
+//   //Setter for messages
+//   const [currentMessage, setCurrentMessage] = useState("");
+//   //Setter for message list
+//   const [listMessage, setListMessage] = useState([]);
+
+//   useEffect(() => {
+//     //Receive message from backend
+//     socket.on("sendMessageToAll", (msg) => {
+//       setListMessage([...listMessage, msg]);
+//     });
+//   }, [listMessage]);
+
+//   //Receive message from front and send to backend
+//   var addMessage = (text, user) => {
+//     let msg = {
+//       messages: text,
+//       pseudo: user,
+//     };
+//     socket.emit("sendMessage", { msg });
+
+//     setCurrentMessage("");
+//   };
+
+//   // Change emoticons to emoji && F word change to [censored]
+//   let messageLoad = listMessage.map((e) => {
+//     var filteredMessage = e.msg.messages.replace(/:\)/g, "\u263A");
+//     filteredMessage = filteredMessage.replace(/:\(/g, "\u2639");
+//     filteredMessage = filteredMessage.replace(/:p/g, "\uD83D\uDE1B");
+//     filteredMessage = filteredMessage.replace(/[a-z]*fuck[a-z]*/gi, "[censored]");
+//     return (
+//       <ListItem>
+//         <ListItem.Content>
+//           <ListItem.Title>{filteredMessage}</ListItem.Title>
+//           <ListItem.Subtitle>{e.msg.pseudo}</ListItem.Subtitle>
+//         </ListItem.Content>
+//       </ListItem>
+//     );
+//   });
+
+//   return (
+//     //Content area
+//     <View style={{ flex: 1 }}>
+//       <ScrollView style={{ flex: 1, marginTop: 50 }}>{messageLoad}</ScrollView>
+
+//       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+//         <Input
+//           containerStyle={{ marginBottom: 5 }}
+//           placeholder="Your message"
+//           onChangeText={(val) => setCurrentMessage(val)}
+//           value={currentMessage}
+//         />
+//         <Button
+//           onPress={() => addMessage(currentMessage, props.pseudo)}
+//           icon={<Ionicons name="mail-outline" size={24} color="#ffffff" />}
+//           title=" Send"
+//           buttonStyle={{ backgroundColor: "#eb4d4b" }}
+//           type="solid"
+//         ></Button>
+//       </KeyboardAvoidingView>
+//     </View>
+//   );
+// }
+
+// //receive state pseudo from store for using pseudo
+// function mapStateToProps(state) {
+//   return { pseudo: state.pseudo };
+// }
+
+// export default connect(mapStateToProps, null)(ChatScreen);
+
+
+
+
+
 
 //   const sendMessage = () => {
 //     Keyboard.dismiss();

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { Avatar, HStack, VStack, Center, Heading, Box, Button, Text, Flex, Stack } from "native-base";
 import { Dimensions, StyleSheet, Platform, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,6 +10,90 @@ import HamburgerMenu from "../components/HamburgerMenu";
 import CustomSlider from "../components/CustomSlider";
 
 function Resume() {
+
+  const [paysageValue, setPaysageValue] = useState(0);
+  const [ambianceValue, setAmbianceValue] = useState(0);
+  const [difficultyValue, setDifficultyValue] = useState(0);
+
+//Rando rating stars
+var PaysageRating = [];
+for (var i = 0; i < 5; i++) {
+  var color = "black";
+  if (i < paysageValue) {
+    color = "#f1c40f";
+  }
+  //Rando rating stars click count
+  let count = i + 1;
+  PaysageRating.push(
+    <AntDesign
+      onPress={() => setPaysageValue(count)}
+      color={color}
+      name="star" size={24} 
+    />
+  );
+}
+
+var AmbianceRating = [];
+for (var i = 0; i < 5; i++) {
+  var color = "black";
+  if (i < ambianceValue) {
+    color = "#f1c40f";
+  }
+  //Rando rating stars click count
+  let count = i + 1;
+  AmbianceRating.push(
+    <AntDesign
+      onPress={() => setAmbianceValue(count)}
+      color={color}
+      name="star" size={24} 
+    />
+  );
+}
+
+var DifficultyRating = [];
+for (var i = 0; i < 5; i++) {
+  var color = "black";
+  if (i < difficultyValue) {
+    color = "#f1c40f";
+  }
+  //Rando rating stars click count
+  let count = i + 1;
+  DifficultyRating.push(
+    <AntDesign
+      onPress={() => setDifficultyValue(count)}
+      color={color}
+      name="star" size={24} 
+    />
+  );
+}
+
+
+//Rando rating stars average and voter count
+var totalNote = 0;
+// var totalVote = props.globalCountRating;
+if (paysageValue && ambianceValue && difficultyValue) {
+  totalNote += paysageValue + ambianceValue + difficultyValue;
+  // totalVote += 1;
+}
+//Rando rating stars average math Round or toFixed
+var avgTotal = (totalNote / 3).toFixed(2);
+// var avgTotal = Math.round(totalNote / 3);
+
+var tabGlobalRating = [];
+
+//Rando rating stars display
+for (var i = 0; i < 5; i++) {
+  var color = "black";
+  if (i < avgTotal) {
+    color = "#f1c40f";
+  }
+
+  tabGlobalRating.push(<AntDesign color={color} name="star" size={24}  />);
+}
+console.log(avgTotal)
+
+
+
   const data = [
     {
       title: "Coral Reef",
@@ -61,45 +145,30 @@ function Resume() {
       </Button>
 
       <VStack space={5}>
+      <Heading size="sm" textAlign="center"> Average Note est : {avgTotal} </Heading>
         <Flex direction="row" alignSelf="center">
           <Heading mr={5} size="md">
             Note globale
           </Heading>
-          <AntDesign name="star" size={24} color="yellow" />
-          <AntDesign name="star" size={24} color="yellow" />
-          <AntDesign name="star" size={24} color="yellow" />
-          <AntDesign name="star" size={24} color="yellow" />
-          <AntDesign name="star" size={24} color="yellow" />
+          {tabGlobalRating}
         </Flex>
         <Flex direction="row" alignSelf="center">
           <Heading mr={5} size="md">
             Paysage
           </Heading>
-          <AntDesign name="star" size={24} color="yellow" />
-          <AntDesign name="star" size={24} color="yellow" />
-          <AntDesign name="star" size={24} color="yellow" />
-          <AntDesign name="star" size={24} color="yellow" />
-          <AntDesign name="star" size={24} color="yellow" />
+          {PaysageRating}
         </Flex>
         <Flex direction="row" alignSelf="center">
           <Heading mr={5} size="md">
             Ambiance
           </Heading>
-          <AntDesign name="star" size={24} color="yellow" />
-          <AntDesign name="star" size={24} color="yellow" />
-          <AntDesign name="star" size={24} color="yellow" />
-          <AntDesign name="star" size={24} color="yellow" />
-          <AntDesign name="star" size={24} color="yellow" />
+          {AmbianceRating}
         </Flex>
         <Flex direction="row" alignSelf="center">
           <Heading mr={5} size="md">
             Difficulté
           </Heading>
-          <AntDesign name="star" size={24} color="yellow" />
-          <AntDesign name="star" size={24} color="yellow" />
-          <AntDesign name="star" size={24} color="yellow" />
-          <AntDesign name="star" size={24} color="yellow" />
-          <AntDesign name="star" size={24} color="yellow" />
+          {DifficultyRating}
         </Flex>
       </VStack>
 

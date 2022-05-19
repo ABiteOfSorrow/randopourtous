@@ -83,6 +83,7 @@ const BottomMenuTabs = () => {
         headerShown: false,
       })}
       tabBarOptions={{
+        keyboardHidesTabBar: true,
         activeTintColor: '#009788',
         inactiveTintColor: '#FFFFFF',
         style: {
@@ -97,6 +98,7 @@ const BottomMenuTabs = () => {
           ...styles.shadow,
         },
       }}
+      
       initialRouteName='Home'>
       <Tab.Screen
         name='Home'

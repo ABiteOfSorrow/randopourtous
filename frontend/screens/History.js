@@ -3,8 +3,17 @@ import { HStack, VStack, Heading, Box, Button, Text } from "native-base";
 import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HamburgerMenu from "../components/HamburgerMenu";
+import { connect } from "react-redux";
 
 function History(props) {
+console.log("mes rando l.9",JSON.stringify(props.user))
+
+  // var sourceCard = articlesLike.map((source,i) => {
+  //   return( );
+  //   })
+
+
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <ScrollView h="80%">
@@ -131,4 +140,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default History;
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+  };
+}
+
+export default connect(
+  mapStateToProps, 
+  null)
+  (History);

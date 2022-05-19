@@ -3,19 +3,17 @@ var router = express.Router()
 var randoModel = require('../models/rando')
 let UserModel = require('../models/user')
 
-var uid2 = require('uid2')
-const {json} = require('express')
-
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index', {title: 'Express'})
 })
 
 router.post('/create-track', async function (req, res, next) {
-  // console.log(JSON.stringify(req.body))
   var randoData = req.body
   let estimation_time = randoData.estimation_time
   let description = randoData.description
+
+  //sécurité contre champs vide
   if (!description) {
     description = ''
   }
@@ -37,10 +35,12 @@ router.post('/create-track', async function (req, res, next) {
     return res.json({result: false, error: 'Inputs incorrects'})
   }
 
+  //Récupération des infos user pour mettre en tant que participant
   let foundUser = await UserModel.findOne({token})
   if (!foundUser) {
     return res.json({result: false, error: 'Mauvais token'})
   }
+
   let user = {
     _id: foundUser._id,
     username: foundUser.username,
@@ -50,7 +50,6 @@ router.post('/create-track', async function (req, res, next) {
 
   let users = []
   users.push(user)
-  //    console.log(JSON.stringify(randoData))
   var newRando = new randoModel({
     mixed: randoData.mixed,
     userId: foundUser.id,
@@ -64,9 +63,13 @@ router.post('/create-track', async function (req, res, next) {
     description: randoData.description,
     level: randoData.level,
   })
-  console.log('rando save')
   var randoSaved = await newRando.save()
-  console.log(randoSaved)
+
+  //Ajout de la rando dans la liste de partication de l'user
+  if(randoSaved){
+  foundUser.tracks.push(randoSaved._id)
+  await foundUser.save();
+  }
 
   return res.json({result: true})
 })
@@ -75,7 +78,7 @@ router.post('/search-track', async function (req, res, next) {
   let searchData = req.body
   console.log('données recues: ', searchData)
 
-  //***** Securisation des données de recherche */
+  //***** Securisation des données de recherche: null si vide */
   let citie = searchData.ville.nom ? searchData.ville.nom : undefined
   let dpt = searchData.ville.dpt ? searchData.ville.dpt : undefined
   let codePostal = searchData.codePostal ? searchData.codePostal : undefined
@@ -86,7 +89,7 @@ router.post('/search-track', async function (req, res, next) {
 
   var result = await randoModel.find({
     'departure.nom': citie,
-    level: null || level,
+    level: level !== null ? level : {$exists: true},
   })
 
   console.log(result)

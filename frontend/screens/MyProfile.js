@@ -36,18 +36,18 @@ function MyProfile(props) {
             />
           </View>
           <View style={{ display: 'flex', width: '50%', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }} >
-            <Text style={{ fontSize: 18 }}>{props.user.name}</Text>
-            <Text style={{ fontSize: 18 }}>{props.user.lastname}</Text>
+            <Text style={{ fontSize: 18 }}>{props.user.name === ''? 'Prénom :' : props.user.name}</Text>
+            <Text style={{ fontSize: 18 }}>{props.user.lastname === ''? 'Nom : ' : props.user.lastname}</Text>
           </View>
         </View>
         <View style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', paddingHorizontal: 12 }} >
           <View style={{ width: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
             <Text>{props.user.age === -1? 'X' : props.user.age} ans</Text>
-            <Text>{props.user.friends.length === 0? "Pas encore d'" : props.user.friends.length}amis</Text>
+            <Text>{props.user.friends.length === 0? "Pas encore d'" : props.user.friends.length+' '}amis</Text>
           </View>
         </View>
       </View>
-      <View style={{ marginTop: 34, marginBottom: 6, display: 'flex', flexDirection: 'row', justifyContent: 'center' }} >
+      <View style={{ marginTop: 30, marginBottom: 6, display: 'flex', flexDirection: 'row', justifyContent: 'center' }} >
         <MaterialIcons name="star" size={40} color="#F8F808" />
         <MaterialIcons name="star" size={40} color="#F8F808" />
         <MaterialIcons name="star" size={40} color="#F8F808" />

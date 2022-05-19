@@ -26,6 +26,7 @@ import ChatScreen from "./screens/Chat";
 import ResumeScreen from "./screens/Resume";
 import EditProfileScreen from "./screens/EditProfile";
 import ResultSearch from "./screens/ResultSearch";
+import SearchPeopleScreen from "./screens/SearchPeople";
 import ManagementScreen from "./screens/Management";
 
 import { combineReducers } from "redux";
@@ -44,6 +45,17 @@ const HomeNavigator = () => {
     <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Create" component={CreateScreen} />
+      <Stack.Screen name="SearchPeople" component={SearchPeopleScreen} />
+    </Stack.Navigator>
+  );
+};
+const ProfileNavigator = () => {
+  return (
+    <Stack.Navigator initialRouteName="MyProfile" screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="MyProfile" component={MyprofileScreen} />
+      <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+      <Stack.Screen name="History" component={HistoryScreen} />
+      <Stack.Screen name="Friend" component={FriendScreen} />
     </Stack.Navigator>
   );
 };
@@ -130,13 +142,10 @@ export default function App() {
             <Stack.Screen name="BottomMenuTabs" component={BottomMenuTabs} />
             <Stack.Screen name="Create" component={CreateScreen} />
             <Stack.Screen name="Map" component={MapScreen} />
-            <Stack.Screen name="OtherProfile" component={OtherProfileScreen} />
-            <Stack.Screen name="Friend" component={FriendScreen} />
-            <Stack.Screen name="History" component={HistoryScreen} />
+            <Stack.Screen name="Otherprofile" component={OtherProfileScreen} />
             <Stack.Screen name="Chat" component={ChatScreen} />
             <Stack.Screen name="Resume" component={ResumeScreen} />
             <Stack.Screen name="ResultSearch" component={ResultSearch} />
-            <Stack.Screen name="EditProfile" component={EditProfileScreen} /> 
             <Stack.Screen name="Management" component={ManagementScreen} />
           </Stack.Navigator>
         </NavigationContainer>

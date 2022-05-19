@@ -57,7 +57,7 @@ function Create(props) {
   }
   //Fonction d'envois de formulaire
   const handleSubmit = async () => {
-    //Sécurité si oublie d'entrer la location de la rando 
+    //Sécurité si oublie d'entrer la location de la rando
     if (!thePOI.coordinate) {
       alert('Placez le point de départ sur la carte.')
       return
@@ -78,7 +78,7 @@ function Create(props) {
       description,
       level,
     }
-    //Envois au router sécurisé 
+    //Envois au router sécurisé
     try {
       var rawresponse = await fetch(backendAdress + '/create-track', {
         method: 'POST',

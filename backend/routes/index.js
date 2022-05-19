@@ -75,7 +75,7 @@ router.post('/search-track', async function (req, res, next) {
   let searchData = req.body
   console.log('données recues: ', searchData)
 
-  //***** Securisation des données de recherche */
+  //***** Securisation des données de recherche: null si vide */
   let citie = searchData.ville.nom ? searchData.ville.nom : undefined
   let dpt = searchData.ville.dpt ? searchData.ville.dpt : undefined
   let codePostal = searchData.codePostal ? searchData.codePostal : undefined

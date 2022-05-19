@@ -84,6 +84,7 @@ const BottomMenuTabs = () => {
         headerShown: false,
       })}
       tabBarOptions={{
+        keyboardHidesTabBar: true,
         activeTintColor: '#009788',
         inactiveTintColor: '#FFFFFF',
         style: {

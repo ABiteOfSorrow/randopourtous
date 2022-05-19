@@ -27,10 +27,10 @@ router.post('/create-track', async function (req, res, next) {
     return res.json({result: false, error: 'Token manquant.'})
   }
   if (
-    (!randoData.userToken,
-    !randoData.name,
-    !randoData.coordinate,
-    !randoData.date)
+    !randoData.userToken ||
+    !randoData.name ||
+    !randoData.coordinate ||
+    !randoData.date
   ) {
     return res.json({result: false, error: 'Inputs incorrects'})
   }
@@ -54,7 +54,7 @@ router.post('/create-track', async function (req, res, next) {
     mixed: randoData.mixed,
     userId: foundUser.id,
     name: randoData.name,
-    city: randoData.departure,
+    departure: randoData.departure,
     coordinate: randoData.coordinate,
     maxUsers: parseInt(randoData.maxRunner),
     users,
@@ -66,9 +66,9 @@ router.post('/create-track', async function (req, res, next) {
   var randoSaved = await newRando.save()
 
   //Ajout de la rando dans la liste de partication de l'user
-  if(randoSaved){
-  foundUser.tracks.push(randoSaved._id)
-  await foundUser.save();
+  if (randoSaved) {
+    foundUser.tracks.push(randoSaved._id)
+    await foundUser.save()
   }
 
   return res.json({result: true})
@@ -80,17 +80,27 @@ router.post('/search-track', async function (req, res, next) {
 
   //***** Securisation des données de recherche: null si vide */
   let citie = searchData.ville.nom ? searchData.ville.nom : undefined
-  let dpt = searchData.ville.dpt ? searchData.ville.dpt : undefined
-  let codePostal = searchData.codePostal ? searchData.codePostal : undefined
+  let dpt = searchData.ville.dpt ? parseInt(searchData.ville.dpt) : undefined
+  let codePostal = searchData.ville.codePostal
+    ? searchData.ville.codePostal
+    : null
   let mixte = searchData.mixte ? searchData.mixte : undefined
   let age = searchData.age ? searchData.age : undefined
   let level = searchData.niveau ? searchData.niveau : null
   let date = searchData.date ? searchData.date : undefined
 
-  var result = await randoModel.find({
-    'departure.nom': citie,
-    level: level !== null ? level : {$exists: true},
-  })
+  console.log(codePostal.length)
+  if (codePostal.length === 2) {
+    var result = await randoModel.find({
+      'departure.dpt': parseInt(dpt),
+      level: level !== null ? level : {$exists: true},
+    })
+  } else {
+    var result = await randoModel.find({
+      'departure.nom': citie,
+      level: level !== null ? level : {$exists: true},
+    })
+  }
 
   console.log(result)
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Text, Button } from 'native-base';
+import { Text, Button, ScrollView } from 'native-base';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -24,7 +24,7 @@ function Home(props) {
 
 
   return (
-    <SafeAreaView style={{ flex: 1, alignItems: 'center', backgroundColor: '#fff' }}>
+    <SafeAreaView style={{ flex: 1, alignItems: 'center', backgroundColor: '#fff', width: '100%', paddingBottom: '20%' }}>
       <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center' }} >
         <View style={{ width: '30%' }} >
           <HamburgerMenu />
@@ -33,24 +33,25 @@ function Home(props) {
           <Text style={{ fontSize: 18, fontWeight: 'bold', padding: 0, margin: 0 }} >
             Accueil
           </Text></View>
-        <View style={{ width: '30%' }}><Text></Text></View>
+        <View style={{ width: '30%' }}></View>
       </View>
-      <Text style={{ fontSize: 20, marginTop: 30 }}>
-        Rando Pour Tous!
-      </Text>
-      <View style={{ width: '100%', marginTop: 62, display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
-        <Button my={2} bg={'#78E08F'} onPress={() => props.navigation.navigate("Chercher")} w={'80%'} >Chercher une randonnée</Button>
-        <Button my={2} bg={'#78E08F'} onPress={() => props.navigation.navigate("Create")} w={'80%'} >Créer une randonnée</Button>
-      </View>
-      <View style={{ marginTop: 12 }} >
-        <MaterialIcons name="account-circle" size={96} color="black" />
-      </View>
-      <View style={{ width: '100%', marginTop: 40, display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
-        <Text>{props.user.username}</Text>
-        <Button my={2} bg={'#079992'} onPress={() => props.navigation.navigate('Profil')} >Mon compte</Button>
-        <Button my={2} bg={'#bbb'} onPress={() => alert("Faut créer l'écran!")} >Chercher un utilisateur</Button>
-      </View>
-      
+      <ScrollView contentContainerStyle={{ flex: 1, width: '100%', alignItems: 'center'  }} >
+        <Text style={{ fontSize: 20, marginTop: '10%' }}>
+          Rando Pour Tous!
+        </Text>
+        <View style={{ width: '84%', marginTop: '10%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
+          <Button my={1} bg={'#78E08F'} onPress={() => props.navigation.navigate("Chercher")} >Chercher une randonnée</Button>
+          <Button my={1} bg={'#78E08F'} onPress={() => props.navigation.navigate("Create")} >Créer une randonnée</Button>
+        </View>
+        <View style={{ marginTop: '8%' }} >
+          <MaterialIcons name="account-circle" size={96} color="black" />
+        </View>
+        <View style={{ width: '100%', marginTop: '8%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
+          <Text>{props.user.username}</Text>
+          <Button my={2} bg={'#079992'} onPress={() => props.navigation.navigate('Profil')} >Mon compte</Button>
+          <Button my={2} bg={'#bbb'} onPress={() => alert("Faut créer l'écran!")} >Chercher un utilisateur</Button>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }

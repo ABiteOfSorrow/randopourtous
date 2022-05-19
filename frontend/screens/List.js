@@ -1,53 +1,33 @@
 import React from 'react'
-import {
-  HStack,
-  VStack,
-  Center,
-  Heading,
-  Box,
-  Button,
-  Text,
-  Switch,
-} from 'native-base'
+import { HStack, VStack, Center, Heading, Box, Button, Text, Switch, } from 'native-base'
 import {StyleSheet, ScrollView} from 'react-native'
 import {SafeAreaView} from 'react-native-safe-area-context'
 import HamburgerMenu from '../components/HamburgerMenu'
 
 function List(props) {
+  const [vueMap, setVueMap] = React.useState(false)
+
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
-      <ScrollView>
+      <ScrollView style={{ flex: 1 }}>
         <HStack justifyContent='space-between' mb={4}>
           <HamburgerMenu />
-          <Button
-            w={90}
-            h={8}
-            p={0}
-            mt={2}
-            mr={2}
-            variant='outline'
-            borderColor='#38ADA9'
-            onPress={() => props.navigation.goBack()}>
-            <Text fontSize='xs' bold color='#38ADA9'>
-              Retour
-            </Text>
-          </Button>
         </HStack>
         {/* List Body */}
         <VStack space={2} alignItems='center'>
           <Heading size='lg' mb={5}>
-            Liste des Randonnées
+            Randonnées participées
           </Heading>
 
           {/* Switch Line */}
-          <Box display='flex' flexDirection='row' alignItems='center' mb={5}>
+          <Box style={{ display:'flex', flexDirection:'row', alignItems:'center' }} mb={3}>
             <Switch
               offTrackColor='#C4C4C4'
               onTrackColor='#78E08F'
               mr={4}
               onValueChange={() => {
-                setMixte(!mixte)
-                console.log(mixte)
+                setVueMap(!vueMap)
+                console.log(vueMap)
               }}
             />
             <Heading size='md'>Vue carte</Heading>
@@ -68,13 +48,12 @@ function List(props) {
             bg='#FAFAFA'
             rounded='lg'
             shadow={8}
-            display='flex'
-            flexDirection='row'
+            style={{ display:'flex', flexDirection:'row' }}
             justifyContent='space-around'>
             <Heading size='md'>Vincennes</Heading>
 
             <VStack space={2} alignItems='flex-start'>
-              <Text fontSize='sm' bold>
+              <Text style={{ fontSize:12, fontWeight:'bold' }} >
                 Sportif
               </Text>
               <Text fontSize='sm' bold>

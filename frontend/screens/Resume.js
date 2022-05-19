@@ -1,83 +1,107 @@
 import React from "react";
 import { Avatar, HStack, VStack, Center, Heading, Box, Button, Text, Flex, Stack } from "native-base";
-import { StyleSheet, ScrollView } from "react-native";
+import { Dimensions, StyleSheet, Platform, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import MapView, { Marker } from "react-native-maps";
+
+const { width: screenWidth } = Dimensions.get("window");
 
 import { AntDesign } from "@expo/vector-icons";
 import HamburgerMenu from "../components/HamburgerMenu";
+import CustomSlider from "../components/CustomSlider";
 
 function Resume() {
+  const data = [
+    {
+      title: "Coral Reef",
+      description: "Location: Red Sea",
+      source: "https://images.unsplash.com/photo-1633205719979-e47958ff6d93?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
+    },
+    {
+      title: "Phone",
+      description: "iPhone 6 on the table",
+      source: "https://images.unsplash.com/photo-1535303311164-664fc9ec6532?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
+    },
+
+    {
+      title: "Old building",
+      description: "Location: Germany",
+      source: "https://images.unsplash.com/photo-1623345805780-8f01f714e65f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
+    },
+  ];
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
+      <HStack justifyContent="space-between" mb={4}>
+        <HamburgerMenu />
+        <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9" onPress={() => props.navigation.goBack()}>
+          <Text fontSize="xs" bold color="#38ADA9">
+            Retour
+          </Text>
+        </Button>
+      </HStack>
 
-        <HStack justifyContent="space-between" mb={4}>
-          <HamburgerMenu />
-          <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9" onPress={() => props.navigation.goBack()}>
-            <Text fontSize="xs" bold color="#38ADA9">
-              Retour
-            </Text>
-          </Button>
-        </HStack>
+      <Button w={"80%"} size="md" backgroundColor="#E55039" alignSelf="center" mb={10} onPress={() => console.log("I'm Pressed")}>
+        <Text style={styles.contentText} fontSize="md">
+          Nom de la Rando
+        </Text>
+      </Button>
+      {/* contents container for Demandes de partipation */}
+      <VStack space={2} mb={2} alignItems="center">
+        <Heading mb={5} size="md">
+          À: Lieu de la Rando
+        </Heading>
+        <Heading size="md">Historique des photos partagées </Heading>
+      </VStack>
 
-        <Button w={"80%"} size="md" backgroundColor="#E55039" alignSelf="center" mb={10} onPress={() => console.log("I'm Pressed")}>
-                <Text style={styles.contentText} fontSize="md">
-                Nom de la Rando
-                </Text>
-              </Button>
-        {/* contents container for Demandes de partipation */}
-        <VStack space={2} mb={20} alignItems="center">
-          <Heading mb={10} size="md">À: Lieu de la Rando </Heading>
-          <Heading size="md">Historique des photos partagées </Heading>
-        </VStack>
+      <CustomSlider data={data} />
+      <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mb={5} onPress={() => console.log("I'm Pressed")}>
+        <Text style={styles.contentText} fontSize="md">
+          Partager des photos
+        </Text>
+      </Button>
 
-
-
-
-
-        <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mb={10} onPress={() => console.log("I'm Pressed")}>
-                <Text style={styles.contentText} fontSize="md">
-                Partager des photos
-                </Text>
-              </Button>
-
-
-
-        <VStack space={5} alignItems="flex-start">
-                <Flex direction="row" alignSelf="center">
-                <Heading mr={5} size="md">Note globale</Heading>
-                  <AntDesign name="star" size={24} color="yellow" />
-                  <AntDesign name="star" size={24} color="yellow" />
-                  <AntDesign name="star" size={24} color="yellow" />
-                  <AntDesign name="star" size={24} color="yellow" />
-                  <AntDesign name="star" size={24} color="yellow" />
-                </Flex>
-                <Flex direction="row" alignSelf="center">
-                <Heading mr={5} size="md">Paysage</Heading>
-                  <AntDesign name="star" size={24} color="yellow" />
-                  <AntDesign name="star" size={24} color="yellow" />
-                  <AntDesign name="star" size={24} color="yellow" />
-                  <AntDesign name="star" size={24} color="yellow" />
-                  <AntDesign name="star" size={24} color="yellow" />
-                </Flex>
-                <Flex direction="row" alignSelf="center">
-                <Heading mr={5} size="md">Ambiance</Heading>
-                  <AntDesign name="star" size={24} color="yellow" />
-                  <AntDesign name="star" size={24} color="yellow" />
-                  <AntDesign name="star" size={24} color="yellow" />
-                  <AntDesign name="star" size={24} color="yellow" />
-                  <AntDesign name="star" size={24} color="yellow" />
-                </Flex>
-                <Flex direction="row" alignSelf="center">
-                <Heading mr={5} size="md">Difficulté</Heading>
-                  <AntDesign name="star" size={24} color="yellow" />
-                  <AntDesign name="star" size={24} color="yellow" />
-                  <AntDesign name="star" size={24} color="yellow" />
-                  <AntDesign name="star" size={24} color="yellow" />
-                  <AntDesign name="star" size={24} color="yellow" />
-                </Flex>
-              </VStack>
-
+      <VStack space={5}>
+        <Flex direction="row" alignSelf="center">
+          <Heading mr={5} size="md">
+            Note globale
+          </Heading>
+          <AntDesign name="star" size={24} color="yellow" />
+          <AntDesign name="star" size={24} color="yellow" />
+          <AntDesign name="star" size={24} color="yellow" />
+          <AntDesign name="star" size={24} color="yellow" />
+          <AntDesign name="star" size={24} color="yellow" />
+        </Flex>
+        <Flex direction="row" alignSelf="center">
+          <Heading mr={5} size="md">
+            Paysage
+          </Heading>
+          <AntDesign name="star" size={24} color="yellow" />
+          <AntDesign name="star" size={24} color="yellow" />
+          <AntDesign name="star" size={24} color="yellow" />
+          <AntDesign name="star" size={24} color="yellow" />
+          <AntDesign name="star" size={24} color="yellow" />
+        </Flex>
+        <Flex direction="row" alignSelf="center">
+          <Heading mr={5} size="md">
+            Ambiance
+          </Heading>
+          <AntDesign name="star" size={24} color="yellow" />
+          <AntDesign name="star" size={24} color="yellow" />
+          <AntDesign name="star" size={24} color="yellow" />
+          <AntDesign name="star" size={24} color="yellow" />
+          <AntDesign name="star" size={24} color="yellow" />
+        </Flex>
+        <Flex direction="row" alignSelf="center">
+          <Heading mr={5} size="md">
+            Difficulté
+          </Heading>
+          <AntDesign name="star" size={24} color="yellow" />
+          <AntDesign name="star" size={24} color="yellow" />
+          <AntDesign name="star" size={24} color="yellow" />
+          <AntDesign name="star" size={24} color="yellow" />
+          <AntDesign name="star" size={24} color="yellow" />
+        </Flex>
+      </VStack>
 
       {/* To prevent leaving the content area */}
       <Box w="100%" h="8.5%" alignSelf="center" bg="#fff" />
@@ -93,6 +117,38 @@ const styles = StyleSheet.create({
     width: "90%",
     marginTop: 10,
     height: 200,
+  },
+  container: {
+    paddingTop: 30,
+  },
+  title: {
+    fontSize: 20,
+  },
+  item: {
+    width: "100%",
+    height: screenWidth - 20, //height will be 20 units less than screen width.
+  },
+  imageContainer: {
+    flex: 1,
+    borderRadius: 5,
+    backgroundColor: "lightblue",
+    marginBottom: Platform.select({ ios: 0, android: 1 }), //handle rendering bug.
+  },
+  image: {
+    ...StyleSheet.absoluteFillObject,
+    resizeMode: "contain",
+  },
+  dotContainer: {
+    backgroundColor: "rgb(230,0,0)",
+  },
+  dotStyle: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: "black",
+  },
+  inactiveDotStyle: {
+    backgroundColor: "rgb(255,230,230)",
   },
 });
 

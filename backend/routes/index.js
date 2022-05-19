@@ -1,41 +1,52 @@
-var express = require('express');
-var router = express.Router();
-var randoModel = require('../models/rando');
-let UserModel = require('../models/user');
+var express = require('express')
+var router = express.Router()
+var randoModel = require('../models/rando')
+let UserModel = require('../models/user')
 
-var uid2 = require('uid2');
+var uid2 = require('uid2')
+const {json} = require('express')
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+  res.render('index', {title: 'Express'})
+})
 
 router.post('/create-track', async function (req, res, next) {
   // console.log(JSON.stringify(req.body))
   var randoData = req.body
-  let estimation_time = randoData.estimation_time;
-  let description = randoData.description;
+  let estimation_time = randoData.estimation_time
+  let description = randoData.description
   if (!description) {
-    description = '';
+    description = ''
   }
   if (!estimation_time) {
-    estimation_time = 0;
+    estimation_time = 0
   } else {
     estimation_time = parseInt(estimation_time)
   }
-  let token = req.body.token;
+  let token = req.body.token
   if (!token) {
-    return res.json({ result: false, error: 'Token manquant.' })
+    return res.json({result: false, error: 'Token manquant.'})
   }
-  if ( !randoData.userToken, !randoData.name, !randoData.coordinate, !randoData.date ) {
-    return res.json({ result: false, error: 'Inputs incorrects' })
+  if (
+    (!randoData.userToken,
+    !randoData.name,
+    !randoData.coordinate,
+    !randoData.date)
+  ) {
+    return res.json({result: false, error: 'Inputs incorrects'})
   }
 
-  let foundUser = await UserModel.findOne({ token });
-  if(!foundUser) {
-    return res.json({ result: false, error: 'Mauvais token' })
+  let foundUser = await UserModel.findOne({token})
+  if (!foundUser) {
+    return res.json({result: false, error: 'Mauvais token'})
   }
-  let user = { _id: foundUser._id, username: foundUser.username, name: foundUser.name, lastname: foundUser.lastname }
+  let user = {
+    _id: foundUser._id,
+    username: foundUser.username,
+    name: foundUser.name,
+    lastname: foundUser.lastname,
+  }
 
   let users = []
   users.push(user)
@@ -52,12 +63,35 @@ router.post('/create-track', async function (req, res, next) {
     estimation_time: estimation_time,
     description: randoData.description,
     level: randoData.level,
-  });
-  console.log('rando save');
-  var randoSaved = await newRando.save();
+  })
+  console.log('rando save')
+  var randoSaved = await newRando.save()
   console.log(randoSaved)
 
-  return res.json({ result: true })
-});
+  return res.json({result: true})
+})
 
-module.exports = router;
+router.post('/search-track', async function (req, res, next) {
+  let searchData = req.body
+  console.log('données recues: ', searchData)
+
+  //***** Securisation des données de recherche */
+  let citie = searchData.ville.nom ? searchData.ville.nom : undefined
+  let dpt = searchData.ville.dpt ? searchData.ville.dpt : undefined
+  let codePostal = searchData.codePostal ? searchData.codePostal : undefined
+  let mixte = searchData.mixte ? searchData.mixte : undefined
+  let age = searchData.age ? searchData.age : undefined
+  let level = searchData.niveau ? searchData.niveau : null
+  let date = searchData.date ? searchData.date : undefined
+
+  var result = await randoModel.find({
+    'departure.nom': citie,
+    level: null || level,
+  })
+
+  console.log(result)
+
+  return res.json({success: true, result: result})
+})
+
+module.exports = router

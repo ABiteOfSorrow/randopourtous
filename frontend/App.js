@@ -9,27 +9,30 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { FontAwesome5 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import PresentScreen from './screens/PresentScreen';
-import SignInScreen from './screens/SignIn'
-import SignUpScreen from './screens/SignUp'
-import HomeScreen from './screens/Home'
-import CreateScreen from './screens/Create'
-import SearchScreen from './screens/Search'
-import MapScreen from './screens/Map'
-import ListScreen from './screens/List'
-import DetailScreen from './screens/Detail'
-import MyprofileScreen from './screens/MyProfile'
-import OtherprofileScreen from './screens/OtherProfile'
-import HistoryScreen from './screens/History'
-import FriendScreen from './screens/Friend'
-import ChatScreen from './screens/Chat'
-import ResumeScreen from './screens/Resume'
-import EditProfileScreen from './screens/EditProfile';
+import PresentScreen from "./screens/PresentScreen";
+import SignInScreen from "./screens/SignIn";
+import SignUpScreen from "./screens/SignUp";
+import HomeScreen from "./screens/Home";
+import CreateScreen from "./screens/Create";
+import SearchScreen from "./screens/Search";
+import MapScreen from "./screens/Map";
+import ListScreen from "./screens/List";
+import DetailScreen from "./screens/Detail";
+import MyprofileScreen from "./screens/MyProfile";
+import OtherProfileScreen from "./screens/OtherProfile";
+import HistoryScreen from "./screens/History";
+import FriendScreen from "./screens/Friend";
+import ChatScreen from "./screens/Chat";
+import ResumeScreen from "./screens/Resume";
+import EditProfileScreen from "./screens/EditProfile";
+import ResultSearch from "./screens/ResultSearch";
+import ManagementScreen from "./screens/Management";
 
 import { combineReducers } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
 import user from "./reducers/user.reducer";
-const store = configureStore({ reducer: combineReducers({ user }) });
+import searchData from "./reducers/search.reducer";
+const store = configureStore({ reducer: combineReducers({ user, searchData }) });
 import { Provider } from "react-redux";
 import { useEffect } from "react";
 
@@ -37,29 +40,28 @@ const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const HomeNavigator = () => {
-
   return (
-    <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown:false }}>
+    <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Create" component={CreateScreen} />
     </Stack.Navigator>
-  )
-}
+  );
+};
 
 const BottomMenuTabs = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color }) => {
-          let iconName
-          if (route.name === 'Home') {
-            iconName = 'home'
-          } else if (route.name === 'Randos') {
-            iconName = 'hiking'
-          } else if (route.name === 'Chercher') {
-            iconName = 'search'
-          } else if (route.name === 'Profil') {
-            iconName = 'user-alt'
+          let iconName;
+          if (route.name === "Home") {
+            iconName = "home";
+          } else if (route.name === "Randos") {
+            iconName = "hiking";
+          } else if (route.name === "Chercher") {
+            iconName = "search";
+          } else if (route.name === "Profil") {
+            iconName = "user-alt";
           }
           return <FontAwesome5 name={iconName} size={25} color={color} />;
         },
@@ -85,7 +87,7 @@ const BottomMenuTabs = () => {
       <Tab.Screen name="Home" options={{ gestureEnabled: false }} component={HomeNavigator} />
       <Tab.Screen name="Randos" component={ListScreen} />
       <Tab.Screen name="Chercher" component={SearchScreen} />
-      <Tab.Screen name="Profil" component={ChatScreen} />
+      <Tab.Screen name="Profil" component={ResumeScreen} />
     </Tab.Navigator>
   );
 };
@@ -128,13 +130,14 @@ export default function App() {
             <Stack.Screen name="BottomMenuTabs" component={BottomMenuTabs} />
             <Stack.Screen name="Create" component={CreateScreen} />
             <Stack.Screen name="Map" component={MapScreen} />
-            <Stack.Screen name="Otherprofile" component={OtherprofileScreen} />
+            <Stack.Screen name="OtherProfile" component={OtherProfileScreen} />
             <Stack.Screen name="Friend" component={FriendScreen} />
             <Stack.Screen name="History" component={HistoryScreen} />
             <Stack.Screen name="Chat" component={ChatScreen} />
             <Stack.Screen name="Resume" component={ResumeScreen} />
-            <Stack.Screen name="EditProfile" component={EditProfileScreen} />
-            
+            <Stack.Screen name="ResultSearch" component={ResultSearch} />
+            <Stack.Screen name="EditProfile" component={EditProfileScreen} /> 
+            <Stack.Screen name="Management" component={ManagementScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>

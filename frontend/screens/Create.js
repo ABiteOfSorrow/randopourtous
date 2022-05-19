@@ -11,18 +11,17 @@ import backendConfig from "../backend.config.json";
 const backendAdress = backendConfig.address;
 
 function Create(props) {
-  const [date, setDate] = useState();
-  const [mixed, setMixed] = useState(false);
-  const toggleSwitch = () => setMixed((previousState) => !previousState); //fonction qui change la valeur du swicth
-  const [randoName, setRandoName] = useState("");
-  //const [depart, setDepart] = useState('');
-  const [estim_time, setEstimation] = useState("");
-  const [maxRunner, setMaxRunner] = useState("");
-  const [description, setDescription] = useState("");
-  const [level, setLevel] = useState("Niveau Sportif");
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [isHourPickerVisible, setHourPickerVisibility] = useState(false);
-  const [thePOI, setThePOI] = useState({});
+   const [date, setDate] = useState();
+   const [mixed, setMixed] = useState(false);
+   const toggleSwitch = () => setMixed(previousState => !previousState); //fonction qui change la valeur du swicth
+   const [randoName, setRandoName] = useState('');
+   const [estim_time, setEstimation] = useState('');
+   const [maxRunner, setMaxRunner] = useState('');
+   const [description, setDescription] = useState('');
+   const [level, setLevel] = useState('Niveau Sportif');
+   const [isDatePickerVisible, setDatePickerVisibility] = useState(false)
+   const [isHourPickerVisible, setHourPickerVisibility] = useState(false)
+   const [thePOI, setThePOI] = useState({});
 
   const [citie, setCitie] = useState({});
   const [listCities, setListCities] = useState([]);
@@ -48,44 +47,44 @@ function Create(props) {
     }
   };
 
-  // let [language, setLanguage] = React.useState('key0');
-
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
+   const showDatePicker = () => {
+      setDatePickerVisibility(true)
+   }
 
   const hidePicker = () => {
     setDatePickerVisibility(false);
     setHourPickerVisibility(false);
   };
 
-  const handleSubmit = async () => {
-    if (!thePOI.coordinate) {
-      alert("Placez le point de départ sur la carte.");
-      return;
-    }
-    console.log("handlesubmit", props.user.token);
-    let coordinate = thePOI.coordinate;
-    var randoData = { token: props.user.token, mixed: mixed, name: randoName, departure: citie, coordinate, estimation_time: estim_time, date, maxRunner, description, level };
-    try {
-      var rawresponse = await fetch(backendAdress + "/create-track", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(randoData),
-      });
-      if (rawresponse.ok) {
-        var result = await rawresponse.json();
-        props.navigation.replace("Detail");
-        if (result.result) {
-          alert("Merci!");
-        } else {
-          alert("Une erreur est survenue.");
-        }
-      } else {
-        alert("Le serveur ne répond pas.");
+   const handleSubmit = async () => {
+      if (!thePOI.coordinate) {
+         alert('Placez le point de départ sur la carte.')
+         return;
       }
-    } catch (e) {
-      console.log(e);
+      console.log("handlesubmit", props.user.token)
+      let coordinate = thePOI.coordinate
+      var randoData = { token: props.user.token, mixed: mixed, name: randoName, departure: citie, coordinate, estimation_time: estim_time, date, maxRunner, description, level }
+      //sécurité véri
+      try {
+         var rawresponse = await fetch(backendAdress + '/create-track', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(randoData)
+         });
+         if (rawresponse.ok) {
+            var result = await rawresponse.json();
+            props.navigation.replace("Detail")
+            if (result.result) {
+               alert('Merci!')
+            } else {
+               alert('Une erreur est survenue.')
+            }
+            
+         } else {
+            alert('Le serveur ne répond pas.')
+         }
+      } catch (e) {
+         console.log(e)
     }
   };
 

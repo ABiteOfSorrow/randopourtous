@@ -17,6 +17,7 @@ function Home(props) {
     }).catch(err => {
       console.log(err);
     });
+    // fetch data from backend
 
     props.navigation.canGoBack(false);
   }, []);
@@ -45,6 +46,7 @@ function Home(props) {
         <MaterialIcons name="account-circle" size={96} color="black" />
       </View>
       <View style={{ width: '100%', marginTop: 40, display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
+        <Text>{props.user.username}</Text>
         <Button my={2} bg={'#079992'} onPress={() => props.navigation.navigate('Profil')} >Mon compte</Button>
         <Button my={2} bg={'#bbb'} onPress={() => alert("Faut créer l'écran!")} >Chercher un utilisateur</Button>
       </View>
@@ -57,5 +59,10 @@ function mapDispatchToProps(dispatch) {
     signIn: (user) => dispatch({ type: 'USER_LOGIN', user: user })
   };
 }
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  }
+}
 
-export default connect(null, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {
   HStack,
   VStack,
@@ -13,8 +13,35 @@ import {StyleSheet, ScrollView} from 'react-native'
 import {SafeAreaView} from 'react-native-safe-area-context'
 import HamburgerMenu from '../components/HamburgerMenu'
 import {connect} from 'react-redux'
+import backendConfig from '../backend.config.json'
+
+const backendAdress = backendConfig.address
 
 function ResultSearch(props) {
+  useEffect(() => {
+    var searchFunction = async function () {
+      console.log('données envoyées ', props.data)
+
+      let result = await fetch(backendAdress + '/search-track', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(props.data),
+      })
+
+      let response = await result.json()
+
+      console.log('données recues: ', response.result)
+      // if (!data.result) {
+      //   Alert.alert("Erreur", data.error);
+      //   return;
+      // }
+    }
+
+    searchFunction()
+  }, [])
+
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <ScrollView>

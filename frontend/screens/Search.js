@@ -150,7 +150,7 @@ function Search(props) {
               console.log(mixte)
             }}
           />
-          <Heading size='md' mb='1.5'>Rando mixte </Heading><Entypo name="info-with-circle" size={10} color="black" />
+          <Heading size='md' mb='1.5'>Rando mixte </Heading><Entypo name="info-with-circle" style={{ paddingBottom:13 }} size={10} color="black" />
         </Box>
 
         {/* sélection de l'age */}

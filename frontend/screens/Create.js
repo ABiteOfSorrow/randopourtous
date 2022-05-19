@@ -11,7 +11,7 @@ import backendConfig from '../backend.config.json'
 const backendAdress = backendConfig.address
 
 function Create(props) {
-  const [date, setDate] = useState(null)
+  const [date, setDate] = useState()
   const [mixed, setMixed] = useState(false)
   const toggleSwitch = () => setMixed((previousState) => !previousState) //fonction qui change la valeur du swicth
   const [randoName, setRandoName] = useState('')

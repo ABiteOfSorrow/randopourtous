@@ -25,10 +25,22 @@ function SignUp(props) {
       Alert.alert('Attention', 'Les mots de passe ne correspondent pas.');
       return
     }
-    if (!email || !username || !password) {
-      Alert.alert('Attention', 'Veuillez remplir tous les champs.');
+    if (!email || !username || !password || email.length < 4 || username.length < 4 || password.length < 6) {
+      Alert.alert('Attention', 'Veuillez remplir correctement tous les champs. Longueur du mot de passe minimum 6 caractères.');
       return
     }
+    const validateEmail = (mail) => {
+      return String(mail)
+        .toLowerCase()
+        .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+    };
+    if (!validateEmail(email)) {
+      Alert.alert('Attention', 'Veuillez entrer une adresse email valide.');
+      return;
+    }
+
     // fetch to backend ici
     let result = await fetch(backendAdress + '/users/sign-up', {
       method: 'POST',

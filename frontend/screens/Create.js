@@ -58,22 +58,23 @@ function Create(props) {
       setListCities([])
     }
   }
-
+  //Fonction d'ouverture du pop up d'entre de la date
   const showDatePicker = () => {
     setDatePickerVisibility(true)
   }
-
+  //Fonction de fermeture du pop up d'entre de la date
   const hidePicker = () => {
     setDatePickerVisibility(false)
     setHourPickerVisibility(false)
   }
-
+  //Fonction d'envois de formulaire
   const handleSubmit = async () => {
+    //Sécurité si oublie d'entrer la location de la rando 
     if (!thePOI.coordinate) {
       alert('Placez le point de départ sur la carte.')
       return
     }
-    console.log('handlesubmit', props.user.token)
+    
     let coordinate = thePOI.coordinate
     var randoData = {
       token: props.user.token,
@@ -87,7 +88,7 @@ function Create(props) {
       description,
       level,
     }
-    //sécurité véri
+    //Envois au router sécurisé 
     try {
       var rawresponse = await fetch(backendAdress + '/create-track', {
         method: 'POST',
@@ -109,13 +110,13 @@ function Create(props) {
       console.log(e)
     }
   }
-
+  //Fontion recupère les infos du press listener sur la carte
   const addPress = async (nativeEvent) => {
     console.log(nativeEvent)
     setThePOI(nativeEvent)
     console.log('thePOI', thePOI)
   }
-
+  //Marqueur de map appelé sur le map view
   var trackMarker = () => {
     if (thePOI.coordinate) {
       return (
@@ -134,6 +135,8 @@ function Create(props) {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+
+    {/* l'entête/header */}
       <HStack justifyContent='space-between' mb={4}>
         <HamburgerMenu />
         <Button
@@ -151,6 +154,7 @@ function Create(props) {
         </Button>
       </HStack>
 
+    {/* Le body */}
       <VStack
         space={2}
         style={{alignItems: 'center', flex: 1, paddingBottom: 74}}>
@@ -185,6 +189,8 @@ function Create(props) {
         />
         {listCities.length > 1 ? (
           <View style={{height: 200, width: '100%'}}>
+
+            {/* Menu déroulant pour la selection de la ville */}
             <ScrollView>
               {listCities.map((e, i) => (
                 <TouchableOpacity
@@ -206,8 +212,11 @@ function Create(props) {
                 </TouchableOpacity>
               ))}
             </ScrollView>
+
           </View>
         ) : null}
+
+        {/* Les 2 input avec une expression rationnelles (replace) pour un "number only" */}
         <Input
           style={styles.allInput}
           size='xs'
@@ -226,6 +235,8 @@ function Create(props) {
           h={8}
           onChangeText={(e) => setMaxRunner(e.replace(/[^0-9]/g, ''))}
         />
+
+        {/* Fake input avec pop up d'entré de date */}
         <Pressable
           style={styles.allInputPressable}
           w='80%'
@@ -248,6 +259,7 @@ function Create(props) {
                 date.getMinutes()}
           </Text>
         </Pressable>
+
         <Input
           style={styles.allInput}
           size='xs'
@@ -256,6 +268,8 @@ function Create(props) {
           h={8}
           onChangeText={(e) => setDescription(e)}
         />
+
+        {/* Sélection de niveau */}
         <View
           style={{
             width: '80%',
@@ -267,7 +281,7 @@ function Create(props) {
             style={styles.allInputSelect}
             placeholder={level}
             selectedValue={level}
-            w={'330px'}
+            w={'315px'}
             height={8}
             fontSize={10}
             bg='#EEEEEE'
@@ -280,6 +294,7 @@ function Create(props) {
           </Select>
         </View>
 
+        {/* Map */}
         <View style={styles.mapContainer}>
           <MapView
             style={styles.map}
@@ -310,6 +325,7 @@ function Create(props) {
         </Button>
       </VStack>
 
+      {/* Les 2 pop up date et heure (à ne pas mettre plus haut pour éviter de déranger le visuel) */}
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode='date'

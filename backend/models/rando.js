@@ -4,6 +4,7 @@ var messageSchema = mongoose.Schema({
   id: Number,
   author: String,
   content: String,
+  date: Date
 })
 var departureSchema = mongoose.Schema({
   nom: String,

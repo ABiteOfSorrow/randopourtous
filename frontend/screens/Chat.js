@@ -1,56 +1,107 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Bubble, GiftedChat, Send, MessageText } from "react-native-gifted-chat";
+
+import socketIOClient from "socket.io-client";
+//if message not working, change adress (ipconfig - ip)
+var socket = socketIOClient("http://192.168.10.119:3000");
+import { connect } from "react-redux";
+
+import { Bubble, GiftedChat, Send, MessageText, InputToolbar, SystemMessage } from "react-native-gifted-chat";
 import { HStack, VStack, Center, Heading, Box, Button, Text, Switch, Input, Badge } from "native-base";
 import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput, TouchableWithoutFeedback, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
 import HamburgerMenu from "../components/HamburgerMenu";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome } from "@expo/vector-icons";
 
 function Chat(props) {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
+  const [senderId, setSenderId] = useState(1)
+  const [receiverId, setReceiverId] = useState(2)
+  const [name, setName] = useState("popi")
+  const [image_path, setImage_path] = useState("https://placeimg.com/140/140/any")
   const [isOwner, setIsOwner] = useState(false);
 
-  const ownerClick = () => {
-    !isOwner ? setIsOwner(true) : setIsOwner(false);
-  };
+  //   //Setter for message list
 
-  useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: "Hello developer",
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: "React Native",
-          avatar: "https://placeimg.com/140/140/any",
-        },
-      },
-      {
-        _id: 2,
-        text: "Hello world",
-        createdAt: new Date(),
-        user: {
-          _id: 1,
-          name: "React Native",
-          avatar: "https://placeimg.com/140/140/any",
-        },
-      },
-    ]);
-  }, []);
+  // useEffect(() => {
+  //   setMessages([
+  //     {
+  //       _id: receiverId,// receiver id
+  //       text: 'Hello developer',
+  //       createdAt: new Date(),
+  //       user: {
+  //         _id: senderId,  // sender id
+  //         name: name,
+  //         avatar: image_path,
+  //       },
+  //     },
+  //   ])
+  // }, [])
+
+  // useEffect(() => {
+  //   socket.on("sendMessageToAll", (msg) => {
+  //     const response = JSON.parse(msg);
+  //     var sentMessages = {
+  //       _id: response.receiverId,
+  //       text: response.message,
+  //       createdAt: new Date(response.createdAt * 1000),
+  //       user: {
+  //         _id: response.senderId,
+  //         name: name,
+  //         avatar: image_path,
+  //       },
+  //     }
+  //     setMessages(previousMessages => GiftedChat.append(previousMessages, sentMessages))
+  //   })
+  // }, []);
+
 
   const onSend = useCallback((messages = []) => {
+    console.log(messages);
+    let obj = {
+      "senderId": senderId,
+      "receiverId": receiverId,
+      "message": messages[0].text,
+      "date": new Date(),
+    }
+    socket.emit("sendMessage", JSON.stringify(obj));
     setMessages((previousMessages) => GiftedChat.append(previousMessages, messages));
-  }, []);
+  }, [messages]);
+
+
+  // useEffect(() => {
+  //   //Receive message from backend
+  //   socket.on("sendMessageToAll", (msg) => {
+  //     setMessages([...messages, msg]);
+  //   });
+  // }, []);
+
+ 
+
+  //   // Change emoticons to emoji && F word change to [censored]
+  //   let messageLoad = listMessage.map((e) => {
+  //     var filteredMessage = e.msg.messages.replace(/:\)/g, "\u263A");
+  //     filteredMessage = filteredMessage.replace(/:\(/g, "\u2639");
+  //     filteredMessage = filteredMessage.replace(/:p/g, "\uD83D\uDE1B");
+  //     filteredMessage = filteredMessage.replace(/[a-z]*fuck[a-z]*/gi, "[censored]");
+  //     return (
+  //       <ListItem>
+  //         <ListItem.Content>
+  //           <ListItem.Title>{filteredMessage}</ListItem.Title>
+  //           <ListItem.Subtitle>{e.msg.pseudo}</ListItem.Subtitle>
+  //         </ListItem.Content>
+  //       </ListItem>
+  //     );
+  //   });
 
   const renderSend = (props) => {
     return (
       <Send {...props}>
         <View>
-          <Box w={20} h={"100%"} bg={"#079992"} justifyContent={"center"} alignItems={"center"}>
-          <FontAwesome name={"send"} size={28} color={"white"} />
+          <Box w={20} h={"100%"} bg={"#079992"} justifyContent={"center"} alignItems={"center"} borderRadius={5}>
+            <FontAwesome name={"send"} size={28} color={"white"} />
           </Box>
         </View>
       </Send>
@@ -70,6 +121,21 @@ function Chat(props) {
           right: {
             color: "#fff",
           },
+        }}
+      />
+    );
+  };
+
+  const customtInputToolbar = (props) => {
+    return (
+      <InputToolbar
+        {...props}
+        containerStyle={{
+          backgroundColor: "white",
+          borderTopColor: "#BBBBBB",
+          borderTopWidth: 1,
+          borderBottomLeftRadius: 8,
+          borderBottomRightRadius: 8,
         }}
       />
     );
@@ -107,26 +173,34 @@ function Chat(props) {
           </Box>
           {isOwner ? (
             <>
-              <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" onPress={() => (console.log("I'm Pressed"))}>
+              <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" onPress={() => console.log("I'm Pressed")}>
                 <Text style={styles.contentText} fontSize="md">
                   Voir la Rando
                 </Text>
               </Button>
-              
+
               <Badge // bg="red.400"
-      colorScheme="danger" rounded="full" mb={-7} mr={8} zIndex={1} variant="solid" alignSelf="flex-end" _text={{
-        fontSize: 12
-      }}>
-          2
-        </Badge>
-              <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" onPress={() => (console.log("I'm Pressed"))}>
+                colorScheme="danger"
+                rounded="full"
+                mb={-7}
+                mr={8}
+                zIndex={1}
+                variant="solid"
+                alignSelf="flex-end"
+                _text={{
+                  fontSize: 12,
+                }}
+              >
+                2
+              </Badge>
+              <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" onPress={() => console.log("I'm Pressed")}>
                 <Text style={styles.contentText} fontSize="md">
                   Gestion de la Rando
                 </Text>
               </Button>
             </>
           ) : (
-            <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" onPress={() => (console.log("I'm Pressed"))}>
+            <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" onPress={() => console.log("I'm Pressed")}>
               <Text style={styles.contentText} fontSize="md">
                 Voir la Rando
               </Text>
@@ -134,15 +208,17 @@ function Chat(props) {
           )}
         </VStack>
 
-        <Box w={"90%"} h={"60%"} bg="#ffffff" alignSelf={"center"} mt={5} borderWidth={2} borderColor={"#bbbbbb"}>
+        <Box w={"90%"} h={"60%"} bg="#ffffff" alignSelf={"center"} mt={5} borderWidth={2} borderColor={"#bbbbbb"} borderRadius={8}>
           <GiftedChat
-          height={200}
+            borderRadius={8}
             messages={messages}
             onSend={(messages) => onSend(messages)}
             user={{
-              _id: 1,
+              _id: senderId,  
             }}
+            renderAvatarOnTop={true}
             renderUsernameOnMessage={true}
+            renderInputToolbar={customtInputToolbar}
             renderBubble={renderBubble}
             alwaysShowSend
             renderSend={renderSend}
@@ -169,8 +245,8 @@ function Chat(props) {
         <Box w="100%" h="8.5%" alignSelf="center" bg="#fff" />
         {/* </TouchableWithoutFeedback> */}
       </KeyboardAvoidingView>
-            {/* To prevent leaving the content area */}
-            <Box w="100%" h="8.5%" alignSelf="center" bg="#fff" />
+      {/* To prevent leaving the content area */}
+      <Box w="100%" h="8.5%" alignSelf="center" bg="#fff" />
     </SafeAreaView>
   );
 }
@@ -233,158 +309,3 @@ const styles = StyleSheet.create({
 });
 
 export default Chat;
-
-//   const sendMessage = () => {
-//     Keyboard.dismiss();
-//     // db.collection("chats").doc(route.params.id).collection("messages").add({
-//     //   timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-//     //   message: input,
-//     //   displayName: auth.currentUser.displayName,
-//     //   email: auth.currentUser.email,
-//     //   photoURL: auth.currentUser.photoURL,
-//     // });
-//     console.log("hello");
-//     setInput("");
-//   };
-
-// import React, { useEffect, useState } from "react";
-// import { Keyboard, KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-// import { Avatar } from "react-native-elements";
-// import { AntDesign, Ionicons } from "@expo/vector-icons";
-// import FontAwesome from "react-native-vector-icons/FontAwesome";
-// import { StatusBar } from "expo-status-bar";
-
-// const ChatScreen = ({ navigation, route }) => {
-//   const [input, setInput] = useState("");
-//   const [messages, setMessages] = useState([]);
-
-//   return (
-//     )
-//   }
-
-//   export default ChatScreen;
-//           <Avatar
-//             rounded
-//             source={{
-//               uri: messages[0]?.data.photoURL,
-//               // "https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png",
-//             }}
-//           />
-//           <Text style={{ color: "white", marginLeft: 10, fontWeight: "700" }}>{route.params.chatName}</Text>
-//         </View>
-//       ),
-//       headerLeft: () => (
-//         <TouchableOpacity style={{ marginLeft: 10 }} onPress={navigation.goBack}>
-//           <AntDesign name="arrowleft" size={24} color="white" />
-//         </TouchableOpacity>
-//       ),
-//       headerRight: () => (
-//         <View
-//           style={{
-//             flexDirection: "row",
-//             justifyContent: "space-between",
-//             width: 80,
-//             marginRight: 20,
-//           }}
-//         >
-//           <TouchableOpacity>
-//             <FontAwesome name="video-camera" size={24} color="white" />
-//           </TouchableOpacity>
-//           <TouchableOpacity>
-//             <Ionicons name="call" size={24} color="white" />
-//           </TouchableOpacity>
-//         </View>
-//       ),
-//     });
-//   }, [navigation, messages]);
-
-//   const sendMessage = () => {
-//     Keyboard.dismiss();
-//     db.collection("chats").doc(route.params.id).collection("messages").add({
-//       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-//       message: input,
-//       displayName: auth.currentUser.displayName,
-//       email: auth.currentUser.email,
-//       photoURL: auth.currentUser.photoURL,
-//     });
-//     setInput("");
-//   };
-
-//   useLayoutEffect(() => {
-//     const unsubscribe = db
-//       .collection("chats")
-//       .doc(route.params.id)
-//       .collection("messages")
-//       .orderBy("timestamp", "desc")
-//       .onSnapshot((snapshot) =>
-//         setMessages(
-//           snapshot.docs.map((doc) => ({
-//             id: doc.id,
-//             data: doc.data(),
-//           }))
-//         )
-//       );
-//     return unsubscribe;
-//   }, [route]);
-
-//     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-//       <StatusBar style="light" />
-//       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container} keyboardVerticalOffset={90}>
-//         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-//           <>
-//             <ScrollView contentContainerStyle={{ paddingTop: 15 }}>
-//               {messages.map(({ id, data }) =>
-//                 data.email === auth.currentUser.email ? (
-//                   <View key={id} style={styles.receiver}>
-//                     <Avatar
-//                       position={"absolute"}
-//                       rounded
-//                       //web
-//                       containerStyle={{
-//                         position: "absolute",
-//                         bottom: -15,
-//                         right: -5,
-//                       }}
-//                       bottom={-15}
-//                       right={-5}
-//                       size={30}
-//                       source={{
-//                         uri: data.photoURL,
-//                       }}
-//                     />
-//                     <Text style={styles.receiverText}>{data.message}</Text>
-//                   </View>
-//                 ) : (
-//                   <View key={id} style={styles.sender}>
-//                     <Avatar
-//                       position={"absolute"}
-//                       rounded
-//                       //web
-//                       containerStyle={{
-//                         position: "absolute",
-//                         bottom: -15,
-//                         left: -5,
-//                       }}
-//                       bottom={-15}
-//                       left={-5}
-//                       size={30}
-//                       source={{
-//                         uri: data.photoURL,
-//                       }}
-//                     />
-//                     <Text style={styles.senderText}>{data.message}</Text>
-//                     <Text style={styles.senderName}>{data.displayName}</Text>
-//                   </View>
-//                 )
-//               )}
-//             </ScrollView>
-//             <View style={styles.footer}>
-//               <TextInput value={input} onChangeText={(text) => setInput(text)} onSubmitEditing={sendMessage} placeholder={"42 Message"} style={styles.textInput} />
-//               <TouchableOpacity onPress={sendMessage} activeOpacity={0.5}>
-//                 <Ionicons name={"send"} size={24} color={"#2B68E6"} />
-//               </TouchableOpacity>
-//             </View>
-//           </>
-//         </TouchableWithoutFeedback>
-//       </KeyboardAvoidingView>
-//     </SafeAreaView>

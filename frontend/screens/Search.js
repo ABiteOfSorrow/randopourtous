@@ -165,7 +165,7 @@ function Search(props) {
 
         {/* sélection de la date */}
         <Pressable style={styles.allInputPressable} w='84%' h={8} variant='outline' mt='1.5' colorScheme='secondary' onPress={showDatePicker}>
-          <Text fontSize={10} style={{ marginLeft: 11, color: '#000', marginTop: 5 }}>
+          <Text style={{ marginLeft: 11, fontSize: 10, color: '#bbb', marginTop: 5 }}>
             {!date
               ? 'Date & Heure'
               : date.toLocaleDateString('fr') +

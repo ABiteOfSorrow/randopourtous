@@ -15,8 +15,7 @@ import SignUpScreen from './screens/SignUp'
 import HomeScreen from './screens/Home'
 import CreateScreen from './screens/Create'
 import SearchScreen from './screens/Search'
-import MapScreen from './screens/Map'
-import ListScreen from './screens/List'
+import RandosScreen from './screens/Randos'
 import DetailScreen from './screens/Detail'
 import MyprofileScreen from './screens/MyProfile'
 import OtherProfileScreen from './screens/OtherProfile'
@@ -51,6 +50,7 @@ const HomeNavigator = () => {
       <Stack.Screen name='Chat' component={ChatScreen} />
       <Stack.Screen name='Create' component={CreateScreen} />
       <Stack.Screen name='SearchPeople' component={SearchPeopleScreen} />
+      <Stack.Screen name='Chat' component={ChatScreen} />
     </Stack.Navigator>
   )
 }
@@ -63,6 +63,17 @@ const ProfileNavigator = () => {
       <Stack.Screen name='EditProfile' component={EditProfileScreen} />
       <Stack.Screen name='History' component={HistoryScreen} />
       <Stack.Screen name='Friend' component={FriendScreen} />
+    </Stack.Navigator>
+  )
+}
+const SearchNavigator = () => {
+  return (
+    <Stack.Navigator 
+     screenOptions={{headerShown: false}}
+     initialRouteName='Chercher'>
+    <Stack.Screen name='Chercher' component={SearchScreen} />
+    <Stack.Screen name='ResultSearch' component={ResultSearch} />
+    <Stack.Screen name='Resume' component={ResumeScreen} />
     </Stack.Navigator>
   )
 }
@@ -109,8 +120,8 @@ const BottomMenuTabs = () => {
         options={{gestureEnabled: false}}
         component={HomeNavigator}
       />
-      <Tab.Screen name='Randos' component={ListScreen} />
-      <Tab.Screen name='Chercher' component={SearchScreen} />
+      <Tab.Screen name='Randos' component={RandosScreen} />
+      <Tab.Screen name='Chercher' component={SearchNavigator} />
       <Tab.Screen name='Profil' component={ProfileNavigator} />
     </Tab.Navigator>
   )
@@ -171,11 +182,8 @@ export default function App() {
             />
             <Stack.Screen name='Detail' component={DetailScreen} />
             <Stack.Screen name='BottomMenuTabs' component={BottomMenuTabs} />
-            <Stack.Screen name='Map' component={MapScreen} />
-            <Stack.Screen name='Otherprofile' component={OtherProfileScreen} />
-            
-            <Stack.Screen name='Resume' component={ResumeScreen} />
-            <Stack.Screen name='ResultSearch' component={ResultSearch} />
+            <Stack.Screen name='OtherProfile' component={OtherProfileScreen} />
+
             <Stack.Screen name='Management' component={ManagementScreen} />
             
           </Stack.Navigator>

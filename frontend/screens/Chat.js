@@ -26,18 +26,20 @@ function Chat(props) {
   //   //Setter for message list
 
 
+
+
   useEffect(() => {
     setMessages([
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-      },
+      // {
+      //   _id: 1,
+      //   text: 'Hello developer',
+      //   createdAt: new Date(),
+      //   user: {
+      //     _id: 2,
+      //     name: 'React Native',
+      //     avatar: 'https://placeimg.com/140/140/any',
+      //   },
+      // },
     ])
   }, [])
 
@@ -147,6 +149,14 @@ function Chat(props) {
     return (
       <InputToolbar
         {...props}
+        textInputProps={{
+          onSubmitEditing: () => {
+            if (props.text && props.onSend) {
+              let text = props.text;
+              props.onSend({ text: text.trim() }, true)
+            }
+          }
+        }}
         containerStyle={{
           backgroundColor: "white",
           borderTopColor: "#BBBBBB",
@@ -190,8 +200,8 @@ function Chat(props) {
           </Box>
           {isOwner ? (
             <>
-              <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" onPress={() => console.log("I'm Pressed")}>
-                <Text style={styles.contentText} fontSize="md">
+              <Button w={"80%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Detail")}>
+                <Text fontSize="md">
                   Voir la Rando
                 </Text>
               </Button>
@@ -210,15 +220,15 @@ function Chat(props) {
               >
                 2
               </Badge>
-              <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" onPress={() => console.log("I'm Pressed")}>
-                <Text style={styles.contentText} fontSize="md">
+              <Button w={"80%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Management")}>
+                <Text fontSize="md">
                   Gestion de la Rando
                 </Text>
               </Button>
             </>
           ) : (
-            <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" onPress={() => console.log("I'm Pressed")}>
-              <Text style={styles.contentText} fontSize="md">
+            <Button w={"80%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Detail")}>
+              <Text fontSize="md">
                 Voir la Rando
               </Text>
             </Button>
@@ -243,7 +253,11 @@ function Chat(props) {
             scrollToBottomComponent={scrollToBottomComponent}
           />
         </Box>
-
+        <Button w={"30%"} h={9} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Resume")}>
+              <Text style={styles.contentText} fontSize="xs">
+                evaluer - test
+              </Text>
+            </Button>
         <View style={styles.footer}>
           {/* <Input
               value={input}

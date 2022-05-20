@@ -93,7 +93,7 @@ function Friend(props) {
             <Button
               size="xs"
               style={{ backgroundColor: "#BBBBBB", alignSelf: "center" }}
-              onPress={() => props.navigation.navigate("Otherprofile", { user: friend })}
+              onPress={() => props.navigation.navigate("OtherProfile", { user: friend })}
             >
               <Text style={styles.contentText} fontSize="xs">
                 Voir Profil

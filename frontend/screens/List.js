@@ -11,7 +11,7 @@ function List(props) {
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <ScrollView style={{ flex: 1 }}>
         <HStack justifyContent='space-between' mb={4}>
-          <HamburgerMenu />
+        <HamburgerMenu navigation={props.navigation} /> 
         </HStack>
         {/* List Body */}
         <VStack space={2} alignItems='center'>

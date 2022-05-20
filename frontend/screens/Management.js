@@ -12,7 +12,7 @@ function Management() {
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
       <ScrollView>
         <HStack justifyContent="space-between" mb={4}>
-          <HamburgerMenu />
+        <HamburgerMenu navigation={props.navigation} /> 
           <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9" onPress={() => props.navigation.goBack()}>
             <Text fontSize="xs" bold color="#38ADA9">
               Retour

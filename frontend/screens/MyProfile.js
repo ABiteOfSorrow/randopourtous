@@ -56,7 +56,7 @@ function MyProfile(props) {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', alignItems: 'center' }}>
       <View style={{ display: 'flex', width: '100%', flexDirection: 'row', justifyContent: 'space-between' }} >
         <View style={{ width: '30%' }} >
-          <HamburgerMenu />
+        <HamburgerMenu navigation={props.navigation} /> 
         </View>
 
         <View style={{ width: '30%', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >

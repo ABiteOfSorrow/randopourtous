@@ -10,7 +10,7 @@ export default function OtherProfile(props) {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff", alignItems: "center" }}>
       <View style={{ display: "flex", width: "100%", flexDirection: "row" }}>
-        <HamburgerMenu />
+      <HamburgerMenu navigation={props.navigation} /> 
       </View>
       <Text style={{ fontSize: 24, marginBottom: 10, fontWeight: "bold" }}>Mon compte</Text>
       <Text style={{ fontSize: 18 }}>JeanMichel_du75</Text>

@@ -25,6 +25,7 @@ router.post('/sign-up', async (req, res) => {
     email: req.body.email,
     password: hash,
     name: '',
+    
     lastname: '',
     averageRating: -1,
     age: -1,

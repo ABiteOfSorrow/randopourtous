@@ -129,7 +129,7 @@ function Create(props) {
 
       {/* l'entête/header */}
       <HStack justifyContent='space-between' mb={1}>
-        <HamburgerMenu />
+      <HamburgerMenu navigation={props.navigation} /> 
         <Button
           w={90}
           h={8}

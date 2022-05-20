@@ -19,15 +19,21 @@ import HamburgerMenu from "../components/HamburgerMenu";
 
 
 
-function Detail() {
+function Detail(props) {
+
+  console.log(props.route.params)
+  var rando=props.route.params.e
+  console.log(rando)
+
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
       <ScrollView>
         <HamburgerMenu />
 
         <VStack space={2} alignItems="center">
-          <Heading size="xl">Rando 1</Heading>
-          <Heading size="lg">Data / Lieu</Heading>
+          <Heading size="xl">{rando.name}</Heading>
+          <Heading size="lg">Data / {rando.departure.nom}</Heading>
           <MapView style={styles.map}></MapView>
           <Heading size="lg">Organisé par: </Heading>
           <Button w={"80%"} h={10} bg="#bbbbbb">
@@ -84,7 +90,7 @@ function Detail() {
       </ScrollView>
       <Stack
       p={0}
-        mb="20"
+        mb="5"
         mt="1.5"
         direction={{
           base: "row",
@@ -96,7 +102,7 @@ function Detail() {
           md: "0",
         }}
       >
-        <Button w="42%" h={10} variant="outline" borderColor="#38ADA9">
+        <Button w="42%" h={10} variant="outline" borderColor="#38ADA9" onPress={()=>props.navigation.navigate('ResultSearch')}>
           <Text color="#38ADA9">Retour</Text>
         </Button>
         <Button w="42%" h={10} bg="#78E08F">

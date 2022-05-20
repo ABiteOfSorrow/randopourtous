@@ -147,13 +147,21 @@ function ResultSearch(props) {
         longitude: e.coordinate.longitude,
       }}
       title={e.name}
+      //*** Redirection vers la page du détail de la rando avec la rando en paramètre */
+      
       description={e.description + '\n Press to view'}>
-      <MapView.Callout>
+      <MapView.Callout onPress={() => props.navigation.navigate('Detail', {e})}>
         <View style={styles.callout}>
           <Heading>{e.name}</Heading>
           <Text>{e.description}</Text>
-          <Button title='Click Me!' onPress={() => console.log('Clicked')}>
-            Voir
+          <Button
+            size='md'
+            backgroundColor='#78E08F'
+            alignSelf='center'
+            >
+            <Text style={styles.contentText} fontSize='md'>
+              Voir
+            </Text>
           </Button>
         </View>
       </MapView.Callout>

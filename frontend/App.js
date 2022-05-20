@@ -99,6 +99,7 @@ const BottomMenuTabs = () => {
           ...styles.shadow,
         },
       }}
+      
       initialRouteName='Home'>
       <Tab.Screen
         name='Home'
@@ -107,7 +108,7 @@ const BottomMenuTabs = () => {
       />
       <Tab.Screen name='Randos' component={ListScreen} />
       <Tab.Screen name='Chercher' component={SearchScreen} />
-      <Tab.Screen name='Profil' component={MyprofileScreen} />
+      <Tab.Screen name='Profil' component={ProfileNavigator} />
     </Tab.Navigator>
   )
 }
@@ -166,7 +167,6 @@ export default function App() {
               component={BottomMenuTabs}
             />
             <Stack.Screen name='Detail' component={DetailScreen} />
-            <Stack.Screen name='MyProfile' component={MyprofileScreen} />
             <Stack.Screen name='BottomMenuTabs' component={BottomMenuTabs} />
             <Stack.Screen name='Create' component={CreateScreen} />
             <Stack.Screen name='Map' component={MapScreen} />

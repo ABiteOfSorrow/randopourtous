@@ -12,7 +12,7 @@ let userSchema = new mongoose.Schema({
     createdAccount: Date,
     token: String,
     friends: [],
-    tracks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'tracks' }], // use foreign key for tracks
+    tracks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'rando' }], // use foreign key for tracks
 });
 
 // link schema to collection

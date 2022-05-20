@@ -1,15 +1,29 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 import MapView from 'react-native-maps'
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import {StyleSheet, TouchableOpacity} from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
-import { connect } from 'react-redux'
-import HamburgerMenu from "../components/HamburgerMenu";
+import {connect} from 'react-redux'
+import HamburgerMenu from '../components/HamburgerMenu'
 
-import { Entypo } from '@expo/vector-icons';
+import {Entypo} from '@expo/vector-icons'
 
-import { Text, Input, Switch, Select, Button, CheckIcon, ScrollView, View, Heading, HStack, VStack, Pressable, Box } from 'native-base'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { StatusBar } from 'expo-status-bar';
+import {
+  Text,
+  Input,
+  Switch,
+  Select,
+  Button,
+  CheckIcon,
+  ScrollView,
+  View,
+  Heading,
+  HStack,
+  VStack,
+  Pressable,
+  Box,
+} from 'native-base'
+import {SafeAreaView} from 'react-native-safe-area-context'
+import {StatusBar} from 'expo-status-bar'
 
 function Search(props) {
   const [level, setLevel] = useState()
@@ -95,8 +109,8 @@ function Search(props) {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
-      <HStack justifyContent="space-between" mb={1.5}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+      <HStack justifyContent='space-between' mb={1.5}>
         <HamburgerMenu />
         <Button
           w={90}
@@ -104,37 +118,59 @@ function Search(props) {
           p={0}
           mt={2}
           mr={2}
-          variant="outline"
-          style={{ borderColor: "#38ADA9" }}
-          onPress={() => props.navigation.goBack()}
-        >
-          <Text fontSize="xs" style={{ color: "#38ADA9", fontWeight: 'bold' }} >
+          variant='outline'
+          style={{borderColor: '#38ADA9'}}
+          onPress={() => props.navigation.goBack()}>
+          <Text fontSize='xs' style={{color: '#38ADA9', fontWeight: 'bold'}}>
             Retour
           </Text>
         </Button>
       </HStack>
 
-      <VStack space={1} style={{ alignItems: 'center', flex: 1, paddingBottom: 70 }}>
-        <Heading size="md"> Chercher une randonnée </Heading>
+      <VStack
+        space={1}
+        style={{alignItems: 'center', flex: 1, paddingBottom: 70}}>
+        <Heading size='md'> Chercher une randonnée </Heading>
 
         {/* sélection de la ville */}
-        <Input style={styles.allInput} mt='2' w='84%' h={8} placeholder='Ville / département' onChangeText={(e) => searchCities(e)} value={citie.nom} />
+        <Input
+          style={styles.allInput}
+          mt='2'
+          w='84%'
+          h={8}
+          placeholder='Ville / département'
+          onChangeText={(e) => searchCities(e)}
+          value={citie.nom}
+        />
         {listCities.length >= 1 ? (
-          <View style={{ width: '84%' }}>
+          <View style={{width: '84%'}}>
             <ScrollView>
               {listCities.map((e, i) => (
-                <TouchableOpacity key={i} style={{ borderWidth: 1, borderColor: '#ddd', paddingVertical: 1, width: '100%' }} onPress={async () => {
-                  setCitie(e)
-                  console.log(e)
-                  setListCities([])
+                <TouchableOpacity
+                  key={i}
+                  style={{
+                    borderWidth: 1,
+                    borderColor: '#ddd',
+                    paddingVertical: 1,
+                    width: '100%',
+                  }}
+                  onPress={async () => {
+                    setCitie(e)
+                    console.log(e)
+                    setListCities([])
 
-                  // si la longueur du CP>2 cela veut dire que ce n'est pas un département, on zoom donc sur la ville
-                  if (e.codePostal.length > 2) {
-                    var result = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${e.nom}&limit=1`)
-                    var response = await result.json()
-                    setCoord({ lat: response.features[0].geometry.coordinates[1], long: response.features[0].geometry.coordinates[0], })
-                  }
-                }}>
+                    // si la longueur du CP>2 cela veut dire que ce n'est pas un département, on zoom donc sur la ville
+                    if (e.codePostal.length > 2) {
+                      var result = await fetch(
+                        `https://api-adresse.data.gouv.fr/search/?q=${e.nom}&limit=1`
+                      )
+                      var response = await result.json()
+                      setCoord({
+                        lat: response.features[0].geometry.coordinates[1],
+                        long: response.features[0].geometry.coordinates[0],
+                      })
+                    }
+                  }}>
                   <Text key={i}>{e.nom + ' (' + e.codePostal + ')'}</Text>
                 </TouchableOpacity>
               ))}
@@ -144,45 +180,100 @@ function Search(props) {
           <></>
         )}
 
-        <Box style={{ display:"flex", flexDirection:"row", alignItems:"center", justifyContent: 'center' }} >
-          <Switch mt={0} padding={0} offTrackColor='#C4C4C4' onTrackColor='#78E08F' size='md'
+        <Box
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Switch
+            mt={0}
+            padding={0}
+            offTrackColor='#C4C4C4'
+            onTrackColor='#78E08F'
+            size='md'
             onValueChange={() => {
               setMixte(!mixte)
               console.log(mixte)
             }}
           />
-          <Heading size='md' >Rando mixte </Heading>
-          <Entypo name="info-with-circle" size={14} color="black" onPress={() => alert('Une rando mixte veut dire que les participants sont mixés.')} />
+          <Heading size='md'>Rando mixte </Heading>
+          <Entypo
+            name='info-with-circle'
+            size={14}
+            color='black'
+            onPress={() =>
+              alert(
+                'Une rando mixte veut dire que les participants sont mixés.'
+              )
+            }
+          />
         </Box>
 
         {/* sélection de l'age */}
-        <Select style={styles.allInputSelect} selectedValue={age} w={'84%'} height={8} fontSize={10} bg="#EEEEEE" accessibilityLabel='age' placeholder="Âge de l'organisateur" onValueChange={(itemValue) => setAge(itemValue)}
+        {/* <Select
+          style={styles.allInputSelect}
+          selectedValue={age}
+          w={'84%'}
+          height={8}
+          fontSize={10}
+          bg='#EEEEEE'
+          accessibilityLabel='age'
+          placeholder="Âge de l'organisateur"
+          onValueChange={(itemValue) => setAge(itemValue)}
           _selectedItem={{
             endIcon: <CheckIcon size='5' />,
           }}>
           {listAgeDisplay}
-        </Select>
+        </Select> */}
 
         {/* sélection de la date */}
-        <Pressable style={styles.allInputPressable} w='84%' h={8} variant='outline' mt='1.5' colorScheme='secondary' onPress={showDatePicker}>
-          <Text style={{ marginLeft: 11, fontSize: 10, color: '#bbb', marginTop: 5 }}>
+        <Pressable
+          style={styles.allInputPressable}
+          w='84%'
+          h={8}
+          variant='outline'
+          mt='1.5'
+          colorScheme='secondary'
+          onPress={showDatePicker}>
+          <Text
+            style={{marginLeft: 11, fontSize: 10, color: '#bbb', marginTop: 5}}>
             {!date
               ? 'Date & Heure'
               : date.toLocaleDateString('fr') +
-              ' ' +
-              date.getHours() +
-              ':' +
-              date.getMinutes()}
+                ' ' +
+                date.getHours() +
+                ':' +
+                date.getMinutes()}
           </Text>
         </Pressable>
 
-        <Select style={styles.allInputSelect} selectedValue={level} w={'84%'} height={8} fontSize={10} mt='1' bg="#EEEEEE" accessibilityLabel='Niveau' placeholder='Niveau' onValueChange={(itemValue) => setLevel(itemValue)}>
-          <Select.Item label='Facile' value='facile' />
-          <Select.Item label='Intermédiaire' value='intermediaire' />
-          <Select.Item label='Difficile' value='difficile' />
+        <Select
+          style={styles.allInputSelect}
+          selectedValue={level}
+          w={'84%'}
+          height={8}
+          fontSize={10}
+          mt='1'
+          bg='#EEEEEE'
+          accessibilityLabel='Niveau'
+          placeholder='Niveau'
+          onValueChange={(itemValue) => setLevel(itemValue)}>
+          <Select.Item label='Débutant' value='Débutant' />
+          <Select.Item label='Amateur' value='Amateur' />
+          <Select.Item label='Sportif' value='Sportif' />
+          <Select.Item label='Expert' value='Expert' />
+          <Select.Item label='Bouc' value='Bouc' />
         </Select>
 
-        <Button style={styles.shadow} mt='1.5' mb='1'  w={'84%'} h={10} bg="#78E08F"
+        <Button
+          style={styles.shadow}
+          mt='1.5'
+          mb='1'
+          w={'84%'}
+          h={10}
+          bg='#78E08F'
           onPress={() => {
             let sendObject = {
               ville: citie,
@@ -210,26 +301,32 @@ function Search(props) {
               longitude: coord.long,
               latitudeDelta: 0.0992,
               longitudeDelta: 0.0421,
-            }}>
-          </MapView>
+            }}></MapView>
         </View>
       </VStack>
-      
-      <DateTimePickerModal isVisible={isDatePickerVisible} mode='date' date={date}
-          onConfirm={(date) => {
-            setDatePickerVisibility(false)
-            setDate(date)
-            setHourPickerVisibility(true)
-          }}
-          onCancel={hidePicker}
-        />
-        <DateTimePickerModal isVisible={isHourPickerVisible} mode='time' locale='fr-FR' date={date}
-          onConfirm={(date) => {
-            setHourPickerVisibility(false)
-            setDate(date)
-          }}
-          onCancel={hidePicker}
-        />
+
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode='date'
+        date={date}
+        onConfirm={(date) => {
+          setDatePickerVisibility(false)
+          setDate(date)
+          setHourPickerVisibility(true)
+        }}
+        onCancel={hidePicker}
+      />
+      <DateTimePickerModal
+        isVisible={isHourPickerVisible}
+        mode='time'
+        locale='fr-FR'
+        date={date}
+        onConfirm={(date) => {
+          setHourPickerVisibility(false)
+          setDate(date)
+        }}
+        onCancel={hidePicker}
+      />
       <StatusBar style='auto' />
     </SafeAreaView>
   )
@@ -252,8 +349,8 @@ const styles = StyleSheet.create({
     borderColor: '#CCCCCC',
     backgroundColor: '#EEEEEE',
     borderRightWidth: 0,
-    color: '#000'
- },
+    color: '#000',
+  },
   secondContainer: {
     flex: 1,
     width: '90%',
@@ -275,14 +372,14 @@ const styles = StyleSheet.create({
     borderColor: '#CCCCCC',
     flex: 1,
     minHeight: 150,
-    width: '90%'
- },
+    width: '90%',
+  },
   map: {
     width: '100%',
     height: '100%',
     borderWidth: 10,
     borderColor: '#CCCCCC',
- },
+  },
 })
 
 function mapDispatchToProps(dispatch) {

@@ -1,10 +1,22 @@
-import React, { useState } from 'react'
-import { Button, Input, Text, HStack, VStack, Heading, Box, Switch, View, Pressable, Select } from 'native-base'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import React, {useState} from 'react'
+import {
+  Button,
+  Input,
+  Text,
+  HStack,
+  VStack,
+  Heading,
+  Box,
+  Switch,
+  View,
+  Pressable,
+  Select,
+} from 'native-base'
+import {SafeAreaView} from 'react-native-safe-area-context'
 import HamburgerMenu from '../components/HamburgerMenu'
-import { StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
-import MapView, { Marker } from 'react-native-maps'
-import { connect } from 'react-redux'
+import {StyleSheet, ScrollView, TouchableOpacity} from 'react-native'
+import MapView, {Marker} from 'react-native-maps'
+import {connect} from 'react-redux'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 
 import backendConfig from '../backend.config.json'
@@ -25,7 +37,7 @@ function Create(props) {
 
   const [citie, setCitie] = useState({})
   const [listCities, setListCities] = useState([])
-  const [coord, setCoord] = useState({ lat: 48.856614, long: 2.3522219 })
+  const [coord, setCoord] = useState({lat: 48.856614, long: 2.3522219})
 
   // gestion de l'autocompletion des villes avec l'API du gouvernement
   const searchCities = async (e) => {
@@ -62,7 +74,7 @@ function Create(props) {
       alert('Placez le point de départ sur la carte.')
       return
     }
-    if(!date){
+    if (!date) {
       alert('Veuillez entrer une date.')
     }
     let coordinate = thePOI.coordinate
@@ -82,7 +94,7 @@ function Create(props) {
     try {
       var rawresponse = await fetch(backendAdress + '/create-track', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(randoData),
       })
       if (rawresponse.ok) {
@@ -91,8 +103,8 @@ function Create(props) {
         if (result.result) {
           alert('Merci!')
         } else {
-          alert('Une erreur est survenue.');
-          console.log(JSON.stringify(result));
+          alert('Une erreur est survenue.')
+          console.log(JSON.stringify(result))
         }
       } else {
         alert('Le serveur ne répond pas.')
@@ -125,8 +137,7 @@ function Create(props) {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, width: '100%', backgroundColor: '#fff' }}>
-
+    <SafeAreaView style={{flex: 1, width: '100%', backgroundColor: '#fff'}}>
       {/* l'entête/header */}
       <HStack justifyContent='space-between' mb={1}>
         <HamburgerMenu />
@@ -137,20 +148,28 @@ function Create(props) {
           mt={2}
           mr={2}
           variant='outline'
-          style={{ borderColor: '#38ADA9' }}
+          style={{borderColor: '#38ADA9'}}
           onPress={() => props.navigation.goBack()}>
-          <Text fontSize='xs' style={{ color: '#38ADA9', fontWeight: 'bold' }}>
+          <Text fontSize='xs' style={{color: '#38ADA9', fontWeight: 'bold'}}>
             Retour
           </Text>
         </Button>
       </HStack>
 
       {/* Le body */}
-      <VStack
-        space={1}
-        style={{ alignItems: 'center', flex:1, width:'100%' }}>
-        <Text style={{ fontWeight: 'bold', fontSize: 18 }} > Créer une Randonnée </Text>
-        <Box style={{ display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'center', width: '100%' }}>
+      <VStack space={1} style={{alignItems: 'center', flex: 1, width: '100%'}}>
+        <Text style={{fontWeight: 'bold', fontSize: 18}}>
+          {' '}
+          Créer une Randonnée{' '}
+        </Text>
+        <Box
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+          }}>
           <Switch
             offTrackColor='#C4C4C4'
             onTrackColor='#78E08F'
@@ -178,14 +197,30 @@ function Create(props) {
           onChangeText={(e) => searchCities(e)}
         />
         {listCities.length > 1 ? (
-          <View style={{ width: '100%', display:'flex', justifyContent: 'center', flexDirection: 'row', alignItems: 'center' }}>
-
+          <View
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
             {/* Menu déroulant pour la selection de la ville */}
-            <View style={{ width: '100%', display:'flex', flexDirection:'column', alignItems: 'center' }}>
+            <View
+              style={{
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}>
               {listCities.map((e, i) => (
                 <TouchableOpacity
                   key={i}
-                  style={{ backgroundColor: '#FFFFFF', width: '84%', backgroundColor: '#ddd' }}
+                  style={{
+                    backgroundColor: '#FFFFFF',
+                    width: '84%',
+                    backgroundColor: '#ddd',
+                  }}
                   onPress={async () => {
                     setCitie(e)
                     setListCities([])
@@ -202,7 +237,6 @@ function Create(props) {
                 </TouchableOpacity>
               ))}
             </View>
-
           </View>
         ) : null}
 
@@ -243,10 +277,10 @@ function Create(props) {
             {!date
               ? 'Date & Heure'
               : date.toLocaleDateString('fr') +
-              ' ' +
-              date.getHours() +
-              ':' +
-              date.getMinutes()}
+                ' ' +
+                date.getHours() +
+                ':' +
+                date.getMinutes()}
           </Text>
         </Pressable>
 
@@ -304,7 +338,7 @@ function Create(props) {
             {trackMarker()}
           </MapView>
           <Pressable style={styles.libelle} bg='#F5F5F5'>
-            <Text fontSize={10} style={{ color: '#AAAAAA' }}>
+            <Text fontSize={10} style={{color: '#AAAAAA'}}>
               Placez le point de départ
             </Text>
           </Pressable>

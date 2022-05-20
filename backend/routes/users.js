@@ -25,6 +25,7 @@ router.post('/sign-up', async (req, res) => {
     email: req.body.email,
     password: hash,
     name: '',
+    
     lastname: '',
     averageRating: -1,
     age: -1,
@@ -111,7 +112,8 @@ router.get('/search-people', async (req, res) => {
       averageRating: user.averageRating,
       createdAccount: user.createdAccount,
       tracks: user.tracks,
-      age: user.age
+      age: user.age,
+      friends: user.friends
     })
   })
   return res.json({ result: true, users: cleanUsers });

@@ -1,5 +1,7 @@
 var express = require('express')
 var router = express.Router()
+var cloudinary = require("cloudinary").v2;
+
 var randoModel = require('../models/rando')
 let UserModel = require('../models/user')
 
@@ -36,14 +38,14 @@ router.post('/create-track', async function (req, res, next) {
   if (!foundUser) {
     return res.json({result: false, error: 'Mauvais token'})
   }
-
+  // ajout du créateur aux participants
   let user = {
     _id: foundUser._id,
     username: foundUser.username,
     name: foundUser.name,
     lastname: foundUser.lastname,
   }
-
+  // tableau des participants
   let users = []
   users.push(user)
   var newRando = new randoModel({
@@ -58,6 +60,7 @@ router.post('/create-track', async function (req, res, next) {
     estimation_time: estimation_time,
     description: randoData.description,
     level: randoData.level,
+    organisator: foundUser.username,
   })
   var randoSaved = await newRando.save()
 
@@ -102,6 +105,37 @@ router.post('/search-track', async function (req, res, next) {
 
   return res.json({success: true, result: result})
 })
+
+// // cloudinary
+// cloudinary.config({
+//   cloud_name: "rupo",
+//   api_key: "844975946581267",
+//   api_secret: "vxmNTX3GRyB5KMi8xWp9IM8u2zs",
+// });
+
+// //Request Post for upload photo to cloudinary & send to frondend
+// router.post("/upload", async function (req, res, next) {
+//   var imagePath = "./tmp/" + uniqid() + ".jpg";
+//   var resultCopy = await req.files.avatar.mv(imagePath);
+
+//   // console.log(req.files.avatar);
+//   // console.log(req.files.avatar.name); // nom d'origine de l'image
+//   // console.log(req.files.avatar.mimetype); // format de fichier
+//   // console.log(req.files.avatar.data); // données brutes du fichier
+
+//   if (!resultCopy) {
+//     var result = await cloudinary.uploader.upload(imagePath);
+//     var options = {
+//       json: {
+//         apiKey: "5c0a5d392c1745d2ae84dc0b1483bfd2",
+//         image: result.url,
+//       },
+//     };  
+
+//   }
+// })
+
+
 
 router.post('/get-tracks', async function (req, res, next) {
 

@@ -1,19 +1,24 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { Avatar, HStack, VStack, Center, Heading, Box, Button, Text, Flex, Stack } from "native-base";
 import { Dimensions, StyleSheet, Platform, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import * as ImagePicker from 'expo-image-picker';
+import * as MediaLibrary from 'expo-media-library';
 
 const { width: screenWidth } = Dimensions.get("window");
 
 import { AntDesign } from "@expo/vector-icons";
 import HamburgerMenu from "../components/HamburgerMenu";
 import CustomSlider from "../components/CustomSlider";
+import backendConfig from '../backend.config.json';
 
 function Resume() {
 
   const [paysageValue, setPaysageValue] = useState(0);
   const [ambianceValue, setAmbianceValue] = useState(0);
   const [difficultyValue, setDifficultyValue] = useState(0);
+  const [status, requestPermission] = useState(null);
+  const [picture, setPicture] = useState("")
 
 //Rando rating stars
 var PaysageRating = [];
@@ -93,6 +98,57 @@ for (var i = 0; i < 5; i++) {
 console.log(avgTotal)
 
 
+// useEffect(() => {
+//   (async () => {
+//     const { status } = await MediaLibrary.usePermissions()
+//     requestPermission(status === "granted");
+//   })();
+// }, []);
+
+const pickFromGallery = async () => {
+  console.log("you clicked this")
+  if(status){
+    let image = await MediaLibrary.getAssetsAsync({
+    mediaTypes:ImagePicker.MediaTypeOptions.Images,
+    quality:0.7,
+    base64: true,
+    exif: true,
+  })
+  var data = new FormData(image);
+      data.append("avatar", {
+        uri: data.uri,
+        type: "image/jpeg",
+        name: "image.jpg",
+      });
+      //Need to change IP when you start your APP (ipconfig)
+      const rawResponse = await fetch({backendConfig} + ":3000/upload", {
+        method: "post",
+        body: data,
+      });
+
+      const response = await rawResponse.json();
+      // console.log(response);
+      // props.onSubmitPhotoList(response);
+    }
+  };
+
+
+// const handleupload = (image) => {
+// const photo = new FormData()
+// data.append('file', image)
+// data.append('upload_preset', 'randopourtous')
+// data.append("cloud_name ", "rupo")
+
+// fetch("https://api.cloudinary.com/v1_1/rupo/image/upload",{
+//     method:"post",
+//     body: photo
+//     }).then(res=>res.json())
+//     then(data=>{
+//     console.log(data)
+//     setPicture(data.uri)
+// })
+// }
+
 
   const data = [
     {
@@ -116,7 +172,7 @@ console.log(avgTotal)
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
       <HStack justifyContent="space-between" mb={4}>
-        <HamburgerMenu />
+      <HamburgerMenu navigation={props.navigation} /> 
         <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9" onPress={() => props.navigation.goBack()}>
           <Text fontSize="xs" bold color="#38ADA9">
             Retour
@@ -138,7 +194,7 @@ console.log(avgTotal)
       </VStack>
 
       <CustomSlider data={data} />
-      <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mb={5} onPress={() => console.log("I'm Pressed")}>
+      <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mb={5} onPress={() => pickFromGallery()}>
         <Text style={styles.contentText} fontSize="md">
           Partager des photos
         </Text>

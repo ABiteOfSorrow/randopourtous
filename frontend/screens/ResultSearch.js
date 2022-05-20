@@ -175,7 +175,7 @@ function ResultSearch(props) {
           flex: 1,
         }}>
         <HStack justifyContent='space-between' mb={4}>
-          <HamburgerMenu />
+        <HamburgerMenu navigation={props.navigation} /> 
           <Button
             w={90}
             h={8}

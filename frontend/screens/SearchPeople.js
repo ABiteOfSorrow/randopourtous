@@ -43,9 +43,8 @@ function SearchPeople(props) {
       return (
          <Box key={index} style={styles.card} >
             <MaterialIcons name="account-circle" size={38} color="black" />
-            <Box style={{ flex: 1, display:'flex', alignItems: 'center' }} >
-               <Text>{user.username}</Text>
-               <Box></Box>
+            <Box style={{ flex: 1, display:'flex', alignItems: 'center', justifyContent:'center' }} >
+               <Text style={{ color: '#fff', fontSize: 16 }} >{user.username}</Text>
             </Box>
             <Box>
                <Button bg={'#bbb'} onPress={() => props.navigation.navigate(route, { user: user })} >Voir</Button>
@@ -58,7 +57,7 @@ function SearchPeople(props) {
          <ScrollView contentContainerStyle={{ flex: 1, alignItems: 'center' }}>
             <Box style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
                <Box style={{ width: '20%' }} >
-                  <HamburgerMenu />
+               <HamburgerMenu navigation={props.navigation} /> 
                </Box>
                <Box style={{ width: '60%', display: 'flex', flexDirection: 'row', justifyContent: 'center' }} >
                   <Text style={{ fontWeight: 'bold', fontSize: 16 }} >Chercher un utilisateur</Text>
@@ -80,14 +79,14 @@ function SearchPeople(props) {
                </Box>
             </Box>
 
-            <Text style={{ marginTop: '2%', fontSize: 18 }} >Entrez le nom d'utilisateur</Text>
+            <Text style={{ marginTop: '4%', fontSize: 18 }} >Entrez le nom d'utilisateur</Text>
             <Box style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-               <Input placeholder="Nom d'utilisateur" type='text' mt={2} w={'80%'} value={username} onChangeText={(text) => setUsername(text)} />
+               <Input placeholder="Nom d'utilisateur" type='text' mt={'1%'} w={'80%'} value={username} onChangeText={(text) => setUsername(text)} />
                <Box w={'80%'}>
-                  <Button bg={'#78E08F'} ml={'auto'} mt={'2%'} onPress={async () => await handleSubmit()} >Chercher</Button>
+                  <Button bg={'#78E08F'} ml={'auto'} mt={'4%'} onPress={async () => await handleSubmit()} >Chercher</Button>
                </Box>
                <Box style={{ width: '100%', marginTop: '3%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <Text style={{ fontSize: 16, marginBottom: 4 }} >Résultats :</Text>
+                  <Text style={{ fontSize: 16, marginBottom: '3%' }} >Résultats :</Text>
                   {userComponents}
                </Box>
             </Box>

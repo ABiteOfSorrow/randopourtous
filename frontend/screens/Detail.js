@@ -29,7 +29,7 @@ function Detail(props) {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
       <ScrollView>
-        <HamburgerMenu />
+      <HamburgerMenu navigation={props.navigation} /> 
 
         <VStack space={2} alignItems="center">
           <Heading size="xl">{rando.name}</Heading>

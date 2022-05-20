@@ -11,7 +11,7 @@ function Friend(props) {
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         <HStack justifyContent="space-between" mb={4}>
-          <HamburgerMenu />
+        <HamburgerMenu navigation={props.navigation} /> 
           <Button
             w={90}
             h={8}

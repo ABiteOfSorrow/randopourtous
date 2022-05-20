@@ -140,7 +140,7 @@ function Create(props) {
     <SafeAreaView style={{flex: 1, width: '100%', backgroundColor: '#fff'}}>
       {/* l'entête/header */}
       <HStack justifyContent='space-between' mb={1}>
-        <HamburgerMenu />
+      <HamburgerMenu navigation={props.navigation} /> 
         <Button
           w={90}
           h={8}

@@ -93,6 +93,7 @@ function ResultSearch(props) {
     )
   } else {
     listRando = resultSearch.map((item, i) => (
+
       <VStack key={i} space={2} alignItems='center'>
         <Box w={'75%'} mb={0} borderRadius='15' bg='#78E08F'>
           <Heading size='md' textAlign='center'>
@@ -131,6 +132,7 @@ function ResultSearch(props) {
           </Button>
         </Center>
       </VStack>
+
     ))
   }
 
@@ -199,8 +201,10 @@ function ResultSearch(props) {
 
         {/* Journey List */}
 
-        {mapdisplay === false ? (
-          listRando
+        {mapdisplay === false ? (<ScrollView>
+          {listRando}
+
+        </ScrollView>
         ) : (
           <View style={styles.mapContainer}>
             <MapView

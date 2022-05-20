@@ -92,12 +92,12 @@ function ResultSearch(props) {
       </Heading>
     )
   } else {
-    listRando = resultSearch.map((item, i) => (
+    listRando = resultSearch.map((e, i) => (
 
       <VStack key={i} space={2} alignItems='center'>
         <Box w={'75%'} mb={0} borderRadius='15' bg='#78E08F'>
           <Heading size='md' textAlign='center'>
-            {item.name}
+            {e.name}
           </Heading>
         </Box>
         <Center
@@ -111,11 +111,11 @@ function ResultSearch(props) {
           display='flex'
           flexDirection='row'
           justifyContent='space-around'>
-          <Heading size='md'>{item.departure.nom}</Heading>
+          <Heading size='md'>{e.departure.nom}</Heading>
 
           <VStack space={2} alignItems='flex-start'>
             <Text fontSize='sm' bold>
-              {item.level}
+              {e.level}
             </Text>
             <Text fontSize='sm' bold>
               5 / 12 particpants
@@ -125,7 +125,7 @@ function ResultSearch(props) {
             size='md'
             backgroundColor='#78E08F'
             alignSelf='center'
-            onPress={() => props.navigation.navigate('Detail', {item})}>
+            onPress={() => props.navigation.navigate('Detail', {e})}>
             <Text style={styles.contentText} fontSize='md'>
               Voir
             </Text>

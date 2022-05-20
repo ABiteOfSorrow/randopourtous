@@ -45,7 +45,7 @@ useEffect(() => {
       var etat = "En cours..." 
     }
     return( 
-      <Box w={"80%"} alignSelf="center" bg={colorBg} p={3} style={{ borderRadius: 15 }} shadow={8} mb={2}>
+      <Box key={i} w={"80%"} alignSelf="center" bg={colorBg} p={3} style={{ borderRadius: 15 }} shadow={8} mb={2}>
       <Box
         alignSelf="center"
         _text={{

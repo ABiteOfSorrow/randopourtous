@@ -111,7 +111,8 @@ router.get('/search-people', async (req, res) => {
       averageRating: user.averageRating,
       createdAccount: user.createdAccount,
       tracks: user.tracks,
-      age: user.age
+      age: user.age,
+      friends: user.friends
     })
   })
   return res.json({ result: true, users: cleanUsers });

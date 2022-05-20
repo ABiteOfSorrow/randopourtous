@@ -79,11 +79,12 @@ function SignUp(props) {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#fff',
+        width: '100%',
       }}>
-      <Text style={{fontSize: 26, marginBottom: 25, marginTop: -25}}>
+      <Text style={{fontSize: 26, marginBottom: '8%', marginTop: '-15%'}}>
         RandoPourTous
       </Text>
-      <Text style={{fontSize: 20, marginBottom: 45}}>Créer un compte</Text>
+      <Text style={{fontSize: 20, marginBottom: '10%'}}>Créer un compte</Text>
       <View style={styles.inputContainer}>
         <Input
           placeholder='Email'
@@ -142,7 +143,7 @@ function SignUp(props) {
         onPress={async () => await handleSubmit()}>
         Créer son compte
       </Button>
-      <Divider orientation='horizontal' w={'80%'} mt={2} mb={5} />
+      <Divider orientation='horizontal' w={'80%'} mt={'6%'} mb={'4%'} />
       <Text style={{fontSize: 16, marginBottom: 10}}>Se connecter avec</Text>
       <View
         style={{
@@ -167,7 +168,9 @@ function SignUp(props) {
       </View>
       <View
         style={{
-          marginTop: 20,
+          alignItems: 'flex-end',
+          marginTop: '10%',
+          display: 'flex',
           width: '80%',
           display: 'flex',
           alignItems: 'center',
@@ -195,7 +198,7 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#78E08F',
-    marginTop: 12,
+    marginTop: '4%',
   },
 })
 

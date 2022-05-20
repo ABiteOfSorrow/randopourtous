@@ -27,7 +27,7 @@ export default function OtherProfile(props) {
           </Text>
         </Button>
       </View>
-      <Text style={{ fontSize: 24, marginBottom: 10, fontWeight: "bold" }}>Profil d'un utilisateur</Text>
+      <Text style={{ fontSize: 22, marginBottom: 10, fontWeight: "bold" }}>Profil d'un utilisateur</Text>
       <Text style={{ fontSize: 18 }}>{user.username}</Text>
       <View
         style={{
@@ -96,8 +96,8 @@ export default function OtherProfile(props) {
               alignItems: "center",
             }}
           >
-            <Text>30 ans</Text>
-            <Text>666 amis</Text>
+            <Text>{user.age === -1? 'X' : props.user.age} ans</Text>
+            <Text>{user.friends.length === 0? "Pas encore d'" : user.friends.length+' '}amis</Text>
           </View>
         </View>
       </View>
@@ -116,7 +116,7 @@ export default function OtherProfile(props) {
         <MaterialIcons name="star" size={40} color="#F8F808" />
         <MaterialIcons name="star" size={40} color="#F8F808" />
       </View>
-      <Text>Note moyenne des randos: 4.2</Text>
+      <Text>Note moyenne des randos: {user.averageRating === -1? 'Non connu':user.averageRating}</Text>
       <View
         style={{
           flex: 1,

@@ -48,6 +48,7 @@ const HomeNavigator = () => {
       screenOptions={{headerShown: false}}>
       <Stack.Screen name='Home' component={HomeScreen} />
       <Stack.Screen name='MyTrack' component={MyTrack} />
+      <Stack.Screen name='Chat' component={ChatScreen} />
       <Stack.Screen name='Create' component={CreateScreen} />
       <Stack.Screen name='SearchPeople' component={SearchPeopleScreen} />
     </Stack.Navigator>
@@ -172,7 +173,7 @@ export default function App() {
             <Stack.Screen name='BottomMenuTabs' component={BottomMenuTabs} />
             <Stack.Screen name='Map' component={MapScreen} />
             <Stack.Screen name='Otherprofile' component={OtherProfileScreen} />
-            <Stack.Screen name='Chat' component={ChatScreen} />
+            
             <Stack.Screen name='Resume' component={ResumeScreen} />
             <Stack.Screen name='ResultSearch' component={ResultSearch} />
             <Stack.Screen name='Management' component={ManagementScreen} />

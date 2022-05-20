@@ -92,7 +92,7 @@ function Create(props) {
     }
     //Envois au router sécurisé
     try {
-      var rawresponse = await fetch(backendAdress + '/create-track', {
+      let rawresponse = await fetch(backendAdress + '/create-track', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(randoData),

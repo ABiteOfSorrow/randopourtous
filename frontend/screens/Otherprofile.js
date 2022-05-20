@@ -124,7 +124,7 @@ function OtherProfile(props) {
               alignItems: "center",
             }}
           >
-            <Text>{user.age === -1 ? 'X' : props.user.age} ans</Text>
+            <Text>{user.age === -1? 'X': user.age} ans</Text>
             <Text>{user.friends.length === 0 ? "Pas encore d'" : user.friends.length + ' '}amis</Text>
           </View>
         </View>

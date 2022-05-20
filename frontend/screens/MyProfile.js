@@ -9,7 +9,6 @@ import { connect } from "react-redux";
 import { useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
 import backendConfig from '../backend.config.json';
 
 const backendAdress = backendConfig.address;

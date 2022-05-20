@@ -15,7 +15,7 @@ import SignUpScreen from './screens/SignUp'
 import HomeScreen from './screens/Home'
 import CreateScreen from './screens/Create'
 import SearchScreen from './screens/Search'
-import ListScreen from './screens/List'
+import RandosScreen from './screens/Randos'
 import DetailScreen from './screens/Detail'
 import MyprofileScreen from './screens/MyProfile'
 import OtherProfileScreen from './screens/OtherProfile'
@@ -107,7 +107,7 @@ const BottomMenuTabs = () => {
         options={{gestureEnabled: false}}
         component={HomeNavigator}
       />
-      <Tab.Screen name='Randos' component={ListScreen} />
+      <Tab.Screen name='Randos' component={RandosScreen} />
       <Tab.Screen name='Chercher' component={SearchScreen} />
       <Tab.Screen name='Profil' component={ProfileNavigator} />
     </Tab.Navigator>
@@ -169,7 +169,7 @@ export default function App() {
             />
             <Stack.Screen name='Detail' component={DetailScreen} />
             <Stack.Screen name='BottomMenuTabs' component={BottomMenuTabs} />
-            <Stack.Screen name='Otherprofile' component={OtherProfileScreen} />
+            <Stack.Screen name='OtherProfile' component={OtherProfileScreen} />
             <Stack.Screen name='Chat' component={ChatScreen} />
             <Stack.Screen name='Resume' component={ResumeScreen} />
             <Stack.Screen name='ResultSearch' component={ResultSearch} />

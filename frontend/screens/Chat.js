@@ -147,6 +147,14 @@ function Chat(props) {
     return (
       <InputToolbar
         {...props}
+        textInputProps={{
+          onSubmitEditing: () => {
+            if (props.text && props.onSend) {
+              let text = props.text;
+              props.onSend({ text: text.trim() }, true)
+            }
+          }
+        }}
         containerStyle={{
           backgroundColor: "white",
           borderTopColor: "#BBBBBB",

@@ -22,20 +22,6 @@ import HamburgerMenu from "../components/HamburgerMenu";
 function Detail(props) {
 
 
-  var rando=props.route.params.e
-  var date = new Date(rando.date)
-
-  //***** formatage de la date *****
-  /****** rajoute d'un 0 si minute<10 */
-  var minutes=date.getMinutes()<10?'0':''
-
-  /****** mise au format dd/mm/yy */
-  var day=date.toLocaleDateString('fr').split('/')
-  var newDay=day[1]+'/'+day[0]+'/'+day[2]
-  
-
-  //let dateFormat= rando.date.toLocaleDateString('fr') + ' ' + rando.date.getHours() + ':' +rando.date.getMinutes()
-  let dateFormat= newDay + ' ' + date.getHours() + 'h' + minutes+date.getMinutes()
 
 
   return (
@@ -44,30 +30,14 @@ function Detail(props) {
       <HamburgerMenu navigation={props.navigation} /> 
 
         <VStack space={2} alignItems="center">
-          <Heading size="xl">{rando.name}</Heading>
-          <Heading size="lg">{dateFormat} / {rando.departure.nom}</Heading>
-          <MapView style={styles.map}
-                    initialRegion={{
-                      latitude: rando.coordinate.latitude,
-                      longitude: rando.coordinate.longitude,
-                      latitudeDelta: 0.05,
-                      longitudeDelta: 0.05,
-                    }}>
-            <Marker pinColor='green'
-                    coordinate={{
-                      latitude: rando.coordinate.latitude,
-                      longitude: rando.coordinate.longitude,
-                    }}
-                    title={rando.name}/>
-
-
-
-          </MapView>
+          <Heading size="xl">Ma rando</Heading>
+          <Heading size="lg">Data / Lieu </Heading>
+          <MapView style={styles.map}></MapView>
           <Heading size="lg">Organisé par: </Heading>
           <Button w={"80%"} h={10} bg="#bbbbbb">
-            {rando.organisator}
+            Toto1: Voir profil
           </Button>
-          <Heading size="lg">Nombre de participant: {rando.users.length}/{rando.maxUsers} </Heading>
+          <Heading size="lg">Nombre de participant: 2/14 </Heading>
         </VStack>
         <VStack space={2} alignItems="center">
           <Heading size="lg">Liste des participants: </Heading>
@@ -133,9 +103,7 @@ function Detail(props) {
         <Button w="42%" h={10} variant="outline" borderColor="#38ADA9" onPress={()=>props.navigation.goBack()}>
           <Text color="#38ADA9">Retour</Text>
         </Button>
-        <Button w="42%" h={10} bg="#78E08F" onPress={()=>props.navigation.navigate('Chat')}>
-          Participer
-        </Button>
+
       </Stack>
     </SafeAreaView>
   );

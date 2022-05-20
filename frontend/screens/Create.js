@@ -99,7 +99,7 @@ function Create(props) {
       })
       if (rawresponse.ok) {
         var result = await rawresponse.json()
-        props.navigation.replace('Detail')
+        props.navigation.replace('MyTrack')
         if (result.result) {
           alert('Merci!')
         } else {

@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { HStack, VStack, Heading, Box, Button, Text } from "native-base";
 import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -8,30 +8,84 @@ import { connect } from "react-redux";
 import backendConfig from '../backend.config.json'
 const backendAdress = backendConfig.address
 
-function History(props) {
-//console.log("mes rando l.9",JSON.stringify(props.user))
-//let trackList = props.user.tracks
-//console.log(props.user.tracks)
 
+function History(props) {
+
+const [allTracks, setAllTracks] = useState([]);
+const [tracksFilter, setTracksFilter] = useState()
+
+//Initialisation de toutes les randos de l'utiilsateur à l'ouverture de composant et dès le changement de la variable d'état "tracksFilter"
 useEffect(() => {
   async function loadData() {
     
     var rawResponse = await fetch(backendAdress + '/get-tracks', {
       method: 'POST',
-      headers: {'Content-Type':'application/x-www-form-urlencoded'},
-      body: `ids=${props.user.tracks}`
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(props.user.tracks)
     });
-    //console.log(JSON.stringify(rawResponse))
+
     var response = await rawResponse.json();
-    //console.log("csl response",response);
+
+    //Filtrage dynamique
+    setAllTracks(response.fullInfoTracks.filter(track => track.finished !== tracksFilter))
   }
   loadData()
-}, []);
+}, [tracksFilter]);
 
-  // var sourceCard = articlesLike.map((source,i) => {
-  //   return( );
-  //   })
+//Modèle des box adaptatif à l'affichage des rando selon leurs infos
+  var sourceCard = allTracks.map((track,i) => {
+    if(track.finished == true){
+      var colorBg = "#bbbbbb"
+      var colorText = "black"
+      var etat = "Achevée"
+    }
+    else{
+      var colorBg = "#78E08F"
+      var colorText = "white"
+      var etat = "En cours..." 
+    }
+    return( 
+      <Box w={"80%"} alignSelf="center" bg={colorBg} p={3} style={{ borderRadius: 15 }} shadow={8} mb={2}>
+      <Box
+        alignSelf="center"
+        _text={{
+          fontSize: "xl",
+          fontWeight: "bold",
+          color: colorText,
+          letterSpacing: "lg",
+        }}
+      >
+        {track.name}
+      </Box>
+      <Box style={{ flex:1, flexDirection:"row", justifyContent:"space-between" }} >
+        <Box
+          alignSelf="center"
+          _text={{
+            fontSize: "lg",
+            fontWeight: "medium",
+            color: colorText,
+            letterSpacing: "lg",
+          }}
+        >
+          {track.departure.nom}
+        </Box>
+        <Box
+          alignSelf="center"
+          _text={{
+            fontSize: "md",
+            fontWeight: "medium",
+            color: colorText,
+            letterSpacing: "lg",
+          }}
+        >
+          {etat}
+        </Box>
+      </Box>
+    </Box>
+    );
+    })
 
+  //Affichage
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <ScrollView h="80%">
@@ -43,25 +97,26 @@ useEffect(() => {
             </Text>
           </Button>
         </HStack>
-        {/* List Body */}
 
+        {/* Titre */}
         <VStack space={2} style={{ alignItems:"center" }} >
           <Heading size="md" mb={4}>
             Mes randonnées créées
           </Heading>
-          {/* Button Line */}
+
+          {/* Buttons Filter */}
           <Box style={{ alignItems:"center", flexDirection:"row", display:"flex" }} mb={5}>
-            <Button w={100} h={8} p={0} mt={2} mr={2} style={{ borderColor:"#38ADA9" }} >
+            <Button w={100} h={8} p={0} mt={2} mr={2} style={{ borderColor:"#38ADA9" }} onPress={() => setTracksFilter(null)}>
               <Text fontSize="xs" style={{ color:"white", fontWeight: 'bold' }} >
                 Toutes
               </Text>
             </Button>
-            <Button w={100} h={8} p={0} mt={2} mr={2} style={{ backgroundColor:"green" }} >
+            <Button w={100} h={8} p={0} mt={2} mr={2} style={{ backgroundColor:"green" }} onPress={() => setTracksFilter(true)} >
               <Text fontSize="xs" style={{ fontWeight: 'bold', color:"white" }} >
                 En cours
               </Text>
             </Button>
-            <Button w={100} h={8} p={0} mt={2} mr={2} bg="#bbb">
+            <Button w={100} h={8} p={0} mt={2} mr={2} bg="#bbb" onPress={() => setTracksFilter(false)} >
               <Text fontSize="xs" style={{ fontWeight: 'bold', color:"white" }} >
                 Achevées
               </Text>
@@ -69,82 +124,10 @@ useEffect(() => {
           </Box>
         </VStack>
 
-        {/* History contents Line (Proceeding)*/}
-        <Box w={"80%"} alignSelf="center" bg="#78E08F" p={3} style={{ borderRadius: 15 }} shadow={8} mb={2}>
-          <Box
-            alignSelf="center"
-            _text={{
-              fontSize: "xl",
-              fontWeight: "bold",
-              color: "white",
-              letterSpacing: "lg",
-            }}
-          >
-            Toto's Rando Pour Tous
-          </Box>
-          <Box style={{ flex:1, flexDirection:"row", justifyContent:"space-between" }} >
-            <Box
-              alignSelf="center"
-              _text={{
-                fontSize: "lg",
-                fontWeight: "medium",
-                color: "white",
-                letterSpacing: "lg",
-              }}
-            >
-              Vincennes
-            </Box>
-            <Box
-              alignSelf="center"
-              _text={{
-                fontSize: "md",
-                fontWeight: "medium",
-                color: "white",
-                letterSpacing: "lg",
-              }}
-            >
-              En cours...
-            </Box>
-          </Box>
-        </Box>
-        {/* History contents Line (Finished)*/}
-        <Box w={"80%"} alignSelf="center" bg="#bbbbbb" p={3} borderRadius="15" shadow={8} mb={2}>
-          <Box
-            alignSelf="center"
-            _text={{
-              fontSize: "xl",
-              fontWeight: "bold",
-              color: "black",
-              letterSpacing: "lg",
-            }}
-          >
-            Toto's Rando Pour Tous
-          </Box>
-          <Box style={{ flex:1, flexDirection:"row", justifyContent:"space-between" }} >
-            <Box
-              alignSelf="center"
-              _text={{
-                fontSize: "lg",
-                fontWeight: "medium",
-                color: "black",
-                letterSpacing: "lg",
-              }}
-            >
-              Paris
-            </Box>
-            <Box
-              alignSelf="center"
-              _text={{
-                fontSize: "md",
-                fontWeight: "medium",
-                color: "black",
-                letterSpacing: "lg",
-              }}
-            >
-              Achevée
-            </Box>
-          </Box>
-        </Box>
+        {/* History contents Line */}
+        {sourceCard}
+
+        
       </ScrollView>
       {/* To prevent leaving the content area */}
       <Box w={"100%"} h={60} alignSelf="center" />

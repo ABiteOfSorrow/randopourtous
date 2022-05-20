@@ -100,12 +100,12 @@ function Search(props) {
   //***************************************** */
 
   var getSearch = function (data) {
+
     // ajout des données de recherche dans le reduceur
     props.addData(data)
 
     props.navigation.navigate('ResultSearch')
 
-    console.log('donnees: ', data)
   }
 
   return (

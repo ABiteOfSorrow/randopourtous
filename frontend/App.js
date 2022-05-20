@@ -49,6 +49,7 @@ const HomeNavigator = () => {
       <Stack.Screen name='MyTrack' component={MyTrack} />
       <Stack.Screen name='Create' component={CreateScreen} />
       <Stack.Screen name='SearchPeople' component={SearchPeopleScreen} />
+      <Stack.Screen name='Chat' component={ChatScreen} />
     </Stack.Navigator>
   )
 }
@@ -61,6 +62,17 @@ const ProfileNavigator = () => {
       <Stack.Screen name='EditProfile' component={EditProfileScreen} />
       <Stack.Screen name='History' component={HistoryScreen} />
       <Stack.Screen name='Friend' component={FriendScreen} />
+    </Stack.Navigator>
+  )
+}
+const SearchNavigator = () => {
+  return (
+    <Stack.Navigator 
+     screenOptions={{headerShown: false}}
+     initialRouteName='Chercher'>
+    <Stack.Screen name='Chercher' component={SearchScreen} />
+    <Stack.Screen name='ResultSearch' component={ResultSearch} />
+    <Stack.Screen name='Resume' component={ResumeScreen} />
     </Stack.Navigator>
   )
 }
@@ -108,7 +120,7 @@ const BottomMenuTabs = () => {
         component={HomeNavigator}
       />
       <Tab.Screen name='Randos' component={RandosScreen} />
-      <Tab.Screen name='Chercher' component={SearchScreen} />
+      <Tab.Screen name='Chercher' component={SearchNavigator} />
       <Tab.Screen name='Profil' component={ProfileNavigator} />
     </Tab.Navigator>
   )
@@ -170,9 +182,7 @@ export default function App() {
             <Stack.Screen name='Detail' component={DetailScreen} />
             <Stack.Screen name='BottomMenuTabs' component={BottomMenuTabs} />
             <Stack.Screen name='OtherProfile' component={OtherProfileScreen} />
-            <Stack.Screen name='Chat' component={ChatScreen} />
-            <Stack.Screen name='Resume' component={ResumeScreen} />
-            <Stack.Screen name='ResultSearch' component={ResultSearch} />
+
             <Stack.Screen name='Management' component={ManagementScreen} />
             
           </Stack.Navigator>

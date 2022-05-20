@@ -9,7 +9,10 @@ import { connect } from "react-redux";
 import { useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
 import backendConfig from '../backend.config.json';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const backendAdress = backendConfig.address;
 
 function MyProfile(props) {
@@ -69,20 +72,14 @@ function MyProfile(props) {
       </View>
 
       <Text style={{ fontSize: 18 }} >{props.user.username}</Text>
-      <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: 12 }} >
+      <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: '4%' }} >
         <View style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 8, paddingHorizontal: 12 }} >
           <View style={{ width: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
-            <Avatar
-              size="2xl"
-              bg="amber.500"
-              source={{
-                uri: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-              }}
-            />
+            <MaterialIcons name="account-circle" size={102} color="black" />
           </View>
           <View style={{ display: 'flex', width: '50%', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }} >
-            <Text style={{ fontSize: 18 }}>{props.user.name === '' ? 'Prénom :' : props.user.name}</Text>
-            <Text style={{ fontSize: 18 }}>{props.user.lastname === '' ? 'Nom : ' : props.user.lastname}</Text>
+            <Text style={{ fontSize: 18 }}>Prénom : {props.user.name}</Text>
+            <Text style={{ fontSize: 18 }}>Nom : {props.user.lastname}</Text>
           </View>
         </View>
         <View style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', paddingHorizontal: 12 }} >
@@ -92,7 +89,7 @@ function MyProfile(props) {
           </View>
         </View>
       </View>
-      <View style={{ marginTop: 30, marginBottom: 6, display: 'flex', flexDirection: 'row', justifyContent: 'center' }} >
+      <View style={{ marginTop: '10%', marginBottom: '2%', display: 'flex', flexDirection: 'row', justifyContent: 'center' }} >
         <MaterialIcons name="star" size={40} color="#F8F808" />
         <MaterialIcons name="star" size={40} color="#F8F808" />
         <MaterialIcons name="star" size={40} color="#F8F808" />
@@ -103,7 +100,7 @@ function MyProfile(props) {
       <View style={{ flex: 1, width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
         <Button my={1} bg={'#78E08F'} onPress={() => props.navigation.navigate("History")} w={'80%'} mt={'15%'} >Voir mes randos</Button>
         <Button my={1} bg={'#bbb'} onPress={() => props.navigation.navigate("Friend")} w={'80%'} >Voir mes amis</Button>
-        <Button mt={5} bg={'#bbb'} onPress={() => props.navigation.navigate('EditProfile')} w={'80%'} >Modifier mon compte</Button>
+        <Button mt={'4%'} bg={'#bbb'} onPress={() => props.navigation.navigate('EditProfile')} w={'80%'} >Modifier mon compte</Button>
       </View>
 
       <StatusBar style="auto" />

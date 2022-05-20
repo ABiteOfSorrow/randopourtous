@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { Avatar, HStack, VStack, Center, Heading, Box, Button, Text, Flex, Stack } from "native-base";
-import { Dimensions, StyleSheet, Platform, View } from "react-native";
+import { Dimensions, StyleSheet, Platform, View, TouchableOpacity, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
@@ -12,14 +12,50 @@ import HamburgerMenu from "../components/HamburgerMenu";
 import CustomSlider from "../components/CustomSlider";
 import backendConfig from '../backend.config.json';
 
-function Resume() {
+function Resume(props) {
 
   const [paysageValue, setPaysageValue] = useState(0);
   const [ambianceValue, setAmbianceValue] = useState(0);
   const [difficultyValue, setDifficultyValue] = useState(0);
-  const [status, requestPermission] = useState(null);
-  const [picture, setPicture] = useState("")
+  const [hasPermission, setHasPermission] = useState(null);
+  const [image, setImage] = useState(null);
 
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      quality: 1,
+    });
+
+    console.log(result)
+
+    if (!result.cancelled) {
+      setImage(result);
+    }
+
+    var data = new FormData(result);
+    data.append("avatar", {
+      uri: result.uri,
+      type: "image/jpeg",
+      name: "image.jpg",
+    });
+
+    const rawResponse = await fetch("https://api.cloudinary.com/v1_1/rupo/upload", {
+      method: "post",
+      body: data
+    }).then(res => res.json()).
+      then(data => {
+        setPhoto(data.secure_url)
+
+      }).catch(err => {
+        Alert.alert("An Error Occured While Uploading")
+      })
+    }
+
+  
+
+
+  
 //Rando rating stars
 var PaysageRating = [];
 for (var i = 0; i < 5; i++) {
@@ -31,6 +67,7 @@ for (var i = 0; i < 5; i++) {
   let count = i + 1;
   PaysageRating.push(
     <AntDesign
+    key={i}
       onPress={() => setPaysageValue(count)}
       color={color}
       name="star" size={24} 
@@ -48,6 +85,7 @@ for (var i = 0; i < 5; i++) {
   let count = i + 1;
   AmbianceRating.push(
     <AntDesign
+    key={i}
       onPress={() => setAmbianceValue(count)}
       color={color}
       name="star" size={24} 
@@ -65,6 +103,7 @@ for (var i = 0; i < 5; i++) {
   let count = i + 1;
   DifficultyRating.push(
     <AntDesign
+    key={i}
       onPress={() => setDifficultyValue(count)}
       color={color}
       name="star" size={24} 
@@ -93,61 +132,11 @@ for (var i = 0; i < 5; i++) {
     color = "#f1c40f";
   }
 
-  tabGlobalRating.push(<AntDesign color={color} name="star" size={24}  />);
+  tabGlobalRating.push(<AntDesign  key={i} color={color} name="star" size={24} />);
 }
 console.log(avgTotal)
 
 
-// useEffect(() => {
-//   (async () => {
-//     const { status } = await MediaLibrary.usePermissions()
-//     requestPermission(status === "granted");
-//   })();
-// }, []);
-
-const pickFromGallery = async () => {
-  console.log("you clicked this")
-  if(status){
-    let image = await MediaLibrary.getAssetsAsync({
-    mediaTypes:ImagePicker.MediaTypeOptions.Images,
-    quality:0.7,
-    base64: true,
-    exif: true,
-  })
-  var data = new FormData(image);
-      data.append("avatar", {
-        uri: data.uri,
-        type: "image/jpeg",
-        name: "image.jpg",
-      });
-      //Need to change IP when you start your APP (ipconfig)
-      const rawResponse = await fetch({backendConfig} + ":3000/upload", {
-        method: "post",
-        body: data,
-      });
-
-      const response = await rawResponse.json();
-      // console.log(response);
-      // props.onSubmitPhotoList(response);
-    }
-  };
-
-
-// const handleupload = (image) => {
-// const photo = new FormData()
-// data.append('file', image)
-// data.append('upload_preset', 'randopourtous')
-// data.append("cloud_name ", "rupo")
-
-// fetch("https://api.cloudinary.com/v1_1/rupo/image/upload",{
-//     method:"post",
-//     body: photo
-//     }).then(res=>res.json())
-//     then(data=>{
-//     console.log(data)
-//     setPicture(data.uri)
-// })
-// }
 
 
   const data = [
@@ -169,7 +158,10 @@ const pickFromGallery = async () => {
     },
   ];
 
-  return (
+  
+
+
+return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
       <HStack justifyContent="space-between" mb={4}>
       <HamburgerMenu navigation={props.navigation} /> 
@@ -194,7 +186,7 @@ const pickFromGallery = async () => {
       </VStack>
 
       <CustomSlider data={data} />
-      <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mb={5} onPress={() => pickFromGallery()}>
+      <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mb={5} onPress={pickImage}>
         <Text style={styles.contentText} fontSize="md">
           Partager des photos
         </Text>
@@ -237,43 +229,6 @@ const pickFromGallery = async () => {
 const styles = StyleSheet.create({
   contentText: {
     color: "white",
-  },
-  map: {
-    width: "90%",
-    marginTop: 10,
-    height: 200,
-  },
-  container: {
-    paddingTop: 30,
-  },
-  title: {
-    fontSize: 20,
-  },
-  item: {
-    width: "100%",
-    height: screenWidth - 20, //height will be 20 units less than screen width.
-  },
-  imageContainer: {
-    flex: 1,
-    borderRadius: 5,
-    backgroundColor: "lightblue",
-    marginBottom: Platform.select({ ios: 0, android: 1 }), //handle rendering bug.
-  },
-  image: {
-    ...StyleSheet.absoluteFillObject,
-    resizeMode: "contain",
-  },
-  dotContainer: {
-    backgroundColor: "rgb(230,0,0)",
-  },
-  dotStyle: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: "black",
-  },
-  inactiveDotStyle: {
-    backgroundColor: "rgb(255,230,230)",
   },
 });
 

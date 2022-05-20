@@ -98,8 +98,8 @@ function Create(props) {
         body: JSON.stringify(randoData),
       })
       if (rawresponse.ok) {
-        let result = await rawresponse.json()
-        props.navigation.replace('Detail')
+        var result = await rawresponse.json()
+        props.navigation.navigate('Chat')
         if (result.result) {
           alert('Merci!')
         } else {

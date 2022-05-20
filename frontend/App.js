@@ -28,7 +28,7 @@ import EditProfileScreen from './screens/EditProfile'
 import ResultSearch from './screens/ResultSearch'
 import SearchPeopleScreen from './screens/SearchPeople'
 import ManagementScreen from './screens/Management'
-
+import MyTrack from './screens/MyTrack'
 
 import {combineReducers} from 'redux'
 import {configureStore} from '@reduxjs/toolkit'
@@ -47,6 +47,7 @@ const HomeNavigator = () => {
       initialRouteName='Home'
       screenOptions={{headerShown: false}}>
       <Stack.Screen name='Home' component={HomeScreen} />
+      <Stack.Screen name='MyTrack' component={MyTrack} />
       <Stack.Screen name='Create' component={CreateScreen} />
       <Stack.Screen name='SearchPeople' component={SearchPeopleScreen} />
     </Stack.Navigator>
@@ -175,6 +176,7 @@ export default function App() {
             <Stack.Screen name='Resume' component={ResumeScreen} />
             <Stack.Screen name='ResultSearch' component={ResultSearch} />
             <Stack.Screen name='Management' component={ManagementScreen} />
+            
           </Stack.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>

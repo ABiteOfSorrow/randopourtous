@@ -15,7 +15,6 @@ import SignUpScreen from './screens/SignUp'
 import HomeScreen from './screens/Home'
 import CreateScreen from './screens/Create'
 import SearchScreen from './screens/Search'
-import MapScreen from './screens/Map'
 import ListScreen from './screens/List'
 import DetailScreen from './screens/Detail'
 import MyprofileScreen from './screens/MyProfile'
@@ -170,7 +169,6 @@ export default function App() {
             />
             <Stack.Screen name='Detail' component={DetailScreen} />
             <Stack.Screen name='BottomMenuTabs' component={BottomMenuTabs} />
-            <Stack.Screen name='Map' component={MapScreen} />
             <Stack.Screen name='Otherprofile' component={OtherProfileScreen} />
             <Stack.Screen name='Chat' component={ChatScreen} />
             <Stack.Screen name='Resume' component={ResumeScreen} />

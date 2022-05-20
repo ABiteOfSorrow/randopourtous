@@ -218,7 +218,8 @@ function ResultSearch(props) {
             <MapView
               style={styles.map}
               //onPress={(e) => addPress(e.nativeEvent)}
-              initialRegion={mapConfig}>
+              initialRegion={mapConfig}
+              >
               {displayListPosition}
             </MapView>
           </View>
@@ -238,7 +239,7 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1,
-    width: 350,
+    width: 400,
     height: '100%',
     borderWidth: 10,
     borderColor: '#CCCCCC',

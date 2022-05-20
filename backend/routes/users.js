@@ -105,6 +105,7 @@ router.get('/search-people', async (req, res) => {
   let cleanUsers = [];
   foundUsers.forEach(user => {
     cleanUsers.push({
+      _id: user._id,
       username: user.username,
       name: user.name,
       lastname: user.lastname,
@@ -112,10 +113,55 @@ router.get('/search-people', async (req, res) => {
       averageRating: user.averageRating,
       createdAccount: user.createdAccount,
       tracks: user.tracks,
-      age: user.age
+      age: user.age,
+      friends: user.friends
     })
   })
   return res.json({ result: true, users: cleanUsers });
+});
+
+router.post('/add-friend', async (req, res) => {
+  if (!req.body.token || !req.body.username) {
+    return res.json({ result: false, error: 'Token or username is missing.' });
+  }
+  let foundUser = await User.findOne({ token: req.body.token });
+  if (!foundUser) {
+    return res.json({ result: false, error: 'User token not found.' });
+  }
+  let foundFriend = await User.findOne({ username: req.body.username });
+  if (!foundFriend) {
+    return res.json({ result: false, error: 'User to friend not found.' });
+  }
+  // check if not already friends
+  if (foundUser.friends.includes(foundFriend._id)) {
+    return res.json({ result: false, error: 'Vous etes déjà amis.' });
+  }
+
+  foundUser.friends.push(foundFriend._id);
+  await foundUser.save();
+  return res.json({ result: true, user: foundUser });
+});
+
+router.get('/user/:id', async (req, res) => {
+  if (!req.params.id) {
+    return res.json({ result: false, error: 'Id est manquant.' });
+  }
+  let foundUser = await User.findById(req.params.id).populate('tracks').exec();
+  if (!foundUser) {
+    return res.json({ result: false, error: 'User not found by id.' });
+  }
+  let cleanUser = {
+    _id: foundUser._id,
+    username: foundUser.username,
+    name: foundUser.name,
+    lastname: foundUser.lastname,
+    age: foundUser.age,
+    averageRating: foundUser.averageRating,
+    createdAccount: foundUser.createdAccount,
+    tracks: foundUser.tracks,
+    friends: foundUser.friends
+  }
+  return res.json({ result: true, user: cleanUser });
 });
 
 module.exports = router;

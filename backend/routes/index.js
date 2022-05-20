@@ -38,14 +38,14 @@ router.post('/create-track', async function (req, res, next) {
   if (!foundUser) {
     return res.json({result: false, error: 'Mauvais token'})
   }
-
+  // ajout du créateur aux participants
   let user = {
     _id: foundUser._id,
     username: foundUser.username,
     name: foundUser.name,
     lastname: foundUser.lastname,
   }
-
+  // tableau des participants
   let users = []
   users.push(user)
   var newRando = new randoModel({
@@ -60,6 +60,8 @@ router.post('/create-track', async function (req, res, next) {
     estimation_time: estimation_time,
     description: randoData.description,
     level: randoData.level,
+    finished: false,
+    organisator: foundUser.username,
   })
   var randoSaved = await newRando.save()
 
@@ -138,23 +140,24 @@ router.post('/search-track', async function (req, res, next) {
 
 router.post('/get-tracks', async function (req, res, next) {
 
-  let tracks = JSON.stringify(req.body.ids);
-  let listingTracks = tracks.split(',')
+  let tracks = req.body
+  //let listingTracks = tracks.split(',')
+  //console.log(listingTracks)
   let fullInfoTracks = []
   
 
-  for(let i=0;i < listingTracks.length; i++){
-    var result = await randoModel.findById(listingTracks[i])
-    console.log(result)
+  for(let i=0;i < tracks.length; i++){
+    var result = await randoModel.findById(tracks[i])
+    //console.log(result)
    //console.log("sprout",listingTracks[i])
    if(result != null){
       fullInfoTracks.push(result)
    }
  }
- console.log(fullInfoTracks)
+ //console.log("test",fullInfoTracks)
  // console.log('rouetr resullt',result)
   
-  return res.json({success: true})
+  return res.json({success: true, fullInfoTracks })
 })
 
 module.exports = router

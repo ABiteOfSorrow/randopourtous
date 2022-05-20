@@ -28,7 +28,7 @@ import EditProfileScreen from './screens/EditProfile'
 import ResultSearch from './screens/ResultSearch'
 import SearchPeopleScreen from './screens/SearchPeople'
 import ManagementScreen from './screens/Management'
-import HamburgerMenu  from './components/HamburgerMenu'
+
 
 import {combineReducers} from 'redux'
 import {configureStore} from '@reduxjs/toolkit'
@@ -109,7 +109,7 @@ const BottomMenuTabs = () => {
       />
       <Tab.Screen name='Randos' component={ListScreen} />
       <Tab.Screen name='Chercher' component={SearchScreen} />
-      <Tab.Screen name='Profil' component={ProfileNavigator} />
+      <Tab.Screen name='Profil' component={ChatScreen} />
     </Tab.Navigator>
   )
 }

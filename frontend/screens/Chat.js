@@ -149,7 +149,7 @@ function Chat(props) {
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container} keyboardVerticalOffset={90}>
         <HStack justifyContent="space-between" mb={4}>
-          <HamburgerMenu />
+        <HamburgerMenu navigation={props.navigation} /> 
           <Switch offTrackColor="#C4C4C4" onTrackColor="#78E08F" mr={4} onValueChange={setIsOwner} />
           <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9">
             <Text fontSize="xs" bold color="#38ADA9">

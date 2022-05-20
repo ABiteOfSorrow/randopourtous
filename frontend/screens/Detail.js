@@ -23,7 +23,7 @@ function Detail() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
       <ScrollView>
-        <HamburgerMenu />
+      <HamburgerMenu navigation={props.navigation} /> 
 
         <VStack space={2} alignItems="center">
           <Heading size="xl">Rando 1</Heading>

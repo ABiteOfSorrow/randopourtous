@@ -57,7 +57,7 @@ function SearchPeople(props) {
          <ScrollView contentContainerStyle={{ flex: 1, alignItems: 'center' }}>
             <Box style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
                <Box style={{ width: '20%' }} >
-                  <HamburgerMenu />
+               <HamburgerMenu navigation={props.navigation} /> 
                </Box>
                <Box style={{ width: '60%', display: 'flex', flexDirection: 'row', justifyContent: 'center' }} >
                   <Text style={{ fontWeight: 'bold', fontSize: 16 }} >Chercher un utilisateur</Text>

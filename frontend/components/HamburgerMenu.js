@@ -9,7 +9,7 @@ import {
   Pressable,
 } from "native-base";
 
-function HamburgerMenu() {
+function HamburgerMenu(props) {
   return (
     <Box alignItems="flex-start" ml="5" my="3">
       <Menu
@@ -23,18 +23,18 @@ function HamburgerMenu() {
         }}
       >
         <Menu.Group title="Menu">
-          <Menu.Item onPress={() => console.log("Home")}>Home</Menu.Item>
-          <Menu.Item onPress={() => console.log("List")}>List</Menu.Item>
-          <Menu.Item onPress={() => console.log("Search")}>
-            Search
+          <Menu.Item onPress={() => props.navigation.navigate('Home')}>Home</Menu.Item>
+          <Menu.Item onPress={() => props.navigation.navigate('Randos')}>Randos</Menu.Item>
+          <Menu.Item onPress={() => props.navigation.navigate("Chercher")}>
+          Chercher
           </Menu.Item>
-          <Menu.Item onPress={() => console.log("Profil")}>
+          <Menu.Item onPress={() => props.navigation.navigate("MyProfile")}>
             Profil
           </Menu.Item>
         </Menu.Group>
         <Divider mt="3" w="100%" />
         <Menu.Group title="Connection">
-          <Menu.Item onPress={() => console.log("SignIn")}>
+          <Menu.Item onPress={() => console.log("SignOut")}>
             Sign-out
           </Menu.Item>
         </Menu.Group>

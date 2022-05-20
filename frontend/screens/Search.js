@@ -111,7 +111,7 @@ function Search(props) {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <HStack justifyContent='space-between' mb={1.5}>
-        <HamburgerMenu />
+      <HamburgerMenu navigation={props.navigation} /> 
         <Button
           w={90}
           h={8}

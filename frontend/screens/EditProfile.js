@@ -107,7 +107,7 @@ function EditProfile(props) {
       <SafeAreaView style={{ flex: 1, alignItems: 'center', backgroundColor: '#fff' }} >
          <View style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
             <View style={{ width: 94 }} >
-               <HamburgerMenu />
+            <HamburgerMenu navigation={props.navigation} /> 
             </View>
             <View>
                <Text style={{ fontWeight: 'bold', fontSize: 18 }} >
@@ -140,7 +140,7 @@ function EditProfile(props) {
             <Text style={{ marginTop: 12, marginLeft: 10 }} >Age</Text>
             <Input my={3} maxLength={2} placeholder="Veuillez entrer l'age..." value={age} onChangeText={(text) => handleAge(text)} />
          </ScrollView>
-         <KeyboardAvoidingView style={{ paddingHorizontal: 20, width: '100%', flex: 1, display: 'flex', justifyContent: 'flex-end', paddingBottom: 20 }} >
+         <KeyboardAvoidingView style={{ marginBottom: '14%', paddingHorizontal: 20, width: '100%', flex: 1, display: 'flex', justifyContent: 'flex-end', paddingBottom: 20 }} >
             <View style={{ width: '100%' }} >
                <Button bg='#78E08F' onPress={async () => await handleSubmit()} style={{ width: '100%' }}>Sauvegarder</Button>
             </View>

@@ -28,6 +28,7 @@ import EditProfileScreen from './screens/EditProfile'
 import ResultSearch from './screens/ResultSearch'
 import SearchPeopleScreen from './screens/SearchPeople'
 import ManagementScreen from './screens/Management'
+import HamburgerMenu  from './components/HamburgerMenu'
 
 import {combineReducers} from 'redux'
 import {configureStore} from '@reduxjs/toolkit'
@@ -167,7 +168,6 @@ export default function App() {
               component={BottomMenuTabs}
             />
             <Stack.Screen name='Detail' component={DetailScreen} />
-            <Stack.Screen name='MyProfile' component={MyprofileScreen} />
             <Stack.Screen name='BottomMenuTabs' component={BottomMenuTabs} />
             <Stack.Screen name='Create' component={CreateScreen} />
             <Stack.Screen name='Map' component={MapScreen} />

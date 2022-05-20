@@ -32,6 +32,7 @@ let randoSchema = new mongoose.Schema({
   finished: Boolean,
   level: String,
   userId: String,
+  organisator: String
 })
 
 // link schema to collection

@@ -7,6 +7,7 @@ import HamburgerMenu from "../components/HamburgerMenu";
 import { MaterialIcons } from '@expo/vector-icons';
 import { connect } from "react-redux";
 import { useIsFocused } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import backendConfig from '../backend.config.json';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -20,15 +21,16 @@ function MyProfile(props) {
   useEffect(() => {
     if (focused) {
       (async function () {
-        let rawresponse = await fetch(backendAdress + '/users/my-data?token=' + props.user.token)
-        //console.log(JSON.stringify(rawresponse))
-        if (rawresponse.status == 200) {
-          let response = await rawresponse.json();
-          if (response.result) {
-            // save data in redux
-            props.setUser(response.user)
-            // save user in async storage
-            try {
+        try {
+          let rawresponse = await fetch(backendAdress + '/users/my-data?token=' + props.user.token);
+          //console.log(JSON.stringify(rawresponse))
+          if (rawresponse.status == 200) {
+            let response = await rawresponse.json();
+            if (response.result) {
+              // save data in redux
+              props.setUser(response.user)
+              // save user in async storage
+
               // read user data and if it is not same, save it
               let user = await AsyncStorage.getItem('user')
               if (user) {
@@ -41,14 +43,15 @@ function MyProfile(props) {
                 await AsyncStorage.setItem('user', JSON.stringify(response.user))
                 console.log('User data saved in storage. Data was not in storage.')
               }
-            } catch (e) {
-              console.log(e)
+
+            } else {
+              alert(response.error);
             }
           } else {
-            alert(response.error);
+            alert('Error while fetching user data.');
           }
-        } else {
-          alert('Error while fetching user data.');
+        } catch (e) {
+          console.log(e)
         }
       })();
     }
@@ -58,7 +61,7 @@ function MyProfile(props) {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', alignItems: 'center' }}>
       <View style={{ display: 'flex', width: '100%', flexDirection: 'row', justifyContent: 'space-between' }} >
         <View style={{ width: '30%' }} >
-          <HamburgerMenu />
+        <HamburgerMenu navigation={props.navigation} /> 
         </View>
 
         <View style={{ width: '30%', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >

@@ -1,10 +1,37 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { HStack, VStack, Heading, Box, Button, Text } from "native-base";
 import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HamburgerMenu from "../components/HamburgerMenu";
+import { connect } from "react-redux";
+
+import backendConfig from '../backend.config.json'
+const backendAdress = backendConfig.address
 
 function History(props) {
+//console.log("mes rando l.9",JSON.stringify(props.user))
+//let trackList = props.user.tracks
+//console.log(props.user.tracks)
+
+useEffect(() => {
+  async function loadData() {
+    
+    var rawResponse = await fetch(backendAdress + '/get-tracks', {
+      method: 'POST',
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: `ids=${props.user.tracks}`
+    });
+    //console.log(JSON.stringify(rawResponse))
+    var response = await rawResponse.json();
+    //console.log("csl response",response);
+  }
+  loadData()
+}, []);
+
+  // var sourceCard = articlesLike.map((source,i) => {
+  //   return( );
+  //   })
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <ScrollView h="80%">
@@ -131,4 +158,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default History;
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+  };
+}
+
+export default connect(
+  mapStateToProps, 
+  null)
+  (History);

@@ -105,6 +105,7 @@ router.post('/search-track', async function (req, res, next) {
   return res.json({success: true, result: result})
 })
 
+<<<<<<< HEAD
 // cloudinary
 cloudinary.config({
   cloud_name: "rupo",
@@ -136,4 +137,27 @@ router.post("/upload", async function (req, res, next) {
 
 
 
+=======
+router.post('/get-tracks', async function (req, res, next) {
+
+  let tracks = JSON.stringify(req.body.ids);
+  let listingTracks = tracks.split(',')
+  let fullInfoTracks = []
+  
+
+  for(let i=0;i < listingTracks.length; i++){
+    var result = await randoModel.findById(listingTracks[i])
+    console.log(result)
+   //console.log("sprout",listingTracks[i])
+   if(result != null){
+      fullInfoTracks.push(result)
+   }
+ }
+ console.log(fullInfoTracks)
+ // console.log('rouetr resullt',result)
+  
+  return res.json({success: true})
+})
+
+>>>>>>> b0091577a6a8e819d342a0d708c679caaf346ad9
 module.exports = router

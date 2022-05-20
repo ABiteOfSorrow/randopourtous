@@ -15,7 +15,7 @@ import {SafeAreaView} from 'react-native-safe-area-context'
 import HamburgerMenu from '../components/HamburgerMenu'
 import {connect} from 'react-redux'
 import backendConfig from '../backend.config.json'
-import MapView, {Marker} from 'react-native-maps'
+import MapView, {Marker, Callout} from 'react-native-maps'
 
 const backendAdress = backendConfig.address
 
@@ -25,6 +25,7 @@ function ResultSearch(props) {
 
   //*** state de l'affichage de la carte (changement d'état avec le switch) */
   const [mapdisplay, setMapDisplay] = useState(false)
+  const [mapConfig, setMapConfig] = useState()
 
   //**** iniatilisation de la liste des résultat de recherche via requête dans la BDD */
   useEffect(() => {
@@ -38,8 +39,45 @@ function ResultSearch(props) {
       })
 
       let response = await result.json()
-      console.log('données recues: ', response.result)
       setResultSearch([...response.result])
+
+      //*** initialisation du zoom de la carte en fonction des paramètres de recherche */
+
+      //**** si ville dans le champe de recherche (reducer) alors on zoom sur la ville */
+
+      //**** si département, récupération de la première rando de la liste et zoom sur ses coordonnée */
+
+      //**** zoom sur la france sinon */
+
+      let mapSetUp
+      if (props.data.ville.codePostal.length === 2) {
+        mapSetUp = {
+          latitude: response.result[0].coordinate.latitude,
+          longitude: response.result[0].coordinate.longitude,
+          latitudeDelta: 1.5,
+          longitudeDelta: 1,
+        }
+      } else if (props.data.ville.nom) {
+        console.log('Affichage echelle ville')
+        let resultGouv = await fetch(
+          `https://api-adresse.data.gouv.fr/search/?q=${props.data.ville.codePostal}&limit=1`
+        )
+        var responseGouv = await resultGouv.json()
+        mapSetUp = {
+          latitude: responseGouv.features[0].geometry.coordinates[1],
+          longitude: responseGouv.features[0].geometry.coordinates[0],
+          latitudeDelta: 0.05,
+          longitudeDelta: 0.05,
+        }
+      } else {
+        mapSetUp = {
+          latitude: 46.22,
+          longitude: 2.21,
+          latitudeDelta: 10,
+          longitudeDelta: 10,
+        }
+      }
+      setMapConfig(mapSetUp)
     }
 
     searchFunction()
@@ -96,6 +134,30 @@ function ResultSearch(props) {
     ))
   }
 
+  //****** initialisation de la liste des markers de randonnées */
+
+  var displayListPosition = resultSearch.map((e, i) => (
+    <Marker
+      key={i}
+      pinColor='green'
+      coordinate={{
+        latitude: e.coordinate.latitude,
+        longitude: e.coordinate.longitude,
+      }}
+      title={e.name}
+      description={e.description + '\n Press to view'}>
+      <MapView.Callout>
+        <View style={styles.callout}>
+          <Heading>{e.name}</Heading>
+          <Text>{e.description}</Text>
+          <Button title='Click Me!' onPress={() => console.log('Clicked')}>
+            Voir
+          </Button>
+        </View>
+      </MapView.Callout>
+    </Marker>
+  ))
+
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <View
@@ -144,19 +206,9 @@ function ResultSearch(props) {
             <MapView
               style={styles.map}
               //onPress={(e) => addPress(e.nativeEvent)}
-              initialRegion={{
-                latitude: 48.856614,
-                longitude: 2.3522219,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-              }}
-              // region={{
-              //   latitude: coord.lat,
-              //   longitude: coord.long,
-              //   latitudeDelta: 0.0992,
-              //   longitudeDelta: 0.0421,
-              // }}
-            ></MapView>
+              initialRegion={mapConfig}>
+              {displayListPosition}
+            </MapView>
           </View>
         )}
       </View>
@@ -184,6 +236,12 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: '#CCCCCC',
     minHeight: 150,
+  },
+  callout: {
+    flex: 1,
+    // width: 150,
+    height: 100,
+    alignItems: 'center',
   },
 })
 

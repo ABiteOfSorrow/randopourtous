@@ -86,6 +86,7 @@ function ResultSearch(props) {
   } else {
     listRando = resultSearch.map((rando, i) => (
 
+
       <VStack key={i} space={2} alignItems='center'>
         <Box w={'75%'} mb={0} borderRadius='15' bg='#78E08F'>
           <Heading size='md' textAlign='center'>
@@ -126,6 +127,7 @@ function ResultSearch(props) {
       </VStack>
 
     ))
+    console.log(listRando)
   }
 
   //****** initialisation de la liste des markers de randonnées */

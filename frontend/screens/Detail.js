@@ -28,11 +28,11 @@ function Detail(props) {
   const [listUsers, setListUsers]=useState([])
   const [rando, setRando]=useState(props.route.params.rando)
   
+  console.log('retour chat: ', props.route.params.rando)
  
   //let rando=props.route.params.rando
   useEffect(()=>{
     
-    let tempUsers=[]
 
     async function searchUser(){
 
@@ -41,28 +41,25 @@ function Detail(props) {
       // on initialise le composant en récupérant la randonnées dans la BDD avec la liste des participants à jour
       let rawresponse = await fetch(backendAdress+'/search-user-track?userid='+props.user._id+'&trackid='+props.route.params.rando._id);
       let response=await rawresponse.json()
-
+    
       if (response) {
 
         for(let userItem of response.rando.users){
-          console.log(userItem)
-          let userRawResponse = await fetch(backendAdress + '/users/user/' + userItem._id)
+
+          console.log('response back :', userItem)
+          let userRawResponse = await fetch(backendAdress + '/users/user/' + userItem)
           let userResponse= await userRawResponse.json()
 
-          tempUsers.push(userResponse.user)
+          setListUsers([...listUsers,userResponse.user])
           
         }
-        setListUsers([...tempUsers])
+
       }
 
       response.rando.users.find((item) => item === props.user._id) ? setIsParticipant(true) : setIsParticipant(false)
     }
     
     searchUser()
-  
-  
-    
-
 
    },[props.route.params.rando])
 
@@ -95,6 +92,7 @@ function Detail(props) {
       let response = await result.json()
       props.navigation.navigate('Otherprofile', { user: response.user })
     }
+  }
 
     var participateClick = async function (dataRando) {
 
@@ -149,13 +147,6 @@ function Detail(props) {
     </Button>
   </Center>)
   
-
-  console.log('list des users: ',listUsers)
-
-   
-
-
-
 
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
@@ -220,6 +211,7 @@ function Detail(props) {
     );
   }
 
+
   const styles = StyleSheet.create({
     contentText: {
       color: "white",
@@ -230,7 +222,7 @@ function Detail(props) {
       height: 200,
     },
   });
-}
+
 
 function mapStateToProps(state) {
   return {

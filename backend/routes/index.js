@@ -78,7 +78,7 @@ router.post('/create-track', async function (req, res, next) {
     await foundUser.save()
   }
 
-  return res.json({ result: true })
+  return res.json({result: true, rando: randoSaved})
 })
 
 router.post('/search-track', async function (req, res, next) {

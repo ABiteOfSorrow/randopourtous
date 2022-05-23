@@ -156,7 +156,7 @@ function Search(props) {
                   }}
                   onPress={async () => {
                     setCitie(e)
-                    console.log(e)
+                   // console.log(e)
                     setListCities([])
 
                     // si la longueur du CP>2 cela veut dire que ce n'est pas un département, on zoom donc sur la ville
@@ -195,7 +195,7 @@ function Search(props) {
             size='md'
             onValueChange={() => {
               setMixte(!mixte)
-              console.log(mixte)
+             // console.log(mixte)
             }}
           />
           <Heading size='md'>Rando mixte </Heading>

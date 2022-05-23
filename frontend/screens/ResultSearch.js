@@ -92,12 +92,12 @@ function ResultSearch(props) {
       </Heading>
     )
   } else {
-    listRando = resultSearch.map((e, i) => (
+    listRando = resultSearch.map((rando, i) => (
 
       <VStack key={i} space={2} alignItems='center'>
         <Box w={'75%'} mb={0} borderRadius='15' bg='#78E08F'>
           <Heading size='md' textAlign='center'>
-            {e.name}
+            {rando.name}
           </Heading>
         </Box>
         <Center
@@ -111,21 +111,21 @@ function ResultSearch(props) {
           display='flex'
           flexDirection='row'
           justifyContent='space-around'>
-          <Heading size='md'>{e.departure.nom}</Heading>
+          <Heading size='md'>{rando.departure.nom}</Heading>
 
           <VStack space={2} alignItems='flex-start'>
             <Text fontSize='sm' bold>
-              {e.level}
+              {rando.level}
             </Text>
             <Text fontSize='sm' bold>
-              5 / 12 particpants
+              {rando.users.length} / {rando.maxUsers} particpants
             </Text>
           </VStack>
           <Button
             size='md'
             backgroundColor='#78E08F'
             alignSelf='center'
-            onPress={() => props.navigation.navigate('Detail', {e})}>
+            onPress={() => props.navigation.navigate('Detail', {rando})}>
             <Text style={styles.contentText} fontSize='md'>
               Voir
             </Text>
@@ -138,22 +138,24 @@ function ResultSearch(props) {
 
   //****** initialisation de la liste des markers de randonnées */
 
-  var displayListPosition = resultSearch.map((e, i) => (
+  var displayListPosition = resultSearch.map((rando, i) => (
     <Marker
       key={i}
       pinColor='green'
       coordinate={{
-        latitude: e.coordinate.latitude,
-        longitude: e.coordinate.longitude,
+        latitude: rando.coordinate.latitude,
+        longitude: rando.coordinate.longitude,
       }}
-      title={e.name}
+      title={rando.name}
+
+
       //*** Redirection vers la page du détail de la rando avec la rando en paramètre */
       
-      description={e.description + '\n Press to view'}>
-      <MapView.Callout onPress={() => props.navigation.navigate('Detail', {e})}>
+      description={rando.description + '\n Press to view'}>
+      <MapView.Callout onPress={() => props.navigation.navigate('Detail', {rando})}>
         <View style={styles.callout}>
-          <Heading>{e.name}</Heading>
-          <Text>{e.description}</Text>
+          <Heading>{rando.name}</Heading>
+          <Text>{rando.description}</Text>
           <Button
             size='md'
             backgroundColor='#78E08F'

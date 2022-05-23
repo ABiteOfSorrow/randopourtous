@@ -162,4 +162,45 @@ router.post("/upload", async function (req, res, next) {
   fs.unlinkSync(imagePath);
 });
 
+
+
+
+//*** route qui permet d'ajouter un nouveau participant à la randonnée */
+
+router.get('/add-user-track', async (req, res) => {
+
+  var userId= req.query.userid
+  var trackId=req.query.trackid
+
+  //*** on ajoute au tableau users l'Id du nouveau participant */
+
+  var result = await randoModel.updateOne({_id:trackId}, {$addToSet:{users:userId}})
+
+  if(result){
+    return res.json({ result: true,  })
+  }else{
+    return res.json({ result: false,  })
+  }
+
+});
+
+//*** route de vérification de la présence d'un utisateur dans la liste des participants */
+
+router.get('/search-user-track', async (req, res) => {
+
+ // var userId= req.query.userid
+  var trackId=req.query.trackid
+
+  var result = await randoModel.findOne({_id:trackId})
+
+  if(result){
+    
+    return res.json({ result: true, rando:result  })
+  }else{
+    return res.json({ result: false,  })
+  }
+
+
+});
+
 module.exports = router;

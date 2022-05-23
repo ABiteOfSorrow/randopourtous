@@ -1,6 +1,9 @@
 var express = require('express')
 var router = express.Router()
 var cloudinary = require("cloudinary").v2;
+var fs = require("fs");
+var uniqid = require("uniqid");
+var request = require("sync-request");
 
 var randoModel = require('../models/rando')
 let UserModel = require('../models/user')
@@ -107,36 +110,6 @@ router.post('/search-track', async function (req, res, next) {
   return res.json({success: true, result: result})
 })
 
-// // cloudinary
-// cloudinary.config({
-//   cloud_name: "rupo",
-//   api_key: "844975946581267",
-//   api_secret: "vxmNTX3GRyB5KMi8xWp9IM8u2zs",
-// });
-
-// //Request Post for upload photo to cloudinary & send to frondend
-// router.post("/upload", async function (req, res, next) {
-//   var imagePath = "./tmp/" + uniqid() + ".jpg";
-//   var resultCopy = await req.files.avatar.mv(imagePath);
-
-//   // console.log(req.files.avatar);
-//   // console.log(req.files.avatar.name); // nom d'origine de l'image
-//   // console.log(req.files.avatar.mimetype); // format de fichier
-//   // console.log(req.files.avatar.data); // données brutes du fichier
-
-//   if (!resultCopy) {
-//     var result = await cloudinary.uploader.upload(imagePath);
-//     var options = {
-//       json: {
-//         apiKey: "5c0a5d392c1745d2ae84dc0b1483bfd2",
-//         image: result.url,
-//       },
-//     };  
-
-//   }
-// })
-
-
 
 router.post('/get-tracks', async function (req, res, next) {
 
@@ -160,4 +133,74 @@ router.post('/get-tracks', async function (req, res, next) {
   return res.json({success: true, fullInfoTracks })
 })
 
-module.exports = router
+
+// cloudinary for upload photos
+cloudinary.config({
+  cloud_name: "rupo",
+  api_key: "844975946581267",
+  api_secret: "vxmNTX3GRyB5KMi8xWp9IM8u2zs",
+});
+
+//Request Post for upload photo to cloudinary & send to frondend
+router.post("/upload", async function (req, res, next) {
+  var imagePath = "./tmp/" + uniqid() + ".jpg";
+  console.log(imagePath)
+  var resultCopy = await req.files.avatar.mv(imagePath);
+
+  // console.log(req.files.avatar);
+  // console.log(req.files.avatar.name); // nom d'origine de l'image
+  // console.log(req.files.avatar.mimetype); // format de fichier
+  // console.log(req.files.avatar.data); // données brutes du fichier
+
+  if (!resultCopy) {
+    var result = await cloudinary.uploader.upload(imagePath);
+    console.log(result);
+    res.json({ result: true, message: "File uploaded!", photo: result });
+  } else {
+    res.json({ result: false, message: resultCopy });
+  }
+  fs.unlinkSync(imagePath);
+});
+
+
+
+
+//*** route qui permet d'ajouter un nouveau participant à la randonnée */
+
+router.get('/add-user-track', async (req, res) => {
+
+  var userId= req.query.userid
+  var trackId=req.query.trackid
+
+  //*** on ajoute au tableau users l'Id du nouveau participant */
+
+  var result = await randoModel.updateOne({_id:trackId}, {$addToSet:{users:userId}})
+
+  if(result){
+    return res.json({ result: true,  })
+  }else{
+    return res.json({ result: false,  })
+  }
+
+});
+
+//*** route de vérification de la présence d'un utisateur dans la liste des participants */
+
+router.get('/search-user-track', async (req, res) => {
+
+ // var userId= req.query.userid
+  var trackId=req.query.trackid
+
+  var result = await randoModel.findOne({_id:trackId})
+
+  if(result){
+    
+    return res.json({ result: true, rando:result  })
+  }else{
+    return res.json({ result: false,  })
+  }
+
+
+});
+
+module.exports = router;

@@ -7,7 +7,7 @@ import MapView, { Marker } from "react-native-maps";
 import { AntDesign } from "@expo/vector-icons";
 import HamburgerMenu from "../components/HamburgerMenu";
 
-function Management() {
+function Management(props) {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
       <ScrollView>

@@ -45,13 +45,13 @@ useEffect(() => {
       var etat = "Achevée"
     }
     else{
-      var colorBg = "#78E08F"
+      var colorBg = "#38ADA9"
       var colorText = "white"
       var etat = "En cours..." 
     }
     //Modèle des box adaptatif à l'affichage des rando selon leurs infos
     return( 
-      <Box key={i} w={"80%"} alignSelf="center" bg={colorBg} p={3} style={{ borderRadius: 15 }} shadow={8} mb={2}>
+      <Box key={i} w={"80%"} alignSelf="center" bg={colorBg} p={3} style={styles.allInput} shadow={2} mb={2}>
       <Box
         alignSelf="center"
         _text={{
@@ -122,7 +122,7 @@ useEffect(() => {
                 Toutes
               </Text>
             </Button>
-            <Button w={100} h={8} p={0} mt={2} mr={2} style={{ backgroundColor:"green" }} onPress={() => setTracksFilter(true)} >
+            <Button w={100} h={8} p={0} mt={2} mr={2} style={{ backgroundColor:"#38ADA9" }} onPress={() => setTracksFilter(true)} >
               <Text fontSize="xs" style={{ fontWeight: 'bold', color:"white" }} >
                 En cours
               </Text>
@@ -152,10 +152,11 @@ const styles = StyleSheet.create({
     color: "white",
   },
   allInput: {
-    backgroundColor: '#EEEEEE',
-    borderWidth: 0.5,
+    //backgroundColor: '#EEEEEE',
+    borderWidth: 5,
     borderColor: '#CCCCCC',
     color: '#000',
+    borderRadius: 15,
   },
 });
 

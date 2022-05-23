@@ -47,7 +47,6 @@ const HomeNavigator = () => {
       screenOptions={{headerShown: false}}>
       <Stack.Screen name='Home' component={HomeScreen} />
       <Stack.Screen name='MyTrack' component={MyTrack} />
-      <Stack.Screen name='Chat' component={ChatScreen} />
       <Stack.Screen name='Create' component={CreateScreen} />
       <Stack.Screen name='SearchPeople' component={SearchPeopleScreen} />
       <Stack.Screen name='Chat' component={ChatScreen} />

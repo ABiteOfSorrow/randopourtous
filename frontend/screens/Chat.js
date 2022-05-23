@@ -186,13 +186,14 @@ function Chat(props) {
     return <FontAwesome name="angle-double-down" size={22} color="#333" />;
   };
 
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container} keyboardVerticalOffset={90}>
         <HStack justifyContent="space-between" mb={4}>
           <HamburgerMenu navigation={props.navigation} />
           <Switch offTrackColor="#C4C4C4" onTrackColor="#78E08F" mr={4} onValueChange={setIsOwner} />
-          <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9">
+          <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9" >
             <Text fontSize="xs" bold color="#38ADA9">
               Retour
             </Text>
@@ -201,7 +202,7 @@ function Chat(props) {
         {/* List Body */}
         <VStack space={2} alignItems="center">
           <Heading size="lg" mb={5}>
-            Nom de Rando
+            {rando.name}
           </Heading>
           {/* Switch Line */}
         </VStack>
@@ -209,12 +210,12 @@ function Chat(props) {
           {/* Journey List */}
           <Box w={"75%"} mb={0} borderRadius="15" bg="#079992">
             <Text color="white" fontSize="md" textAlign="center">
-              8 / 15 Participants
+              {rando.users.length} / {rando.maxUsers} Participants
             </Text>
           </Box>
           {isOwner ? (
             <>
-              <Button w={"80%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Detail")}>
+              <Button w={"80%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Detail", { rando })}>
                 <Text fontSize="md">
                   Voir la Rando
                 </Text>
@@ -241,7 +242,7 @@ function Chat(props) {
               </Button>
             </>
           ) : (
-            <Button w={"80%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Detail")}>
+            <Button w={"80%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Detail", { rando })}>
               <Text fontSize="md">
                 Voir la Rando
               </Text>

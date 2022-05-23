@@ -1,8 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
 
-import socketIOClient from "socket.io-client";
-//if message not working, change adress (ipconfig - ip)
-var socket = socketIOClient("http://192.168.10.119:3000");
 import { connect } from "react-redux";
 
 import { Bubble, GiftedChat, Send, MessageText, InputToolbar, SystemMessage } from "react-native-gifted-chat";
@@ -85,7 +82,7 @@ function Chat(props) {
       "message": messages[0].text,
       "date": new Date(),
     }
-    socket.emit("sendMessage", JSON.stringify(obj));
+
     setMessages((previousMessages) => GiftedChat.append(previousMessages, messages));
   }, [messages]);
 

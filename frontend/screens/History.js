@@ -8,14 +8,16 @@ import { connect } from "react-redux";
 import backendConfig from '../backend.config.json'
 const backendAdress = backendConfig.address
 
-
 function History(props) {
 
 const [allTracks, setAllTracks] = useState([]);
+//const [allTracksFiltered, setAllTracksFiltered] = useState([]);
 const [tracksFilter, setTracksFilter] = useState()
 
-//Initialisation de toutes les randos de l'utiilsateur à l'ouverture de composant et dès le changement de la variable d'état "tracksFilter"
+//Initialisation de toutes les randos de l'utilisateur à l'ouverture de composant et dès le changement de la variable d'état "tracksFilter"
 useEffect(() => {
+
+  //Récupérations des randos dans la BDD
   async function loadData() {
     
     var rawResponse = await fetch(backendAdress + '/get-tracks', {
@@ -26,14 +28,17 @@ useEffect(() => {
 
     var response = await rawResponse.json();
 
-    //Filtrage dynamique
     setAllTracks(response.fullInfoTracks.filter(track => track.finished !== tracksFilter))
+    
+    //Filtrage dynamique
+    //setAllTracksFiltered(allTracks.filter(track => track.finished !== tracksFilter))
   }
   loadData()
 }, [tracksFilter]);
 
-//Modèle des box adaptatif à l'affichage des rando selon leurs infos
+
   var sourceCard = allTracks.map((track,i) => {
+    //Condition qui adapte la couleur et le status des cartes selon les randos
     if(track.finished == true){
       var colorBg = "#bbbbbb"
       var colorText = "black"
@@ -44,6 +49,7 @@ useEffect(() => {
       var colorText = "white"
       var etat = "En cours..." 
     }
+    //Modèle des box adaptatif à l'affichage des rando selon leurs infos
     return( 
       <Box key={i} w={"80%"} alignSelf="center" bg={colorBg} p={3} style={{ borderRadius: 15 }} shadow={8} mb={2}>
       <Box
@@ -57,7 +63,7 @@ useEffect(() => {
       >
         {track.name}
       </Box>
-      <Box style={{ flex:1, flexDirection:"row", justifyContent:"space-between" }} >
+      <Box style={{ flex:1, flexDirection:"row", justifyContent:"space-between" }}>
         <Box
           alignSelf="center"
           _text={{
@@ -81,6 +87,11 @@ useEffect(() => {
           {etat}
         </Box>
       </Box>
+      <Button w={100} h={8} p={0} mt={2} mr={2} style={{ backgroundColor:"green", marginLeft:"65%" }} onPress={()=> props.navigation.navigate('Detail', {track})}>
+              <Text fontSize="xs" style={{ fontWeight: 'bold', color:"white" }} >
+                Voir
+              </Text>
+            </Button>
     </Box>
     );
     })
@@ -124,6 +135,7 @@ useEffect(() => {
           </Box>
         </VStack>
 
+        
         {/* History contents Line */}
         {sourceCard}
 
@@ -138,6 +150,12 @@ useEffect(() => {
 const styles = StyleSheet.create({
   contentText: {
     color: "white",
+  },
+  allInput: {
+    backgroundColor: '#EEEEEE',
+    borderWidth: 0.5,
+    borderColor: '#CCCCCC',
+    color: '#000',
   },
 });
 

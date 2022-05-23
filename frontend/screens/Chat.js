@@ -1,100 +1,117 @@
 import React, { useState, useCallback, useEffect } from "react";
-
-import { connect } from "react-redux";
-
 import { Bubble, GiftedChat, Send, MessageText, InputToolbar, SystemMessage } from "react-native-gifted-chat";
-import { HStack, VStack, Center, Heading, Box, Button, Text, Switch, Input, Badge } from "native-base";
-import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TextInput, TouchableWithoutFeedback, TouchableOpacity, View } from "react-native";
+import { HStack, VStack, Center, Heading, Box, Button, Text, Switch, Badge } from "native-base";
+import { KeyboardAvoidingView, Platform, StyleSheet, View, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import { connect } from "react-redux";
 import HamburgerMenu from "../components/HamburgerMenu";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+//import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 
+import backendConfig from '../backend.config.json';
+const backendAdress = backendConfig.address;
+const URL = 'ws://' + backendAdress.slice(7, backendAdress.length - 5) + ':8080'
+console.log(URL)
+
+
 function Chat(props) {
-  const [input, setInput] = useState("");
+  //const [input, setInput] = useState("");
+  const [user, setUser] = useState('John');
+  const [message, setMessage] = useState({});
   const [messages, setMessages] = useState([]);
-  const [senderId, setSenderId] = useState(1)
-  const [receiverId, setReceiverId] = useState(2)
+  const [senderId, setSenderId] = useState(props.user._id)
+  //const [receiverId, setReceiverId] = useState(2)
+
   const [name, setName] = useState("popi")
   const [image_path, setImage_path] = useState("https://placeimg.com/140/140/any")
   const [isOwner, setIsOwner] = useState(false);
 
-  //   //Setter for message list
+  let rando = props.route.params.rando;
 
+  //console.log(JSON.stringify(ws));
 
-
+  const ws = new WebSocket(URL);
 
   useEffect(() => {
-    setMessages([
-      // {
-      //   _id: 1,
-      //   text: 'Hello developer',
-      //   createdAt: new Date(),
-      //   user: {
-      //     _id: 2,
-      //     name: 'React Native',
-      //     avatar: 'https://placeimg.com/140/140/any',
-      //   },
-      // },
-    ])
+
+    ws.onmessage = function (data) {
+      console.log('onmessage')
+      console.log('received:', data.data.toString());
+      let receivMessage = JSON.parse(data.data.toString())
+      console.log()
+      alert(receivMessage.message.text)
+    };
+
+    (async () => {
+
+      try {
+        let rawResponse = await fetch(backendAdress + '/get-track?id=' + rando._id)
+        //console.log(JSON.stringify(rawresponse))
+        if (rawResponse.ok) {
+          console.log('ok')
+          let response = await rawResponse.json();
+          if (response.result) {
+            //Alert.alert('Tout va bien')
+            setMessages(response.messages)
+            //alert(JSON.stringify(response))
+          } else {
+            Alert.alert('Mauvaise réponse du serveur...', response.error)
+          }
+        } else {
+          alert('not ok!')
+        }
+
+        ws.onopen = function (event) {
+          //console.log(JSON.stringify(event));
+          alert('Connecté au serveur.')
+        };
+
+
+      } catch (e) {
+        console.log(e)
+      }
+
+    })()
   }, [])
 
 
-  // useEffect(() => {
-  //   setMessages([
-  //     {
-  //       _id: receiverId,// receiver id
-  //       text: 'Hello developer',
-  //       createdAt: new Date(),
-  //       user: {
-  //         _id: senderId,  // sender id
-  //         name: name,
-  //         avatar: image_path,
-  //       },
-  //     },
-  //   ])
-  // }, [])
-
-  // useEffect(() => {
-  //   socket.on("sendMessageToAll", (msg) => {
-  //     const response = JSON.parse(msg);
-  //     var sentMessages = {
-  //       _id: response.receiverId,
-  //       text: response.message,
-  //       createdAt: new Date(response.createdAt * 1000),
-  //       user: {
-  //         _id: response.senderId,
-  //         name: name,
-  //         avatar: image_path,
-  //       },
-  //     }
-  //     setMessages(previousMessages => GiftedChat.append(previousMessages, sentMessages))
-  //   })
-  // }, []);
-
-
   const onSend = useCallback((messages = []) => {
-    console.log(messages);
-    let obj = {
-      "senderId": senderId,
-      "receiverId": receiverId,
-      "message": messages[0].text,
-      "date": new Date(),
+
+    // envoyer message au backend en websocket, envoyer aussi mon token du user
+    //console.log(JSON.stringify(messages))
+    let firstMsg = messages[0];
+    console.log('callback onsend');
+    let messageToBackend = {
+      randoId: rando._id,
+      message: firstMsg,
+      username: props.user.username,
+      date: new Date(),
+      token: props.user.token
     }
+
+    console.log('onopen send')
+    //JSON.stringify(messageToBackend)
+    ws.send(JSON.stringify(messageToBackend))
+
+    // envoyer message au backend en websockets ici
 
     setMessages((previousMessages) => GiftedChat.append(previousMessages, messages));
   }, [messages]);
 
+  //   setMessages([
+  //     {
+  //       _id: 1,
+  //       text: 'Hello developer',
+  //       createdAt: new Date(),
+  //       user: {
+  //         _id: 2,
+  //         name: 'React Native',
+  //         avatar: 'https://placeimg.com/140/140/any',
+  //       },
+  //     },
+  //   ])
 
-  // useEffect(() => {
-  //   //Receive message from backend
-  //   socket.on("sendMessageToAll", (msg) => {
-  //     setMessages([...messages, msg]);
-  //   });
-  // }, []);
 
- 
 
   //   // Change emoticons to emoji && F word change to [censored]
   //   let messageLoad = listMessage.map((e) => {
@@ -173,7 +190,7 @@ function Chat(props) {
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container} keyboardVerticalOffset={90}>
         <HStack justifyContent="space-between" mb={4}>
-        <HamburgerMenu navigation={props.navigation} /> 
+          <HamburgerMenu navigation={props.navigation} />
           <Switch offTrackColor="#C4C4C4" onTrackColor="#78E08F" mr={4} onValueChange={setIsOwner} />
           <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9">
             <Text fontSize="xs" bold color="#38ADA9">
@@ -236,9 +253,9 @@ function Chat(props) {
           <GiftedChat
             borderRadius={8}
             messages={messages}
-            onSend={(messages) => onSend(messages)}
+            onSend={(message) => onSend(message)}
             user={{
-              _id: senderId,  
+              _id: senderId,
             }}
             renderAvatarOnTop={true}
             renderUsernameOnMessage={true}
@@ -251,10 +268,10 @@ function Chat(props) {
           />
         </Box>
         <Button w={"30%"} h={9} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Resume")}>
-              <Text style={styles.contentText} fontSize="xs">
-                evaluer - test
-              </Text>
-            </Button>
+          <Text style={styles.contentText} fontSize="xs">
+            evaluer - test
+          </Text>
+        </Button>
         <View style={styles.footer}>
           {/* <Input
               value={input}
@@ -336,4 +353,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Chat;
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps, null)(Chat);

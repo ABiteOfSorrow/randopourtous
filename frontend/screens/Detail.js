@@ -24,68 +24,68 @@ const backendAdress = backendConfig.address;
 
 function Detail(props) {
 
-
-  var rando=props.route.params.e
+  var rando = props.route.params.e
   var date = new Date(rando.date)
 
   //***** formatage de la date *****
   /****** rajoute d'un 0 si minute<10 */
-  var minutes=date.getMinutes()<10?'0':''
+  var minutes = date.getMinutes() < 10 ? '0' : ''
 
   /****** mise au format dd/mm/yy */
-  var day=date.toLocaleDateString('fr').split('/')
-  var newDay=day[1]+'/'+day[0]+'/'+day[2]
-  
+  var day = date.toLocaleDateString('fr').split('/')
+  var newDay = day[1] + '/' + day[0] + '/' + day[2]
+
 
   //let dateFormat= rando.date.toLocaleDateString('fr') + ' ' + rando.date.getHours() + ':' +rando.date.getMinutes()
-  let dateFormat= newDay + ' ' + date.getHours() + 'h' + minutes+date.getMinutes()
+  let dateFormat = newDay + ' ' + date.getHours() + 'h' + minutes + date.getMinutes()
 
   //****** fonction de recherche d'un utilisateur */
 
-  var searchUser=async function(user){
+  var searchUser = async function (user) {
 
 
     // si la personne connectée est l'organisateur, alors on affiche MyProfil
-    if(props.user._id===user){
+    if (props.user._id === user) {
       props.navigation.navigate('Profil')
-    }else{
+    } else {
 
       // si la personne connectée n'est pas l'organisateur alors on affiche OtherProfile
       let result = await fetch(backendAdress + '/users/user/' + user)
       let response = await result.json()
-      props.navigation.navigate('Otherprofile',{ user: response.user })}
-
+      props.navigation.navigate('Otherprofile', { user: response.user })
     }
-  
+
+  }
+
 
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
       <ScrollView>
-      <HamburgerMenu navigation={props.navigation} /> 
+        <HamburgerMenu navigation={props.navigation} />
 
         <VStack space={2} alignItems="center">
           <Heading size="xl">{rando.name}</Heading>
           <Heading size="lg">{dateFormat} / {rando.departure.nom}</Heading>
           <MapView style={styles.map}
-                    initialRegion={{
-                      latitude: rando.coordinate.latitude,
-                      longitude: rando.coordinate.longitude,
-                      latitudeDelta: 0.05,
-                      longitudeDelta: 0.05,
-                    }}>
+            initialRegion={{
+              latitude: rando.coordinate.latitude,
+              longitude: rando.coordinate.longitude,
+              latitudeDelta: 0.05,
+              longitudeDelta: 0.05,
+            }}>
             <Marker pinColor='green'
-                    coordinate={{
-                      latitude: rando.coordinate.latitude,
-                      longitude: rando.coordinate.longitude,
-                    }}
-                    title={rando.name}/>
+              coordinate={{
+                latitude: rando.coordinate.latitude,
+                longitude: rando.coordinate.longitude,
+              }}
+              title={rando.name} />
 
 
 
           </MapView>
           <Heading size="lg">Organisé par: </Heading>
-          <Button w={"80%"} h={10} bg="#bbbbbb" onPress={()=>searchUser(rando.userId)}>
+          <Button w={"80%"} h={10} bg="#bbbbbb" onPress={() => searchUser(rando.userId)}>
             {rando.organisator}
           </Button>
           <Heading size="lg">Nombre de participant: {rando.users.length}/{rando.maxUsers} </Heading>
@@ -138,7 +138,7 @@ function Detail(props) {
         </VStack>
       </ScrollView>
       <Stack
-      p={0}
+        p={0}
         mb="5"
         mt="1.5"
         direction={{
@@ -151,10 +151,10 @@ function Detail(props) {
           md: "0",
         }}
       >
-        <Button w="42%" h={10} variant="outline" borderColor="#38ADA9" onPress={()=>props.navigation.goBack()}>
+        <Button w="42%" h={10} variant="outline" borderColor="#38ADA9" onPress={() => props.navigation.goBack()}>
           <Text color="#38ADA9">Retour</Text>
         </Button>
-        <Button w="42%" h={10} bg="#78E08F" onPress={()=>props.navigation.navigate('Chat')}>
+        <Button w="42%" h={10} bg="#78E08F" onPress={() => props.navigation.navigate('Chat', { rando })}>
           Participer
         </Button>
       </Stack>

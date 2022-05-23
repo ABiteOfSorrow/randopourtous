@@ -5,12 +5,16 @@ var fs = require("fs");
 var uniqid = require("uniqid");
 var request = require("sync-request");
 
+
+
 var randoModel = require('../models/rando')
 let UserModel = require('../models/user')
 
+
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', {title: 'Express'})
+  res.render('index', { title: 'Express' })
 })
 
 router.post('/create-track', async function (req, res, next) {
@@ -29,17 +33,17 @@ router.post('/create-track', async function (req, res, next) {
   }
   let token = randoData.token
   if (!token) {
-    return res.json({result: false, error: 'Token manquant.'})
+    return res.json({ result: false, error: 'Token manquant.' })
   }
   if (!token || !randoData.name || !randoData.coordinate || !randoData.date) {
     console.log(JSON.stringify(randoData))
-    return res.json({result: false, error: 'Inputs incorrects'})
+    return res.json({ result: false, error: 'Inputs incorrects' })
   }
 
   //Récupération des infos user pour mettre en tant que participant
-  let foundUser = await UserModel.findOne({token})
+  let foundUser = await UserModel.findOne({ token })
   if (!foundUser) {
-    return res.json({result: false, error: 'Mauvais token'})
+    return res.json({ result: false, error: 'Mauvais token' })
   }
   // ajout du créateur aux participants
   let user = {
@@ -74,7 +78,7 @@ router.post('/create-track', async function (req, res, next) {
     await foundUser.save()
   }
 
-  return res.json({result: true})
+  return res.json({ result: true })
 })
 
 router.post('/search-track', async function (req, res, next) {
@@ -92,22 +96,25 @@ router.post('/search-track', async function (req, res, next) {
   let level = searchData.niveau ? searchData.niveau : null
   let date = searchData.date ? searchData.date : undefined
 
-  console.log(codePostal.length)
+  //console.log(codePostal.length)
+  if (!codePostal) {
+    return res.json({ success: false, error: 'Veuillez mettre un code postal' })
+  }
   if (codePostal.length === 2) {
     var result = await randoModel.find({
       'departure.dpt': parseInt(dpt),
-      level: level !== null ? level : {$exists: true},
+      level: level !== null ? level : { $exists: true },
     })
   } else {
     var result = await randoModel.find({
       'departure.nom': citie,
-      level: level !== null ? level : {$exists: true},
+      level: level !== null ? level : { $exists: true },
     })
   }
 
   console.log(result)
 
-  return res.json({success: true, result: result})
+  return res.json({ success: true, result: result })
 })
 
 
@@ -117,21 +124,33 @@ router.post('/get-tracks', async function (req, res, next) {
   //let listingTracks = tracks.split(',')
   //console.log(listingTracks)
   let fullInfoTracks = []
-  
 
-  for(let i=0;i < tracks.length; i++){
+
+  for (let i = 0; i < tracks.length; i++) {
     var result = await randoModel.findById(tracks[i])
     //console.log(result)
-   //console.log("sprout",listingTracks[i])
-   if(result != null){
+    //console.log("sprout",listingTracks[i])
+    if (result != null) {
       fullInfoTracks.push(result)
-   }
- }
- //console.log("test",fullInfoTracks)
- // console.log('rouetr resullt',result)
-  
-  return res.json({success: true, fullInfoTracks })
+    }
+  }
+  //console.log("test",fullInfoTracks)
+  // console.log('rouetr resullt',result)
+
+  return res.json({ success: true, fullInfoTracks })
 })
+
+router.get('/get-track', async (req, res) => {
+  if (!req.query.id) {
+    return res.json({ result: false, error: 'Token manquant svp' })
+  }
+  let foundRando = await randoModel.findById(req.query.id);
+  if (!foundRando) {
+    return res.json({ result: false, error: 'Rando pas trouvé svp' })
+  }
+  return res.json({ result: true, track: foundRando })
+
+});
 
 
 // cloudinary for upload photos
@@ -161,5 +180,15 @@ router.post("/upload", async function (req, res, next) {
   }
   fs.unlinkSync(imagePath);
 });
+
+
+
+
+
+
+
+
+
+
 
 module.exports = router;

@@ -18,8 +18,9 @@ function Resume(props) {
   const [paysageValue, setPaysageValue] = useState(0);
   const [ambianceValue, setAmbianceValue] = useState(0);
   const [difficultyValue, setDifficultyValue] = useState(0);
-  const [image, setImage] = useState([]);
 
+  const [image, setImage] = useState([]);
+  let photos = [...image];
 
 
   const pickImage = async () => {
@@ -44,11 +45,11 @@ function Resume(props) {
     });
     const response = await rawResponse.json();
     // console.log(response.photo.url)
-    var photos = []
+    
       
-    photos.push({source: response.photo.url, })
+    photos.push({source: response.photo.url })
     setImage(photos);
-    console.log(image);
+    // console.log(image);
   }
 
 
@@ -114,7 +115,7 @@ for (var i = 0; i < 5; i++) {
 
 //Rando rating stars average and voter count
 var totalNote = 0;
-// var totalVote = props.globalCountRating;
+// var totalNote = props.globalCountRating;
 if (paysageValue && ambianceValue && difficultyValue) {
   totalNote += paysageValue + ambianceValue + difficultyValue;
   // totalVote += 1;
@@ -136,7 +137,7 @@ for (var i = 0; i < 5; i++) {
 console.log(avgTotal)
 
 
-
+// Default data for carousel if there is nothing
   const data = [
     {
       title: "Coral Reef",
@@ -156,7 +157,7 @@ console.log(avgTotal)
     },
   ];
 
-  
+  console.log(image)
 
 
 return (
@@ -182,7 +183,7 @@ return (
         </Heading>
         <Heading size="md">Historique des photos partagées </Heading>
       </VStack>
-     {/* Carousel for Photos */}
+     {/* Carousel for Photos, default = data / else cloudinary image */}
      {image === null ? ( 
       <CustomSlider data={data}/>
       ) : (<CustomSlider data={image}/>)

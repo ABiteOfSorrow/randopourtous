@@ -5,7 +5,7 @@ import styles from './CarouselStyles';
 
 export default function CarouselItem({ item, index }, parallaxProps) {
   return (
-    <Pressable onPress={() => alert('Image description: ' + item.description)}>
+    <Pressable>
       <SafeAreaView style={styles.item}>
         <ParallaxImage
           source={{ uri: item.source }} /* the source of the image */

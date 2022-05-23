@@ -3,8 +3,9 @@ let mongoose = require('./connection')
 var messageSchema = mongoose.Schema({
   id: Number,
   author: String,
-  content: String,
-  date: Date
+  text: String,
+  createdAt: Date,
+  user: {},
 })
 var departureSchema = mongoose.Schema({
   nom: String,

@@ -1,21 +1,11 @@
-import React, {useEffect, useState} from 'react'
-import {
-  HStack,
-  VStack,
-  Center,
-  Heading,
-  Box,
-  Button,
-  Text,
-  Switch,
-  View,
-} from 'native-base'
-import {StyleSheet, ScrollView} from 'react-native'
-import {SafeAreaView} from 'react-native-safe-area-context'
+import React, { useEffect, useState } from 'react'
+import { HStack, VStack, Center, Heading, Box, Button, Text, Switch, View } from 'native-base'
+import { StyleSheet, ScrollView } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import HamburgerMenu from '../components/HamburgerMenu'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import backendConfig from '../backend.config.json'
-import MapView, {Marker, Callout} from 'react-native-maps'
+import MapView, { Marker, Callout } from 'react-native-maps'
 
 const backendAdress = backendConfig.address
 
@@ -40,6 +30,7 @@ function ResultSearch(props) {
 
       let response = await result.json()
       setResultSearch([...response.result])
+      //console.log(response.result)
 
       //*** initialisation du zoom de la carte en fonction des paramètres de recherche */
 
@@ -125,7 +116,7 @@ function ResultSearch(props) {
             size='md'
             backgroundColor='#78E08F'
             alignSelf='center'
-            onPress={() => props.navigation.navigate('Detail', {rando})}>
+            onPress={() => props.navigation.navigate('Detail', { rando })}>
             <Text style={styles.contentText} fontSize='md'>
               Voir
             </Text>
@@ -150,9 +141,9 @@ function ResultSearch(props) {
 
 
       //*** Redirection vers la page du détail de la rando avec la rando en paramètre */
-      
+
       description={rando.description + '\n Press to view'}>
-      <MapView.Callout onPress={() => props.navigation.navigate('Detail', {rando})}>
+      <MapView.Callout onPress={() => props.navigation.navigate('Detail', { rando })}>
         <View style={styles.callout}>
           <Heading>{rando.name}</Heading>
           <Text>{rando.description}</Text>
@@ -160,7 +151,7 @@ function ResultSearch(props) {
             size='md'
             backgroundColor='#78E08F'
             alignSelf='center'
-            >
+          >
             <Text style={styles.contentText} fontSize='md'>
               Voir
             </Text>
@@ -171,13 +162,13 @@ function ResultSearch(props) {
   ))
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View
         style={{
           flex: 1,
         }}>
         <HStack justifyContent='space-between' mb={4}>
-        <HamburgerMenu navigation={props.navigation} /> 
+          <HamburgerMenu navigation={props.navigation} />
           <Button
             w={90}
             h={8}
@@ -221,7 +212,7 @@ function ResultSearch(props) {
               style={styles.map}
               //onPress={(e) => addPress(e.nativeEvent)}
               initialRegion={mapConfig}
-              >
+            >
               {displayListPosition}
             </MapView>
           </View>

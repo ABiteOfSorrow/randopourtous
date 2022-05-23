@@ -16,7 +16,10 @@ import MapView, { Marker } from "react-native-maps";
 
 import { AntDesign } from "@expo/vector-icons";
 import HamburgerMenu from "../components/HamburgerMenu";
+import backendConfig from '../backend.config.json';
+import { connect } from "react-redux";
 
+const backendAdress = backendConfig.address;
 
 
 function Detail(props) {
@@ -36,6 +39,24 @@ function Detail(props) {
 
   //let dateFormat= rando.date.toLocaleDateString('fr') + ' ' + rando.date.getHours() + ':' +rando.date.getMinutes()
   let dateFormat= newDay + ' ' + date.getHours() + 'h' + minutes+date.getMinutes()
+
+  //****** fonction de recherche d'un utilisateur */
+
+  var searchUser=async function(user){
+
+
+    // si la personne connectée est l'organisateur, alors on affiche MyProfil
+    if(props.user._id===user){
+      props.navigation.navigate('Profil')
+    }else{
+
+      // si la personne connectée n'est pas l'organisateur alors on affiche OtherProfile
+      let result = await fetch(backendAdress + '/users/user/' + user)
+      let response = await result.json()
+      props.navigation.navigate('Otherprofile',{ user: response.user })}
+
+    }
+  
 
 
   return (
@@ -64,7 +85,7 @@ function Detail(props) {
 
           </MapView>
           <Heading size="lg">Organisé par: </Heading>
-          <Button w={"80%"} h={10} bg="#bbbbbb">
+          <Button w={"80%"} h={10} bg="#bbbbbb" onPress={()=>searchUser(rando.userId)}>
             {rando.organisator}
           </Button>
           <Heading size="lg">Nombre de participant: {rando.users.length}/{rando.maxUsers} </Heading>
@@ -152,4 +173,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Detail;
+
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+  };
+}
+
+export default connect(mapStateToProps, null)(Detail)
+
+

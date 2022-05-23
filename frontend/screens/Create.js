@@ -99,7 +99,7 @@ function Create(props) {
       })
       if (rawresponse.ok) {
         var result = await rawresponse.json()
-        props.navigation.navigate('Chat')
+        props.navigation.replace('Chat')
         if (result.result) {
           alert('Merci!')
         } else {

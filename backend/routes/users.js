@@ -143,6 +143,7 @@ router.post('/add-friend', async (req, res) => {
 });
 
 router.get('/user/:id', async (req, res) => {
+  console.log(req.params.id)
   if (!req.params.id) {
     return res.json({ result: false, error: 'Id est manquant.' });
   }

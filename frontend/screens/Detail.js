@@ -23,38 +23,49 @@ const backendAdress = backendConfig.address;
 
 
 function Detail(props) {
-
+  
   const [isParticipant, setIsParticipant]= useState(false)
   const [listUsers, setListUsers]=useState([])
-
+  const [rando, setRando]=useState(props.route.params.rando)
+  
+ 
+  //let rando=props.route.params.rando
   useEffect(()=>{
+    
+    let tempUsers=[]
+
     async function searchUser(){
-   
+
+ 
+
       // on initialise le composant en récupérant la randonnées dans la BDD avec la liste des participants à jour
-      let rawresponse = await fetch(backendAdress+'/search-user-track?userid='+props.user._id+'&trackid='+rando._id);
+      let rawresponse = await fetch(backendAdress+'/search-user-track?userid='+props.user._id+'&trackid='+props.route.params.rando._id);
       let response=await rawresponse.json()
 
       if(response){
 
         for(let userItem of response.rando.users){
-
-          let userRawResponse = await fetch(backendAdress + '/users/user/' + userItem)
+          console.log(userItem)
+          let userRawResponse = await fetch(backendAdress + '/users/user/' + userItem._id)
           let userResponse= await userRawResponse.json()
-           
-         setListUsers([...listUsers,userResponse.user])
+
+          tempUsers.push(userResponse.user)
           
         }
+        setListUsers([...tempUsers])
       }
       
       response.rando.users.find((item)=>item===props.user._id)?setIsParticipant(true):setIsParticipant(false)
     }
+    
+    searchUser()
   
-  searchUser()
+  
+    
 
 
-  },[])
+   },[props.route.params.rando])
 
-  var rando=props.route.params.rando
   var date = new Date(rando.date)
 
   //***** formatage de la date *****
@@ -140,6 +151,7 @@ function Detail(props) {
   </Center>)
   
 
+  console.log('list des users: ',listUsers)
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
@@ -148,7 +160,7 @@ function Detail(props) {
 
         <VStack space={2} alignItems="center">
           <Heading size="xl">{rando.name}</Heading>
-          <Heading size="lg">{dateFormat} / {rando.departure.nom}</Heading>
+          {/* <Heading size="lg">{dateFormat} / {rando.departure.nom}</Heading> */}
           <MapView style={styles.map}
                     initialRegion={{
                       latitude: rando.coordinate.latitude,

@@ -74,7 +74,7 @@ router.post('/create-track', async function (req, res, next) {
     await foundUser.save()
   }
 
-  return res.json({result: true})
+  return res.json({result: true, rando: randoSaved})
 })
 
 router.post('/search-track', async function (req, res, next) {
@@ -190,8 +190,11 @@ router.get('/search-user-track', async (req, res) => {
 
  // var userId= req.query.userid
   var trackId=req.query.trackid
+  console.log('id:',typeof(trackId))
+  
+  
 
-  var result = await randoModel.findOne({_id:trackId})
+  var result = await randoModel.findById(trackId)
 
   if(result){
     

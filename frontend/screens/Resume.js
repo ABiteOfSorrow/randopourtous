@@ -1,56 +1,56 @@
 import React, {useState, useEffect} from "react";
 import { Avatar, HStack, VStack, Center, Heading, Box, Button, Text, Flex, Stack } from "native-base";
-import { Dimensions, StyleSheet, Platform, View, TouchableOpacity, Image } from "react-native";
+import { Dimensions, StyleSheet, Platform, View, TouchableOpacity, Image, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 
-const { width: screenWidth } = Dimensions.get("window");
 
 import { AntDesign } from "@expo/vector-icons";
 import HamburgerMenu from "../components/HamburgerMenu";
 import CustomSlider from "../components/CustomSlider";
 import backendConfig from '../backend.config.json';
+const backendAdress = backendConfig.address;
+
 
 function Resume(props) {
 
   const [paysageValue, setPaysageValue] = useState(0);
   const [ambianceValue, setAmbianceValue] = useState(0);
   const [difficultyValue, setDifficultyValue] = useState(0);
-  const [hasPermission, setHasPermission] = useState(null);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState([]);
+
+
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
+    let photo = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      quality: 1,
+      quality: 0.5,
+      base64: true,
+      exif: true
     });
-
-    console.log(result)
-
-    if (!result.cancelled) {
-      setImage(result);
-    }
-
-    var data = new FormData(result);
-    data.append("avatar", {
-      uri: result.uri,
-      type: "image/jpeg",
-      name: "image.jpg",
+    var data = new FormData(photo);
+       data.append("avatar", {
+       uri: photo.uri,
+       type: "image/jpeg",
+       name: "image.jpg",
     });
-
-    const rawResponse = await fetch("https://api.cloudinary.com/v1_1/rupo/upload", {
+    // console.log(data)
+        // Need to change IP when you start your APP (ipconfig)
+    const rawResponse = await fetch(backendAdress + '/upload', {
       method: "post",
-      body: data
-    }).then(res => res.json()).
-      then(data => {
-        setPhoto(data.secure_url)
+      body: data,
+    });
+    const response = await rawResponse.json();
+    // console.log(response.photo.url)
+    var photos = []
+      
+    photos.push({source: response.photo.url, })
+    setImage(photos);
+    console.log(image);
+  }
 
-      }).catch(err => {
-        Alert.alert("An Error Occured While Uploading")
-      })
-    }
 
   
 
@@ -131,11 +131,9 @@ for (var i = 0; i < 5; i++) {
   if (i < avgTotal) {
     color = "#f1c40f";
   }
-
   tabGlobalRating.push(<AntDesign  key={i} color={color} name="star" size={24} />);
 }
 console.log(avgTotal)
-
 
 
 
@@ -184,8 +182,13 @@ return (
         </Heading>
         <Heading size="md">Historique des photos partagées </Heading>
       </VStack>
+     {/* Carousel for Photos */}
+     {image === null ? ( 
+      <CustomSlider data={data}/>
+      ) : (<CustomSlider data={image}/>)
+      }
 
-      <CustomSlider data={data} />
+      {/* Photo share Button */}
       <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mb={5} onPress={pickImage}>
         <Text style={styles.contentText} fontSize="md">
           Partager des photos
@@ -194,24 +197,31 @@ return (
 
       <VStack space={5}>
       <Heading size="sm" textAlign="center"> Average Note est : {avgTotal} </Heading>
+      {/* Average Stars */}
         <Flex direction="row" alignSelf="center">
           <Heading mr={5} size="md">
             Note globale
           </Heading>
           {tabGlobalRating}
         </Flex>
+
+        {/* PaysageRating Stars */}
         <Flex direction="row" alignSelf="center">
           <Heading mr={5} size="md">
             Paysage
           </Heading>
           {PaysageRating}
         </Flex>
+
+        {/* AmbianceRating Stars */}
         <Flex direction="row" alignSelf="center">
           <Heading mr={5} size="md">
             Ambiance
           </Heading>
           {AmbianceRating}
         </Flex>
+
+        {/* DifficultyRating Stars */}
         <Flex direction="row" alignSelf="center">
           <Heading mr={5} size="md">
             Difficulté

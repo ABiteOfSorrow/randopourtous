@@ -29,7 +29,7 @@ function ResultSearch(props) {
       })
 
       let response = await result.json()
-      console.log(response)
+      // console.log(response)
       setResultSearch([...response.result])
       //console.log(response.result)
 
@@ -127,7 +127,7 @@ function ResultSearch(props) {
       </VStack>
 
     ))
-    console.log(listRando)
+    // console.log(listRando)
   }
 
   //****** initialisation de la liste des markers de randonnées */

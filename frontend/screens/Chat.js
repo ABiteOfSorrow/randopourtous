@@ -19,7 +19,7 @@ function Chat(props) {
   const [user, setUser] = useState('John');
   const [message, setMessage] = useState({});
   const [messages, setMessages] = useState([]);
-  const [senderId, setSenderId] = useState(props.user._id)
+  const [senderId, setSenderId] = useState(props.userId)
   //const [receiverId, setReceiverId] = useState(2)
 
   const [name, setName] = useState("popi")

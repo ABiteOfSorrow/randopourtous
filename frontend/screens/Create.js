@@ -71,7 +71,7 @@ function Create(props) {
   const handleSubmit = async () => {
     //Sécurité si oublie d'entrer la location de la rando
     if (!thePOI.coordinate) {
-      alert('Placez le point de départ sur la carte.')
+      Alert.alert('Attention', 'Placez le point de départ sur la carte.')
       return
     }
     if (!date) {
@@ -85,7 +85,7 @@ function Create(props) {
       departure: citie,
       coordinate: coordinate,
       estimation_time: estim_time,
-      users:props.user._id,
+      users: props.user._id,
       date,
       maxRunner,
       description,
@@ -102,12 +102,12 @@ function Create(props) {
         var result = await rawresponse.json()
         var rando = result.rando
         console.log('rando sauvergardée: ', rando)
-        
+
         if (result.result) { // Tout se passe bien
           props.setUser(result.user)
 
           Alert.alert('Succès', 'Merci!')
-          props.navigation.navigate('Profil', { screen: 'Chat', params: { rando }})
+          props.navigation.navigate('Profil', { screen: 'Chat', params: { rando } })
         } else {
           alert('Une erreur est survenue.')
           console.log(JSON.stringify(result))
@@ -440,11 +440,11 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps (dispatch){
-return {
-  setUser: function(user){
-    dispatch({type: "USER_LOGIN", user: user})
+function mapDispatchToProps(dispatch) {
+  return {
+    setUser: function (user) {
+      dispatch({ type: "USER_LOGIN", user: user })
+    }
   }
-}
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Create)

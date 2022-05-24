@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Avatar, HStack, VStack, Center, Heading, Box, Button, Text, Flex, Stack } from "native-base";
-import { Dimensions, StyleSheet, Platform, View, TouchableOpacity, Image, Alert } from "react-native";
+import { HStack, VStack, Heading, Box, Button, Text, Flex } from "native-base";
+import { StyleSheet, ScrollView} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from 'expo-image-picker';
-import * as MediaLibrary from 'expo-media-library';
+// import * as MediaLibrary from 'expo-media-library';
 import { connect } from "react-redux";
 
 import { AntDesign } from "@expo/vector-icons";
@@ -62,7 +62,7 @@ function Resume(props) {
       totalNote += (paysageValue + ambianceValue + difficultyValue) / 3;
       // totalVote += 1;
     }
-    totalNote = Math.round(totalNote * 10) / 10
+    totalNote = (totalNote * 10).toFix(2)
     setUserRating(totalNote)
   }, [ambianceValue, paysageValue, difficultyValue])
 
@@ -217,6 +217,9 @@ function Resume(props) {
         </Heading>
         <Heading size="md">Historique des photos partagées </Heading>
       </VStack>
+      <ScrollView
+        style={{ width: "100%", height: "100%" }}
+        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', width: '100%' }}>
       {/* Carousel for Photos, default = data / else cloudinary image */}
       {image === "" ? (
         <CustomSlider data={data} />
@@ -264,6 +267,7 @@ function Resume(props) {
           {DifficultyRating}
         </Flex>
       </VStack>
+      </ScrollView>
 
       {/* To prevent leaving the content area */}
       <Box w="100%" h="8.5%" alignSelf="center" bg="#fff" />

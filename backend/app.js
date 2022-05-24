@@ -8,6 +8,13 @@ var fileUpload = require("express-fileupload");
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+var fs = require('fs');
+var dir = './tmp';
+
+if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir, { recursive: true });
+}
+
 var app = express();
 app.use(fileUpload());
 

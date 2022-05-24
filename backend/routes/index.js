@@ -78,7 +78,7 @@ router.post('/create-track', async function (req, res, next) {
     await foundUser.save()
   }
 
-  return res.json({result: true, rando: randoSaved})
+  return res.json({result: true, rando: randoSaved, user: foundUser})
 })
 
 router.post('/search-track', async function (req, res, next) {
@@ -128,6 +128,7 @@ router.post('/get-tracks', async function (req, res, next) {
 
   for (let i = 0; i < tracks.length; i++) {
     var result = await randoModel.findById(tracks[i])
+    console.log(typeof result)
     //console.log(result)
     //console.log("sprout",listingTracks[i])
     if (result != null) {

@@ -34,11 +34,6 @@ function Detail(props) {
   useEffect(()=>{
     
 
-    let tempUsers = []
-
-
-    const [isParticipant, setIsParticipant] = useState(false)
-    const [listUsers, setListUsers] = useState([])
     async function searchUser() {
 
       // on initialise le composant en récupérant la randonnées dans la BDD avec la liste des participants à jour

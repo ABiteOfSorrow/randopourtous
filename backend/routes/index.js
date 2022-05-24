@@ -61,7 +61,7 @@ router.post('/create-track', async function (req, res, next) {
     name: randoData.name,
     coordinate: randoData.coordinate,
     maxUsers: parseInt(randoData.maxRunner),
-    users,
+    users:[foundUser.id],
     departure: randoData.departure,
     date: new Date(randoData.date),
     estimation_time: estimation_time,

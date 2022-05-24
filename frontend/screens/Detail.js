@@ -23,14 +23,16 @@ const backendAdress = backendConfig.address;
 
 
 function Detail(props) {
-
-  const [isParticipant, setIsParticipant] = useState(false)
-  const [listUsers, setListUsers] = useState([])
-  const [rando, setRando] = useState(props.route.params.rando)
-
-
+  
+  const [isParticipant, setIsParticipant]= useState(false)
+  const [listUsers, setListUsers]=useState([])
+  const [rando, setRando]=useState(props.route.params.rando)
+  
+  console.log('retour chat: ', props.route.params.rando)
+ 
   //let rando=props.route.params.rando
-  useEffect(() => {
+  useEffect(()=>{
+    
 
     let tempUsers = []
 
@@ -40,28 +42,25 @@ function Detail(props) {
     async function searchUser() {
 
       // on initialise le composant en récupérant la randonnées dans la BDD avec la liste des participants à jour
-      let rawresponse = await fetch(backendAdress + '/search-user-track?userid=' + props.user._id + '&trackid=' + props.route.params.rando._id);
-      let response = await rawresponse.json()
-
+      let rawresponse = await fetch(backendAdress+'/search-user-track?userid='+props.user._id+'&trackid='+props.route.params.rando._id);
+      let response=await rawresponse.json()
+    
       if (response) {
 
-        for (let userItem of response.rando.users) {
-          console.log(userItem)
-          let userRawResponse = await fetch(backendAdress + '/users/user/' + userItem._id)
-          let userResponse = await userRawResponse.json()
+        for(let userItem of response.rando.users){
 
-          tempUsers.push(userResponse.user)
+          console.log('response back :', userItem)
+          let userRawResponse = await fetch(backendAdress + '/users/user/' + userItem)
+          let userResponse= await userRawResponse.json()
 
+          setListUsers([...listUsers,userResponse.user])
         }
-        setListUsers([...tempUsers])
-      }
-
-      response.rando.users.find((item) => item === props.user._id) ? setIsParticipant(true) : setIsParticipant(false)
+      } response.rando.users.find((item) => item === props.user._id) ? setIsParticipant(true) : setIsParticipant(false)
     }
 
     searchUser()
 
-  }, [props.route.params.rando])
+   },[props.route.params.rando])
 
   var date = new Date(rando.date)
 
@@ -73,7 +72,6 @@ function Detail(props) {
   var day = date.toLocaleDateString('fr').split('/')
   var newDay = day[1] + '/' + day[0] + '/' + day[2]
 
-
   //let dateFormat= rando.date.toLocaleDateString('fr') + ' ' + rando.date.getHours() + ':' +rando.date.getMinutes()
   let dateFormat = newDay + ' ' + date.getHours() + 'h' + minutes + date.getMinutes()
 
@@ -81,26 +79,22 @@ function Detail(props) {
 
   var searchUser = async function (user) {
 
-
     // si la personne connectée est l'organisateur, alors on affiche MyProfil
     if (props.user._id === user) {
       props.navigation.navigate('Profil')
     } else {
-
       // si la personne connectée n'est pas l'organisateur alors on affiche OtherProfile
       let result = await fetch(backendAdress + '/users/user/' + user)
       let response = await result.json()
       props.navigation.navigate('Otherprofile', { user: response.user })
     }
-
   }
-  var participateClick = async function (dataRando) {
 
+
+  var participateClick = async function (dataRando) {
     //*** Ajout de l'id du randonneur dans la base de donnée de la radonnée */
     let rawresponse = await fetch(backendAdress + '/add-user-track?userid=' + props.user._id + '&trackid=' + rando._id);
     props.navigation.navigate('Chat', { rando })
-
-
   }
 
   let listUsersDisplay = listUsers.map((item, i) => (<Center
@@ -139,42 +133,29 @@ function Detail(props) {
       size="xs"
       backgroundColor="#BBBBBB"
       alignSelf="center"
-      onPress={() => searchUser(item._id)}
-    >
+      onPress={() => searchUser(item._id)}>
       <Text style={styles.contentText} fontSize="xs">
         Voir Profil
       </Text>
     </Button>
   </Center>))
+  
 
+    return (
 
-  console.log('list des users: ', listUsers)
-
-  return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
-      <ScrollView>
-        <HamburgerMenu navigation={props.navigation} />
-
-        <VStack space={2} alignItems="center">
-          <Heading size="xl">{rando.name}</Heading>
-          <Heading size="lg">{dateFormat} / {rando.departure.nom}</Heading>
-          <MapView style={styles.map}
-            initialRegion={{
-              latitude: rando.coordinate.latitude,
-              longitude: rando.coordinate.longitude,
-              latitudeDelta: 0.05,
-              longitudeDelta: 0.05,
-            }}>
-            <Marker pinColor='green'
-              coordinate={{
+        <ScrollView>
+          <HamburgerMenu navigation={props.navigation} />
+          <VStack space={2} alignItems="center">
+            <Heading size="xl">{rando.name}</Heading>
+            <Heading size="lg">{dateFormat} / {rando.departure.nom}</Heading>
+            <MapView style={styles.map}
+              initialRegion={{
                 latitude: rando.coordinate.latitude,
                 longitude: rando.coordinate.longitude,
               }}
               title={rando.name} />
 
-
-
-          </MapView>
           <Heading size="lg">Organisé par: </Heading>
           <Button w={"80%"} h={10} bg="#bbbbbb" onPress={() => searchUser(rando.userId)}>
             {rando.organisator}
@@ -185,7 +166,6 @@ function Detail(props) {
           <Heading size="lg">Liste des participants: </Heading>
           {/* User profil box */}
           {listUsersDisplay}
-
         </VStack>
       </ScrollView>
       <Stack
@@ -212,7 +192,6 @@ function Detail(props) {
     </SafeAreaView >
   );
 }
-
 
 
 const styles = StyleSheet.create({

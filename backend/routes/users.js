@@ -165,4 +165,31 @@ router.get('/user/:id', async (req, res) => {
   return res.json({ result: true, user: cleanUser });
 });
 
+
+
+router.get('/update-rating', async (req, res) => {
+  if (!req.query.username) {
+    return res.json({ result: false, error: 'Username is missing.' });
+  }
+  let foundUsers = await User.find({ username: req.query.username }).populate('tracks').exec();
+  let cleanUsers = [];
+  foundUsers.forEach(user => {
+    cleanUsers.push({
+      _id: user._id,
+      username: user.username,
+      name: user.name,
+      lastname: user.lastname,
+      age: user.age,
+      averageRating: user.averageRating,
+      createdAccount: user.createdAccount,
+      tracks: user.tracks,
+      age: user.age,
+      friends: user.friends
+    })
+  })
+  return res.json({ result: true, users: cleanUsers });
+});
+
+
+
 module.exports = router;

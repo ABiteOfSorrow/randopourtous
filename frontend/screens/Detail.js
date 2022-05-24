@@ -28,7 +28,7 @@ function Detail(props) {
   const [listUsers, setListUsers] = useState([])
   const [rando, setRando] = useState(props.route.params.rando)
 
-  console.log('retour chat: ', props.route.params.rando)
+  // console.log('retour chat: ', props.route.params.rando)
 
   //let rando=props.route.params.rando
   useEffect(() => {
@@ -44,7 +44,7 @@ function Detail(props) {
 
         for (let userItem of response.rando.users) {
 
-          console.log('response back :', userItem)
+          // console.log('response back :', userItem)
           let userRawResponse = await fetch(backendAdress + '/users/user/' + userItem)
           let userResponse = await userRawResponse.json()
 
@@ -87,8 +87,9 @@ function Detail(props) {
 
 
   var participateClick = async function (dataRando) {
+    console.log(props.user._id)
     //*** Ajout de l'id du randonneur dans la base de donnée de la radonnée */
-    let rawresponse = await fetch(backendAdress + '/add-user-track?userid=' + props.userId + '&trackid=' + rando._id);
+    let rawresponse = await fetch(backendAdress + '/add-user-track?userid=' + props.user._id + '&trackid=' + rando._id);
     props.navigation.navigate('Chat', { rando })
   }
 
@@ -148,8 +149,21 @@ function Detail(props) {
             initialRegion={{
               latitude: rando.coordinate.latitude,
               longitude: rando.coordinate.longitude,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421
             }}
-            title={rando.name} />
+            title={rando.name}>
+
+            <Marker
+
+              pinColor='green'
+              coordinate={{
+                latitude: rando.coordinate.latitude,
+                longitude: rando.coordinate.longitude,
+              }} />
+          </MapView>
+
+
 
           <Heading size="lg">Organisé par: </Heading>
           <Button w={"80%"} h={10} bg="#bbbbbb" onPress={() => searchUser(rando.userId)}>

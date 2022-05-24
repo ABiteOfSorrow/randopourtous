@@ -27,6 +27,8 @@ function Chat(props) {
   const [isOwner, setIsOwner] = useState(false);
 
   let rando = props.route.params.rando;
+  console.log(rando)
+
 
   //console.log(JSON.stringify(ws));
 
@@ -45,7 +47,7 @@ function Chat(props) {
     (async () => {
 
       try {
-        let rawResponse = await fetch(backendAdress + '/get-track?id=' + props.rando._id)
+        let rawResponse = await fetch(backendAdress + '/get-track?id=' + props.route.params.rando._id)
         //console.log(JSON.stringify(rawresponse))
         if (rawResponse.ok) {
           console.log('ok')
@@ -187,6 +189,8 @@ function Chat(props) {
   };
 
 
+  
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container} keyboardVerticalOffset={90}>
@@ -268,11 +272,6 @@ function Chat(props) {
             scrollToBottomComponent={scrollToBottomComponent}
           />
         </Box>
-        <Button w={"30%"} h={9} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Resume")}>
-          <Text style={styles.contentText} fontSize="xs">
-            evaluer - test
-          </Text>
-        </Button>
         <View style={styles.footer}>
           {/* <Input
               value={input}

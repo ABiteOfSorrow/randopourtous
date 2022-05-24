@@ -1,5 +1,5 @@
-// import { LogBox } from "react-native";
-// LogBox.ignoreAllLogs(true);
+import { LogBox } from "react-native";
+LogBox.ignoreAllLogs(true);
 import React from 'react'
 import {StyleSheet} from 'react-native'
 import {NativeBaseProvider} from 'native-base'

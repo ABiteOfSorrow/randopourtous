@@ -37,9 +37,9 @@ useEffect(() => {
 }, [tracksFilter]);
 
 
-  var sourceCard = allTracks.map((track,i) => {
+  var sourceCard = allTracks.map((rando,i) => {
     //Condition qui adapte la couleur et le status des cartes selon les randos
-    if(track.finished == true){
+    if(rando.finished == true){
       var colorBg = "#bbbbbb"
       var colorText = "black"
       var etat = "Achevée"
@@ -61,7 +61,7 @@ useEffect(() => {
           letterSpacing: "lg",
         }}
       >
-        {track.name}
+        {rando.name}
       </Box>
       <Box style={{ flex:1, flexDirection:"row", justifyContent:"space-between" }}>
         <Box
@@ -73,7 +73,7 @@ useEffect(() => {
             letterSpacing: "lg",
           }}
         >
-          {track.departure.nom}
+          {rando.departure.nom}
         </Box>
         <Box
           alignSelf="center"
@@ -87,7 +87,7 @@ useEffect(() => {
           {etat}
         </Box>
       </Box>
-      <Button w={100} h={8} p={0} mt={2} mr={2} style={{ backgroundColor:"green", marginLeft:"65%" }} onPress={()=> props.navigation.navigate('Detail', {track})}>
+      <Button w={100} h={8} p={0} mt={2} mr={2} style={{ backgroundColor:"green", marginLeft:"65%" }} onPress={()=> props.navigation.navigate('Detail', {rando})}>
               <Text fontSize="xs" style={{ fontWeight: 'bold', color:"white" }} >
                 Voir
               </Text>

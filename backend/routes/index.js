@@ -8,7 +8,8 @@ var request = require("sync-request");
 
 
 var randoModel = require('../models/rando')
-let UserModel = require('../models/user')
+let UserModel = require('../models/user');
+const rando = require('../models/rando');
 
 
 
@@ -116,23 +117,28 @@ router.post('/search-track', async function (req, res, next) {
 
 router.post('/get-tracks', async function (req, res, next) {
 
-  let tracks = req.body
-  //let listingTracks = tracks.split(',')
-  //console.log(listingTracks)
+  let tracks = req.body.tracks
+  let userId = req.body._id
   let fullInfoTracks = []
 
 
   for (let i = 0; i < tracks.length; i++) {
     var result = await randoModel.findById(tracks[i])
-    console.log(typeof result)
-    //console.log(result)
-    //console.log("sprout",listingTracks[i])
+
     if (result != null) {
       fullInfoTracks.push(result)
     }
   }
-  //console.log("test",fullInfoTracks)
-  // console.log('rouetr resullt',result)
+
+  let randosInBDD = await randoModel.find();
+  
+  for(oneRando of randosInBDD){
+    for(participant of oneRando.users){
+      if(participant === userId && fullInfoTracks.find(e => e.id == oneRando.id) == undefined){
+        fullInfoTracks.push(oneRando)
+      }
+    }
+  }
 
   return res.json({ success: true, fullInfoTracks })
 })

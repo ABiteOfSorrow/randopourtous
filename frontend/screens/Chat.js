@@ -214,13 +214,13 @@ function Chat(props) {
               {rando.users.length} / {rando.maxUsers} Participants
             </Text>
           </Box>
-          {props.user._id===rando.userId ? (
-            <>
               <Button w={"80%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Detail", { rando })}>
                 <Text fontSize="md">
                   Voir la Rando
                 </Text>
               </Button>
+          {props.user._id===rando.userId ? (
+            <>
 
               <Badge // bg="red.400"
                 colorScheme="danger"

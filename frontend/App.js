@@ -117,7 +117,7 @@ const BottomMenuTabs = () => {
       initialRouteName='Home'
     >
       <Tab.Screen name='Home' component={HomeNavigator} />
-      <Tab.Screen name='Randos' component={RandosScreen} />
+      <Tab.Screen name='Randos' component={HistoryScreen} />
       <Tab.Screen name='Chercher' component={SearchNavigator} />
       <Tab.Screen name='Profil' component={ProfileNavigator} />
     </Tab.Navigator>

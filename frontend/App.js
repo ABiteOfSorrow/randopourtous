@@ -1,12 +1,12 @@
 import { LogBox } from "react-native";
 LogBox.ignoreAllLogs(true);
 import React from 'react'
-import {StyleSheet} from 'react-native'
-import {NativeBaseProvider} from 'native-base'
-import {NavigationContainer} from '@react-navigation/native'
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import {createStackNavigator} from '@react-navigation/stack'
-import {FontAwesome5} from '@expo/vector-icons'
+import { StyleSheet } from 'react-native'
+import { NativeBaseProvider } from 'native-base'
+import { NavigationContainer } from '@react-navigation/native'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createStackNavigator } from '@react-navigation/stack'
+import { FontAwesome5 } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import PresentScreen from './screens/PresentScreen'
@@ -29,13 +29,13 @@ import SearchPeopleScreen from './screens/SearchPeople'
 import ManagementScreen from './screens/Management'
 import MyTrack from './screens/MyTrack'
 
-import {combineReducers} from 'redux'
-import {configureStore} from '@reduxjs/toolkit'
+import { combineReducers } from 'redux'
+import { configureStore } from '@reduxjs/toolkit'
 import user from './reducers/user.reducer'
 import searchData from './reducers/search.reducer'
-const store = configureStore({reducer: combineReducers({user, searchData})})
-import {Provider} from 'react-redux'
-import {useEffect} from 'react'
+const store = configureStore({ reducer: combineReducers({ user, searchData }) })
+import { Provider } from 'react-redux'
+import { useEffect } from 'react'
 
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator()
@@ -43,13 +43,14 @@ const Stack = createStackNavigator()
 const HomeNavigator = () => {
   return (
     <Stack.Navigator
-      initialRouteName='Home'
-      screenOptions={{headerShown: false}}>
-      <Stack.Screen name='Home' component={HomeScreen} />
+      initialRouteName='HomeScreen'
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen name='HomeScreen' component={HomeScreen} />
       <Stack.Screen name='MyTrack' component={MyTrack} />
       <Stack.Screen name='Create' component={CreateScreen} />
       <Stack.Screen name='SearchPeople' component={SearchPeopleScreen} />
-      <Stack.Screen name='Chat' component={ChatScreen} />
+
     </Stack.Navigator>
   )
 }
@@ -57,22 +58,24 @@ const ProfileNavigator = () => {
   return (
     <Stack.Navigator
       initialRouteName='MyProfile'
-      screenOptions={{headerShown: false}}>
+      screenOptions={{ headerShown: false }}>
       <Stack.Screen name='MyProfile' component={MyprofileScreen} />
       <Stack.Screen name='EditProfile' component={EditProfileScreen} />
       <Stack.Screen name='History' component={HistoryScreen} />
       <Stack.Screen name='Friend' component={FriendScreen} />
+      <Stack.Screen name='Management' component={ManagementScreen} />
+      <Stack.Screen name='Chat' component={ChatScreen} />
     </Stack.Navigator>
   )
 }
 const SearchNavigator = () => {
   return (
-    <Stack.Navigator 
-     screenOptions={{headerShown: false}}
-     initialRouteName='Chercher'>
-    <Stack.Screen name='Chercher' component={SearchScreen} />
-    <Stack.Screen name='ResultSearch' component={ResultSearch} />
-    <Stack.Screen name='Resume' component={ResumeScreen} />
+    <Stack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName='Chercher' >
+      <Stack.Screen name='Chercher' component={SearchScreen} />
+      <Stack.Screen name='ResultSearch' component={ResultSearch} />
+      <Stack.Screen name='Resume' component={ResumeScreen} />
     </Stack.Navigator>
   )
 }
@@ -80,8 +83,8 @@ const SearchNavigator = () => {
 const BottomMenuTabs = () => {
   return (
     <Tab.Navigator
-      screenOptions={({route}) => ({
-        tabBarIcon: ({color}) => {
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color }) => {
           let iconName
           if (route.name === 'Home') {
             iconName = 'home'
@@ -112,14 +115,10 @@ const BottomMenuTabs = () => {
           ...styles.shadow,
         },
       }}
-      
-      initialRouteName='Home'>
-      <Tab.Screen
-        name='Home'
-        options={{gestureEnabled: false}}
-        component={HomeNavigator}
-      />
-      <Tab.Screen name='Randos' component={RandosScreen} />
+      initialRouteName='Home'
+    >
+      <Tab.Screen name='Home' component={HomeNavigator} />
+      <Tab.Screen name='Randos' component={HistoryScreen} />
       <Tab.Screen name='Chercher' component={SearchNavigator} />
       <Tab.Screen name='Profil' component={ProfileNavigator} />
     </Tab.Navigator>
@@ -131,13 +130,13 @@ export default function App() {
     <>
       <Stack.Screen name='Present' component={PresentScreen} />
       <Stack.Screen
-        options={{gestureEnabled: false}}
+        options={{ gestureEnabled: false }}
         name='SignIn'
         component={SignInScreen}
       />
       <Stack.Screen
         name='SignUp'
-        options={{gestureEnabled: false, headerLeft: false}}
+        options={{ gestureEnabled: false, headerLeft: false }}
         component={SignUpScreen}
       />
     </>
@@ -150,13 +149,13 @@ export default function App() {
             <>
               <Stack.Screen name='Present' component={PresentScreen} />
               <Stack.Screen
-                options={{gestureEnabled: false}}
+                options={{ gestureEnabled: false }}
                 name='SignIn'
                 component={SignInScreen}
               />
               <Stack.Screen
                 name='SignUp'
-                options={{gestureEnabled: false, headerLeft: false}}
+                options={{ gestureEnabled: false, headerLeft: false }}
                 component={SignUpScreen}
               />
             </>
@@ -172,19 +171,16 @@ export default function App() {
     <Provider store={store}>
       <NativeBaseProvider>
         <NavigationContainer>
-          <Stack.Navigator screenOptions={{headerShown: false}}>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
             {routes}
             <Stack.Screen
               name='Home'
-              options={{gestureEnabled: false, headerLeft: false}}
+              options={{ gestureEnabled: false, headerLeft: false }}
               component={BottomMenuTabs}
             />
             <Stack.Screen name='Detail' component={DetailScreen} />
             <Stack.Screen name='BottomMenuTabs' component={BottomMenuTabs} />
             <Stack.Screen name='OtherProfile' component={OtherProfileScreen} />
-
-            <Stack.Screen name='Management' component={ManagementScreen} />
-            
           </Stack.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>

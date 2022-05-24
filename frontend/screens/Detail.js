@@ -37,22 +37,22 @@ function Detail(props) {
     async function searchUsersTrack() {
 
       // on initialise le composant en récupérant la randonnées dans la BDD avec la liste des participants à jour
-      let rawresponse = await fetch(backendAdress+'/search-user-track?userid='+props.user._id+'&trackid='+props.route.params.rando._id);
-      let response=await rawresponse.json()
+      let rawresponse = await fetch(backendAdress + '/search-user-track?userid=' + props.user._id + '&trackid=' + props.route.params.rando._id);
+      let response = await rawresponse.json()
       setRando(response.rando)
-    
+
       if (response) {
 
         for (let userItem of response.rando.users) {
 
           // console.log('response back :', userItem)
           let userRawResponse = await fetch(backendAdress + '/users/user/' + userItem)
-          let userResponse= await userRawResponse.json()
-          
+          let userResponse = await userRawResponse.json()
 
-          setListUsers( (state) => [...state,userResponse.user])
-          
-        
+
+          setListUsers((state) => [...state, userResponse.user])
+
+
         }
       } response.rando.users.find((item) => item === props.user._id) ? setIsParticipant(true) : setIsParticipant(false)
     }
@@ -62,7 +62,7 @@ function Detail(props) {
   }, [props.route.params.rando])
 
 
-   console.log('list user à jour: ', listUsers)
+  console.log('list user à jour: ', listUsers)
   var date = new Date(rando.date)
 
   //***** formatage de la date *****
@@ -97,7 +97,7 @@ function Detail(props) {
     console.log(props.user._id)
     //*** Ajout de l'id du randonneur dans la base de donnée de la radonnée */
     let rawresponse = await fetch(backendAdress + '/add-user-track?userid=' + props.user._id + '&trackid=' + rando._id);
-    props.navigation.navigate('Chat', { rando })
+    props.navigation.navigate('Profil', { screen: 'Chat', params: { rando } })
   }
 
   let listUsersDisplay = listUsers.map((item, i) => (<Center

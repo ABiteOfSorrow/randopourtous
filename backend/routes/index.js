@@ -46,12 +46,8 @@ router.post('/create-track', async function (req, res, next) {
     return res.json({ result: false, error: 'Mauvais token' })
   }
   // ajout du créateur aux participants
-  let user = {
-    _id: foundUser._id,
-    username: foundUser.username,
-    name: foundUser.name,
-    lastname: foundUser.lastname,
-  }
+  let user = foundUser._id;
+    
   // tableau des participants
   let users = []
   users.push(user)

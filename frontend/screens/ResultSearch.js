@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { HStack, VStack, Center, Heading, Box, Button, Text, Switch, View } from 'native-base'
+import { HStack, VStack, Center, Heading, Box, Button, Text, Switch, View, Title } from 'native-base'
 import { StyleSheet, ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import HamburgerMenu from '../components/HamburgerMenu'
@@ -146,7 +146,7 @@ function ResultSearch(props) {
       //*** Redirection vers la page du détail de la rando avec la rando en paramètre */
 
       description={rando.description + '\n Press to view'}>
-      <MapView.Callout onPress={() => props.navigation.navigate('Detail', { rando })}>
+      <MapView.Callout style={{ flex: 1 }} onPress={() => props.navigation.navigate('Detail', { rando })}>
         <View style={styles.callout}>
           <Heading>{rando.name}</Heading>
           <Text>{rando.description}</Text>
@@ -250,6 +250,7 @@ const styles = StyleSheet.create({
   },
   callout: {
     flex: 1,
+    maxWidth: 150,
     // width: 150,
     height: 100,
     alignItems: 'center',

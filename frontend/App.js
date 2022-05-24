@@ -1,5 +1,5 @@
-import { LogBox } from "react-native";
-LogBox.ignoreAllLogs(true);
+// import { LogBox } from "react-native";
+// LogBox.ignoreAllLogs(true);
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { NativeBaseProvider } from 'native-base'
@@ -50,15 +50,14 @@ const HomeNavigator = () => {
       <Stack.Screen name='MyTrack' component={MyTrack} />
       <Stack.Screen name='Create' component={CreateScreen} />
       <Stack.Screen name='SearchPeople' component={SearchPeopleScreen} />
-
     </Stack.Navigator>
   )
 }
 const ProfileNavigator = () => {
   return (
     <Stack.Navigator
-      initialRouteName='MyProfile'
-      screenOptions={{ headerShown: false }}>
+    initialRouteName='MyProfile'
+    screenOptions={{ headerShown: false }}>
       <Stack.Screen name='MyProfile' component={MyprofileScreen} />
       <Stack.Screen name='EditProfile' component={EditProfileScreen} />
       <Stack.Screen name='History' component={HistoryScreen} />

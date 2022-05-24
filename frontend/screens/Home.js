@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Text, Button, ScrollView } from 'native-base';
+import { Text, Button, ScrollView, Avatar } from 'native-base';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -43,10 +43,18 @@ function Home(props) {
           <Button my={1} bg={'#78E08F'} onPress={() => props.navigation.navigate("Chercher")} >Chercher une randonnée</Button>
           <Button my={1} bg={'#78E08F'} onPress={() => props.navigation.navigate("Create")} >Créer une randonnée</Button>
         </View>
-        <View style={{ marginTop: '10%' }} >
-          <MaterialIcons name="account-circle" size={96} color="black" />
+        <View style={{ marginTop: '2%' }} >
+          {/* <MaterialIcons name="account-circle" size={96} color="black" /> */}
+          <Avatar
+          size={150}
+      me="10"
+      bg="amber.500"
+      source={{
+        uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Macaca_nigra_self-portrait_large.jpg/800px-Macaca_nigra_self-portrait_large.jpg",
+      }}
+    ></Avatar>
         </View>
-        <View style={{ width: '100%', marginTop: '6%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
+        <View style={{ width: '100%', marginTop: '2%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
           <Text>{props.user.username}</Text>
           <Button my={2} bg={'#079992'} onPress={() => props.navigation.navigate('Profil')} >Mon compte</Button>
           <Button my={2} bg={'#bbb'} onPress={() => props.navigation.navigate('SearchPeople')} >Chercher un utilisateur</Button>

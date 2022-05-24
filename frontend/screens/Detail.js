@@ -23,13 +23,12 @@ const backendAdress = backendConfig.address;
 
 
 function Detail(props) {
-
-  const [isParticipant, setIsParticipant] = useState(false)
-  const [listUsers, setListUsers] = useState([])
-  const [rando, setRando] = useState(props.route.params.rando)
-
-  // console.log('retour chat: ', props.route.params.rando)
-
+  
+  const [isParticipant, setIsParticipant]= useState(false)
+  const [listUsers, setListUsers]=useState([])
+  const [rando, setRando]=useState(props.route.params.rando)
+  
+  
   //let rando=props.route.params.rando
   useEffect(() => {
 
@@ -45,7 +44,6 @@ function Detail(props) {
 
         for (let userItem of response.rando.users) {
 
-          // console.log('response back :', userItem)
           let userRawResponse = await fetch(backendAdress + '/users/user/' + userItem)
           let userResponse = await userRawResponse.json()
 
@@ -61,8 +59,6 @@ function Detail(props) {
 
   }, [props.route.params.rando])
 
-
-  console.log('list user à jour: ', listUsers)
   var date = new Date(rando.date)
 
   //***** formatage de la date *****
@@ -83,7 +79,7 @@ function Detail(props) {
 
     // si la personne connectée est l'organisateur, alors on affiche MyProfil
     if (props.user._id === user) {
-      props.navigation.navigate('Profil')
+      props.navigation.navigate('MyProfile')
     } else {
       // si la personne connectée n'est pas l'organisateur alors on affiche OtherProfile
       let result = await fetch(backendAdress + '/users/user/' + user)

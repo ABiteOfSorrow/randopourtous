@@ -168,14 +168,16 @@ router.get('/user/:id', async (req, res) => {
 
 
 router.get('/update-rating', async (req, res) => {
+  console.log(req.query.userid)
+  console.log(req.query.rating)
   if (!req.query.userid) {
     return res.json({ result: false, error: 'Username is missing.' });
   }
-    await User.updateOne({ _id: req.query.userid }, {
+    let ratingUpdate = await User.updateOne({ _id: req.query.userid }, {
       averageRating: req.query.rating
     })
 
-  return res.json({ result: true, users: cleanUsers });
+  return res.json({ result: true, ratingUpdate });
 });
 
 

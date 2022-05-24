@@ -29,7 +29,7 @@ function Resume(props) {
     // let response = await rawResponse.json()
     // // console.log(response)
     // if (response) {
-    let userRawResponse = await fetch(backendAdress + '/users/update-rating?userid=' + response.user._id + '&rating=' + avgTotal)
+    let userRawResponse = await fetch(backendAdress + '/users/update-rating?userid=' + props.user._id + '&rating=' + avgTotal)
     let userResponse = await userRawResponse.json()
     console.log(userResponse)
     // }
@@ -195,7 +195,7 @@ function Resume(props) {
         <Heading size="md">Historique des photos partagées </Heading>
       </VStack>
       {/* Carousel for Photos, default = data / else cloudinary image */}
-      {image === null ? (
+      {image === "" ? (
         <CustomSlider data={data} />
       ) : (<CustomSlider data={image} />)
       }

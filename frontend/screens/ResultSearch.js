@@ -146,7 +146,7 @@ function ResultSearch(props) {
       //*** Redirection vers la page du détail de la rando avec la rando en paramètre */
       
       description={rando.description + '\n Press to view'}>
-      <MapView.Callout onPress={() => props.navigation.navigate('Detail', {rando})}>
+      <MapView.Callout style={{flex:1}} onPress={() => props.navigation.navigate('Detail', {rando})}>
         <View style={styles.callout}>
           <Heading>{rando.name}</Heading>
           <Text>{rando.description}</Text>

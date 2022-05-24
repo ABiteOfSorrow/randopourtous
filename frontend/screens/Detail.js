@@ -28,8 +28,7 @@ function Detail(props) {
   const [listUsers, setListUsers]=useState([])
   const [rando, setRando]=useState(props.route.params.rando)
   
-  console.log('retour chat: ', props.route.params.rando)
- 
+  
   //let rando=props.route.params.rando
   useEffect(()=>{
     
@@ -45,7 +44,6 @@ function Detail(props) {
 
         for(let userItem of response.rando.users){
 
-          console.log('response back :', userItem)
           let userRawResponse = await fetch(backendAdress + '/users/user/' + userItem)
           let userResponse= await userRawResponse.json()
           
@@ -61,8 +59,6 @@ function Detail(props) {
 
    },[props.route.params.rando])
 
-
-   console.log('list user à jour: ', listUsers)
   var date = new Date(rando.date)
 
   //***** formatage de la date *****

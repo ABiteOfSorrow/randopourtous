@@ -29,6 +29,7 @@ import SearchPeopleScreen from './screens/SearchPeople'
 import ManagementScreen from './screens/Management'
 import MyTrack from './screens/MyTrack'
 
+
 import { combineReducers } from 'redux'
 import { configureStore } from '@reduxjs/toolkit'
 import user from './reducers/user.reducer'
@@ -50,20 +51,20 @@ const HomeNavigator = () => {
       <Stack.Screen name='MyTrack' component={MyTrack} />
       <Stack.Screen name='Create' component={CreateScreen} />
       <Stack.Screen name='SearchPeople' component={SearchPeopleScreen} />
-      <Stack.Screen name='Chat' component={ChatScreen} />
     </Stack.Navigator>
   )
 }
 const ProfileNavigator = () => {
   return (
     <Stack.Navigator
-      initialRouteName='MyProfile'
-      screenOptions={{ headerShown: false }}>
+    initialRouteName='MyProfile'
+    screenOptions={{ headerShown: false }}>
       <Stack.Screen name='MyProfile' component={MyprofileScreen} />
       <Stack.Screen name='EditProfile' component={EditProfileScreen} />
       <Stack.Screen name='History' component={HistoryScreen} />
       <Stack.Screen name='Friend' component={FriendScreen} />
       <Stack.Screen name='Management' component={ManagementScreen} />
+      <Stack.Screen name='Chat' component={ChatScreen} />
     </Stack.Navigator>
   )
 }

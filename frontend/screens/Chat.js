@@ -19,7 +19,7 @@ function Chat(props) {
   const [user, setUser] = useState('John');
   const [message, setMessage] = useState({});
   const [messages, setMessages] = useState([]);
-  const [senderId, setSenderId] = useState(props.user._id)
+  const [senderId, setSenderId] = useState(props.userId)
   //const [receiverId, setReceiverId] = useState(2)
 
   const [name, setName] = useState("popi")
@@ -27,7 +27,7 @@ function Chat(props) {
   const [isOwner, setIsOwner] = useState(false);
 
   let rando = props.route.params.rando;
-  console.log('rando de Détail: ',rando)
+  console.log('rando de Détail: ', rando)
 
   //console.log(JSON.stringify(ws));
 
@@ -188,39 +188,41 @@ function Chat(props) {
   };
 
 
+
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container} keyboardVerticalOffset={90}>
-        <HStack justifyContent="space-between" mb={4}>
+        <HStack justifyContent="space-between" mb={'1%'}>
           <HamburgerMenu navigation={props.navigation} />
-          <Switch offTrackColor="#C4C4C4" onTrackColor="#78E08F" mr={4} onValueChange={setIsOwner} />
-          <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9" >
+
+          <Button w={90} h={8} p={0} onPress={() => props.navigation.goBack()} mt={2} mr={2} variant="outline" borderColor="#38ADA9" >
             <Text fontSize="xs" bold color="#38ADA9">
               Retour
             </Text>
           </Button>
         </HStack>
         {/* List Body */}
-        <VStack space={2} alignItems="center">
-          <Heading size="lg" mb={5}>
+        <VStack space={"0.5%"} alignItems="center">
+          <Heading size="lg" mb={'3%'}>
             {rando.name}
           </Heading>
           {/* Switch Line */}
         </VStack>
         <VStack space={2} alignItems="center">
           {/* Journey List */}
-          <Box w={"75%"} mb={0} borderRadius="15" bg="#079992">
+          <Box w={"80%"} mb={0} borderRadius="15" style={{ paddingVertical: 1 }} bg="#079992">
             <Text color="white" fontSize="md" textAlign="center">
               {rando.users.length} / {rando.maxUsers} Participants
             </Text>
           </Box>
-          {isOwner ? (
+          <Button w={"84%"} mb={0} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Detail", { rando })}>
+            <Text fontSize="md">
+              Voir la Rando
+            </Text>
+          </Button>
+          {props.user._id === rando.userId ? (
             <>
-              <Button w={"80%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Detail", { rando })}>
-                <Text fontSize="md">
-                  Voir la Rando
-                </Text>
-              </Button>
 
               <Badge // bg="red.400"
                 colorScheme="danger"
@@ -236,22 +238,16 @@ function Chat(props) {
               >
                 2
               </Badge>
-              <Button w={"80%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Management")}>
+              <Button w={"84%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Management", { user: props.user })}>
                 <Text fontSize="md">
                   Gestion de la Rando
                 </Text>
               </Button>
             </>
-          ) : (
-            <Button w={"80%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Detail", { rando })}>
-              <Text fontSize="md">
-                Voir la Rando
-              </Text>
-            </Button>
-          )}
+          ) : (<></>)}
         </VStack>
 
-        <Box w={"90%"} h={"60%"} bg="#ffffff" alignSelf={"center"} mt={5} borderWidth={2} borderColor={"#bbbbbb"} borderRadius={8}>
+        <Box w={"90%"} style={{ flex: 1, borderRadius: 8, marginBottom: '4%' }} bg="#ffffff" alignSelf={"center"} mt={'2%'} borderWidth={2} borderColor={"#bbbbbb"} >
           <GiftedChat
             borderRadius={8}
             messages={messages}
@@ -269,13 +265,8 @@ function Chat(props) {
             scrollToBottomComponent={scrollToBottomComponent}
           />
         </Box>
-        <Button w={"30%"} h={9} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Resume")}>
-          <Text style={styles.contentText} fontSize="xs">
-            evaluer - test
-          </Text>
-        </Button>
-        <View style={styles.footer}>
-          {/* <Input
+
+        {/* <Input
               value={input}
               onChangeText={(text) => setInput(text)}
               onSubmitEditing={sendMessage}
@@ -283,13 +274,12 @@ function Chat(props) {
               InputRightElement={<Button size="xs" rounded="none" w="1/6" h="full" onPress={handleClick}></Button>}
             /> */}
 
-          {/* <TouchableOpacity onPress={sendMessage} activeOpacity={0.5}>
+        {/* <TouchableOpacity onPress={sendMessage} activeOpacity={0.5}>
               <Ionicons name={"send"} size={24} color={"#2B68E6"} />
             </TouchableOpacity> */}
-        </View>
+
 
         {/* To prevent leaving the content area */}
-        <Box w="100%" h="8.5%" alignSelf="center" bg="#fff" />
         {/* </TouchableWithoutFeedback> */}
       </KeyboardAvoidingView>
       {/* To prevent leaving the content area */}

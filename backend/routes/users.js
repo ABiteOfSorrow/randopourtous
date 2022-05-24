@@ -6,7 +6,7 @@ let uid = require('uid2');
 const cost = 10;
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.json({ result: false, error: 'Please use a correct route.' });
 });
 
@@ -17,7 +17,7 @@ router.post('/sign-up', async (req, res) => {
   // search if user already exists
   let alreadyUser = await User.findOne({ email: req.body.email });
   if (alreadyUser) {
-    return res.json({ result: false, error: 'User already exists.' })
+    return res.json({ result: false, error: "L'utilisateur existe déjà" })
   }
   const hash = bcrypt.hashSync(req.body.password, cost);
   let user = new User({
@@ -25,7 +25,7 @@ router.post('/sign-up', async (req, res) => {
     email: req.body.email,
     password: hash,
     name: '',
-    
+
     lastname: '',
     averageRating: -1,
     age: -1,
@@ -164,5 +164,22 @@ router.get('/user/:id', async (req, res) => {
   }
   return res.json({ result: true, user: cleanUser });
 });
+
+
+
+router.post('/update-rating', async (req, res) => {
+  console.log(req.body)
+  let foundUser = await User.findOne({ _id: req.body.id });
+  if (!foundUser) {
+    return res.json({ result: false, error: 'User is missing.' });
+  }
+  foundUser.averageRating = req.body.averageRating
+  let savedUser = await foundUser.save();
+
+  if (savedUser) {
+    return res.json({ result: true, user: savedUser })
+  }
+});
+
 
 module.exports = router;

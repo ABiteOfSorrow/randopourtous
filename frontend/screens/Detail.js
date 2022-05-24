@@ -28,41 +28,37 @@ function Detail(props) {
   const [listUsers, setListUsers]=useState([])
   const [rando, setRando]=useState(props.route.params.rando)
   
-  console.log('retour chat: ', props.route.params.rando)
- 
+  
   //let rando=props.route.params.rando
-  useEffect(()=>{
-    
+  useEffect(() => {
+
 
     async function searchUsersTrack() {
 
       // on initialise le composant en récupérant la randonnées dans la BDD avec la liste des participants à jour
-      let rawresponse = await fetch(backendAdress+'/search-user-track?userid='+props.user._id+'&trackid='+props.route.params.rando._id);
-      let response=await rawresponse.json()
+      let rawresponse = await fetch(backendAdress + '/search-user-track?userid=' + props.user._id + '&trackid=' + props.route.params.rando._id);
+      let response = await rawresponse.json()
       setRando(response.rando)
-    
+
       if (response) {
 
-        for(let userItem of response.rando.users){
+        for (let userItem of response.rando.users) {
 
-          console.log('response back :', userItem)
           let userRawResponse = await fetch(backendAdress + '/users/user/' + userItem)
-          let userResponse= await userRawResponse.json()
-          
+          let userResponse = await userRawResponse.json()
 
-          setListUsers( (state) => [...state,userResponse.user])
-          
-        
+
+          setListUsers((state) => [...state, userResponse.user])
+
+
         }
       } response.rando.users.find((item) => item === props.user._id) ? setIsParticipant(true) : setIsParticipant(false)
     }
 
     searchUsersTrack()
 
-   },[props.route.params.rando])
+  }, [props.route.params.rando])
 
-
-   console.log('list user à jour: ', listUsers)
   var date = new Date(rando.date)
 
   //***** formatage de la date *****
@@ -83,7 +79,7 @@ function Detail(props) {
 
     // si la personne connectée est l'organisateur, alors on affiche MyProfil
     if (props.user._id === user) {
-      props.navigation.navigate('Profil')
+      props.navigation.navigate('MyProfile')
     } else {
       // si la personne connectée n'est pas l'organisateur alors on affiche OtherProfile
       let result = await fetch(backendAdress + '/users/user/' + user)
@@ -94,9 +90,10 @@ function Detail(props) {
 
 
   var participateClick = async function (dataRando) {
+    console.log(props.user._id)
     //*** Ajout de l'id du randonneur dans la base de donnée de la radonnée */
     let rawresponse = await fetch(backendAdress + '/add-user-track?userid=' + props.user._id + '&trackid=' + rando._id);
-    props.navigation.navigate('Chat', { rando })
+    props.navigation.navigate('Profil', { screen: 'Chat', params: { rando } })
   }
 
   let listUsersDisplay = listUsers.map((item, i) => (<Center
@@ -141,36 +138,36 @@ function Detail(props) {
       </Text>
     </Button>
   </Center>))
-  
 
-    return (
+
+  return (
 
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
-        <ScrollView>
-          <HamburgerMenu navigation={props.navigation} />
-          <VStack space={2} alignItems="center">
-            <Heading size="xl">{rando.name}</Heading>
-            <Heading size="lg">{dateFormat} / {rando.departure.nom}</Heading>
-            <MapView style={styles.map}
-              initialRegion={{
+      <ScrollView>
+        <HamburgerMenu navigation={props.navigation} />
+        <VStack space={2} alignItems="center">
+          <Heading size="xl">{rando.name}</Heading>
+          <Heading size="lg">{dateFormat} / {rando.departure.nom}</Heading>
+          <MapView style={styles.map}
+            initialRegion={{
+              latitude: rando.coordinate.latitude,
+              longitude: rando.coordinate.longitude,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421
+            }}
+            title={rando.name}>
+
+            <Marker
+
+              pinColor='green'
+              coordinate={{
                 latitude: rando.coordinate.latitude,
                 longitude: rando.coordinate.longitude,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421
-              }}
-              title={rando.name}>
-
-        <Marker
-
-      pinColor='green'
-      coordinate={{
-        latitude: rando.coordinate.latitude,
-        longitude: rando.coordinate.longitude,
-      }}/>
-              </MapView>
+              }} />
+          </MapView>
 
 
- 
+
           <Heading size="lg">Organisé par: </Heading>
           <Button w={"80%"} h={10} bg="#bbbbbb" onPress={() => searchUser(rando.userId)}>
             {rando.organisator}

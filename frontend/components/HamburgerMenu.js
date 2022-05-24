@@ -26,7 +26,7 @@ function HamburgerMenu(props) {
           <Menu.Item onPress={() => props.navigation.navigate('Home')}>Home</Menu.Item>
           <Menu.Item onPress={() => props.navigation.navigate('Randos')}>Randos</Menu.Item>
           <Menu.Item onPress={() => props.navigation.navigate("Chercher")}>
-          Chercher
+            Chercher
           </Menu.Item>
           <Menu.Item onPress={() => props.navigation.navigate("MyProfile")}>
             Profil
@@ -35,7 +35,7 @@ function HamburgerMenu(props) {
         <Divider mt="3" w="100%" />
         <Menu.Group title="Connection">
           <Menu.Item onPress={() => console.log("SignOut")}>
-            Sign-out
+            Déconnexion
           </Menu.Item>
         </Menu.Group>
       </Menu>

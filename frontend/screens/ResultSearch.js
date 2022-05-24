@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { HStack, VStack, Center, Heading, Box, Button, Text, Switch, View } from 'native-base'
+import { HStack, VStack, Center, Heading, Box, Button, Text, Switch, View, Title } from 'native-base'
 import { StyleSheet, ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import HamburgerMenu from '../components/HamburgerMenu'
@@ -118,7 +118,7 @@ function ResultSearch(props) {
             size='md'
             backgroundColor='#78E08F'
             alignSelf='center'
-            onPress={() => props.navigation.navigate('Detail', {rando})}>
+            onPress={() => props.navigation.navigate('Detail', { rando })}>
             <Text style={styles.contentText} fontSize='md'>
               Voir
             </Text>
@@ -127,7 +127,7 @@ function ResultSearch(props) {
       </VStack>
 
     ))
-
+    console.log(listRando)
   }
 
   //****** initialisation de la liste des markers de randonnées */
@@ -144,9 +144,9 @@ function ResultSearch(props) {
 
 
       //*** Redirection vers la page du détail de la rando avec la rando en paramètre */
-      
+
       description={rando.description + '\n Press to view'}>
-      <MapView.Callout onPress={() => props.navigation.navigate('Detail', {rando})}>
+      <MapView.Callout style={{ flex: 1 }} onPress={() => props.navigation.navigate('Detail', { rando })}>
         <View style={styles.callout}>
           <Heading>{rando.name}</Heading>
           <Text>{rando.description}</Text>
@@ -188,7 +188,7 @@ function ResultSearch(props) {
         </HStack>
         {/* List Body */}
         <VStack space={2} alignItems='center'>
-          <Heading size='lg' mb={5}>
+          <Heading size='lg' mb={'2%'}>
             Resultat de la recherche
           </Heading>
           {/* Switch Line */}
@@ -205,7 +205,7 @@ function ResultSearch(props) {
 
         {/* Journey List */}
 
-        {mapdisplay === false ? (<ScrollView>
+        {mapdisplay === false ? (<ScrollView style={{ flex: 1, marginBottom: '18%' }}>
           {listRando}
 
         </ScrollView>
@@ -222,7 +222,7 @@ function ResultSearch(props) {
         )}
       </View>
       {/* To prevent leaving the content area */}
-      {/* <Box w='100%' h='8.5%' alignSelf='center' bg='#fff' /> */}
+
     </SafeAreaView>
   )
 }
@@ -238,6 +238,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: '100%',
     borderWidth: 10,
+    marginBottom: '18%',
     borderColor: '#CCCCCC',
     alignSelf: "center"
   },
@@ -249,6 +250,7 @@ const styles = StyleSheet.create({
   },
   callout: {
     flex: 1,
+    maxWidth: 150,
     // width: 150,
     height: 100,
     alignItems: 'center',

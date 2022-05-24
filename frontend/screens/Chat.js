@@ -238,7 +238,7 @@ function Chat(props) {
               >
                 2
               </Badge>
-              <Button w={"80%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Management")}>
+              <Button w={"80%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Management", { user: props.user })}>
                 <Text fontSize="md">
                   Gestion de la Rando
                 </Text>

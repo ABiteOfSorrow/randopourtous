@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {StatusBar} from 'expo-status-bar'
 import {Button, Input, Divider} from 'native-base'
-import {Text, StyleSheet, View, Alert} from 'react-native'
+import {Text, StyleSheet, View, Alert, ScrollView} from 'react-native'
 import {SafeAreaView} from 'react-native-safe-area-context'
 import {FontAwesome5} from '@expo/vector-icons'
 import {connect} from 'react-redux'
@@ -81,7 +81,10 @@ function SignUp(props) {
         backgroundColor: '#fff',
         width: '100%',
       }}>
-      <Text style={{fontSize: 26, marginBottom: '8%', marginTop: '-15%'}}>
+        <ScrollView 
+        style={{width: "100%", height: "100%"}}
+        contentContainerStyle ={{justifyContent: 'center', alignItems: 'center',}}>
+      <Text style={{fontSize: 26, marginBottom: '8%', marginTop: "15%"}}>
         RandoPourTous
       </Text>
       <Text style={{fontSize: 20, marginBottom: '10%'}}>Créer un compte</Text>
@@ -185,6 +188,7 @@ function SignUp(props) {
         </Button>
       </View>
       <StatusBar style='auto' />
+      </ScrollView>
     </SafeAreaView>
   )
 }

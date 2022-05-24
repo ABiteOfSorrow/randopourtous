@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react'
-import {StatusBar} from 'expo-status-bar'
-import {Button, Input, Divider} from 'native-base'
-import {Text, StyleSheet, View, Alert} from 'react-native'
-import {SafeAreaView} from 'react-native-safe-area-context'
-import {FontAwesome5} from '@expo/vector-icons'
-import {connect} from 'react-redux'
+import React, { useState, useEffect } from 'react'
+import { StatusBar } from 'expo-status-bar'
+import { Button, Input, Divider } from 'native-base'
+import { Text, StyleSheet, View, Alert, ScrollView } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { FontAwesome5 } from '@expo/vector-icons'
+import { connect } from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import backendConfig from '../backend.config.json';
@@ -71,44 +71,48 @@ function SignIn(props) {
         backgroundColor: "#fff",
       }}
     >
-      <Text style={{ fontSize: 26, marginBottom: 25 }}>RandoPourTous</Text>
-      <Text style={{ fontSize: 20, marginBottom: 45 }}>Connexion</Text>
-      <View style={styles.inputContainer}>
-        <Input placeholder="Email" width={"80%"} onChangeText={(text) => setEmail(text)} value={email} style={styles.input} />
-      </View>
-      <View style={styles.inputContainer}>
-        <Input style={styles.input} value={password} onChangeText={(text) => setPassword(text)} type={"password"} width={"80%"} placeholder="Mot de passe" />
-      </View>
-      <Button style={styles.button} w={"80%"} onPress={async () => await handleSubmit()}>
-        Connexion
-      </Button>
-      <Divider orientation="horizontal" w={"80%"} mt={10} mb={5} />
-      <Text style={{ fontSize: 16, marginBottom: 14 }}>Se connecter avec</Text>
-      <View
-        style={{
-          width: "80%",
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-        }}
-      >
-        <FontAwesome5 style={{ marginHorizontal: 16 }} name="google" size={48} color="#DB4437" onPress={() => alert("Sign up avec Google. Merci.")} />
-        <FontAwesome5 style={{ marginHorizontal: 16 }} name="facebook" size={48} color="#4267B2" />
-      </View>
-      <View
-        style={{
-          marginTop: 110,
-          width: "80%",
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <Text>Vous n'avez pas de compte?</Text>
-        <Button style={{ backgroundColor: "#bbb" }} mt={2} w={"100%"} onPress={() => props.navigation.navigate("SignUp")}>
-          Créer un compte
+      <ScrollView
+        style={{ width: "100%", height: "100%" }}
+        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', }}>
+        <Text style={{ fontSize: 26, marginBottom: 25, marginTop: "15%" }}>RandoPourTous</Text>
+        <Text style={{ fontSize: 20, marginBottom: 45 }}>Connexion</Text>
+        <View style={styles.inputContainer}>
+          <Input placeholder="Email" width={"80%"} onChangeText={(text) => setEmail(text)} value={email} style={styles.input} />
+        </View>
+        <View style={styles.inputContainer}>
+          <Input style={styles.input} value={password} onChangeText={(text) => setPassword(text)} type={"password"} width={"80%"} placeholder="Mot de passe" />
+        </View>
+        <Button style={styles.button} w={"80%"} onPress={async () => await handleSubmit()}>
+          Connexion
         </Button>
-      </View>
-      <StatusBar style="auto" />
+        <Divider orientation="horizontal" w={"80%"} mt={10} mb={5} />
+        <Text style={{ fontSize: 16, marginBottom: 14 }}>Se connecter avec</Text>
+        <View
+          style={{
+            width: "80%",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
+          <FontAwesome5 style={{ marginHorizontal: 16 }} name="google" size={48} color="#DB4437" onPress={() => alert("Sign up avec Google. Merci.")} />
+          <FontAwesome5 style={{ marginHorizontal: 16 }} name="facebook" size={48} color="#4267B2" />
+        </View>
+        <View
+          style={{
+            marginTop: 110,
+            width: "80%",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Text>Vous n'avez pas de compte?</Text>
+          <Button style={{ backgroundColor: "#bbb" }} mt={2} w={"100%"} onPress={() => props.navigation.navigate("SignUp")}>
+            Créer un compte
+          </Button>
+        </View>
+        <StatusBar style="auto" />
+      </ScrollView>
     </SafeAreaView>
   );
 }

@@ -21,28 +21,20 @@ function Resume(props) {
   const [image, setImage] = useState([]);
   const [userRating, setUserRating] = useState(0)
   let photos = [...image];
+  // console.log(props.user)
 
+  useEffect(async () => {
+    // // on initialise le composant en récupérant la randonnées dans la BDD avec la liste des participants à jour
+    // let rawResponse = await fetch(backendAdress + '/search-user-track?userid=' + props.user._id + '&trackid=' + props.route.params.rando._id);
+    // let response = await rawResponse.json()
+    // // console.log(response)
+    // if (response) {
+    let userRawResponse = await fetch(backendAdress + '/users/update-rating?userid=' + response.user._id + '&rating=' + avgTotal)
+    let userResponse = await userRawResponse.json()
+    console.log(userResponse)
+    // }
 
-  useEffect(() => {
-
-
-    async function sendUserRating() {
-
-      // on initialise le composant en récupérant la randonnées dans la BDD avec la liste des participants à jour
-      let rawResponse = await fetch(backendAdress + '/search-user-track?userid=' + props.user._id + '&trackid=' + props.route.params.rando._id);
-      let response = await rawResponse.json()
-      console.log(response)
-      if (response) {
-
-        let userRawResponse = await fetch(backendAdress + '/users/update-rating/' + response.user._id)
-        let userResponse = await userRawResponse.json()
-        console.log(userResponse)
-      }
-    }
-
-  }, [])
-
-
+  }, [avgTotal])
 
 
   const pickImage = async () => {
@@ -73,10 +65,6 @@ function Resume(props) {
     setImage(photos);
     // console.log(image);
   }
-
-
-
-
 
 
   //Rando rating stars
@@ -137,31 +125,26 @@ function Resume(props) {
 
   //Rando rating stars average and voter count
   let totalNote = 0;
-  let tabGlobalRating = [];
   // var totalNote = props.globalCountRating;
   if (paysageValue && ambianceValue && difficultyValue) {
     totalNote += paysageValue + ambianceValue + difficultyValue;
-    let avgTotal = (totalNote / 3).toFixed(2);
-    //Rando rating stars display
-    for (let i = 0; i < 5; i++) {
-      let color = "black";
-      if (i < avgTotal) {
-        color = "#f1c40f";
-      }
-      tabGlobalRating.push(<AntDesign key={i} color={color} name="star" size={24} />);
-    }
+    // totalVote += 1;
   }
-
-
-
   //Rando rating stars average math Round or toFixed
-
+  let avgTotal = (totalNote / 3).toFixed(2);
   // var avgTotal = Math.round(totalNote / 3);
 
+  let tabGlobalRating = [];
 
+  //Rando rating stars display
+  for (let i = 0; i < 5; i++) {
+    let color = "black";
+    if (i < avgTotal) {
+      color = "#f1c40f";
+    }
+    tabGlobalRating.push(<AntDesign key={i} color={color} name="star" size={24} />);
+  }
 
-
-  // setUserRating(avgTotal)
   console.log(avgTotal)
 
 

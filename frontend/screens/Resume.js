@@ -23,19 +23,48 @@ function Resume(props) {
   let photos = [...image];
   // console.log(props.user)
 
-  useEffect(async () => {
-    // // on initialise le composant en récupérant la randonnées dans la BDD avec la liste des participants à jour
-    // let rawResponse = await fetch(backendAdress + '/search-user-track?userid=' + props.user._id + '&trackid=' + props.route.params.rando._id);
-    // let response = await rawResponse.json()
-    // // console.log(response)
-    // if (response) {
-    let userRawResponse = await fetch(backendAdress + '/users/update-rating?userid=' + props.user._id + '&rating=' + avgTotal)
-    let userResponse = await userRawResponse.json()
-    console.log(userResponse)
-    // }
+  useEffect(() => {
+    //setUserRating(avgTotal)
+    if (userRating > 0) {
+      const ratingfetch = async () => {
+        let ratings = {
+          averageRating: userRating,
+          paysageValue: paysageValue,
+          ambianceValue: ambianceValue,
+          difficultyValue: difficultyValue,
+          id: props.user._id,
+        }
+        //console.log(ratings)
 
-  }, [avgTotal])
+        try {
+          let rawresponse = await fetch(backendAdress + '/users/update-rating', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(ratings)
+          })
+          console.log(JSON.stringify(rawresponse))
+        } catch (e) {
+          console.log(e)
+        }
+      }
+      ratingfetch()
+    }
+  }, [userRating])
 
+  useEffect(() => {
+
+    //Rando rating stars average and voter count
+    let totalNote = 0;
+    // var totalNote = props.globalCountRating;
+    if (paysageValue && ambianceValue && difficultyValue) {
+      totalNote += (paysageValue + ambianceValue + difficultyValue) / 3;
+      // totalVote += 1;
+    }
+    totalNote = Math.round(totalNote * 10) / 10
+    setUserRating(totalNote)
+  }, [ambianceValue, paysageValue, difficultyValue])
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -123,31 +152,25 @@ function Resume(props) {
   }
 
 
-  //Rando rating stars average and voter count
-  let totalNote = 0;
-  // var totalNote = props.globalCountRating;
-  if (paysageValue && ambianceValue && difficultyValue) {
-    totalNote += paysageValue + ambianceValue + difficultyValue;
-    // totalVote += 1;
-  }
+
   //Rando rating stars average math Round or toFixed
-  let avgTotal = (totalNote / 3).toFixed(2);
+  //setAvgTotal((totalNote / 3).toFixed(2));
   // var avgTotal = Math.round(totalNote / 3);
 
   let tabGlobalRating = [];
 
   //Rando rating stars display
-  for (let i = 0; i < 5; i++) {
-    let color = "black";
-    if (i < avgTotal) {
-      color = "#f1c40f";
+  if (userRating != 0) {
+    for (let i = 0; i < 5; i++) {
+      let color = "black";
+      if (i < userRating) {
+        color = "#f1c40f";
+      }
+      tabGlobalRating.push(<AntDesign key={i} color={color} name="star" size={24} />);
     }
-    tabGlobalRating.push(<AntDesign key={i} color={color} name="star" size={24} />);
   }
 
-  console.log(avgTotal)
-
-
+  //console.log(avgTotal)
   // Default data for carousel if there is nothing
   const data = [
     {
@@ -168,7 +191,7 @@ function Resume(props) {
     },
   ];
 
-  console.log(image)
+
 
 
   return (
@@ -208,7 +231,7 @@ function Resume(props) {
       </Button>
 
       <VStack space={5}>
-        <Heading size="sm" textAlign="center"> Average Note est : {avgTotal} </Heading>
+        <Heading size="sm" textAlign="center"> Note moyenne : {userRating} </Heading>
         {/* Average Stars */}
         <Flex direction="row" alignSelf="center">
           <Heading mr={5} size="md">

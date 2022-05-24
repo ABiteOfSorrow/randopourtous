@@ -22,7 +22,7 @@ function SignIn(props) {
           user = JSON.parse(user)
           console.log("user found in async storage");
           (async () => {
-            let rawresponse = await fetch(backendAdress+'/users/my-data?token='+user.token)
+            let rawresponse = await fetch(backendAdress + '/users/my-data?token=' + user.token)
             if (rawresponse.ok) {
               console.log('Ok response')
               let response = await rawresponse.json();
@@ -37,7 +37,7 @@ function SignIn(props) {
               props.navigation.replace("Home");
             }
           })();
-          
+
         }
       })
       .catch((err) => {
@@ -89,9 +89,9 @@ function SignIn(props) {
     >
       <ScrollView
         style={{ width: "100%", height: "100%" }}
-        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', }}>
-        <Text style={{ fontSize: 26, marginBottom: 25, marginTop: "15%" }}>RandoPourTous</Text>
-        <Text style={{ fontSize: 20, marginBottom: 45 }}>Connexion</Text>
+        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+        <Text style={{ fontSize: 26, marginBottom: '8%', marginTop: "3%" }}>RandoPourTous</Text>
+        <Text style={{ fontSize: 20, marginBottom: '10%' }}>Connexion</Text>
         <View style={styles.inputContainer}>
           <Input placeholder="Email" width={"80%"} onChangeText={(text) => setEmail(text)} value={email} style={styles.input} />
         </View>
@@ -116,14 +116,14 @@ function SignIn(props) {
         </View>
         <View
           style={{
-            marginTop: 110,
-            width: "80%",
+            marginTop: '20%',
+            width: "100%",
             display: "flex",
             alignItems: "center",
           }}
         >
           <Text>Vous n'avez pas de compte?</Text>
-          <Button style={{ backgroundColor: "#bbb" }} mt={2} w={"100%"} onPress={() => props.navigation.navigate("SignUp")}>
+          <Button style={{ backgroundColor: "#bbb" }} mt={2} w={"84%"} onPress={() => props.navigation.navigate("SignUp")}>
             Créer un compte
           </Button>
         </View>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { HStack, VStack, Center, Heading, Box, Button, Text, Switch, View } from 'native-base'
+import { HStack, VStack, Center, Heading, Box, Button, Text, Switch, View, Title } from 'native-base'
 import { StyleSheet, ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import HamburgerMenu from '../components/HamburgerMenu'
@@ -29,7 +29,7 @@ function ResultSearch(props) {
       })
 
       let response = await result.json()
-      console.log(response)
+      // console.log(response)
       setResultSearch([...response.result])
       //console.log(response.result)
 
@@ -127,7 +127,7 @@ function ResultSearch(props) {
       </VStack>
 
     ))
-
+    // console.log(listRando)
   }
 
   //****** initialisation de la liste des markers de randonnées */
@@ -249,6 +249,7 @@ const styles = StyleSheet.create({
   },
   callout: {
     flex: 1,
+    maxWidth:150,
     // width: 150,
     height: 100,
     alignItems: 'center',

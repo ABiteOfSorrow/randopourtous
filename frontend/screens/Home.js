@@ -27,7 +27,7 @@ function Home(props) {
     <SafeAreaView style={{ flex: 1, alignItems: 'center', backgroundColor: '#fff', width: '100%', paddingBottom: '20%' }}>
       <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center' }} >
         <View style={{ width: '30%' }} >
-          <HamburgerMenu navigation={props.navigation} /> 
+          <HamburgerMenu navigation={props.navigation} />
         </View>
         <View style={{ width: '30%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Text style={{ fontSize: 18, fontWeight: 'bold', padding: 0, margin: 0 }} >
@@ -35,7 +35,7 @@ function Home(props) {
           </Text></View>
         <View style={{ width: '30%' }}></View>
       </View>
-      <ScrollView contentContainerStyle={{ flex: 1, width: '100%', alignItems: 'center'  }} >
+      <ScrollView contentContainerStyle={{ flex: 1, width: '100%', height: "100%", alignItems: 'center' }} >
         <Text style={{ fontSize: 20, marginTop: '10%' }}>
           Rando Pour Tous!
         </Text>

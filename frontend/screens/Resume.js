@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Avatar, HStack, VStack, Center, Heading, Box, Button, Text, Flex, Stack } from "native-base";
 import { Dimensions, StyleSheet, Platform, View, TouchableOpacity, Image, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
-
+import { connect } from "react-redux";
 
 import { AntDesign } from "@expo/vector-icons";
 import HamburgerMenu from "../components/HamburgerMenu";
@@ -18,9 +18,23 @@ function Resume(props) {
   const [paysageValue, setPaysageValue] = useState(0);
   const [ambianceValue, setAmbianceValue] = useState(0);
   const [difficultyValue, setDifficultyValue] = useState(0);
-
   const [image, setImage] = useState([]);
+  const [userRating, setUserRating] = useState(0)
   let photos = [...image];
+  // console.log(props.user)
+
+  useEffect(async () => {
+    // // on initialise le composant en récupérant la randonnées dans la BDD avec la liste des participants à jour
+    // let rawResponse = await fetch(backendAdress + '/search-user-track?userid=' + props.user._id + '&trackid=' + props.route.params.rando._id);
+    // let response = await rawResponse.json()
+    // // console.log(response)
+    // if (response) {
+    let userRawResponse = await fetch(backendAdress + '/users/update-rating?userid=' + props.user._id + '&rating=' + avgTotal)
+    let userResponse = await userRawResponse.json()
+    console.log(userResponse)
+    // }
+
+  }, [avgTotal])
 
 
   const pickImage = async () => {
@@ -32,112 +46,109 @@ function Resume(props) {
       exif: true
     });
     var data = new FormData(photo);
-       data.append("avatar", {
-       uri: photo.uri,
-       type: "image/jpeg",
-       name: "image.jpg",
+    data.append("avatar", {
+      uri: photo.uri,
+      type: "image/jpeg",
+      name: "image.jpg",
     });
     // console.log(data)
-        // Need to change IP when you start your APP (ipconfig)
+    // Need to change IP when you start your APP (ipconfig)
     const rawResponse = await fetch(backendAdress + '/upload', {
       method: "post",
       body: data,
     });
     const response = await rawResponse.json();
     // console.log(response.photo.url)
-    
-      
-    photos.push({source: response.photo.url })
+
+
+    photos.push({ source: response.photo.url })
     setImage(photos);
     // console.log(image);
   }
 
 
-  
-
-
-  
-//Rando rating stars
-var PaysageRating = [];
-for (var i = 0; i < 5; i++) {
-  var color = "black";
-  if (i < paysageValue) {
-    color = "#f1c40f";
+  //Rando rating stars
+  var PaysageRating = [];
+  for (var i = 0; i < 5; i++) {
+    var color = "black";
+    if (i < paysageValue) {
+      color = "#f1c40f";
+    }
+    //Rando rating stars click count
+    let count = i + 1;
+    PaysageRating.push(
+      <AntDesign
+        key={i}
+        onPress={() => setPaysageValue(count)}
+        color={color}
+        name="star" size={24}
+      />
+    );
   }
-  //Rando rating stars click count
-  let count = i + 1;
-  PaysageRating.push(
-    <AntDesign
-    key={i}
-      onPress={() => setPaysageValue(count)}
-      color={color}
-      name="star" size={24} 
-    />
-  );
-}
 
-var AmbianceRating = [];
-for (var i = 0; i < 5; i++) {
-  var color = "black";
-  if (i < ambianceValue) {
-    color = "#f1c40f";
+  var AmbianceRating = [];
+  for (var i = 0; i < 5; i++) {
+    var color = "black";
+    if (i < ambianceValue) {
+      color = "#f1c40f";
+    }
+    //Rando rating stars click count
+    let count = i + 1;
+    AmbianceRating.push(
+      <AntDesign
+        key={i}
+        onPress={() => setAmbianceValue(count)}
+        color={color}
+        name="star" size={24}
+      />
+    );
   }
-  //Rando rating stars click count
-  let count = i + 1;
-  AmbianceRating.push(
-    <AntDesign
-    key={i}
-      onPress={() => setAmbianceValue(count)}
-      color={color}
-      name="star" size={24} 
-    />
-  );
-}
 
-var DifficultyRating = [];
-for (var i = 0; i < 5; i++) {
-  var color = "black";
-  if (i < difficultyValue) {
-    color = "#f1c40f";
+  var DifficultyRating = [];
+  for (var i = 0; i < 5; i++) {
+    var color = "black";
+    if (i < difficultyValue) {
+      color = "#f1c40f";
+    }
+    //Rando rating stars click count
+    let count = i + 1;
+    DifficultyRating.push(
+      <AntDesign
+        key={i}
+        onPress={() => setDifficultyValue(count)}
+        color={color}
+        name="star" size={24}
+      />
+    );
   }
-  //Rando rating stars click count
-  let count = i + 1;
-  DifficultyRating.push(
-    <AntDesign
-    key={i}
-      onPress={() => setDifficultyValue(count)}
-      color={color}
-      name="star" size={24} 
-    />
-  );
-}
 
 
-//Rando rating stars average and voter count
-var totalNote = 0;
-// var totalNote = props.globalCountRating;
-if (paysageValue && ambianceValue && difficultyValue) {
-  totalNote += paysageValue + ambianceValue + difficultyValue;
-  // totalVote += 1;
-}
-//Rando rating stars average math Round or toFixed
-var avgTotal = (totalNote / 3).toFixed(2);
-// var avgTotal = Math.round(totalNote / 3);
-
-var tabGlobalRating = [];
-
-//Rando rating stars display
-for (var i = 0; i < 5; i++) {
-  var color = "black";
-  if (i < avgTotal) {
-    color = "#f1c40f";
+  //Rando rating stars average and voter count
+  let totalNote = 0;
+  // var totalNote = props.globalCountRating;
+  if (paysageValue && ambianceValue && difficultyValue) {
+    totalNote += paysageValue + ambianceValue + difficultyValue;
+    // totalVote += 1;
   }
-  tabGlobalRating.push(<AntDesign  key={i} color={color} name="star" size={24} />);
-}
-console.log(avgTotal)
+  //Rando rating stars average math Round or toFixed
+  let avgTotal = (totalNote / 3).toFixed(2);
+  // var avgTotal = Math.round(totalNote / 3);
+
+  let tabGlobalRating = [];
+
+  //Rando rating stars display
+  for (let i = 0; i < 5; i++) {
+    let color = "black";
+    if (i < avgTotal) {
+      color = "#f1c40f";
+    }
+    tabGlobalRating.push(<AntDesign key={i} color={color} name="star" size={24} />);
+  }
+
+  console.log(avgTotal)
 
 
-// Default data for carousel if there is nothing
+  // Default data for carousel if there is nothing
   const data = [
     {
       title: "Coral Reef",
@@ -160,10 +171,10 @@ console.log(avgTotal)
   console.log(image)
 
 
-return (
+  return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
       <HStack justifyContent="space-between" mb={4}>
-      <HamburgerMenu navigation={props.navigation} /> 
+        <HamburgerMenu navigation={props.navigation} />
         <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9" onPress={() => props.navigation.goBack()}>
           <Text fontSize="xs" bold color="#38ADA9">
             Retour
@@ -183,10 +194,10 @@ return (
         </Heading>
         <Heading size="md">Historique des photos partagées </Heading>
       </VStack>
-     {/* Carousel for Photos, default = data / else cloudinary image */}
-     {image === null ? ( 
-      <CustomSlider data={data}/>
-      ) : (<CustomSlider data={image}/>)
+      {/* Carousel for Photos, default = data / else cloudinary image */}
+      {image === "" ? (
+        <CustomSlider data={data} />
+      ) : (<CustomSlider data={image} />)
       }
 
       {/* Photo share Button */}
@@ -197,8 +208,8 @@ return (
       </Button>
 
       <VStack space={5}>
-      <Heading size="sm" textAlign="center"> Average Note est : {avgTotal} </Heading>
-      {/* Average Stars */}
+        <Heading size="sm" textAlign="center"> Average Note est : {avgTotal} </Heading>
+        {/* Average Stars */}
         <Flex direction="row" alignSelf="center">
           <Heading mr={5} size="md">
             Note globale
@@ -243,4 +254,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Resume;
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps, null)(Resume);

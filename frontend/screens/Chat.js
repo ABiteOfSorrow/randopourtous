@@ -19,7 +19,7 @@ function Chat(props) {
   const [user, setUser] = useState('John');
   const [message, setMessage] = useState({});
   const [messages, setMessages] = useState([]);
-  const [senderId, setSenderId] = useState(props.user._id)
+  const [senderId, setSenderId] = useState(props.userId)
   //const [receiverId, setReceiverId] = useState(2)
 
   const [name, setName] = useState("popi")
@@ -188,13 +188,15 @@ function Chat(props) {
   };
 
 
+  
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container} keyboardVerticalOffset={90}>
         <HStack justifyContent="space-between" mb={4}>
           <HamburgerMenu navigation={props.navigation} />
 
-          <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9" >
+          <Button w={90} h={8} p={0} onPress={() => props.navigation.goBack()} mt={2} mr={2} variant="outline" borderColor="#38ADA9" >
             <Text fontSize="xs" bold color="#38ADA9">
               Retour
             </Text>
@@ -236,7 +238,7 @@ function Chat(props) {
               >
                 2
               </Badge>
-              <Button w={"80%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Management")}>
+              <Button w={"80%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Management", { user: props.user })}>
                 <Text fontSize="md">
                   Gestion de la Rando
                 </Text>
@@ -263,11 +265,6 @@ function Chat(props) {
             scrollToBottomComponent={scrollToBottomComponent}
           />
         </Box>
-        <Button w={"30%"} h={9} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Resume")}>
-          <Text style={styles.contentText} fontSize="xs">
-            evaluer - test
-          </Text>
-        </Button>
         <View style={styles.footer}>
           {/* <Input
               value={input}

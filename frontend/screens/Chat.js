@@ -45,7 +45,7 @@ function Chat(props) {
     (async () => {
 
       try {
-        let rawResponse = await fetch(backendAdress + '/get-track?id=' + rando._id)
+        let rawResponse = await fetch(backendAdress + '/get-track?id=' + props.rando._id)
         //console.log(JSON.stringify(rawresponse))
         if (rawResponse.ok) {
           console.log('ok')

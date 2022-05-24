@@ -29,6 +29,7 @@ function ResultSearch(props) {
       })
 
       let response = await result.json()
+      console.log(response)
       setResultSearch([...response.result])
       //console.log(response.result)
 
@@ -85,6 +86,7 @@ function ResultSearch(props) {
   } else {
     listRando = resultSearch.map((rando, i) => (
 
+
       <VStack key={i} space={2} alignItems='center'>
         <Box w={'75%'} mb={0} borderRadius='15' bg='#78E08F'>
           <Heading size='md' textAlign='center'>
@@ -116,7 +118,7 @@ function ResultSearch(props) {
             size='md'
             backgroundColor='#78E08F'
             alignSelf='center'
-            onPress={() => props.navigation.navigate('Detail', { rando })}>
+            onPress={() => props.navigation.navigate('Detail', {rando})}>
             <Text style={styles.contentText} fontSize='md'>
               Voir
             </Text>
@@ -125,6 +127,7 @@ function ResultSearch(props) {
       </VStack>
 
     ))
+    console.log(listRando)
   }
 
   //****** initialisation de la liste des markers de randonnées */
@@ -141,9 +144,9 @@ function ResultSearch(props) {
 
 
       //*** Redirection vers la page du détail de la rando avec la rando en paramètre */
-
+      
       description={rando.description + '\n Press to view'}>
-      <MapView.Callout onPress={() => props.navigation.navigate('Detail', { rando })}>
+      <MapView.Callout onPress={() => props.navigation.navigate('Detail', {rando})}>
         <View style={styles.callout}>
           <Heading>{rando.name}</Heading>
           <Text>{rando.description}</Text>

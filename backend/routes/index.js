@@ -207,13 +207,11 @@ router.get('/add-user-track', async (req, res) => {
 
 router.get('/search-user-track', async (req, res) => {
 
- // var userId= req.query.userid
-  var trackId=req.query.trackid
-  console.log('id:',typeof(trackId))
-  
-  
+  // var userId= req.query.userid
 
-  var result = await randoModel.findById(trackId)
+
+  console.log(req.query)
+  var result = await randoModel.findById(req.query.trackid)
 
   if (result) {
 

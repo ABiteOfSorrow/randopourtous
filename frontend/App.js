@@ -29,6 +29,7 @@ import SearchPeopleScreen from './screens/SearchPeople'
 import ManagementScreen from './screens/Management'
 import MyTrack from './screens/MyTrack'
 
+
 import { combineReducers } from 'redux'
 import { configureStore } from '@reduxjs/toolkit'
 import user from './reducers/user.reducer'

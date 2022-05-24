@@ -28,44 +28,41 @@ function Detail(props) {
   const [listUsers, setListUsers]=useState([])
   const [rando, setRando]=useState(props.route.params.rando)
   
+  console.log('retour chat: ', props.route.params.rando)
  
   //let rando=props.route.params.rando
   useEffect(()=>{
     
-    let tempUsers=[]
 
-    async function searchUser(){
-
- 
+    async function searchUsersTrack() {
 
       // on initialise le composant en récupérant la randonnées dans la BDD avec la liste des participants à jour
       let rawresponse = await fetch(backendAdress+'/search-user-track?userid='+props.user._id+'&trackid='+props.route.params.rando._id);
       let response=await rawresponse.json()
-
+      setRando(response.rando)
+    
       if (response) {
 
         for(let userItem of response.rando.users){
-          console.log(userItem)
-          let userRawResponse = await fetch(backendAdress + '/users/user/' + userItem._id)
+
+          console.log('response back :', userItem)
+          let userRawResponse = await fetch(backendAdress + '/users/user/' + userItem)
           let userResponse= await userRawResponse.json()
-
-          tempUsers.push(userResponse.user)
           
+
+          setListUsers( (state) => [...state,userResponse.user])
+          
+        
         }
-        setListUsers([...tempUsers])
-      }
-
-      response.rando.users.find((item) => item === props.user._id) ? setIsParticipant(true) : setIsParticipant(false)
+      } response.rando.users.find((item) => item === props.user._id) ? setIsParticipant(true) : setIsParticipant(false)
     }
-    
-    searchUser()
-  
-  
-    
 
+    searchUsersTrack()
 
    },[props.route.params.rando])
 
+
+   console.log('list user à jour: ', listUsers)
   var date = new Date(rando.date)
 
   //***** formatage de la date *****
@@ -75,7 +72,6 @@ function Detail(props) {
   /****** mise au format dd/mm/yy */
   var day = date.toLocaleDateString('fr').split('/')
   var newDay = day[1] + '/' + day[0] + '/' + day[2]
-
 
   //let dateFormat= rando.date.toLocaleDateString('fr') + ' ' + rando.date.getHours() + ':' +rando.date.getMinutes()
   let dateFormat = newDay + ' ' + date.getHours() + 'h' + minutes + date.getMinutes()
@@ -89,23 +85,21 @@ function Detail(props) {
     if (props.user._id === user) {
       props.navigation.navigate('Profil')
     } else {
-
       // si la personne connectée n'est pas l'organisateur alors on affiche OtherProfile
       let result = await fetch(backendAdress + '/users/user/' + user)
       let response = await result.json()
-      props.navigation.navigate('Otherprofile', { user: response.user })
+      props.navigation.navigate('OtherProfile', { user: response.user })
     }
-
-    var participateClick = async function (dataRando) {
-
-      //*** Ajout de l'id du randonneur dans la base de donnée de la radonnée */
-      let rawresponse = await fetch(backendAdress + '/add-user-track?userid=' + props.user._id + '&trackid=' + rando._id);
-      props.navigation.navigate('Chat', { rando })
+  }
 
 
-    }
+  var participateClick = async function (dataRando) {
+    //*** Ajout de l'id du randonneur dans la base de donnée de la radonnée */
+    let rawresponse = await fetch(backendAdress + '/add-user-track?userid=' + props.user._id + '&trackid=' + rando._id);
+    props.navigation.navigate('Chat', { rando })
+  }
 
-    let listUsersDisplay= listUsers.map((item,i)=><Center
+  let listUsersDisplay = listUsers.map((item, i) => (<Center
     key={i}
     w={"90%"}
     h={62}
@@ -141,27 +135,19 @@ function Detail(props) {
       size="xs"
       backgroundColor="#BBBBBB"
       alignSelf="center"
-      onPress={() => searchUser(item._id)}
-    >
+      onPress={() => searchUser(item._id)}>
       <Text style={styles.contentText} fontSize="xs">
         Voir Profil
       </Text>
     </Button>
-  </Center>)
+  </Center>))
   
 
-  console.log('list des users: ',listUsers)
-
-   
-
-
-
-
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
+
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
         <ScrollView>
           <HamburgerMenu navigation={props.navigation} />
-
           <VStack space={2} alignItems="center">
             <Heading size="xl">{rando.name}</Heading>
             <Heading size="lg">{dateFormat} / {rando.departure.nom}</Heading>
@@ -169,68 +155,71 @@ function Detail(props) {
               initialRegion={{
                 latitude: rando.coordinate.latitude,
                 longitude: rando.coordinate.longitude,
-                latitudeDelta: 0.05,
-                longitudeDelta: 0.05,
-              }}>
-              <Marker pinColor='green'
-                coordinate={{
-                  latitude: rando.coordinate.latitude,
-                  longitude: rando.coordinate.longitude,
-                }}
-                title={rando.name} />
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421
+              }}
+              title={rando.name}>
+
+        <Marker
+
+      pinColor='green'
+      coordinate={{
+        latitude: rando.coordinate.latitude,
+        longitude: rando.coordinate.longitude,
+      }}/>
+              </MapView>
 
 
-
-            </MapView>
-            <Heading size="lg">Organisé par: </Heading>
-            <Button w={"80%"} h={10} bg="#bbbbbb" onPress={() => searchUser(rando.userId)}>
-              {rando.organisator}
-            </Button>
-            <Heading size="lg">Nombre de participant: {rando.users.length}/{rando.maxUsers} </Heading>
-          </VStack>
-          <VStack space={2} alignItems="center">
-            <Heading size="lg">Liste des participants: </Heading>
-            {/* User profil box */}
-            {listUsersDisplay}
-
-          </VStack>
-        </ScrollView>
-        <Stack
-          p={0}
-          mb="5"
-          mt="1.5"
-          direction={{
-            base: "row",
-            md: "row",
-          }}
-          space={5}
-          mx={{
-            base: "auto",
-            md: "0",
-          }}
-        >
-          <Button w="42%" h={10} variant="outline" borderColor="#38ADA9" onPress={() => props.navigation.goBack()}>
-            <Text color="#38ADA9">Retour</Text>
+ 
+          <Heading size="lg">Organisé par: </Heading>
+          <Button w={"80%"} h={10} bg="#bbbbbb" onPress={() => searchUser(rando.userId)}>
+            {rando.organisator}
           </Button>
-          <Button w="42%" h={10} bg="#78E08F" onPress={() => participateClick(rando)}>
-            {isParticipant === true ? "Aller au Chat" : "Pariticper"}
-          </Button>
-        </Stack>
-      </SafeAreaView >
-    );
-  }
-
-  const styles = StyleSheet.create({
-    contentText: {
-      color: "white",
-    },
-    map: {
-      width: '90%',
-      marginTop: 10,
-      height: 200,
-    },
-  });
+          <Heading size="lg">Nombre de participant: {rando.users.length}/{rando.maxUsers} </Heading>
+        </VStack>
+        <VStack space={2} alignItems="center">
+          <Heading size="lg">Liste des participants: </Heading>
+          {/* User profil box */}
+          {listUsersDisplay}
+        </VStack>
+      </ScrollView>
+      <Stack
+        p={0}
+        mb="5"
+        mt="1.5"
+        direction={{
+          base: "row",
+          md: "row",
+        }}
+        space={5}
+        mx={{
+          base: "auto",
+          md: "0",
+        }}
+      >
+        <Button w="42%" h={10} variant="outline" borderColor="#38ADA9" onPress={() => props.navigation.goBack()}>
+          <Text color="#38ADA9">Retour</Text>
+        </Button>
+        <Button w="42%" h={10} bg="#78E08F" onPress={() => participateClick(rando)}>
+          {isParticipant === true ? "Aller au Chat" : "Pariticper"}
+        </Button>
+      </Stack>
+    </SafeAreaView >
+  );
 }
+
+
+const styles = StyleSheet.create({
+  contentText: {
+    color: "white",
+  },
+  map: {
+    width: '90%',
+    marginTop: 10,
+    height: 200,
+  },
+});
+
 
 function mapStateToProps(state) {
   return {

@@ -35,7 +35,7 @@ function SearchPeople(props) {
    }
 
    let userComponents = users.map((user, index) => {
-      let route = 'Otherprofile'
+      let route = 'OtherProfile'
       if (user.username === props.user.username) {
          route = 'MyProfile';
       }

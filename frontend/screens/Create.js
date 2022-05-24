@@ -85,7 +85,7 @@ function Create(props) {
       departure: citie,
       coordinate: coordinate,
       estimation_time: estim_time,
-      users: [props.user._id],
+      users:props.user._id,
       date,
       maxRunner,
       description,

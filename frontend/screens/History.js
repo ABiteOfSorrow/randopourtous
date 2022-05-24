@@ -45,15 +45,15 @@ function History(props) {
     if (isFocused) {
       loadData()
     }
-    
+
   }, [tracksFilter, isFocused]);
 
   //console.log("csl allTarcks ", allTracks)
-  var sourceCard = allTracks.map((track, i) => {
+  var sourceCard = allTracks.map((rando, i) => {
     console.log(allTracks.length)
     console.log('boucle sur i :' + i)
     //Condition qui adapte la couleur et le status des cartes selon les randos
-    if (track.finished == true) {
+    if (rando.finished == true) {
       var colorBg = "#bbbbbb"
       var colorText = "black"
       var etat = "Achevée"
@@ -64,49 +64,49 @@ function History(props) {
       var etat = "En cours..."
     }
     //Modèle des box adaptatif à l'affichage des rando selon leurs infos
-    return (
+    return( 
       <Box key={i} w={"80%"} alignSelf="center" bg={colorBg} p={3} style={styles.allInput} shadow={2} mb={2}>
+      <Box
+        alignSelf="center"
+        _text={{
+          fontSize: "xl",
+          fontWeight: "bold",
+          color: colorText,
+          letterSpacing: "lg",
+        }}
+      >
+        {rando.name}
+      </Box>
+      <Box style={{ flex:1, flexDirection:"row", justifyContent:"space-between" }}>
         <Box
           alignSelf="center"
           _text={{
-            fontSize: "xl",
-            fontWeight: "bold",
+            fontSize: "lg",
+            fontWeight: "medium",
             color: colorText,
             letterSpacing: "lg",
           }}
         >
-          {track.name}
+          {rando.departure.nom}
         </Box>
-        <Box style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
-          <Box
-            alignSelf="center"
-            _text={{
-              fontSize: "lg",
-              fontWeight: "medium",
-              color: colorText,
-              letterSpacing: "lg",
-            }}
-          >
-            {track.departure.nom}
-          </Box>
-          <Box
-            alignSelf="center"
-            _text={{
-              fontSize: "md",
-              fontWeight: "medium",
-              color: colorText,
-              letterSpacing: "lg",
-            }}
-          >
-            {etat}
-          </Box>
+        <Box
+          alignSelf="center"
+          _text={{
+            fontSize: "md",
+            fontWeight: "medium",
+            color: colorText,
+            letterSpacing: "lg",
+          }}
+        >
+          {etat}
         </Box>
-        <Button w={100} h={8} p={0} mt={2} mr={2} style={{ backgroundColor: "green", marginLeft: "65%" }} onPress={() => props.navigation.navigate('Detail', { track })}>
-          <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
-            Voir
-          </Text>
-        </Button>
       </Box>
+      <Button w={100} h={8} p={0} mt={2} mr={2} style={{ backgroundColor:"green", marginLeft:"65%" }} onPress={()=> props.navigation.navigate('Detail', {rando})}>
+              <Text fontSize="xs" style={{ fontWeight: 'bold', color:"white" }} >
+                Voir
+              </Text>
+            </Button>
+    </Box>
     );
   })
 
@@ -181,7 +181,7 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    setUser: (user) => dispatch({ type:'USER_LOGIN', user:user })
+    setUser: (user) => dispatch({ type: 'USER_LOGIN', user: user })
   }
 }
 

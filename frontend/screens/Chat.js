@@ -193,7 +193,7 @@ function Chat(props) {
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container} keyboardVerticalOffset={90}>
         <HStack justifyContent="space-between" mb={4}>
           <HamburgerMenu navigation={props.navigation} />
-          <Switch offTrackColor="#C4C4C4" onTrackColor="#78E08F" mr={4} onValueChange={setIsOwner} />
+
           <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9" >
             <Text fontSize="xs" bold color="#38ADA9">
               Retour
@@ -214,7 +214,7 @@ function Chat(props) {
               {rando.users.length} / {rando.maxUsers} Participants
             </Text>
           </Box>
-          {isOwner ? (
+          {props.user._id===rando.userId ? (
             <>
               <Button w={"80%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Detail", { rando })}>
                 <Text fontSize="md">
@@ -242,13 +242,7 @@ function Chat(props) {
                 </Text>
               </Button>
             </>
-          ) : (
-            <Button w={"80%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Detail", { rando })}>
-              <Text fontSize="md">
-                Voir la Rando
-              </Text>
-            </Button>
-          )}
+          ) : (<Text></Text>)}
         </VStack>
 
         <Box w={"90%"} h={"60%"} bg="#ffffff" alignSelf={"center"} mt={5} borderWidth={2} borderColor={"#bbbbbb"} borderRadius={8}>

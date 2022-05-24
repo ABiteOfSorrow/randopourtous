@@ -8,7 +8,8 @@ var request = require("sync-request");
 
 
 var randoModel = require('../models/rando')
-let UserModel = require('../models/user')
+let UserModel = require('../models/user');
+const { format } = require('path');
 
 
 
@@ -87,30 +88,48 @@ router.post('/search-track', async function (req, res, next) {
   let codePostal = searchData.ville.codePostal
     ? searchData.ville.codePostal
     : null
-  let mixte = searchData.mixte ? searchData.mixte : undefined
-  let age = searchData.age ? searchData.age : undefined
+
+  //***** mixe et age pas encore traité  */
+ // let mixte = searchData.mixte ? searchData.mixte : undefined
+ // let age = searchData.age ? searchData.age : undefined
+
+ //*****  */
   let level = searchData.niveau ? searchData.niveau : null
-  let date = searchData.date ? searchData.date : undefined
+  let date = searchData.date ? new Date(searchData.date) : null
+
+  console.log('type de la date reçue: ',typeof(date), 'date: ', date)
+
 
   //console.log(codePostal.length)
   if (!codePostal) {
     return res.json({ success: false, error: 'Veuillez mettre un code postal' })
   }
+
+  // cas où l'on indique un code postale à 2 chiffre ie département
   if (codePostal.length === 2) {
     var result = await randoModel.find({
       'departure.dpt': parseInt(dpt),
       level: level !== null ? level : { $exists: true },
+     // level: level !== null ? level : { $exists: true },
+      date: date !== null ? {$gte: date} : { $exists: true },
     })
   } else {
     var result = await randoModel.find({
       'departure.nom': citie,
       level: level !== null ? level : { $exists: true },
+      date: date !== null ? {$gte: date} : { $exists: true },
+
     })
   }
-
   console.log(result)
+  if(result.length!==0){
 
-  return res.json({ success: true, result: result })
+    return res.json({ success: true, result: result })
+  }else{
+    return res.json({ success: false})
+
+  }
+
 })
 
 

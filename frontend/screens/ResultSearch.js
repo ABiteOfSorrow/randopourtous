@@ -29,9 +29,10 @@ function ResultSearch(props) {
       })
 
       let response = await result.json()
-      console.log(response)
+      if(response.success===true){
+        console.log(response.success)
       setResultSearch([...response.result])
-      //console.log(response.result)
+      
 
       //*** initialisation du zoom de la carte en fonction des paramètres de recherche */
 
@@ -42,6 +43,7 @@ function ResultSearch(props) {
       //**** zoom sur la france sinon */
 
       let mapSetUp
+   
       if (props.data.ville.codePostal.length === 2) {
         mapSetUp = {
           latitude: response.result[0].coordinate.latitude,
@@ -70,7 +72,7 @@ function ResultSearch(props) {
         }
       }
       setMapConfig(mapSetUp)
-    }
+    }}
 
     searchFunction()
   }, [])

@@ -19,9 +19,25 @@ function SignIn(props) {
     AsyncStorage.getItem("user")
       .then((user) => {
         if (user) {
+          user = JSON.parse(user)
           console.log("user found in async storage");
-          props.signUp(JSON.parse(user));
-          props.navigation.replace("Home");
+          (async () => {
+            let rawresponse = await fetch(backendAdress+'/users/my-data?token='+user.token)
+            if (rawresponse.ok) {
+              console.log('Ok response')
+              let response = await rawresponse.json();
+              console.log(typeof response.user)
+              if (response.result) {
+                await AsyncStorage.setItem('user', JSON.stringify(response.user))
+                props.signUp(response.user);
+              } else {
+                console.log(response)
+                props.signUp(JSON.parse(user));
+              }
+              props.navigation.replace("Home");
+            }
+          })();
+          
         }
       })
       .catch((err) => {

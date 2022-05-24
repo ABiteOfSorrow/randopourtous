@@ -37,7 +37,7 @@ function Detail(props) {
     async function searchUser() {
 
       // on initialise le composant en récupérant la randonnées dans la BDD avec la liste des participants à jour
-      let rawresponse = await fetch(backendAdress + '/search-user-track?userid=' + props.user._id + '&trackid=' + props.route.params.randoId);
+      let rawresponse = await fetch(backendAdress + '/search-user-track?userid=' + props.user._id + '&trackid=' + props.route.params.rando._id);
       let response = await rawresponse.json()
 
       if (response) {
@@ -88,7 +88,7 @@ function Detail(props) {
 
   var participateClick = async function (dataRando) {
     //*** Ajout de l'id du randonneur dans la base de donnée de la radonnée */
-    let rawresponse = await fetch(backendAdress + '/add-user-track?userid=' + props.userId + '&trackid=' + randoId);
+    let rawresponse = await fetch(backendAdress + '/add-user-track?userid=' + props.userId + '&trackid=' + rando._id);
     props.navigation.navigate('Chat', { rando })
   }
 

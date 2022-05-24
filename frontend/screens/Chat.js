@@ -27,6 +27,7 @@ function Chat(props) {
   const [isOwner, setIsOwner] = useState(false);
 
   let rando = props.route.params.rando;
+  console.log('rando de Détail: ',rando)
 
   //console.log(JSON.stringify(ws));
 
@@ -45,7 +46,7 @@ function Chat(props) {
     (async () => {
 
       try {
-        let rawResponse = await fetch(backendAdress + '/get-track?id=' + props.rando._id)
+        let rawResponse = await fetch(backendAdress + '/get-track?id=' + rando._id)
         //console.log(JSON.stringify(rawresponse))
         if (rawResponse.ok) {
           console.log('ok')

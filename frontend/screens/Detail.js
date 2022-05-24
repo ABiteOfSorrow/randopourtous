@@ -34,11 +34,12 @@ function Detail(props) {
   useEffect(()=>{
     
 
-    async function searchUser() {
+    async function searchUsersTrack() {
 
       // on initialise le composant en récupérant la randonnées dans la BDD avec la liste des participants à jour
       let rawresponse = await fetch(backendAdress+'/search-user-track?userid='+props.user._id+'&trackid='+props.route.params.rando._id);
       let response=await rawresponse.json()
+      setRando(response.rando)
     
       if (response) {
 
@@ -47,16 +48,21 @@ function Detail(props) {
           console.log('response back :', userItem)
           let userRawResponse = await fetch(backendAdress + '/users/user/' + userItem)
           let userResponse= await userRawResponse.json()
+          
 
-          setListUsers([...listUsers,userResponse.user])
+          setListUsers( (state) => [...state,userResponse.user])
+          
+        
         }
       } response.rando.users.find((item) => item === props.user._id) ? setIsParticipant(true) : setIsParticipant(false)
     }
 
-    searchUser()
+    searchUsersTrack()
 
    },[props.route.params.rando])
 
+
+   console.log('list user à jour: ', listUsers)
   var date = new Date(rando.date)
 
   //***** formatage de la date *****
@@ -74,6 +80,7 @@ function Detail(props) {
 
   var searchUser = async function (user) {
 
+
     // si la personne connectée est l'organisateur, alors on affiche MyProfil
     if (props.user._id === user) {
       props.navigation.navigate('Profil')
@@ -81,7 +88,7 @@ function Detail(props) {
       // si la personne connectée n'est pas l'organisateur alors on affiche OtherProfile
       let result = await fetch(backendAdress + '/users/user/' + user)
       let response = await result.json()
-      props.navigation.navigate('Otherprofile', { user: response.user })
+      props.navigation.navigate('OtherProfile', { user: response.user })
     }
   }
 

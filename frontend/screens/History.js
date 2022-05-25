@@ -16,13 +16,12 @@ function History(props) {
   const [allTracks, setAllTracks] = useState([]);
   const [tracksFilter, setTracksFilter] = useState(null)
   const [tracksFilterAdmin, setTracksFilterAdmin] = useState(false)
-  const [colorBtnAdmin, setColorBtnAdmin] = useState(false)
 
 
   //Initialisation de toutes les randos de l'utilisateur à l'ouverture de composant et dès le changement de la variable d'état "tracksFilter"
   useEffect(() => {
 
-    console.log(colorBtnAdmin)
+    console.log(tracksFilterAdmin)
 
     //Récupérations des randos dans la BDD
     async function loadData() {
@@ -33,20 +32,14 @@ function History(props) {
         body: JSON.stringify(props.user)
       });
 
-      //console.log("props.user.tracks", props.user.tracks)
-
       var response = await rawResponse.json();
-      //console.log("response ", tracksFilterAdmin)
-      //console.log("response ", tracksFilter)
 
       //Filtrage dynamique
       if(tracksFilterAdmin){
-        //setColorBtnAdmin(true)
-        setAllTracks(response.fullInfoTracks.filter(track => track.finished !== tracksFilter && track.userId === props.user._id))
-       
-
+        setAllTracks(response.fullInfoTracks.filter(track => track.finished !== tracksFilter && track.userId == props.user._id))
+        console.log(response.fullInfoTracks[4].userId)
+        console.log(props.user._id)
       }else{
-        //setColorBtnAdmin(false)
         setAllTracks(response.fullInfoTracks.filter(track => track.finished !== tracksFilter))
       }
 

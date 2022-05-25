@@ -136,7 +136,7 @@ function Search(props) {
         />
         {listCities.length >= 1 ? (
           <View style={{ width: '84%' }}>
-            <ScrollView>
+            <ScrollView style={{ width: '100%', minHeight: '100%' }} >
               {listCities.map((e, i) => (
                 <TouchableOpacity
                   key={i}

@@ -3,6 +3,7 @@ var router = express.Router();
 let bcrypt = require('bcrypt');
 let User = require('../models/user');
 let uid = require('uid2');
+let mongoose = require('mongoose');
 const cost = 10;
 
 /* GET users listing. */
@@ -147,6 +148,9 @@ router.get('/user/:id', async (req, res) => {
   if (!req.params.id) {
     return res.json({ result: false, error: 'Id est manquant.' });
   }
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.json({ result: false, error: 'Id invalide.' });
+  }
   let foundUser = await User.findById(req.params.id).populate('tracks').exec();
   if (!foundUser) {
     return res.json({ result: false, error: 'User not found by id.' });
@@ -169,7 +173,7 @@ router.get('/user/:id', async (req, res) => {
 // Route pour recuperer ses notes moyens
 router.post('/update-rating', async (req, res) => {
   console.log(req.body)
-  let foundUser = await User.findOne({ _id: req.body.id });
+  let foundUser = await User.findOne({ _id: req.body.userId });
   if (!foundUser) {
     return res.json({ result: false, error: 'User is missing.' });
   }

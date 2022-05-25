@@ -224,12 +224,10 @@ function Chat(props) {
             </Text>
           </Button>
         </HStack>
-        {/* List Body */}
         <VStack space={"0.5%"} alignItems="center">
           <Heading size="lg" mb={'3%'}>
             {rando.name}
           </Heading>
-          {/* Switch Line */}
         </VStack>
         <VStack space={2} alignItems="center">
           {/* Journey List */}
@@ -243,6 +241,10 @@ function Chat(props) {
               Voir la Rando
             </Text>
           </Button>
+          <Button  w={"84%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Management", {params: { user: props.user, rando: rando }})}>
+                <Text fontSize="md">
+testbutton                </Text>
+              </Button>
           {props.user._id === rando.userId ? (
             <>
 
@@ -260,7 +262,7 @@ function Chat(props) {
               >
                 2
               </Badge>
-              <Button  w={"84%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Management", { user: props.user, rando: rando })}>
+              <Button  w={"84%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Management", {params: { user: props.user, rando: rando }})}>
                 <Text fontSize="md">
                   Gestion de la Rando
                 </Text>

@@ -11,21 +11,25 @@ import backendConfig from '../backend.config.json'
 const backendAdress = backendConfig.address
 
 function Management(props) {
-  console.log("props.rando",props.route.params.rando)
+  console.log("props.rando",props.route.params.params.rando)
 
   async function handleSubmit(){
+
+    let rando = props.route.params.params.rando
+    console.log(rando)
 
     var rawResponse = await fetch(backendAdress + '/finish-track', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(props.route.params.rando)
+      body: JSON.stringify(rando)
     });
 
     var response = await rawResponse.json();
 
-    props.navigation.navigate("Chercher", {screen:'Resume', params:{user: props.user}})
+    props.navigation.navigate("Chercher", {screen:'Resume', params:{user: props.user, rando}})
   }
 
+ 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
       <ScrollView>

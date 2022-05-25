@@ -1,4 +1,7 @@
-// import { LogBox } from "react-native";
+import { LogBox } from "react-native";
+LogBox.ignoreLogs([
+  "exported from 'deprecated-react-native-prop-types'.",
+])
 // LogBox.ignoreAllLogs(true);
 import React from 'react'
 import { StyleSheet, Platform } from 'react-native'
@@ -7,7 +10,7 @@ import { NavigationContainer, DefaultTheme, StackActions } from '@react-navigati
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import { FontAwesome5 } from '@expo/vector-icons'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+//import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import PresentScreen from './screens/PresentScreen'
 import SignInScreen from './screens/SignIn'
@@ -38,48 +41,56 @@ const store = configureStore({ reducer: combineReducers({ user, searchData }) })
 import { Provider } from 'react-redux'
 import { useEffect } from 'react'
 
-const Tab = createBottomTabNavigator()
+
 const Stack = createStackNavigator()
+const Tab = createBottomTabNavigator()
+const HomeStack = createStackNavigator();
+const ProfileStack = createStackNavigator();
+const SearchStack = createStackNavigator();
 
 const HomeNavigator = () => {
   return (
-    <Stack.Navigator
+    <HomeStack.Navigator
       initialRouteName='HomeScreen'
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name='HomeScreen' component={HomeScreen} />
-      <Stack.Screen name='MyTrack' component={MyTrack} />
-      <Stack.Screen name='Create' component={CreateScreen} />
-      <Stack.Screen name='SearchPeople' component={SearchPeopleScreen} />
-    </Stack.Navigator>
-  )
-}
-const ProfileNavigator = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName='MyProfile'
-      screenOptions={{ headerShown: false }}>
-      <Stack.Screen name='MyProfile' component={MyprofileScreen} />
-      <Stack.Screen name='EditProfile' component={EditProfileScreen} />
-      <Stack.Screen name='History' component={HistoryScreen} />
-      <Stack.Screen name='Friend' component={FriendScreen} />
-      <Stack.Screen name='Management' component={ManagementScreen} />
-      <Stack.Screen name='Chat' component={ChatScreen} />
-    </Stack.Navigator>
-  )
-}
-const SearchNavigator = () => {
-  return (
-    <Stack.Navigator
-      screenOptions={{ headerShown: false }}
-      initialRouteName='Chercher' >
-      <Stack.Screen name='Chercher' component={SearchScreen} />
-      <Stack.Screen name='ResultSearch' component={ResultSearch} />
-      <Stack.Screen name='Resume' component={ResumeScreen} />
-    </Stack.Navigator>
+      <HomeStack.Screen name='HomeScreen' component={HomeScreen} />
+      <HomeStack.Screen name='MyTrack' component={MyTrack} />
+      <HomeStack.Screen name='Create' component={CreateScreen} />
+      <HomeStack.Screen name='SearchPeople' component={SearchPeopleScreen} />
+    </HomeStack.Navigator>
   )
 }
 
+const ProfileNavigator = () => {
+  return (
+    <ProfileStack.Navigator
+    initialRouteName='MyProfile'
+    screenOptions={{ headerShown: false }}>
+      <ProfileStack.Screen name='MyProfile' component={MyprofileScreen} />
+      <ProfileStack.Screen name='EditProfile' component={EditProfileScreen} />
+      <ProfileStack.Screen name='History' component={HistoryScreen} />
+      <ProfileStack.Screen name='Friend' component={FriendScreen} />
+      <ProfileStack.Screen name='Management' component={ManagementScreen} />
+      <ProfileStack.Screen name='Chat' component={ChatScreen} />
+    </ProfileStack.Navigator>
+  )
+}
+
+
+const SearchNavigator = () => {
+  return (
+    <SearchStack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName='Chercher' >
+      <SearchStack.Screen name='Chercher' component={SearchScreen} />
+      <SearchStack.Screen name='ResultSearch' component={ResultSearch} />
+      <SearchStack.Screen name='Resume' component={ResumeScreen} />
+    </SearchStack.Navigator>
+  )
+}
+
+// Pour la prévention mélanger des stack
 function resetTabStackListener() {
   // On Android, we want to clear the tab stack history when a user returns to the tab.
   if (Platform.OS === 'android') {

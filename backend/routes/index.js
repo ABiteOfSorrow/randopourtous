@@ -5,12 +5,8 @@ var fs = require("fs");
 var uniqid = require("uniqid");
 var request = require("sync-request");
 
-
-
-var randoModel = require('../models/rando')
-let UserModel = require('../models/user');
-const rando = require('../models/rando');
-
+var randoModel = require('../models/rando');
+var UserModel = require('../models/user');
 
 
 /* GET home page. */
@@ -19,7 +15,7 @@ router.get('/', function (req, res, next) {
 })
 
 router.post('/create-track', async function (req, res, next) {
-  var randoData = req.body
+  let randoData = req.body
   let estimation_time = randoData.estimation_time
   let description = randoData.description
 
@@ -154,6 +150,8 @@ router.post('/get-tracks', async function (req, res, next) {
   
   for(oneRando of randosInBDD){
     for(participant of oneRando.users){
+      console.log("oneRando ",oneRando)
+      //Si le participant dans la liste users est celui renvoyé dans la requete et qu'il est pas déjà dans la liste
       if(participant === userId && fullInfoTracks.find(e => e.id == oneRando.id) == undefined){
         fullInfoTracks.push(oneRando)
       }
@@ -233,7 +231,13 @@ router.get('/search-user-track', async (req, res) => {
   // var userId= req.query.userid
 
 
-  console.log(req.query)
+  //console.log(req.query)
+  if (!req.query.trackid) {
+    return res.json({ result: false, error: 'Id de rando manquant (serveur).' })
+  }
+  if (req.query.trackid.length < 24 || req.query.trackid.length > 24) {
+    return res.json({ result: false, error: 'Id de rando invalide (serveur).' })
+  }
   var result = await randoModel.findById(req.query.trackid)
 
   if (result) {
@@ -258,5 +262,32 @@ router.post('/finish-track', async (req, res) => {
   return res.json({ result: true, track: foundRando })
 
 });
+
+
+router.post('/update-randorating', async (req, res) => {
+
+  var privateNote = await randoModel.updateOne({ _id: req.body.randoId }, 
+    { $addToSet : {tempEvaluations: 
+      {_id: req.body.userId, averageNote: req.body.averageRating, paysageNote: req.body.paysageValue, 
+        ambianceNote: req.body.ambianceValue, difficultyNote: req.body.difficultyValue} } })
+
+  var randoNote = await randoModel.findById(req.body.randoId)
+    let temp = 0;
+      for(let i=0; i<randoNote.tempEvaluations.length; i++){
+        temp += randoNote.tempEvaluations[i].averageNote
+      }
+
+      randoNote.evaluations = temp / randoNote.tempEvaluations.length
+
+      let savedUser = await randoNote.save();
+
+  if (privateNote && savedUser) {
+    return res.json({ result: true, })
+  } else {
+    return res.json({ result: false, })
+  }
+
+});
+
 
 module.exports = router;

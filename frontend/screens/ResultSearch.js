@@ -43,27 +43,31 @@ function ResultSearch(props) {
       //**** zoom sur la france sinon */
 
       let mapSetUp
-   
-      if (props.data.ville.codePostal.length === 2) {
-        mapSetUp = {
-          latitude: response.result[0].coordinate.latitude,
-          longitude: response.result[0].coordinate.longitude,
-          latitudeDelta: 1.5,
-          longitudeDelta: 1,
-        }
-      } else if (props.data.ville.nom) {
-        console.log('Affichage echelle ville')
-        let resultGouv = await fetch(
-          `https://api-adresse.data.gouv.fr/search/?q=${props.data.ville.codePostal}&limit=1`
-        )
-        var responseGouv = await resultGouv.json()
-        mapSetUp = {
-          latitude: responseGouv.features[0].geometry.coordinates[1],
-          longitude: responseGouv.features[0].geometry.coordinates[0],
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.05,
-        }
-      } else {
+      if(props.data.ville.codePostal){
+
+        if (props.data.ville.codePostal.length === 2) {
+          //*******affichage à l'échelle du département */
+          mapSetUp = {
+            latitude: response.result[0].coordinate.latitude,
+            longitude: response.result[0].coordinate.longitude,
+            latitudeDelta: 1.5,
+            longitudeDelta: 1,
+          }
+        } else{
+          //******* Affichage à l'échelle d'une ville */
+          let resultGouv = await fetch(
+            `https://api-adresse.data.gouv.fr/search/?q=${props.data.ville.codePostal}&limit=1`
+          )
+          var responseGouv = await resultGouv.json()
+          mapSetUp = {
+            latitude: responseGouv.features[0].geometry.coordinates[1],
+            longitude: responseGouv.features[0].geometry.coordinates[0],
+            latitudeDelta: 0.05,
+            longitudeDelta: 0.05,
+          }
+        } 
+      }else {
+        //******* Affichage à l'échelle du pays */
         mapSetUp = {
           latitude: 46.22,
           longitude: 2.21,

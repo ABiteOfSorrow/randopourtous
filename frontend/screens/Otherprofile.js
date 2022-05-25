@@ -155,7 +155,7 @@ function OtherProfile(props) {
           alignItems: "center",
         }}
       >
-        <Button my={1} bg={"#78E08F"} onPress={() => alert('Faut le faire!')} w={"80%"}>
+        <Button my={1} bg={"#78E08F"} onPress={() => props.navigation.navigate('History', {user})} w={"80%"}>
           Voir ses randos
         </Button>
 

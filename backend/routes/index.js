@@ -251,28 +251,68 @@ router.get('/search-user-track', async (req, res) => {
 
 
 router.post('/update-randorating', async (req, res) => {
-
-  var privateNote = await randoModel.updateOne({ _id: req.body.randoId }, 
+// Evaluation for each rando
+  let privateNote = await randoModel.updateOne({ _id: req.body.randoId }, 
     { $addToSet : {tempEvaluations: 
       {_id: req.body.userId, averageNote: req.body.averageRating, paysageNote: req.body.paysageValue, 
         ambianceNote: req.body.ambianceValue, difficultyNote: req.body.difficultyValue} } })
-
-  var randoNote = await randoModel.findById(req.body.randoId)
+// Update average note for rando
+  let randoNote = await randoModel.findById(req.body.randoId)
     let temp = 0;
       for(let i=0; i<randoNote.tempEvaluations.length; i++){
         temp += randoNote.tempEvaluations[i].averageNote
       }
+//Save result to DB
+      randoNote.evaluations = (temp / randoNote.tempEvaluations.length).toFixed(2)
+      let savedRando = await randoNote.save();
 
-      randoNote.evaluations = temp / randoNote.tempEvaluations.length
+//Find user for update hie average evaluation
+      let foundUser = await UserModel.findOne({ _id: req.body.userId });
+      if (!foundUser) {
+        return res.json({ result: false, error: 'User is missing.' });
+      }
+// If it was his first rando or not
+      if(foundUser.tracks.length <= 1){
+        foundUser.averageRating = randoNote.evaluations
+      } else {
+      foundUser.averageRating = 
+      ((foundUser.averageRating * (foundUser.tracks.length -1)) + randoNote.evaluations) / foundUser.tracks.length
+    }
+      let savedUser = await foundUser.save();
 
-      let savedUser = await randoNote.save();
 
-  if (privateNote && savedUser) {
-    return res.json({ result: true, })
+  if (privateNote && savedRando && savedUser ) {
+    return res.json({ result: true, user: savedUser})
   } else {
     return res.json({ result: false, })
   }
 
+});
+
+// Pour afficher default écran de ResumeScreen
+router.post('/get-resume', async (req, res) => {
+
+  console.log(req.body)
+ 
+  let averageNote = 0;
+  let paysageNote = 0;
+  let ambianceNote = 0;
+  let difficultyNote = 0;
+
+  var result = await randoModel.findById(req.body.randoId)
+  if(!result){
+    return res.json({ result: false, error: `Il n'y a pas de rando` })
+  } else if (result) {
+    for (let i=0; i<result.tempEvaluations.length; i++){
+      if (result.tempEvaluations[i]._id == req.body.userId){
+        averageNote = result.tempEvaluations[i].averageNote
+        paysageNote = result.tempEvaluations[i].paysageNote 
+        ambianceNote = result.tempEvaluations[i].ambianceNote
+        difficultyNote = result.tempEvaluations[i].difficultyNote
+      }
+    }
+    return res.json({ result: true, averageNote, paysageNote, ambianceNote, difficultyNote})
+  } 
 });
 
 

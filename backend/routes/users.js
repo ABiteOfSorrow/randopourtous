@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
 let bcrypt = require('bcrypt');
-let User = require('../models/user');
 let uid = require('uid2');
 let mongoose = require('mongoose');
+let UserModel = require('../models/user');
+var RandoModel = require('../models/rando')
 const cost = 10;
 
 /* GET users listing. */
@@ -16,12 +17,12 @@ router.post('/sign-up', async (req, res) => {
     return res.json({ result: false, error: 'Input is missing.' })
   }
   // search if user already exists
-  let alreadyUser = await User.findOne({ email: req.body.email });
+  let alreadyUser = await UserModel.findOne({ email: req.body.email });
   if (alreadyUser) {
     return res.json({ result: false, error: "L'utilisateur existe déjà" })
   }
   const hash = bcrypt.hashSync(req.body.password, cost);
-  let user = new User({
+  let user = new UserModel({
     username: req.body.username,
     email: req.body.email,
     password: hash,
@@ -45,7 +46,7 @@ router.post('/sign-in', async (req, res) => {
   if (!req.body.email || !req.body.password) {
     return res.json({ result: false, error: 'Il manque les données.' })
   }
-  let foundUser = await User.findOne({ email: req.body.email })
+  let foundUser = await UserModel.findOne({ email: req.body.email })
   if (!foundUser) {
     return res.json({ result: false, error: 'Utilisateur inexistant.' })
   }
@@ -60,7 +61,7 @@ router.get('/my-data', async (req, res) => {
     return res.json({ result: false, error: 'Token is missing.' })
   }
   // search user in db by token
-  let foundUser = await User.findOne({ token: req.query.token });
+  let foundUser = await UserModel.findOne({ token: req.query.token });
   if (!foundUser) {
     return res.json({ result: false, error: 'User not found.' })
   }
@@ -72,7 +73,7 @@ router.post('/edit-profile', async (req, res) => {
     return res.json({ result: false, error: 'Token manquant.' })
   }
   // search user in db by token
-  let foundUser = await User.findOne({ token: req.body.token });
+  let foundUser = await UserModel.findOne({ token: req.body.token });
   if (!foundUser) {
     return res.json({ result: false, error: 'Mauvais token.' })
   }
@@ -102,7 +103,7 @@ router.get('/search-people', async (req, res) => {
   if (!req.query.username) {
     return res.json({ result: false, error: 'Username is missing.' });
   }
-  let foundUsers = await User.find({ username: req.query.username }).populate('tracks').exec();
+  let foundUsers = await UserModel.find({ username: req.query.username }).populate('tracks').exec();
   let cleanUsers = [];
   foundUsers.forEach(user => {
     cleanUsers.push({
@@ -125,11 +126,11 @@ router.post('/add-friend', async (req, res) => {
   if (!req.body.token || !req.body.username) {
     return res.json({ result: false, error: 'Token or username is missing.' });
   }
-  let foundUser = await User.findOne({ token: req.body.token });
+  let foundUser = await UserModel.findOne({ token: req.body.token });
   if (!foundUser) {
     return res.json({ result: false, error: 'User token not found.' });
   }
-  let foundFriend = await User.findOne({ username: req.body.username });
+  let foundFriend = await UserModel.findOne({ username: req.body.username });
   if (!foundFriend) {
     return res.json({ result: false, error: 'User to friend not found.' });
   }
@@ -151,7 +152,7 @@ router.get('/user/:id', async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.json({ result: false, error: 'Id invalide.' });
   }
-  let foundUser = await User.findById(req.params.id).populate('tracks').exec();
+  let foundUser = await UserModel.findById(req.params.id).populate('tracks').exec();
   if (!foundUser) {
     return res.json({ result: false, error: 'User not found by id.' });
   }
@@ -170,20 +171,7 @@ router.get('/user/:id', async (req, res) => {
 });
 
 
-// Route pour recuperer ses notes moyens
-router.post('/update-rating', async (req, res) => {
-  console.log(req.body)
-  let foundUser = await User.findOne({ _id: req.body.userId });
-  if (!foundUser) {
-    return res.json({ result: false, error: 'User is missing.' });
-  }
-  foundUser.averageRating = req.body.averageRating
-  let savedUser = await foundUser.save();
 
-  if (savedUser) {
-    return res.json({ result: true, user: savedUser })
-  }
-});
 
 
 module.exports = router;

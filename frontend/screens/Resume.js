@@ -20,50 +20,42 @@ function Resume(props) {
   const [difficultyValue, setDifficultyValue] = useState(0);
   const [image, setImage] = useState([]);
   const [userRating, setUserRating] = useState(0)
+  const [disable, setDisable] = useState(false);
+
   let photos = [...image];
 
   let rando = props.route.params.rando
-  console.log(rando._id)
+  // console.log(props)
 
-  // useEffect(() => {
-  //   //setUserRating(avgTotal)
-  //   if (userRating > 0) {
-  //     const ratingfetch = async () => {
-  //       let ratings = {
-  //         averageRating: userRating,
-  //         paysageValue: paysageValue,
-  //         ambianceValue: ambianceValue,
-  //         difficultyValue: difficultyValue,
-  //         userId: props.user._id,
-  //         randoId: rando._id
-  //       }
-  //       //console.log(ratings)
-
-  //       try {
-  //         let userRawResponse = await fetch(backendAdress + '/users/update-rating', {
-  //           method: 'POST',
-  //           headers: {
-  //             'Content-Type': 'application/json'
-  //           },
-  //           body: JSON.stringify(ratings)
-  //         })
-  //         let randoRawResponse = await fetch(backendAdress + '/update-randorating', {
-  //           method: 'POST',
-  //           headers: {
-  //             'Content-Type': 'application/json'
-  //           },
-  //           body: JSON.stringify(ratings)
-  //         })
-
-  //         // console.log(JSON.stringify(userRawResponse))
-  //         console.log(JSON.stringify(randoRawResponse))
-  //       } catch (e) {
-  //         console.log(e)
-  //       }
-  //     }
-  //     ratingfetch()
-  //   }
-  // }, [userRating])
+  useEffect(() => {
+    const ratingfetch = async () => {
+        try {
+          let defaultResume = {
+            randoId : rando._id,
+            userId : props.user._id
+          }
+          let randoRawResponse = await fetch(backendAdress + '/get-resume', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(defaultResume)
+          })
+          let response = await randoRawResponse.json()
+          console.log(response)
+          if(response.averageNote > 0){
+          setUserRating(response.averageNote)
+          setPaysageValue(response.paysageNote)
+          setAmbianceValue(response.ambianceNote)
+          setDifficultyValue(response.difficultyNote)
+          setDisable(true)
+        }
+        } catch (e) {
+          console.log(e)
+        }
+      }
+    ratingfetch()
+ }, [])
 
   useEffect(() => {
     //Rando rating stars average and voter count
@@ -194,13 +186,6 @@ function Resume(props) {
         //console.log(ratings)
 
         try {
-          let userRawResponse = await fetch(backendAdress + '/users/update-rating', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(ratings)
-          })
           let randoRawResponse = await fetch(backendAdress + '/update-randorating', {
             method: 'POST',
             headers: {
@@ -208,7 +193,10 @@ function Resume(props) {
             },
             body: JSON.stringify(ratings)
           })
+
           alert("Merci pour votre participation!")
+          setDisable(true)
+
           // console.log(JSON.stringify(userRawResponse))
           console.log(JSON.stringify(randoRawResponse))
         } catch (e) {
@@ -231,7 +219,7 @@ function Resume(props) {
           </Text>
         </Button>
       </HStack>
-
+    <ScrollView>
       <Button w={"80%"} size="md" backgroundColor="#E55039" alignSelf="center" mb={10} onPress={() => console.log("I'm Pressed")}>
         <Text style={styles.contentText} fontSize="md">
           {rando.name}
@@ -293,11 +281,12 @@ function Resume(props) {
         </Flex>
       </VStack>
 
-      <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mt={5} onPress={submitRating}>
+      <Button isDisabled={disable} w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mt={5} onPress={submitRating}>
         <Text style={styles.contentText} fontSize="md">
           Submit évaluations
         </Text>
       </Button>
+      </ScrollView>
       {/* To prevent leaving the content area */}
       <Box w="100%" h="8.5%" alignSelf="center" bg="#fff" />
     </SafeAreaView>

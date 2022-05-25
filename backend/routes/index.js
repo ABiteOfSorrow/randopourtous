@@ -233,7 +233,13 @@ router.get('/search-user-track', async (req, res) => {
   // var userId= req.query.userid
 
 
-  console.log(req.query)
+  //console.log(req.query)
+  if (!req.query.trackid) {
+    return res.json({ result: false, error: 'Id de rando manquant (serveur).' })
+  }
+  if (req.query.trackid.length < 24 || req.query.trackid.length > 24) {
+    return res.json({ result: false, error: 'Id de rando invalide (serveur).' })
+  }
   var result = await randoModel.findById(req.query.trackid)
 
   if (result) {

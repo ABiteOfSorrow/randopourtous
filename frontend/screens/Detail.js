@@ -1,15 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Avatar,
-  VStack,
-  Center,
-  Heading,
-  Box,
-  Button,
-  Text,
-  Flex,
-  Stack,
-} from "native-base";
+import { Avatar, VStack, Center, Heading, Box, Button, Text, Flex, Stack, } from "native-base";
 import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MapView, { Marker } from "react-native-maps";

@@ -55,7 +55,7 @@ function SearchPeople(props) {
    return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', alignItems: 'center' }} >
          <ScrollView contentContainerStyle={{ flex: 1, alignItems: 'center' }}>
-            <Box style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
+            <Box style={styles.menu} >
                <Box style={{ width: '20%' }} >
                <HamburgerMenu navigation={props.navigation} /> 
                </Box>
@@ -106,6 +106,17 @@ const styles = StyleSheet.create({
       display:'flex',
       flexDirection: 'row'
    },
+   menu:{
+      width: '100%', 
+      display: 'flex', 
+      flexDirection: 'row', 
+      justifyContent: 'space-between', 
+      alignItems: 'center', 
+      borderBottomWidth: 1, 
+      borderColor: '#CCCCCC', 
+      paddingBottom:"1%", 
+      marginBottom:"2%" 
+   }
 });
 
 function mapStateToProps(state) {

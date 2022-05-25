@@ -61,7 +61,7 @@ function OtherProfile(props) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff", alignItems: "center" }}>
-      <View style={{ display: "flex", width: "100%", flexDirection: "row", justifyContent: 'space-between', alignItems: 'center' }}>
+      <View style={{display:"flex", width:"100%", flexDirection:"row", justifyContent:'space-between', alignItems:'center', borderBottomWidth: 1, borderColor:'#CCCCCC', marginBottom:"5%"}}>
         <HamburgerMenu navigation={props.navigation} />
         <Button
           w={70}

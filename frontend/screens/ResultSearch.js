@@ -89,7 +89,7 @@ function ResultSearch(props) {
     listRando = resultSearch.map((rando, i) => (
 
 
-      <VStack key={i} space={2} alignItems='center'>
+      <VStack key={i} space={2} mt={3} alignItems='center'>
         <Box w={'75%'} mb={0} borderRadius='15' bg='#78E08F'>
           <Heading size='md' textAlign='center'>
             {rando.name}
@@ -188,7 +188,7 @@ function ResultSearch(props) {
           </Button>
         </HStack>
         {/* List Body */}
-        <VStack space={2} alignItems='center'>
+        <VStack space={2} alignItems='center' style={{borderBottomWidth: 1, borderColor: '#CCCCCC' }}>
           <Heading size='lg' mb={'2%'}>
             Resultat de la recherche
           </Heading>
@@ -238,15 +238,13 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     height: '100%',
-    borderWidth: 10,
+    //borderWidth: 10,
     marginBottom: '18%',
-    borderColor: '#CCCCCC',
-    alignSelf: "center"
+    //borderColor: '#CCCCCC',
+    alignSelf: "center",
   },
   mapContainer: {
     flex: 1,
-    borderWidth: 1.5,
-    borderColor: '#CCCCCC',
     minHeight: 150,
   },
   callout: {

@@ -25,7 +25,7 @@ function Home(props) {
 
   return (
     <SafeAreaView style={{ flex: 1, alignItems: 'center', backgroundColor: '#fff', width: '100%', paddingBottom: '20%' }}>
-      <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center' }} >
+      <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center', borderBottomWidth: 1, borderColor: '#CCCCCC'}} >
         <View style={{ width: '30%' }} >
           <HamburgerMenu navigation={props.navigation} />
         </View>
@@ -36,8 +36,8 @@ function Home(props) {
         <View style={{ width: '30%' }}></View>
       </View>
       <ScrollView contentContainerStyle={{ flex: 1, width: '100%', height: "100%", alignItems: 'center' }} >
-        <Text style={{ fontSize: 20, marginTop: '10%' }}>
-          Rando Pour Tous!
+        <Text style={{ fontSize: 25, marginTop: '10%', color: "#079992", fontWeight: 'bold', paddingTop: 5}}>
+          RandoPourTous !
         </Text>
         <View style={{ width: '84%', marginTop: '10%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
           <Button style={styles.buttonStyle} my={1} bg={'#78E08F'} onPress={() => props.navigation.navigate("Chercher")} >Chercher une randonnée</Button>

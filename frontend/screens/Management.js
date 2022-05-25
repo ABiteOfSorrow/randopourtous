@@ -17,7 +17,7 @@ function Management(props) {
 
     let rando = props.route.params.params.rando
     console.log(rando)
-console.log("hello")
+
     var rawResponse = await fetch(backendAdress + '/finish-track', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

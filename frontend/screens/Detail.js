@@ -96,7 +96,7 @@ function Detail(props) {
     console.log(props.user._id)
     //*** Ajout de l'id du randonneur dans la base de donnée de la radonnée */
     let rawresponse = await fetch(backendAdress + '/add-user-track?userid=' + props.user._id + '&trackid=' + rando._id);
-    props.navigation.navigate('Profil', { screen: 'Chat', params: { rando } })
+    props.navigation.navigate( 'Chat', { rando } )
   }
 
   let listUsersDisplay = listUsers.map((item, i) => {

@@ -33,7 +33,7 @@ function Chat(props) {
 
   const ws = new WebSocket(URL);
 
-  
+
   // useEffect(() => {
 
   //   ws.onmessage = function (data) {
@@ -91,23 +91,23 @@ function Chat(props) {
 
   // const onSend = useCallback((messages = []) => {
 
-    // // envoyer message au backend en websocket, envoyer aussi mon token du user
-    // //console.log(JSON.stringify(messages))
-    // let firstMsg = messages[0];
-    // console.log('callback onsend');
-    // let messageToBackend = {
-    //   randoId: rando._id,
-    //   message: firstMsg,
-    //   username: props.user.username,
-    //   date: new Date(),
-    //   token: props.user.token
-    // }
+  // // envoyer message au backend en websocket, envoyer aussi mon token du user
+  // //console.log(JSON.stringify(messages))
+  // let firstMsg = messages[0];
+  // console.log('callback onsend');
+  // let messageToBackend = {
+  //   randoId: rando._id,
+  //   message: firstMsg,
+  //   username: props.user.username,
+  //   date: new Date(),
+  //   token: props.user.token
+  // }
 
-    // console.log('onopen send')
-    // //JSON.stringify(messageToBackend)
-    // ws.send(JSON.stringify(messageToBackend))
+  // console.log('onopen send')
+  // //JSON.stringify(messageToBackend)
+  // ws.send(JSON.stringify(messageToBackend))
 
-    // // envoyer message au backend en websockets ici
+  // // envoyer message au backend en websockets ici
 
   //   setMessages((previousMessages) => GiftedChat.append(previousMessages, messages));
   // }, [messages]);
@@ -146,7 +146,7 @@ function Chat(props) {
       },
     ])
   }, [])
- 
+
   const onSend = useCallback((messages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
   }, [])
@@ -218,9 +218,9 @@ function Chat(props) {
         <HStack justifyContent="space-between" mb={'1%'}>
           <HamburgerMenu navigation={props.navigation} />
 
-          <Button w={90} h={8} p={0} onPress={() => props.navigation.goBack()} mt={2} mr={2} variant="outline" borderColor="#38ADA9" >
+          <Button w={90} h={8} p={0} onPress={() => props.navigation.navigate('Profil')} mt={2} mr={2} variant="outline" borderColor="#38ADA9" >
             <Text fontSize="xs" bold color="#38ADA9">
-              Retour
+              Sortie
             </Text>
           </Button>
         </HStack>
@@ -236,15 +236,16 @@ function Chat(props) {
               {rando.users.length} / {rando.maxUsers} Participants
             </Text>
           </Box>
-          <Button w={"84%"} mb={0} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Detail", { rando })}>
+          <Button key={0} w={"84%"} mb={0} h={10} bg="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Detail", { rando })}>
             <Text fontSize="md">
               Voir la Rando
             </Text>
           </Button>
-          <Button  w={"84%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Management", {params: { user: props.user, rando: rando }})}>
-                <Text fontSize="md">
-testbutton                </Text>
-              </Button>
+          <Button key={1} w={"84%"} h={10} bg="#78E08F" onPress={() => props.navigation.navigate("Management", { params: { user: props.user, rando: rando } })}>
+            <Text fontSize="md" textAlign={'center'}>
+              testbutton
+            </Text>
+          </Button>
           {props.user._id === rando.userId ? (
             <>
 
@@ -262,8 +263,8 @@ testbutton                </Text>
               >
                 2
               </Badge>
-              <Button  w={"84%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Management", {params: { user: props.user, rando: rando }})}>
-                <Text fontSize="md">
+              <Button w={"84%"} key={3} h={10} bg="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Management", { params: { user: props.user, rando: rando } })}>
+                <Text>
                   Gestion de la Rando
                 </Text>
               </Button>
@@ -271,7 +272,7 @@ testbutton                </Text>
           ) : (<></>)}
         </VStack>
 
-        <Box w={"90%"} style={{ flex: 1, borderRadius: 8, marginBottom: '4%' }} bg="#ffffff" alignSelf={"center"} mt={'2%'} borderWidth={2} borderColor={"#bbbbbb"} >
+        <Box w={"90%"} style={{ flex: 1, borderRadius: 8, marginBottom: '1%', borderWidth: 2, borderColor: '#bbb' }} bg="#ffffff" alignSelf={"center"} mt={'2%'} >
           <GiftedChat
             borderRadius={8}
             messages={messages}
@@ -292,8 +293,6 @@ testbutton                </Text>
 
 
       </KeyboardAvoidingView>
-      {/* To prevent leaving the content area */}
-      <Box w="100%" h="8.5%" alignSelf="center" bg="#fff" />
     </SafeAreaView>
   );
 }

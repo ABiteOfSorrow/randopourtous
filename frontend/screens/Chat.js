@@ -33,84 +33,85 @@ function Chat(props) {
 
   const ws = new WebSocket(URL);
 
-  useEffect(() => {
+  
+  // useEffect(() => {
 
-    ws.onmessage = function (data) {
-      console.log('onmessage')
-      console.log('received:', data.data.toString());
-      let receivMessage = JSON.parse(data.data.toString())
-      console.log()
-      alert(receivMessage.message.text)
-    };
+  //   ws.onmessage = function (data) {
+  //     console.log('onmessage')
+  //     console.log('received:', data.data.toString());
+  //     let receivMessage = JSON.parse(data.data.toString())
+  //     console.log()
+  //     alert(receivMessage.message.text)
+  //   };
 
-    (async () => {
+  //   const chatFetch = async () => {
 
-      try {
-        let rawResponse = await fetch(backendAdress + '/get-track?id=' + rando._id)
-        //console.log(JSON.stringify(rawresponse))
-        if (rawResponse.ok) {
-          console.log('ok')
-          let response = await rawResponse.json();
-          if (response.result) {
-            //Alert.alert('Tout va bien')
-            setMessages(response.messages)
-            //alert(JSON.stringify(response))
-          } else {
-            Alert.alert('Mauvaise réponse du serveur...', response.error)
-          }
-        } else {
-          alert('not ok!')
-        }
+  //     try {
+  //       let rawResponse = await fetch(backendAdress + '/get-track?id=' + rando._id)
+  //       //console.log(JSON.stringify(rawresponse))
+  //       if (rawResponse.ok) {
+  //         console.log('ok')
+  //         let response = await rawResponse.json();
+  //         if (response.result) {
+  //           //Alert.alert('Tout va bien')
+  //           setMessages(response.messages)
+  //           //alert(JSON.stringify(response))
+  //         } else {
+  //           Alert.alert('Mauvaise réponse du serveur...', response.error)
+  //         }
+  //       } else {
+  //         alert('not ok!')
+  //       }
 
-        ws.onopen = function (event) {
-          //console.log(JSON.stringify(event));
-          alert('Connecté au serveur.')
-        };
-
-
-      } catch (e) {
-        console.log(e)
-      }
-
-    })()
-  }, [])
+  //       ws.onopen = function (event) {
+  //         //console.log(JSON.stringify(event));
+  //         alert('Connecté au serveur.')
+  //       };
 
 
-  const onSend = useCallback((messages = []) => {
+  //     } catch (e) {
+  //       console.log(e)
+  //     }
+  //     chatFetch()
+  //   }
+  // }, [])
 
-    // envoyer message au backend en websocket, envoyer aussi mon token du user
-    //console.log(JSON.stringify(messages))
-    let firstMsg = messages[0];
-    console.log('callback onsend');
-    let messageToBackend = {
-      randoId: rando._id,
-      message: firstMsg,
-      username: props.user.username,
-      date: new Date(),
-      token: props.user.token
-    }
-
-    console.log('onopen send')
-    //JSON.stringify(messageToBackend)
-    ws.send(JSON.stringify(messageToBackend))
-
-    // envoyer message au backend en websockets ici
-
-    setMessages((previousMessages) => GiftedChat.append(previousMessages, messages));
-  }, [messages]);
-
-  //   setMessages([
-  //     {
-  //       _id: 1,
-  //       text: 'Hello developer',
-  //       createdAt: new Date(),
-  //       user: {
-  //         _id: 2,
-  //         name: 'React Native',
-  //         avatar: 'https://placeimg.com/140/140/any',
-  //       },
+  // setMessages([
+  //   {
+  //     _id: 1,
+  //     text: 'Hello developer',
+  //     createdAt: new Date(),
+  //     user: {
+  //       _id: 2,
+  //       name: 'React Native',
+  //       avatar: 'https://placeimg.com/140/140/any',
   //     },
-  //   ])
+  //   },
+  // ])
+
+  // const onSend = useCallback((messages = []) => {
+
+    // // envoyer message au backend en websocket, envoyer aussi mon token du user
+    // //console.log(JSON.stringify(messages))
+    // let firstMsg = messages[0];
+    // console.log('callback onsend');
+    // let messageToBackend = {
+    //   randoId: rando._id,
+    //   message: firstMsg,
+    //   username: props.user.username,
+    //   date: new Date(),
+    //   token: props.user.token
+    // }
+
+    // console.log('onopen send')
+    // //JSON.stringify(messageToBackend)
+    // ws.send(JSON.stringify(messageToBackend))
+
+    // // envoyer message au backend en websockets ici
+
+  //   setMessages((previousMessages) => GiftedChat.append(previousMessages, messages));
+  // }, [messages]);
+
 
 
 
@@ -129,6 +130,27 @@ function Chat(props) {
   //       </ListItem>
   //     );
   //   });
+
+
+  useEffect(() => {
+    setMessages([
+      {
+        _id: 1,
+        text: 'Hello developer',
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: 'React Native',
+          avatar: 'https://placeimg.com/140/140/any',
+        },
+      },
+    ])
+  }, [])
+ 
+  const onSend = useCallback((messages = []) => {
+    setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+  }, [])
+
 
   const renderSend = (props) => {
     return (
@@ -202,12 +224,10 @@ function Chat(props) {
             </Text>
           </Button>
         </HStack>
-        {/* List Body */}
         <VStack space={"0.5%"} alignItems="center">
           <Heading size="lg" mb={'3%'}>
             {rando.name}
           </Heading>
-          {/* Switch Line */}
         </VStack>
         <VStack space={2} alignItems="center">
           {/* Journey List */}
@@ -221,6 +241,10 @@ function Chat(props) {
               Voir la Rando
             </Text>
           </Button>
+          <Button  w={"84%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Management", {params: { user: props.user, rando: rando }})}>
+                <Text fontSize="md">
+testbutton                </Text>
+              </Button>
           {props.user._id === rando.userId ? (
             <>
 
@@ -238,7 +262,7 @@ function Chat(props) {
               >
                 2
               </Badge>
-              <Button w={"84%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Management", { user: props.user })}>
+              <Button  w={"84%"} h={10} backgroundColor="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Management", {params: { user: props.user, rando: rando }})}>
                 <Text fontSize="md">
                   Gestion de la Rando
                 </Text>
@@ -266,21 +290,7 @@ function Chat(props) {
           />
         </Box>
 
-        {/* <Input
-              value={input}
-              onChangeText={(text) => setInput(text)}
-              onSubmitEditing={sendMessage}
-              placeholder={"Entrez votre texte ici..."}
-              InputRightElement={<Button size="xs" rounded="none" w="1/6" h="full" onPress={handleClick}></Button>}
-            /> */}
 
-        {/* <TouchableOpacity onPress={sendMessage} activeOpacity={0.5}>
-              <Ionicons name={"send"} size={24} color={"#2B68E6"} />
-            </TouchableOpacity> */}
-
-
-        {/* To prevent leaving the content area */}
-        {/* </TouchableWithoutFeedback> */}
       </KeyboardAvoidingView>
       {/* To prevent leaving the content area */}
       <Box w="100%" h="8.5%" alignSelf="center" bg="#fff" />

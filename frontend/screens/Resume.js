@@ -14,55 +14,66 @@ const backendAdress = backendConfig.address;
 
 
 function Resume(props) {
-
+  // console.log(props)
   const [paysageValue, setPaysageValue] = useState(0);
   const [ambianceValue, setAmbianceValue] = useState(0);
   const [difficultyValue, setDifficultyValue] = useState(0);
   const [image, setImage] = useState([]);
   const [userRating, setUserRating] = useState(0)
   let photos = [...image];
-  // console.log(props.user)
+
+  let rando = props.route.params.rando
+  console.log(rando._id)
+
+  // useEffect(() => {
+  //   //setUserRating(avgTotal)
+  //   if (userRating > 0) {
+  //     const ratingfetch = async () => {
+  //       let ratings = {
+  //         averageRating: userRating,
+  //         paysageValue: paysageValue,
+  //         ambianceValue: ambianceValue,
+  //         difficultyValue: difficultyValue,
+  //         userId: props.user._id,
+  //         randoId: rando._id
+  //       }
+  //       //console.log(ratings)
+
+  //       try {
+  //         let userRawResponse = await fetch(backendAdress + '/users/update-rating', {
+  //           method: 'POST',
+  //           headers: {
+  //             'Content-Type': 'application/json'
+  //           },
+  //           body: JSON.stringify(ratings)
+  //         })
+  //         let randoRawResponse = await fetch(backendAdress + '/update-randorating', {
+  //           method: 'POST',
+  //           headers: {
+  //             'Content-Type': 'application/json'
+  //           },
+  //           body: JSON.stringify(ratings)
+  //         })
+
+  //         // console.log(JSON.stringify(userRawResponse))
+  //         console.log(JSON.stringify(randoRawResponse))
+  //       } catch (e) {
+  //         console.log(e)
+  //       }
+  //     }
+  //     ratingfetch()
+  //   }
+  // }, [userRating])
 
   useEffect(() => {
-    //setUserRating(avgTotal)
-    if (userRating > 0) {
-      const ratingfetch = async () => {
-        let ratings = {
-          averageRating: userRating,
-          paysageValue: paysageValue,
-          ambianceValue: ambianceValue,
-          difficultyValue: difficultyValue,
-          id: props.user._id,
-        }
-        //console.log(ratings)
-
-        try {
-          let rawresponse = await fetch(backendAdress + '/users/update-rating', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(ratings)
-          })
-          console.log(JSON.stringify(rawresponse))
-        } catch (e) {
-          console.log(e)
-        }
-      }
-      ratingfetch()
-    }
-  }, [userRating])
-
-  useEffect(() => {
-
     //Rando rating stars average and voter count
     let totalNote = 0;
     // var totalNote = props.globalCountRating;
     if (paysageValue && ambianceValue && difficultyValue) {
-      totalNote += (paysageValue + ambianceValue + difficultyValue) / 3;
+      totalNote += (paysageValue + ambianceValue + difficultyValue);
       // totalVote += 1;
     }
-    totalNote = (totalNote * 10).toFix(2)
+    totalNote = (totalNote / 3).toFixed(2)
     setUserRating(totalNote)
   }, [ambianceValue, paysageValue, difficultyValue])
 
@@ -160,39 +171,55 @@ function Resume(props) {
   let tabGlobalRating = [];
 
   //Rando rating stars display
-  if (userRating != 0) {
-    for (let i = 0; i < 5; i++) {
-      let color = "black";
-      if (i < userRating) {
-        color = "#f1c40f";
-      }
+  for (var i = 0; i < 5; i++) {
+    var color = "black";
+    if (i < userRating) {
+      color = "#f1c40f";
+    }
       tabGlobalRating.push(<AntDesign key={i} color={color} name="star" size={24} />);
     }
+  
+
+
+  const submitRating = async () => {
+    if (userRating > 0) {
+        let ratings = {
+          averageRating: userRating,
+          paysageValue: paysageValue,
+          ambianceValue: ambianceValue,
+          difficultyValue: difficultyValue,
+          userId: props.user._id,
+          randoId: rando._id
+        }
+        //console.log(ratings)
+
+        try {
+          let userRawResponse = await fetch(backendAdress + '/users/update-rating', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(ratings)
+          })
+          let randoRawResponse = await fetch(backendAdress + '/update-randorating', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(ratings)
+          })
+          alert("Merci pour votre participation!")
+          // console.log(JSON.stringify(userRawResponse))
+          console.log(JSON.stringify(randoRawResponse))
+        } catch (e) {
+          console.log(e)
+        }
+      } else (alert("D'abord mettez votre évaluation pour tous SVP"))
   }
 
+
+
   //console.log(avgTotal)
-  // Default data for carousel if there is nothing
-  const data = [
-    {
-      title: "Coral Reef",
-      description: "Location: Red Sea",
-      source: "https://images.unsplash.com/photo-1633205719979-e47958ff6d93?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
-    },
-    {
-      title: "Phone",
-      description: "iPhone 6 on the table",
-      source: "https://images.unsplash.com/photo-1535303311164-664fc9ec6532?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
-    },
-
-    {
-      title: "Old building",
-      description: "Location: Germany",
-      source: "https://images.unsplash.com/photo-1623345805780-8f01f714e65f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
-    },
-  ];
-
-
-
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
@@ -207,7 +234,7 @@ function Resume(props) {
 
       <Button w={"80%"} size="md" backgroundColor="#E55039" alignSelf="center" mb={10} onPress={() => console.log("I'm Pressed")}>
         <Text style={styles.contentText} fontSize="md">
-          Nom de la Rando
+          {rando.name}
         </Text>
       </Button>
       {/* contents container for Demandes de partipation */}
@@ -217,12 +244,10 @@ function Resume(props) {
         </Heading>
         <Heading size="md">Historique des photos partagées </Heading>
       </VStack>
-      <ScrollView
-        style={{ width: "100%", height: "100%" }}
-        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+
       {/* Carousel for Photos, default = data / else cloudinary image */}
       {image === "" ? (
-        <CustomSlider data={data} />
+        <></>
       ) : (<CustomSlider data={image} />)
       }
 
@@ -267,8 +292,12 @@ function Resume(props) {
           {DifficultyRating}
         </Flex>
       </VStack>
-      </ScrollView>
 
+      <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mt={5} onPress={submitRating}>
+        <Text style={styles.contentText} fontSize="md">
+          Submit évaluations
+        </Text>
+      </Button>
       {/* To prevent leaving the content area */}
       <Box w="100%" h="8.5%" alignSelf="center" bg="#fff" />
     </SafeAreaView>

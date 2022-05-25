@@ -5,11 +5,8 @@ var fs = require("fs");
 var uniqid = require("uniqid");
 var request = require("sync-request");
 
-
-
 var randoModel = require('../models/rando')
-let UserModel = require('../models/user');
-const rando = require('../models/rando');
+var UserModel = require('../models/user');
 
 
 
@@ -151,7 +148,9 @@ router.post('/get-tracks', async function (req, res, next) {
   let tracks = req.body.tracks
   let userId = req.body._id
   let fullInfoTracks = []
-
+  if (!tracks || !userId ) {
+    return res.json({ result: false, error: 'Inputs incorrects' })
+  }
 
   for (let i = 0; i < tracks.length; i++) {
     var result = await randoModel.findById(tracks[i])
@@ -256,5 +255,32 @@ router.get('/search-user-track', async (req, res) => {
 
 
 });
+
+
+router.post('/update-randorating', async (req, res) => {
+
+  var privateNote = await randoModel.updateOne({ _id: req.body.randoId }, 
+    { $addToSet : {tempEvaluations: 
+      {_id: req.body.userId, averageNote: req.body.averageRating, paysageNote: req.body.paysageValue, 
+        ambianceNote: req.body.ambianceValue, difficultyNote: req.body.difficultyValue} } })
+
+  var randoNote = await randoModel.findById(req.body.randoId)
+    let temp = 0;
+      for(let i=0; i<randoNote.tempEvaluations.length; i++){
+        temp += randoNote.tempEvaluations[i].averageNote
+      }
+
+      randoNote.evaluations = temp / randoNote.tempEvaluations.length
+
+      let savedUser = await randoNote.save();
+
+  if (privateNote && savedUser) {
+    return res.json({ result: true, })
+  } else {
+    return res.json({ result: false, })
+  }
+
+});
+
 
 module.exports = router;

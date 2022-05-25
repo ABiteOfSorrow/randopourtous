@@ -40,7 +40,7 @@ function SignUp(props) {
       Alert.alert('Attention', 'Veuillez entrer une adresse email valide.');
       return;
     }
-
+    try {
     // fetch to backend ici
     let result = await fetch(backendAdress + '/users/sign-up', {
       method: 'POST',
@@ -61,6 +61,10 @@ function SignUp(props) {
     }
     // store in redux here
     props.signUp(data.user)
+    } catch (e) {
+      console.log(e)
+      Alert.alert('Erreur', 'Problème de connexion au serveur.')
+    }
     // save in async storage
     try {
       await AsyncStorage.setItem('user', JSON.stringify(data.user));

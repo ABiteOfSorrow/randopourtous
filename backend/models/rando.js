@@ -13,8 +13,11 @@ var departureSchema = mongoose.Schema({
   codePostal: Number,
 })
 
-var evaluationsSchema = mongoose.Schema({
-  note: Number,
+var tempEvaluationsSchema = mongoose.Schema({
+  averageNote: Number,
+  paysageNote: Number,
+  ambianceNote: Number,
+  difficultyNote: Number
 })
 
 // create rando schema
@@ -29,7 +32,8 @@ let randoSchema = new mongoose.Schema({
   messages: [messageSchema],
   date: Date,
   description: String,
-  evaluations: [evaluationsSchema],
+  evaluations: Number,
+  tempEvaluations: [tempEvaluationsSchema],
   finished: Boolean,
   level: String,
   userId: String,

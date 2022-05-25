@@ -8,7 +8,7 @@ import { AntDesign } from "@expo/vector-icons";
 import HamburgerMenu from "../components/HamburgerMenu";
 
 function Management(props) {
-  console.log(props.user)
+  let rando = props.route.params.params.rando
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
       <ScrollView>
@@ -113,7 +113,7 @@ function Management(props) {
           </Box>
         </VStack>
       </ScrollView>
-      <Button w={"50%"} h={25} p={0} mb={3} mt={3} borderRadius={15} bg={"#E55039"} alignSelf={"center"} onPress={() => props.navigation.navigate("Chercher", {screen:'Resume', params:{user: props.user}  })}>
+      <Button w={"50%"} h={25} p={0} mb={3} mt={3} borderRadius={15} bg={"#E55039"} alignSelf={"center"} onPress={() => props.navigation.navigate("Chercher", {screen:'Resume', params:{user: props.user, rando}})}>
         <Text color="#ffffff">Terminer cette Rando</Text>
       </Button>
       {/* To prevent leaving the content area */}

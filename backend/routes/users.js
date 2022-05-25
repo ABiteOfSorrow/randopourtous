@@ -166,10 +166,10 @@ router.get('/user/:id', async (req, res) => {
 });
 
 
-
+// Route pour recuperer ses notes moyens
 router.post('/update-rating', async (req, res) => {
   console.log(req.body)
-  let foundUser = await User.findOne({ _id: req.body.id });
+  let foundUser = await User.findOne({ _id: req.body.userId });
   if (!foundUser) {
     return res.json({ result: false, error: 'User is missing.' });
   }

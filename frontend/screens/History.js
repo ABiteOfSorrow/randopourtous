@@ -17,19 +17,19 @@ function History(props) {
   const [tracksFilter, setTracksFilter] = useState(null)
   const [tracksFilterAdmin, setTracksFilterAdmin] = useState(false)
 
-  
+
   //Initialisation de toutes les randos de l'utilisateur à l'ouverture de composant et dès le changement de la variable d'état "tracksFilter"
   useEffect(() => {
 
-    console.log(tracksFilterAdmin)
+    //console.log(tracksFilterAdmin)
 
     //Récupérations des randos dans la BDD
     async function loadData() {
       //****** si on vient du screen OtherProfile, on a le param props.params.user sinon on vient du screen MyProfile donc c'est l'user du store */
-     
 
-     // console.log('parames: ',typeof props.route.params.user)
-      let user = props.route.params?props.route.params.user:props.user
+
+      // console.log('parames: ',typeof props.route.params.user)
+      let user = props.route.params ? props.route.params.user : props.user
 
       var rawResponse = await fetch(backendAdress + '/get-tracks', {
         method: 'POST',
@@ -42,16 +42,16 @@ function History(props) {
       //console.log("props.user.tracks", props.user.tracks)
 
       var response = await rawResponse.json();
-      console.log(response)
+      //console.log(response)
       //console.log("response ", tracksFilterAdmin)
       //console.log("response ", tracksFilter)
 
       //Filtrage dynamique
-      if(tracksFilterAdmin){
+      if (tracksFilterAdmin) {
         setAllTracks(response.fullInfoTracks.filter(track => track.finished !== tracksFilter && track.userId == props.user._id))
-        console.log(response.fullInfoTracks[4].userId)
-        console.log(props.user._id)
-      }else{
+        //console.log(response.fullInfoTracks[4].userId)
+        //console.log(props.user._id)
+      } else {
         setAllTracks(response.fullInfoTracks.filter(track => track.finished !== tracksFilter))
       }
 
@@ -79,20 +79,8 @@ function History(props) {
       var etat = "En cours..."
     }
     //Modèle des box adaptatif à l'affichage des rando selon leurs infos
-    return( 
-      <Box key={i} w={"80%"} alignSelf="center" bg={colorBg} p={3} style={styles.allBox} shadow={2} mb={2}>
-      <Box
-        alignSelf="center"
-        _text={{
-          fontSize: "xl",
-          fontWeight: "bold",
-          color: colorText,
-          letterSpacing: "lg",
-        }}
-      >
-        {rando.name}
-      </Box>
-      <Box style={{ flex:1, flexDirection:"row", justifyContent:"space-between" }}>
+    return (
+      <Box key={i} w={"90%"} alignSelf="center" bg={colorBg} p={2} style={styles.allBox} shadow={2} mb={2}>
         <Box
           alignSelf="center"
           _text={{
@@ -102,81 +90,83 @@ function History(props) {
             letterSpacing: "lg",
           }}
         >
-          {rando.departure.nom}
+          {rando.name}
         </Box>
-        <Box
-          alignSelf="center"
-          _text={{
-            fontSize: "md",
-            fontWeight: "medium",
-            color: colorText,
-            letterSpacing: "lg",
-          }}
-        >
-          {etat}
+        <Box style={{ width: '100%', flexDirection: "row", justifyContent: "space-between" }}>
+          <Box
+            alignSelf="center"
+            _text={{
+              fontSize: "lg",
+              fontWeight: "light",
+              color: colorText,
+              letterSpacing: "lg",
+            }}
+          >
+            {rando.departure.nom}
+          </Box>
+          <Box
+            alignSelf="center"
+            _text={{
+              fontSize: "sm",
+              fontWeight: "light",
+              color: colorText,
+              letterSpacing: "lg",
+            }}
+          >
+            {etat}
+          </Box>
         </Box>
+        <Button w={100} h={6} p={0} mt={2} style={{ backgroundColor: "green" }} onPress={() => rando.finished === false ? props.navigation.navigate('Detail', { rando }) : props.navigation.navigate('Resume', { rando })}>
+          <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
+            Voir
+          </Text>
+        </Button>
       </Box>
-      <Button w={100} h={8} p={0} mt={2} mr={2} style={{ backgroundColor:"green", marginLeft:"65%" }} onPress={()=> rando.finished===false?props.navigation.navigate('Detail', {rando}):props.navigation.navigate('Resume', {rando})}>
-              <Text fontSize="xs" style={{ fontWeight: 'bold', color:"white" }} >
-                Voir
-              </Text>
-            </Button>
-    </Box>
     );
   })
 
   //Affichage
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-      <ScrollView >
-        <HStack style={{ justifyContent: "space-between" }} mb={4}>
-          <HamburgerMenu navigation={props.navigation} />
-          <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" style={{ borderColor: "#38ADA9" }} onPress={() => props.navigation.goBack()}>
-            <Text style={{ fontSize: 12, fontWeight: "bold", color: "#38ADA9" }} >
-              Retour
+      <HStack style={{ justifyContent: "space-between" }} mb={'1%'}>
+        <HamburgerMenu navigation={props.navigation} />
+
+      </HStack>
+      <Heading size="md" mt='2' textAlign="center" mb={'1%'}>
+        {!props.route.params ? (<Text>Mes Randonnées</Text>) : (<Text>Randonnées de {props.route.params.user.name}</Text>)}
+      </Heading>
+      <VStack space={2} >
+        {/* Buttons Filter */}
+        <Box style={styles.menu} mx={"auto"} mb={2}>
+          <Button w={90} h={8} p={0} mt={2} mr={2} bg={tracksFilter === null ? "#78E08F" : "grey"} onPress={() => setTracksFilter(null)}>
+            <Text fontSize="xs" style={{ color: "white", fontWeight: 'bold' }} >
+              Toutes
             </Text>
           </Button>
-        </HStack>
-
+          <Button w={90} h={8} p={0} mt={2} mr={2} style={tracksFilter === true ? { backgroundColor: "#78E08F" } : { backgroundColor: "grey" }} onPress={() => setTracksFilter(true)} >
+            <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
+              En cours
+            </Text>
+          </Button>
+          <Button w={90} h={8} p={0} mt={2} mr={2} bg="#bbb" style={tracksFilter === false ? { backgroundColor: "#78E08F" } : { backgroundColor: "grey" }} onPress={() => setTracksFilter(false)} >
+            <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
+              Achevées
+            </Text>
+          </Button>
+          <Button w={90} h={8} p={0} mt={2} style={tracksFilterAdmin ? { backgroundColor: "#78E08F" } : { backgroundColor: "grey" }} onPress={() => { setTracksFilterAdmin(!tracksFilterAdmin) }} >
+            <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
+              Créées
+            </Text>
+          </Button>
+        </Box>
+      </VStack>
+      <ScrollView style={{ width: '100%', flex: 1 }} >
         {/* Titre */}
-        <VStack space={2} >
-          <Heading size="md" textAlign="center" mb={4}>
-            {!props.route.params?(<Text>Mes Randonnées</Text> ): (<Text>Randonnées de {props.route.params.user.name}</Text>)}
-          </Heading>
-
-          {/* Buttons Filter */}
-          <Box style={ styles.menu} mx={"auto"} mb={2}>
-            <Button w={90} h={8} p={0} mt={2} mr={2} style={tracksFilter === null ? {backgroundColor: "#78E08F"} : {backgroundColor: "grey"}} onPress={() => setTracksFilter(null)}>
-              <Text fontSize="xs" style={{ color: "white", fontWeight: 'bold' }} >
-                Toutes
-              </Text>
-            </Button>
-            <Button w={90} h={8} p={0} mt={2} mr={2} style={tracksFilter === true ? {backgroundColor: "#78E08F"} : {backgroundColor: "grey"}} onPress={() => setTracksFilter(true)} >
-              <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
-                En cours
-              </Text>
-            </Button>
-            <Button w={90} h={8} p={0} mt={2} mr={2} bg="#bbb" style={tracksFilter === false ? {backgroundColor: "#78E08F"} : {backgroundColor: "grey"}} onPress={() => setTracksFilter(false)} >
-              <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
-                Achevées
-              </Text>
-            </Button>
-            <Button w={90} h={8} p={0} mt={2} style={tracksFilterAdmin ? {backgroundColor: "#78E08F"} : {backgroundColor: "grey"}} onPress={() => {setTracksFilterAdmin(!tracksFilterAdmin)}} >
-              <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
-                Admin
-              </Text>
-            </Button>
-          </Box>
-        </VStack>
-
 
         {/* History contents Line */}
         {sourceCard}
 
-
       </ScrollView>
-      {/* To prevent leaving the content area */}
-      
     </SafeAreaView>
   );
 }
@@ -190,6 +180,7 @@ const styles = StyleSheet.create({
     borderColor: '#CCCCCC',
     color: '#000',
     borderRadius: 15,
+    alignItems: 'center'
   },
   menu: {
     justifyContent: "center",

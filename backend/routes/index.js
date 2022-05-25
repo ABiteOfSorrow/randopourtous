@@ -163,7 +163,7 @@ router.post('/get-tracks', async function (req, res, next) {
   
   for(oneRando of randosInBDD){
     for(participant of oneRando.users){
-      console.log("oneRando ",oneRando)
+      //console.log("oneRando ",oneRando)
       //Si le participant dans la liste users est celui renvoyé dans la requete et qu'il est pas déjà dans la liste
       if(participant === userId && fullInfoTracks.find(e => e.id == oneRando.id) == undefined){
         fullInfoTracks.push(oneRando)

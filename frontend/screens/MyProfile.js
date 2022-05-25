@@ -14,7 +14,7 @@ import backendConfig from '../backend.config.json';
 const backendAdress = backendConfig.address;
 
 function MyProfile(props) {
-  console.log(JSON.stringify(props.user))
+  //console.log(JSON.stringify(props.user))
   const focused = useIsFocused();
 
   useEffect(() => {
@@ -66,7 +66,7 @@ function MyProfile(props) {
       if (i < userStars) {
         color = "#f1c40f";
       }
-      tabGlobalRating.push(<AntDesign key={i} color={color} name="star" size={24} />);
+      tabGlobalRating.push(<AntDesign key={i} color={color} name="star" size={36} />);
     }
   }
 

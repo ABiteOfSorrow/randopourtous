@@ -46,7 +46,7 @@ function EditProfile(props) {
                      Alert.alert('Erreur', response.error);
                   }
                } else {
-                  Alert.alert('Erreur','Erreur de connexion au serveur.');
+                  Alert.alert('Erreur', 'Erreur de connexion au serveur.');
                }
             }
          } catch (e) {
@@ -61,7 +61,7 @@ function EditProfile(props) {
    const [name, setName] = React.useState(props.user.name);
    const [lastName, setLastName] = React.useState(props.user.lastname);
    let defaultAge = '';
-   if (props.user.age && props.user.age !== -1 ) {
+   if (props.user.age && props.user.age !== -1) {
       defaultAge = props.user.age.toString();
    }
    const [age, setAge] = React.useState(defaultAge);
@@ -91,9 +91,9 @@ function EditProfile(props) {
             let response = await rawresponse.json();
             if (response.result) {
                props.login(response.user)
-               Alert.alert('Succès','Modifications enregistrées.')
+               Alert.alert('Succès', 'Modifications enregistrées.')
             } else {
-               Alert.alert('Erreur',response.error);
+               Alert.alert('Erreur', response.error);
             }
          } else {
             Alert.alert('Erreur', 'Erreur de connexion au serveur.');
@@ -101,14 +101,14 @@ function EditProfile(props) {
       } catch (e) {
          console.log(e)
       }
-      
+
    }
 
    return (
       <SafeAreaView style={{ flex: 1, alignItems: 'center', backgroundColor: '#fff' }} >
-         <View style={{width:'100%', display:'flex', flexDirection:'row', justifyContent:'space-between', alignItems:'center', borderBottomWidth: 1, borderColor:'#CCCCCC', marginBottom:"5%"}}>
+         <View style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottomWidth: 1, borderColor: '#CCCCCC', marginBottom: "5%" }}>
             <View style={{ width: 94 }} >
-            <HamburgerMenu navigation={props.navigation} /> 
+               <HamburgerMenu navigation={props.navigation} />
             </View>
             <View>
                <Text style={{ fontWeight: 'bold', fontSize: 18 }} >
@@ -141,12 +141,11 @@ function EditProfile(props) {
             <Text style={{ marginTop: 12, marginLeft: 10 }} >Age</Text>
             <Input my={3} maxLength={2} placeholder="Veuillez entrer l'age..." value={age} onChangeText={(text) => handleAge(text)} />
          </ScrollView>
-         <KeyboardAvoidingView style={{ marginBottom: '14%', paddingHorizontal: 20, width: '100%', flex: 1, display: 'flex', justifyContent: 'flex-end', paddingBottom: 20 }} >
-            <View style={{ width: '100%' }} >
+         <View style={{ width: '100%', flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }} >
+            <View style={{ width: '84%' }} >
                <Button bg='#78E08F' onPress={async () => await handleSubmit()} style={{ width: '100%' }}>Sauvegarder</Button>
             </View>
-
-         </KeyboardAvoidingView>
+         </View>
 
       </SafeAreaView>
    )

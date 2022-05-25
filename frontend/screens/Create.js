@@ -75,7 +75,7 @@ function Create(props) {
       return
     }
     if (!date) {
-      alert('Veuillez entrer une date.')
+      Alert.alert('Attention','Veuillez entrer une date.')
     }
     let coordinate = thePOI.coordinate
     var randoData = {
@@ -101,7 +101,7 @@ function Create(props) {
       if (rawresponse.ok) {
         var result = await rawresponse.json()
         var rando = result.rando
-        console.log('rando sauvergardée: ', rando)
+        //console.log('rando sauvergardée: ', rando)
 
         if (result.result) { // Tout se passe bien
           props.setUser(result.user)
@@ -121,9 +121,9 @@ function Create(props) {
   }
   //Fontion recupère les infos du press listener sur la carte
   const addPress = async (nativeEvent) => {
-    console.log(nativeEvent)
+    //console.log(nativeEvent)
     setThePOI(nativeEvent)
-    console.log('thePOI', thePOI)
+    //console.log('thePOI', thePOI)
   }
   //Marqueur de map appelé sur le map view
   var trackMarker = () => {

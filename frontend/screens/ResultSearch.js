@@ -42,7 +42,8 @@ function ResultSearch(props) {
         //**** si département, récupération de la première rando de la liste et zoom sur ses coordonnée */
 
       let mapSetUp
-      if(props.data.ville.codePostal){
+
+      if(props.data.ville.codePostal!==undefined){
 
         if (props.data.ville.codePostal.length === 2) {
           //*******affichage à l'échelle du département */
@@ -73,12 +74,12 @@ function ResultSearch(props) {
           latitudeDelta: 10,
           longitudeDelta: 10,
         }
-        setMapConfig(mapSetUp)
       }
+      setMapConfig(mapSetUp)
     }}
 
     searchFunction()
-  }, [])
+  }, [props.data])
 
   let listRando
   //**** si pas de résultats, affichage d'une message d'erreur, sinon affichage de la liste des randos */
@@ -135,6 +136,7 @@ function ResultSearch(props) {
     ))
   }
 
+  console.log(mapConfig)
   //****** initialisation de la liste des markers de randonnées */
 
   var displayListPosition = resultSearch.map((rando, i) => (

@@ -141,7 +141,7 @@ const BottomMenuTabs = () => {
         style: {
           backgroundColor: '#78E08F',
 
-          bottom: 5,
+          marginVertical: 5,
           marginHorizontal: 10,
           elevation: 0,
           borderRadius: 15,
@@ -176,7 +176,7 @@ export default function App() {
       />
     </>
   )
-  useEffect(() => {
+  /*useEffect(() => {
     AsyncStorage.getItem('user')
       .then((user) => {
         if (user) {
@@ -200,7 +200,7 @@ export default function App() {
       .catch((err) => {
         console.log(err)
       })
-  }, [])
+  }, [])*/
 
   const MyTheme = {
     ...DefaultTheme,

@@ -121,7 +121,7 @@ function Search(props) {
 
       <VStack
         space={1}
-        style={{ alignItems: 'center', flex: 1, paddingBottom: 70 }}>
+        style={{ alignItems: 'center', flex: 1 }}>
         <Heading size='md'> Chercher une randonnée </Heading>
 
         {/* sélection de la ville */}

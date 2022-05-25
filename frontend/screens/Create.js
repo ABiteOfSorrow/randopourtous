@@ -379,8 +379,6 @@ function Create(props) {
         }}
         onCancel={hidePicker}
       />
-      {/* To prevent leaving the content area */}
-      <Box w='100%' h='8.5%' alignSelf='center' bg='#fff' />
     </SafeAreaView>
   )
 }

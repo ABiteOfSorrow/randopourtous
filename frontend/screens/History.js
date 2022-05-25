@@ -69,7 +69,7 @@ function History(props) {
       var etat = "Achevée"
     }
     else {
-      var colorBg = "#38ADA9"
+      var colorBg = "#079992"
       var colorText = "white"
       var etat = "En cours..."
     }

@@ -7,8 +7,25 @@ import { connect } from "react-redux";
 import { AntDesign } from "@expo/vector-icons";
 import HamburgerMenu from "../components/HamburgerMenu";
 
+import backendConfig from '../backend.config.json'
+const backendAdress = backendConfig.address
+
 function Management(props) {
-  console.log(props.rando)
+  console.log("props.rando",props.route.params.rando)
+
+  async function handleSubmit(){
+
+    var rawResponse = await fetch(backendAdress + '/finish-track', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(props.route.params.rando)
+    });
+
+    var response = await rawResponse.json();
+
+    props.navigation.navigate("Chercher", {screen:'Resume', params:{user: props.user}})
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
       <ScrollView>
@@ -113,7 +130,7 @@ function Management(props) {
           </Box>
         </VStack>
       </ScrollView>
-      <Button w={"50%"} h={25} p={0} mb={3} mt={3} borderRadius={15} bg={"#E55039"} alignSelf={"center"} onPress={() => props.navigation.navigate("Chercher", {screen:'Resume', params:{user: props.user}  })}>
+      <Button w={"50%"} h={25} p={0} mb={3} mt={3} borderRadius={15} bg={"#E55039"} alignSelf={"center"} onPress={() => handleSubmit()}>
         <Text color="#ffffff">Terminer cette Rando</Text>
       </Button>
       {/* To prevent leaving the content area */}

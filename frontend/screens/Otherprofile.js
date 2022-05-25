@@ -1,6 +1,6 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { Button } from "native-base";
+import { Button, Avatar } from "native-base";
 import { Text, View, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HamburgerMenu from "../components/HamburgerMenu";
@@ -108,7 +108,14 @@ function OtherProfile(props) {
               justifyContent: "center",
             }}
           >
-            <MaterialIcons name="account-circle" size={102} color="black" />
+          <Avatar
+            size={150}
+            me="10"
+            bg="amber.500"
+            source={{
+              uri: "https://file1.topsante.com/var/topsante/storage/images/medecine/troubles-orl/rhume-rhinopharingite/vivre-avec/on-a-trouve-l-origine-du-rhume-les-chameaux-612915/8708813-1-fre-FR/On-a-trouve-l-origine-du-rhume-les-chameaux.jpg?alias=original",
+            }}
+          ></Avatar>
           </View>
           <View
             style={{

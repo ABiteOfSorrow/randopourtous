@@ -6,6 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import { MaterialIcons } from '@expo/vector-icons';
 import HamburgerMenu from '../components/HamburgerMenu';
 import { connect } from 'react-redux';
+import { Avatar } from 'native-base';
 
 import backendConfig from '../backend.config.json';
 const backendAdress = backendConfig.address;
@@ -41,8 +42,15 @@ function SearchPeople(props) {
       }
 
       return (
-         <Box key={index} style={styles.card} >
-            <MaterialIcons name="account-circle" size={38} color="black" />
+         <Box key={index} mb={2} style={styles.card} >
+             <Avatar
+            size={38}
+            me="10"
+            bg="amber.500"
+            source={{
+              uri: "https://file1.topsante.com/var/topsante/storage/images/medecine/troubles-orl/rhume-rhinopharingite/vivre-avec/on-a-trouve-l-origine-du-rhume-les-chameaux-612915/8708813-1-fre-FR/On-a-trouve-l-origine-du-rhume-les-chameaux.jpg?alias=original",
+            }}
+          ></Avatar>
             <Box style={{ flex: 1, display:'flex', alignItems: 'center', justifyContent:'center' }} >
                <Text style={{ color: '#fff', fontSize: 16 }} >{user.username}</Text>
             </Box>

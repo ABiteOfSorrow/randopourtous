@@ -246,4 +246,17 @@ router.get('/search-user-track', async (req, res) => {
 
 });
 
+router.post('/finish-track', async (req, res) => {
+  console.log(ok)
+  // if (!req.query.id) {
+  //   return res.json({ result: false, error: 'Token manquant svp' })
+  // }
+  // let foundRando = await randoModel.findById(req.query.id);
+  // if (!foundRando) {
+  //   return res.json({ result: false, error: 'Rando pas trouvé svp' })
+  // }
+  return res.json({ result: true, track: foundRando })
+
+});
+
 module.exports = router;

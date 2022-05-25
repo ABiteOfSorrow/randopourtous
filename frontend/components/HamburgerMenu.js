@@ -8,8 +8,25 @@ import {
   Divider,
   Pressable,
 } from "native-base";
+import { connect } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function HamburgerMenu(props) {
+
+  let handleLogout = async () => {
+    console.log('Logout')
+    props.logoutUser();
+    // clear async storage
+    try {
+    await AsyncStorage.clear();
+    // navigate to login screen
+    props.navigation.navigate('SignIn');
+    } catch (e) {
+    
+    console.log(e)
+    } 
+  }
+
   return (
     <Box alignItems="flex-start" ml="5" my="3">
       <Menu
@@ -34,7 +51,7 @@ function HamburgerMenu(props) {
         </Menu.Group>
         <Divider mt="3" w="100%" />
         <Menu.Group title="Connection">
-          <Menu.Item onPress={() => console.log("SignOut")}>
+          <Menu.Item onPress={() => handleLogout()}>
             Déconnexion
           </Menu.Item>
         </Menu.Group>
@@ -42,4 +59,10 @@ function HamburgerMenu(props) {
     </Box>
   );
 }
-export default HamburgerMenu;
+
+function mapDispatchToProps(dispatch) {
+  return {
+    logoutUser: () => dispatch({ type: "USER_LOGOUT" })
+  };
+}
+export default connect(null, mapDispatchToProps)(HamburgerMenu);

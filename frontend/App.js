@@ -1,9 +1,9 @@
 // import { LogBox } from "react-native";
 // LogBox.ignoreAllLogs(true);
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Platform } from 'react-native'
 import { NativeBaseProvider } from 'native-base'
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer, DefaultTheme, StackActions } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import { FontAwesome5 } from '@expo/vector-icons'
@@ -57,8 +57,8 @@ const HomeNavigator = () => {
 const ProfileNavigator = () => {
   return (
     <Stack.Navigator
-    initialRouteName='MyProfile'
-    screenOptions={{ headerShown: false }}>
+      initialRouteName='MyProfile'
+      screenOptions={{ headerShown: false }}>
       <Stack.Screen name='MyProfile' component={MyprofileScreen} />
       <Stack.Screen name='EditProfile' component={EditProfileScreen} />
       <Stack.Screen name='History' component={HistoryScreen} />
@@ -78,6 +78,41 @@ const SearchNavigator = () => {
       <Stack.Screen name='Resume' component={ResumeScreen} />
     </Stack.Navigator>
   )
+}
+
+function resetTabStackListener() {
+  // On Android, we want to clear the tab stack history when a user returns to the tab.
+  if (Platform.OS === 'android') {
+    return function ResetTabStackListener({ navigation }) {
+      // To accomplish the above without delaying the tab switch or incurring loading or animation UX, we
+      // clear the history of all tab stacks except for the one being navigated to. This means that the
+      // prior stack will be at the desired state if the user returns to it. Since we don't know which
+      // tab the user was coming from, we must clear all but the target stack.
+      return {
+        tabPress: (e) => {
+          const state = navigation.dangerouslyGetState();
+
+          if (state) {
+            const nonTargetTabs = state.routes.filter((r) => r.key !== e.target);
+
+            nonTargetTabs.forEach((tab) => {
+              const stackKey = (tab.state)?.key;
+
+              if (stackKey) {
+                navigation.dispatch({
+                  ...StackActions.popToTop(),
+                  target: stackKey,
+                });
+              }
+            });
+          }
+        },
+      };
+    };
+  } else {
+    // iOS preserves history.
+    return undefined;
+  }
 }
 
 const BottomMenuTabs = () => {
@@ -105,22 +140,22 @@ const BottomMenuTabs = () => {
         inactiveTintColor: '#FFFFFF',
         style: {
           backgroundColor: '#78E08F',
-          position: 'absolute',
-          bottom: 5,
-          left: 20,
-          right: 20,
+
+          marginVertical: 5,
+          marginHorizontal: 10,
           elevation: 0,
           borderRadius: 15,
           height: 60,
+          paddingBottom: 4,
           ...styles.shadow,
         },
       }}
       initialRouteName='Home'
     >
-      <Tab.Screen name='Home' component={HomeNavigator} />
-      <Tab.Screen name='Randos' component={HistoryScreen} />
-      <Tab.Screen name='Chercher' component={SearchNavigator} />
-      <Tab.Screen name='Profil' component={ProfileNavigator} />
+      <Tab.Screen name='Home' component={HomeNavigator} listeners={resetTabStackListener()} />
+      <Tab.Screen name='Randos' component={HistoryScreen} listeners={resetTabStackListener()} />
+      <Tab.Screen name='Chercher' component={SearchNavigator} listeners={resetTabStackListener()} />
+      <Tab.Screen name='Profil' component={ProfileNavigator} listeners={resetTabStackListener()} />
     </Tab.Navigator>
   )
 }
@@ -141,7 +176,7 @@ export default function App() {
       />
     </>
   )
-  useEffect(() => {
+  /*useEffect(() => {
     AsyncStorage.getItem('user')
       .then((user) => {
         if (user) {
@@ -165,12 +200,20 @@ export default function App() {
       .catch((err) => {
         console.log(err)
       })
-  }, [])
+  }, [])*/
+
+  const MyTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      background: '#fff'
+    },
+  };
 
   return (
     <Provider store={store}>
       <NativeBaseProvider>
-        <NavigationContainer>
+        <NavigationContainer theme={MyTheme} >
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             {routes}
             <Stack.Screen

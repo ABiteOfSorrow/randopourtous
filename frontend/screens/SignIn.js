@@ -32,7 +32,7 @@ function SignIn(props) {
                   await AsyncStorage.setItem('user', JSON.stringify(response.user))
                   props.signUp(response.user);
                 } else {
-                  console.log(response)
+                  //console.log(response)
                   props.signUp(JSON.parse(user));
                 }
                 props.navigation.replace("Home");
@@ -104,7 +104,7 @@ function SignIn(props) {
     >
       <ScrollView
         style={{ width: "100%", height: "100%" }}
-        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', width: '100%', minHeight: '100%' }}>
         <Text style={{ fontSize: 26, marginBottom: '8%', marginTop: "3%" }}>RandoPourTous</Text>
         <Text style={{ fontSize: 20, marginBottom: '10%' }}>Connexion</Text>
         <View style={styles.inputContainer}>
@@ -116,8 +116,8 @@ function SignIn(props) {
         <Button style={styles.button} w={"80%"} onPress={async () => await handleSubmit()}>
           Connexion
         </Button>
-        <Divider orientation="horizontal" w={"80%"} mt={10} mb={5} />
-        <Text style={{ fontSize: 16, marginBottom: 14 }}>Se connecter avec</Text>
+        <Divider orientation="horizontal" w={"80%"} mt={'10%'} mb={'3%'} />
+        <Text style={{ fontSize: 16, marginBottom: '4%' }}>Se connecter avec</Text>
         <View
           style={{
             width: "80%",
@@ -126,8 +126,8 @@ function SignIn(props) {
             justifyContent: "center",
           }}
         >
-          <FontAwesome5 style={{ marginHorizontal: 16 }} name="google" size={48} color="#DB4437" onPress={() => alert("Sign up avec Google. Merci.")} />
-          <FontAwesome5 style={{ marginHorizontal: 16 }} name="facebook" size={48} color="#4267B2" />
+          <FontAwesome5 style={{ marginHorizontal: '8%' }} name="google" size={48} color="#DB4437" onPress={() => alert("Sign up avec Google. Merci.")} />
+          <FontAwesome5 style={{ marginHorizontal: '8%' }} name="facebook" size={48} color="#4267B2" />
         </View>
         <View
           style={{
@@ -142,8 +142,8 @@ function SignIn(props) {
             Créer un compte
           </Button>
         </View>
-        <StatusBar style="auto" />
       </ScrollView>
+      <StatusBar style="auto" />
     </SafeAreaView>
   );
 }
@@ -153,11 +153,11 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   inputContainer: {
-    marginBottom: 10,
+    marginBottom: '3%',
   },
   button: {
     backgroundColor: "#78E08F",
-    marginTop: 12,
+    marginTop: '3%',
   },
 });
 

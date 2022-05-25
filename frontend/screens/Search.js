@@ -1,29 +1,15 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import MapView from 'react-native-maps'
-import {StyleSheet, TouchableOpacity} from 'react-native'
+import { StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import HamburgerMenu from '../components/HamburgerMenu'
 
-import {Entypo} from '@expo/vector-icons'
+import { Entypo } from '@expo/vector-icons'
 
-import {
-  Text,
-  Input,
-  Switch,
-  Select,
-  Button,
-  CheckIcon,
-  ScrollView,
-  View,
-  Heading,
-  HStack,
-  VStack,
-  Pressable,
-  Box,
-} from 'native-base'
-import {SafeAreaView} from 'react-native-safe-area-context'
-import {StatusBar} from 'expo-status-bar'
+import { Text, Input, Switch, Select, Button, CheckIcon, ScrollView, View, Heading, HStack, VStack, Pressable, Box, } from 'native-base'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { StatusBar } from 'expo-status-bar'
 
 function Search(props) {
   const [level, setLevel] = useState()
@@ -34,7 +20,7 @@ function Search(props) {
   const [listCities, setListCities] = useState([])
   const [age, setAge] = useState()
   const [mixte, setMixte] = useState(false)
-  const [coord, setCoord] = useState({lat: 48.856614, long: 2.3522219})
+  const [coord, setCoord] = useState({ lat: 48.856614, long: 2.3522219 })
 
   // gestion du date picker
   const showDatePicker = () => {
@@ -55,15 +41,24 @@ function Search(props) {
     // console.log(typeof parseInt(e))
     if (isNaN(e)) {
       if (e.length > 3) {
-        var result = await fetch(`https://geo.api.gouv.fr/communes?nom=${e}`)
-        var response = await result.json()
+        try {
+          var result = await fetch(`https://geo.api.gouv.fr/communes?nom=${e}`)
+          if (result.ok) {
+          var response = await result.json()
 
-        for (let item of response) {
-          listCities.push({
-            nom: item.nom,
-            dpt: item.codeDepartement,
-            codePostal: item.codesPostaux[0],
-          })
+
+          for (let item of response) {
+            listCities.push({
+              nom: item.nom,
+              dpt: item.codeDepartement,
+              codePostal: item.codesPostaux[0],
+            })
+          }
+         } else {
+           console.log('Problème de api du gouvernement')
+         }
+        } catch (error) {
+          console.log(error)
         }
       }
     } else {
@@ -106,9 +101,9 @@ function Search(props) {
   }
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <HStack justifyContent='space-between' mb={1.5}>
-      <HamburgerMenu navigation={props.navigation} /> 
+        <HamburgerMenu navigation={props.navigation} />
         <Button
           w={90}
           h={8}
@@ -116,9 +111,9 @@ function Search(props) {
           mt={2}
           mr={2}
           variant='outline'
-          style={{borderColor: '#38ADA9'}}
+          style={{ borderColor: '#38ADA9' }}
           onPress={() => props.navigation.goBack()}>
-          <Text fontSize='xs' style={{color: '#38ADA9', fontWeight: 'bold'}}>
+          <Text fontSize='xs' style={{ color: '#38ADA9', fontWeight: 'bold' }}>
             Retour
           </Text>
         </Button>
@@ -126,7 +121,7 @@ function Search(props) {
 
       <VStack
         space={1}
-        style={{alignItems: 'center', flex: 1, paddingBottom: 70}}>
+        style={{ alignItems: 'center', flex: 1 }}>
         <Heading size='md'> Chercher une randonnée </Heading>
 
         {/* sélection de la ville */}
@@ -140,7 +135,7 @@ function Search(props) {
           value={citie.nom}
         />
         {listCities.length >= 1 ? (
-          <View style={{width: '84%'}}>
+          <View style={{ width: '84%' }}>
             <ScrollView>
               {listCities.map((e, i) => (
                 <TouchableOpacity
@@ -153,11 +148,12 @@ function Search(props) {
                   }}
                   onPress={async () => {
                     setCitie(e)
-                   // console.log(e)
+                    // console.log(e)
                     setListCities([])
 
                     // si la longueur du CP>2 cela veut dire que ce n'est pas un département, on zoom donc sur la ville
                     if (e.codePostal.length > 2) {
+                      try {
                       var result = await fetch(
                         `https://api-adresse.data.gouv.fr/search/?q=${e.nom}&limit=1`
                       )
@@ -166,6 +162,9 @@ function Search(props) {
                         lat: response.features[0].geometry.coordinates[1],
                         long: response.features[0].geometry.coordinates[0],
                       })
+                      } catch (error) {
+                        console.log(error)
+                      }
                     }
                   }}>
                   <Text key={i}>{e.nom + ' (' + e.codePostal + ')'}</Text>
@@ -192,7 +191,7 @@ function Search(props) {
             size='md'
             onValueChange={() => {
               setMixte(!mixte)
-             // console.log(mixte)
+              // console.log(mixte)
             }}
           />
           <Heading size='md'>Rando mixte </Heading>
@@ -201,7 +200,8 @@ function Search(props) {
             size={14}
             color='black'
             onPress={() =>
-              alert(
+              Alert.alert(
+                'Randonnée mixte',
                 'Une rando mixte veut dire que les participants sont mixés.'
               )
             }
@@ -218,14 +218,14 @@ function Search(props) {
           colorScheme='secondary'
           onPress={showDatePicker}>
           <Text
-            style={{marginLeft: 11, fontSize: 10, color: '#bbb', marginTop: 5}}>
+            style={{ marginLeft: 11, fontSize: 10, color: '#bbb', marginTop: 5 }}>
             {!date
               ? 'Date & Heure'
               : date.toLocaleDateString('fr') +
-                ' ' +
-                date.getHours() +
-                ':' +
-                date.getMinutes()}
+              ' ' +
+              date.getHours() +
+              ':' +
+              date.getMinutes()}
           </Text>
         </Pressable>
 
@@ -365,7 +365,7 @@ const styles = StyleSheet.create({
 function mapDispatchToProps(dispatch) {
   return {
     addData: function (data) {
-      dispatch({type: 'addData', dataAdd: data})
+      dispatch({ type: 'addData', dataAdd: data })
     },
   }
 }

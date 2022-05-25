@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import HamburgerMenu from '../components/HamburgerMenu';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 function Home(props) {
@@ -40,7 +40,7 @@ function Home(props) {
           Rando Pour Tous!
         </Text>
         <View style={{ width: '84%', marginTop: '10%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
-          <Button my={1} bg={'#78E08F'} onPress={() => props.navigation.navigate("Chercher")} >Chercher une randonnée</Button>
+          <Button style={styles.buttonStyle} my={1} bg={'#78E08F'} onPress={() => props.navigation.navigate("Chercher")} >Chercher une randonnée</Button>
           <Button my={1} bg={'#78E08F'} onPress={() => props.navigation.navigate("Create")} >Créer une randonnée</Button>
         </View>
         <View style={{ marginTop: '2%' }} >
@@ -63,6 +63,15 @@ function Home(props) {
     </SafeAreaView>
   )
 }
+
+const styles = StyleSheet.create({
+  buttonStyle: {
+    //width: '85%',
+    color: "white",
+    textAlign: 'center',
+  },
+});
+
 function mapDispatchToProps(dispatch) {
   return {
     signIn: (user) => dispatch({ type: 'USER_LOGIN', user: user })

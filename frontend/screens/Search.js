@@ -36,9 +36,6 @@ function Search(props) {
   const [mixte, setMixte] = useState(false)
   const [coord, setCoord] = useState({lat: 48.856614, long: 2.3522219})
 
-  // Type de localisation: ville ou département
-  const [typeLocalisation, setTypeLocalisation] = useState()
-
   // gestion du date picker
   const showDatePicker = () => {
     setDatePickerVisibility(true)
@@ -210,23 +207,6 @@ function Search(props) {
             }
           />
         </Box>
-
-        {/* sélection de l'age */}
-        {/* <Select
-          style={styles.allInputSelect}
-          selectedValue={age}
-          w={'84%'}
-          height={8}
-          fontSize={10}
-          bg='#EEEEEE'
-          accessibilityLabel='age'
-          placeholder="Âge de l'organisateur"
-          onValueChange={(itemValue) => setAge(itemValue)}
-          _selectedItem={{
-            endIcon: <CheckIcon size='5' />,
-          }}>
-          {listAgeDisplay}
-        </Select> */}
 
         {/* sélection de la date */}
         <Pressable

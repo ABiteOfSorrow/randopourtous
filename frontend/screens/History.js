@@ -10,15 +10,19 @@ import backendConfig from '../backend.config.json'
 const backendAdress = backendConfig.address
 
 function History(props) {
-
+  //Vérifie si l'utilisateur est bien sur cette page
   const isFocused = useIsFocused();
 
   const [allTracks, setAllTracks] = useState([]);
-  //const [allTracksFiltered, setAllTracksFiltered] = useState([]);
   const [tracksFilter, setTracksFilter] = useState(null)
+  const [tracksFilterAdmin, setTracksFilterAdmin] = useState(false)
+  const [colorBtnAdmin, setColorBtnAdmin] = useState('#FFFFFF')
+
 
   //Initialisation de toutes les randos de l'utilisateur à l'ouverture de composant et dès le changement de la variable d'état "tracksFilter"
   useEffect(() => {
+
+    console.log(colorBtnAdmin)
 
     //Récupérations des randos dans la BDD
     async function loadData() {
@@ -26,32 +30,39 @@ function History(props) {
       var rawResponse = await fetch(backendAdress + '/get-tracks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(props.user.tracks)
+        body: JSON.stringify(props.user)
       });
 
-      console.log("props.user.tracks", props.user.tracks)
+      //console.log("props.user.tracks", props.user.tracks)
 
       var response = await rawResponse.json();
-      console.log("response ", response.fullInfoTracks.length)
-      if (tracksFilter === null) {
-        setAllTracks(response.fullInfoTracks)
-      } else {
+      console.log("response ", tracksFilterAdmin)
+      console.log("response ", tracksFilter)
+
+      //Filtrage dynamique
+     
+      if(tracksFilterAdmin){
+        setColorBtnAdmin("#bbb")
+        setAllTracks(response.fullInfoTracks.filter(track => track.finished !== tracksFilter && track.userId === props.user._id))
+       
+
+      }else{
+        setColorBtnAdmin("#FFFFF")
         setAllTracks(response.fullInfoTracks.filter(track => track.finished !== tracksFilter))
       }
 
-      //Filtrage dynamique
-      //setAllTracksFiltered(allTracks.filter(track => track.finished !== tracksFilter))
     }
     if (isFocused) {
       loadData()
     }
 
-  }, [tracksFilter, isFocused]);
+  }, [tracksFilter, tracksFilterAdmin, isFocused]);
 
   //console.log("csl allTarcks ", allTracks)
   var sourceCard = allTracks.map((rando, i) => {
-    console.log(allTracks.length)
-    console.log('boucle sur i :' + i)
+    //console.log(allTracks.length)
+    //console.log('boucle sur i :' + i)
+
     //Condition qui adapte la couleur et le status des cartes selon les randos
     if (rando.finished == true) {
       var colorBg = "#bbbbbb"
@@ -126,24 +137,29 @@ function History(props) {
         {/* Titre */}
         <VStack space={2} style={{ alignItems: "center" }} >
           <Heading size="md" mb={4}>
-            Mes randonnées créées
+            Mes randonnées
           </Heading>
 
           {/* Buttons Filter */}
           <Box style={{ alignItems: "center", flexDirection: "row", display: "flex" }} mb={5}>
-            <Button w={100} h={8} p={0} mt={2} mr={2} style={{ borderColor: "#38ADA9" }} onPress={() => setTracksFilter(null)}>
+            <Button w={90} h={8} p={0} mt={2} mr={2} style={{ borderColor: "#38ADA9" }} onPress={() => setTracksFilter(null)}>
               <Text fontSize="xs" style={{ color: "white", fontWeight: 'bold' }} >
                 Toutes
               </Text>
             </Button>
-            <Button w={100} h={8} p={0} mt={2} mr={2} style={{ backgroundColor: "#38ADA9" }} onPress={() => setTracksFilter(true)} >
+            <Button w={90} h={8} p={0} mt={2} mr={2} style={{ backgroundColor: "#38ADA9" }} onPress={() => setTracksFilter(true)} >
               <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
                 En cours
               </Text>
             </Button>
-            <Button w={100} h={8} p={0} mt={2} mr={2} bg="#bbb" onPress={() => setTracksFilter(false)} >
+            <Button w={90} h={8} p={0} mt={2} mr={2} bg="#bbb" style={{ backgroundColor: "#38ADA9" }} onPress={() => setTracksFilter(false)} >
               <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
                 Achevées
+              </Text>
+            </Button>
+            <Button w={90} h={8} p={0} mt={2} style={{ backgroundColor:colorBtnAdmin }} onPress={() => setTracksFilterAdmin(!tracksFilterAdmin)} >
+              <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
+                Admin
               </Text>
             </Button>
           </Box>
@@ -167,7 +183,7 @@ const styles = StyleSheet.create({
   },
   allInput: {
     //backgroundColor: '#EEEEEE',
-    borderWidth: 5,
+    borderWidth: 2,
     borderColor: '#CCCCCC',
     color: '#000',
     borderRadius: 15,

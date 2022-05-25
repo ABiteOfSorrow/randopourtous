@@ -26,7 +26,9 @@ function History(props) {
     async function loadData() {
       //****** si on vient du screen OtherProfile, on a le param props.params.user sinon on vient du screen MyProfile donc c'est l'user du store */
      
-      let user = props.route.params?props.route.params:props.user
+
+     // console.log('parames: ',typeof props.route.params.user)
+      let user = props.route.params?props.route.params.user:props.user
 
       var rawResponse = await fetch(backendAdress + '/get-tracks', {
         method: 'POST',
@@ -34,9 +36,12 @@ function History(props) {
         body: JSON.stringify(user)
       });
 
+
+
       //console.log("props.user.tracks", props.user.tracks)
 
       var response = await rawResponse.json();
+      console.log(response)
       //console.log("response ", tracksFilterAdmin)
       //console.log("response ", tracksFilter)
 
@@ -124,7 +129,7 @@ function History(props) {
   //Affichage
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-      <ScrollView h="80%">
+      <ScrollView >
         <HStack style={{ justifyContent: "space-between" }} mb={4}>
           <HamburgerMenu navigation={props.navigation} />
           <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" style={{ borderColor: "#38ADA9" }} onPress={() => props.navigation.goBack()}>
@@ -137,7 +142,7 @@ function History(props) {
         {/* Titre */}
         <VStack space={2} >
           <Heading size="md" textAlign="center" mb={4}>
-            {!props.route.params?<Text>Mes Randonnées</Text>: <Text>Randonnées de {props.route.params.name}</Text>}
+            {!props.route.params?(<Text>Mes Randonnées</Text> ): (<Text>Randonnées de {props.route.params.user.name}</Text>)}
           </Heading>
 
           {/* Buttons Filter */}
@@ -172,7 +177,7 @@ function History(props) {
 
       </ScrollView>
       {/* To prevent leaving the content area */}
-      <Box w={"100%"} h={60} alignSelf="center" />
+      
     </SafeAreaView>
   );
 }

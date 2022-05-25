@@ -73,7 +73,6 @@ function List(props) {
         </VStack>
       </ScrollView>
       {/* To prevent leaving the content area */}
-      <Box w='100%' h='8.5%' alignSelf='center' bg='#fff' />
     </SafeAreaView>
   )
 }

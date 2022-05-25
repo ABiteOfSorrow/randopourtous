@@ -76,7 +76,7 @@ function Detail(props) {
 
     // si la personne connectée est l'organisateur, alors on affiche MyProfil
     if (props.user._id === user) {
-      props.navigation.navigate('MyProfile')
+      props.navigation.navigate('Profil')
     } else {
       // si la personne connectée n'est pas l'organisateur alors on affiche OtherProfile
       let result = await fetch(backendAdress + '/users/user/' + user)
@@ -96,7 +96,7 @@ function Detail(props) {
     console.log(props.user._id)
     //*** Ajout de l'id du randonneur dans la base de donnée de la radonnée */
     let rawresponse = await fetch(backendAdress + '/add-user-track?userid=' + props.user._id + '&trackid=' + rando._id);
-    props.navigation.navigate( 'Chat', { rando } )
+    props.navigation.navigate( 'Randos', {screen:'Chat',params: {rando} } )
   }
 
   let listUsersDisplay = listUsers.map((item, i) => {

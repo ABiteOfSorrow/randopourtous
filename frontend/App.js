@@ -44,49 +44,61 @@ import { useEffect } from 'react'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
-const HomeStack = createStackNavigator();
-const ProfileStack = createStackNavigator();
-const SearchStack = createStackNavigator();
+//const HomeStack = createStackNavigator();
+//const ProfileStack = createStackNavigator();
+//const SearchStack = createStackNavigator();
+//const RandoStack = createStackNavigator();
 
 const HomeNavigator = () => {
   return (
-    <HomeStack.Navigator
+    <Stack.Navigator
       initialRouteName='HomeScreen'
       screenOptions={{ headerShown: false }}
     >
-      <HomeStack.Screen name='HomeScreen' component={HomeScreen} />
-      <HomeStack.Screen name='MyTrack' component={MyTrack} />
-      <HomeStack.Screen name='Create' component={CreateScreen} />
-      <HomeStack.Screen name='SearchPeople' component={SearchPeopleScreen} />
-    </HomeStack.Navigator>
+      <Stack.Screen name='HomeScreen' component={HomeScreen} />
+      <Stack.Screen name='MyTrack' component={MyTrack} />
+      <Stack.Screen name='Create' component={CreateScreen} />
+      <Stack.Screen name='SearchPeople' component={SearchPeopleScreen} />
+      <Stack.Screen name='Detail' component={DetailScreen} />
+    </Stack.Navigator>
   )
 }
 
 const ProfileNavigator = () => {
   return (
-    <ProfileStack.Navigator
+    <Stack.Navigator
     initialRouteName='MyProfile'
     screenOptions={{ headerShown: false }}>
-      <ProfileStack.Screen name='MyProfile' component={MyprofileScreen} />
-      <ProfileStack.Screen name='EditProfile' component={EditProfileScreen} />
-      <ProfileStack.Screen name='History' component={HistoryScreen} />
-      <ProfileStack.Screen name='Friend' component={FriendScreen} />
-      <ProfileStack.Screen name='Management' component={ManagementScreen} />
-      <ProfileStack.Screen name='Chat' component={ChatScreen} />
-    </ProfileStack.Navigator>
+      <Stack.Screen name='MyProfile' component={MyprofileScreen} />
+      <Stack.Screen name='EditProfile' component={EditProfileScreen} />
+      <Stack.Screen name='Friend' component={FriendScreen} />
+    </Stack.Navigator>
   )
 }
 
 
 const SearchNavigator = () => {
   return (
-    <SearchStack.Navigator
-      screenOptions={{ headerShown: false }}
-      initialRouteName='Chercher' >
-      <SearchStack.Screen name='Chercher' component={SearchScreen} />
-      <SearchStack.Screen name='ResultSearch' component={ResultSearch} />
-      <SearchStack.Screen name='Resume' component={ResumeScreen} />
-    </SearchStack.Navigator>
+    <Stack.Navigator
+    screenOptions={{ headerShown: false }}
+    initialRouteName='Chercher' >
+      <Stack.Screen name='Chercher' component={SearchScreen} />
+      <Stack.Screen name='ResultSearch' component={ResultSearch} />
+      <Stack.Screen name='Resume' component={ResumeScreen} />
+    </Stack.Navigator>
+  )
+}
+const RandoNavigator = () => {
+  return (
+    <Stack.Navigator
+    screenOptions={{ headerShown: false }}
+    initialRouteName='History' >
+      <Stack.Screen name='History' component={HistoryScreen} />
+      <Stack.Screen name='Detail' component={DetailScreen} />
+      <Stack.Screen name='Management' component={ManagementScreen} />
+      <Stack.Screen name='Chat' component={ChatScreen} />
+
+    </Stack.Navigator>
   )
 }
 
@@ -164,7 +176,7 @@ const BottomMenuTabs = () => {
       initialRouteName='Home'
     >
       <Tab.Screen name='Home' component={HomeNavigator} listeners={resetTabStackListener()} />
-      <Tab.Screen name='Randos' component={HistoryScreen} listeners={resetTabStackListener()} />
+      <Tab.Screen name='Randos' component={RandoNavigator} listeners={resetTabStackListener()} />
       <Tab.Screen name='Chercher' component={SearchNavigator} listeners={resetTabStackListener()} />
       <Tab.Screen name='Profil' component={ProfileNavigator} listeners={resetTabStackListener()} />
     </Tab.Navigator>
@@ -232,7 +244,7 @@ export default function App() {
               options={{ gestureEnabled: false, headerLeft: false }}
               component={BottomMenuTabs}
             />
-            <Stack.Screen name='Detail' component={DetailScreen} />
+            
             <Stack.Screen name='BottomMenuTabs' component={BottomMenuTabs} />
             <Stack.Screen name='OtherProfile' component={OtherProfileScreen} />
           </Stack.Navigator>

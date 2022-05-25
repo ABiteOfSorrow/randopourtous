@@ -25,7 +25,7 @@ function Home(props) {
 
 
   return (
-    <SafeAreaView style={{ flex: 1, alignItems: 'center', backgroundColor: '#fff', width: '100%', }}>
+    <SafeAreaView style={{ flex: 1, alignItems: 'center', backgroundColor: '#fff', width: '100%', justifyContent: 'center' }}>
       <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center', borderBottomWidth: 1, borderColor: '#CCCCCC' }} >
         <View style={{ width: '30%' }} >
           <HamburgerMenu navigation={props.navigation} />
@@ -36,11 +36,11 @@ function Home(props) {
           </Text></View>
         <View style={{ width: '30%' }}></View>
       </View>
-      <ScrollView contentContainerStyle={{ flex: 1, width: '100%', height: "100%", alignItems: 'center' }} >
-        <Text style={{ fontSize: 24, marginTop: '10%', color: "#079992", fontWeight: 'bold', paddingTop: 5 }}>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ width: '100%', height: "100%", alignItems: 'center', justifyContent:'center' }} >
+        <Text style={{ fontSize: 24, color: "#079992", fontWeight: 'bold', paddingTop: 5 }}>
           RandoPourTous !
         </Text>
-        <View style={{ width: '84%', marginTop: '14%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
+        <View style={{ width: '84%', marginTop: '10%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
           <Button style={styles.buttonStyle} my={1} bg={'#78E08F'} onPress={() => props.navigation.navigate("Chercher")} >Chercher une randonnée</Button>
           <Button my={1} bg={'#78E08F'} onPress={() => props.navigation.navigate("Create")} >Créer une randonnée</Button>
         </View>
@@ -57,8 +57,8 @@ function Home(props) {
         </View>
         <View style={{ width: '100%', marginTop: '2%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
           <Text>{props.user.username}</Text>
-          <Button my={2} bg={'#079992'} onPress={() => props.navigation.navigate('Profil')} >Mon compte</Button>
-          <Button my={2} bg={'#bbb'} onPress={() => props.navigation.navigate('SearchPeople')} >Chercher un utilisateur</Button>
+          <Button mt={'2%'} bg={'#079992'} onPress={() => props.navigation.navigate('Profil')} >Mon compte</Button>
+          <Button my={'2%'} bg={'#bbb'} onPress={() => props.navigation.navigate('SearchPeople')} >Chercher un utilisateur</Button>
         </View>
       </ScrollView>
       <StatusBar style='auto' />

@@ -3,6 +3,7 @@ var router = express.Router();
 let bcrypt = require('bcrypt');
 let User = require('../models/user');
 let uid = require('uid2');
+let mongoose = require('mongoose');
 const cost = 10;
 
 /* GET users listing. */
@@ -146,6 +147,9 @@ router.get('/user/:id', async (req, res) => {
   console.log(req.params.id)
   if (!req.params.id) {
     return res.json({ result: false, error: 'Id est manquant.' });
+  }
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.json({ result: false, error: 'Id invalide.' });
   }
   let foundUser = await User.findById(req.params.id).populate('tracks').exec();
   if (!foundUser) {

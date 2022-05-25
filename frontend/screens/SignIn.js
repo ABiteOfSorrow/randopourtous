@@ -27,7 +27,7 @@ function SignIn(props) {
               if (rawresponse.ok) {
                 console.log('Ok response')
                 let response = await rawresponse.json();
-                console.log(typeof response.user)
+                // console.log(typeof response.user)
                 if (response.result) {
                   await AsyncStorage.setItem('user', JSON.stringify(response.user))
                   props.signUp(response.user);
@@ -74,7 +74,7 @@ function SignIn(props) {
         }
         // store to redux here
         props.signUp(data.user);
-        console.log(data.user);
+        // console.log(data.user);
         // save in async storage
         try {
           await AsyncStorage.setItem("user", JSON.stringify(data.user));

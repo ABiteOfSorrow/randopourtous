@@ -25,7 +25,7 @@ function Resume(props) {
   let photos = [...image];
 
   let rando = props.route.params.rando
-  console.log(rando)
+  // console.log(rando)
   // console.log(props)
 
   useEffect(() => {
@@ -199,7 +199,7 @@ function Resume(props) {
           setDisable(true)
 
           // console.log(JSON.stringify(userRawResponse))
-          console.log(JSON.stringify(randoRawResponse))
+          // console.log(JSON.stringify(randoRawResponse))
         } catch (e) {
           console.log(e)
         }

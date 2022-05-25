@@ -31,7 +31,7 @@ function ResultSearch(props) {
 
       let response = await result.json()
       if (response.success === true) {
-        console.log(response.success)
+        // console.log(response.success)
         setResultSearch([...response.result])
 
 

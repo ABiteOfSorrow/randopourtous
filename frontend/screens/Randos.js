@@ -27,7 +27,7 @@ function List(props) {
               mr={4}
               onValueChange={() => {
                 setVueMap(!vueMap)
-                console.log(vueMap)
+                // console.log(vueMap)
               }}
             />
             <Heading size='md'>Vue carte</Heading>

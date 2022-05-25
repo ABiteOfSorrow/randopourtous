@@ -27,7 +27,7 @@ function Chat(props) {
   const [isOwner, setIsOwner] = useState(false);
 
   let rando = props.route.params.rando;
-  console.log('rando de Détail: ', rando)
+  // console.log('rando de Détail: ', rando)
 
   //console.log(JSON.stringify(ws));
 

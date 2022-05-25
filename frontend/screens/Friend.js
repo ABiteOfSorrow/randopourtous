@@ -22,7 +22,7 @@ function Friend(props) {
       for (let i = 0; i < friendIds.length; i++) {
         try {
         let rawresponse = await fetch(backendAdress + '/users/user/' + friendIds[i]);
-        console.log(JSON.stringify(rawresponse))
+        // console.log(JSON.stringify(rawresponse))
         if (rawresponse.ok) {
           let response = await rawresponse.json();
           if (response.result) {

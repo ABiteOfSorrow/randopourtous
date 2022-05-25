@@ -22,7 +22,7 @@ function SearchPeople(props) {
          if (rawresponse.status == 200) {
             let response = await rawresponse.json();
             if (response.result) {
-               console.log(JSON.stringify(response))
+               // console.log(JSON.stringify(response))
                setUsers(response.users);
             } else {
                alert(response.error);

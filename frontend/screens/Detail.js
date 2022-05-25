@@ -27,7 +27,7 @@ function Detail(props) {
   const [isParticipant, setIsParticipant]= useState(false)
   const [listUsers, setListUsers]=useState([])
   const [rando, setRando]=useState(props.route.params.rando)
-  
+  console.log(props.user)
   
   //let rando=props.route.params.rando
   useEffect(() => {
@@ -89,6 +89,12 @@ function Detail(props) {
   }
 
 
+  let userStars = props.user.averageRating
+  //Rando rating stars display
+
+
+
+
   var participateClick = async function (dataRando) {
     console.log(props.user._id)
     //*** Ajout de l'id du randonneur dans la base de donnée de la radonnée */
@@ -96,7 +102,19 @@ function Detail(props) {
     props.navigation.navigate('Profil', { screen: 'Chat', params: { rando } })
   }
 
-  let listUsersDisplay = listUsers.map((item, i) => (<Center
+  let listUsersDisplay = listUsers.map((item, i) => {  
+    let tabGlobalRating = [];
+      for (let j = 0; j < 5; j++) {
+      let color = "black";
+      if (j < item.averageRating) {
+        color = "#f1c40f";
+      }
+      tabGlobalRating.push(<AntDesign key={j} color={color} name="star" size={24} />);
+    }
+  
+
+  
+  return (<Center
     key={i}
     w={"90%"}
     h={62}
@@ -121,11 +139,7 @@ function Detail(props) {
         {item.username}
       </Heading>
       <Flex direction="row" alignSelf="center">
-        <AntDesign name="star" size={24} color="yellow" />
-        <AntDesign name="star" size={24} color="yellow" />
-        <AntDesign name="star" size={24} color="yellow" />
-        <AntDesign name="star" size={24} color="yellow" />
-        <AntDesign name="star" size={24} color="yellow" />
+        {tabGlobalRating}
       </Flex>
     </VStack>
     <Button
@@ -137,7 +151,7 @@ function Detail(props) {
         Voir Profil
       </Text>
     </Button>
-  </Center>))
+  </Center>)})
 
 
   return (

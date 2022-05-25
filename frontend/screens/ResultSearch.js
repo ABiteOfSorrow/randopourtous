@@ -127,7 +127,6 @@ function ResultSearch(props) {
       </VStack>
 
     ))
-    console.log(listRando)
   }
 
   //****** initialisation de la liste des markers de randonnées */

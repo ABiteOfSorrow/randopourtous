@@ -14,7 +14,7 @@ const backendAdress = backendConfig.address;
 
 
 function Resume(props) {
-
+  console.log(props)
   const [paysageValue, setPaysageValue] = useState(0);
   const [ambianceValue, setAmbianceValue] = useState(0);
   const [difficultyValue, setDifficultyValue] = useState(0);
@@ -37,14 +37,22 @@ function Resume(props) {
         //console.log(ratings)
 
         try {
-          let rawresponse = await fetch(backendAdress + '/users/update-rating', {
+          let userRawResponse = await fetch(backendAdress + '/users/update-rating', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify(ratings)
           })
-          console.log(JSON.stringify(rawresponse))
+          // let randoRawResponse = await fetch(backendAdress + '/users/update-rating', {
+          //   method: 'POST',
+          //   headers: {
+          //     'Content-Type': 'application/json'
+          //   },
+          //   body: JSON.stringify(ratings)
+          // })
+
+          console.log(JSON.stringify(userRawResponse))
         } catch (e) {
           console.log(e)
         }
@@ -59,10 +67,10 @@ function Resume(props) {
     let totalNote = 0;
     // var totalNote = props.globalCountRating;
     if (paysageValue && ambianceValue && difficultyValue) {
-      totalNote += (paysageValue + ambianceValue + difficultyValue) / 3;
+      totalNote += (paysageValue + ambianceValue + difficultyValue);
       // totalVote += 1;
     }
-    totalNote = (totalNote * 10).toFix(2)
+    totalNote = (totalNote / 3).toFixed(2)
     setUserRating(totalNote)
   }, [ambianceValue, paysageValue, difficultyValue])
 
@@ -160,7 +168,7 @@ function Resume(props) {
   let tabGlobalRating = [];
 
   //Rando rating stars display
-  if (userRating != 0) {
+  if (userRating !== 0) {
     for (let i = 0; i < 5; i++) {
       let color = "black";
       if (i < userRating) {
@@ -171,28 +179,6 @@ function Resume(props) {
   }
 
   //console.log(avgTotal)
-  // Default data for carousel if there is nothing
-  const data = [
-    {
-      title: "Coral Reef",
-      description: "Location: Red Sea",
-      source: "https://images.unsplash.com/photo-1633205719979-e47958ff6d93?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
-    },
-    {
-      title: "Phone",
-      description: "iPhone 6 on the table",
-      source: "https://images.unsplash.com/photo-1535303311164-664fc9ec6532?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
-    },
-
-    {
-      title: "Old building",
-      description: "Location: Germany",
-      source: "https://images.unsplash.com/photo-1623345805780-8f01f714e65f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
-    },
-  ];
-
-
-
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
@@ -217,12 +203,10 @@ function Resume(props) {
         </Heading>
         <Heading size="md">Historique des photos partagées </Heading>
       </VStack>
-      <ScrollView
-        style={{ width: "100%", height: "100%" }}
-        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+
       {/* Carousel for Photos, default = data / else cloudinary image */}
       {image === "" ? (
-        <CustomSlider data={data} />
+        <></>
       ) : (<CustomSlider data={image} />)
       }
 
@@ -267,8 +251,6 @@ function Resume(props) {
           {DifficultyRating}
         </Flex>
       </VStack>
-      </ScrollView>
-
       {/* To prevent leaving the content area */}
       <Box w="100%" h="8.5%" alignSelf="center" bg="#fff" />
     </SafeAreaView>

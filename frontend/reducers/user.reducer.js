@@ -4,6 +4,10 @@ export default function user(user = {}, action) {
          return action.user
       case 'USER_LOGOUT':
          return {};
+         case 'USER_RATING':
+            let userCopy = {...user}
+            userCopy
+            return {};
       default:
          return user
    }

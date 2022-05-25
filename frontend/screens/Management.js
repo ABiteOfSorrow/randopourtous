@@ -8,7 +8,7 @@ import { AntDesign } from "@expo/vector-icons";
 import HamburgerMenu from "../components/HamburgerMenu";
 
 function Management(props) {
-  console.log(props.user)
+  console.log(props.rando)
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
       <ScrollView>

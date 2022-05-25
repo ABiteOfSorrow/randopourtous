@@ -5,6 +5,7 @@ import { Text, View, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HamburgerMenu from "../components/HamburgerMenu";
 import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { connect } from "react-redux";
 
 import backendConfig from '../backend.config.json';
@@ -43,6 +44,20 @@ function OtherProfile(props) {
       console.log(e);
     }
   }
+
+  let tabGlobalRating = [];
+  let userStars = user.averageRating
+  //Rando rating stars display
+  if (userStars !== 0) {
+    for (let i = 0; i < 5; i++) {
+      let color = "black";
+      if (i < userStars) {
+        color = "#f1c40f";
+      }
+      tabGlobalRating.push(<AntDesign key={i} color={color} name="star" size={24} />);
+    }
+  }
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff", alignItems: "center" }}>
@@ -138,11 +153,7 @@ function OtherProfile(props) {
           justifyContent: "center",
         }}
       >
-        <MaterialIcons name="star" size={40} color="#F8F808" />
-        <MaterialIcons name="star" size={40} color="#F8F808" />
-        <MaterialIcons name="star" size={40} color="#F8F808" />
-        <MaterialIcons name="star" size={40} color="#F8F808" />
-        <MaterialIcons name="star" size={40} color="#F8F808" />
+        {tabGlobalRating}
       </View>
       <Text>Note moyenne des randos: {user.averageRating === -1 ? 'Non connu' : user.averageRating}</Text>
       <View

@@ -8,7 +8,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { connect } from "react-redux";
 import { useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { AntDesign } from "@expo/vector-icons";
 import backendConfig from '../backend.config.json';
 
 const backendAdress = backendConfig.address;
@@ -56,6 +56,22 @@ function MyProfile(props) {
     }
   }, [])
 
+  
+  let tabGlobalRating = [];
+  let userStars = props.user.averageRating
+  //Rando rating stars display
+  if (userStars !== 0) {
+    for (let i = 0; i < 5; i++) {
+      let color = "black";
+      if (i < userStars) {
+        color = "#f1c40f";
+      }
+      tabGlobalRating.push(<AntDesign key={i} color={color} name="star" size={24} />);
+    }
+  }
+
+
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', alignItems: 'center' }}>
       <View style={{ display: 'flex', width: '100%', flexDirection: 'row', justifyContent: 'space-between' }} >
@@ -88,11 +104,7 @@ function MyProfile(props) {
         </View>
       </View>
       <View style={{ marginTop: '10%', marginBottom: '2%', display: 'flex', flexDirection: 'row', justifyContent: 'center' }} >
-        <MaterialIcons name="star" size={40} color="#F8F808" />
-        <MaterialIcons name="star" size={40} color="#F8F808" />
-        <MaterialIcons name="star" size={40} color="#F8F808" />
-        <MaterialIcons name="star" size={40} color="#F8F808" />
-        <MaterialIcons name="star" size={40} color="gray" />
+        {tabGlobalRating}
       </View>
       <Text>Note moyenne des randos: {props.user.averageRating === -1 ? 'Non connu' : props.user.averageRating}</Text>
       <View style={{ flex: 1, width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >

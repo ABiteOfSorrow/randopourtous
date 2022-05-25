@@ -116,7 +116,7 @@ function History(props) {
           {etat}
         </Box>
       </Box>
-      <Button w={100} h={8} p={0} mt={2} mr={2} style={{ backgroundColor:"green", marginLeft:"65%" }} onPress={()=> rando.finished===false?props.navigation.navigate('Detail', {rando}):props.navigation.navigate('Resume', {rando})}>
+      <Button w={100} h={8} p={0} mt={2} mr={2} style={{ backgroundColor:"green", marginLeft:"65%" }} onPress={()=> rando.finished===false?props.navigation.navigate('Detail', {rando}):props.navigation.navigate('Chercher', { screen: 'Resume', params: {rando}})}>
               <Text fontSize="xs" style={{ fontWeight: 'bold', color:"white" }} >
                 Voir
               </Text>

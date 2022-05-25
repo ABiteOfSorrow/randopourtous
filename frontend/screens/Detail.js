@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, VStack, Center, Heading, Box, Button, Text, Flex, Stack, } from "native-base";
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MapView, { Marker } from "react-native-maps";
 
@@ -13,38 +13,45 @@ const backendAdress = backendConfig.address;
 
 
 function Detail(props) {
-  
-  const [isParticipant, setIsParticipant]= useState(false)
-  const [listUsers, setListUsers]=useState([])
-  const [rando, setRando]=useState(props.route.params.rando)
+
+  const [isParticipant, setIsParticipant] = useState(false)
+  const [listUsers, setListUsers] = useState([])
+  const [rando, setRando] = useState(props.route.params.rando)
   console.log(props.rando)
-  
+
   //let rando=props.route.params.rando
   useEffect(() => {
 
-
     async function searchUsersTrack() {
+      try {
+        // on initialise le composant en récupérant la randonnées dans la BDD avec la liste des participants à jour
+        let rawresponse = await fetch(backendAdress + '/search-user-track?userid=' + props.user._id + '&trackid=' + props.route.params.rando._id);
+        let response = await rawresponse.json()
+        setRando(response.rando)
 
-      // on initialise le composant en récupérant la randonnées dans la BDD avec la liste des participants à jour
-      let rawresponse = await fetch(backendAdress + '/search-user-track?userid=' + props.user._id + '&trackid=' + props.route.params.rando._id);
-      let response = await rawresponse.json()
-      setRando(response.rando)
+        if (response) {
 
-      if (response) {
+          for (let userItem of response.rando.users) {
 
-        for (let userItem of response.rando.users) {
+            let userRawResponse = await fetch(backendAdress + '/users/user/' + userItem)
+            if (userRawResponse.ok) {
+              let userResponse = await userRawResponse.json()
 
-          let userRawResponse = await fetch(backendAdress + '/users/user/' + userItem)
-          let userResponse = await userRawResponse.json()
+              setListUsers((state) => [...state, userResponse.user])
+              response.rando.users.find((item) => item === props.user._id) ? setIsParticipant(true) : setIsParticipant(false)
+            } else {
+              console.log('Erreur récupération utilisateur')
+              Alert.alert('Erreur', 'Erreur récupération utilisateur. Serveur pas connecté.')
+            }
 
-
-          setListUsers((state) => [...state, userResponse.user])
-
-
+          }
         }
-      } response.rando.users.find((item) => item === props.user._id) ? setIsParticipant(true) : setIsParticipant(false)
-    }
 
+      } catch (error) {
+        Alert.alert('Erreur', 'Une erreur est survenue lors de la récupération des données')
+        console.log(error)
+      }
+    }
     searchUsersTrack()
 
   }, [props.route.params.rando])
@@ -92,56 +99,57 @@ function Detail(props) {
     props.navigation.navigate('Profil', { screen: 'Chat', params: { rando } })
   }
 
-  let listUsersDisplay = listUsers.map((item, i) => {  
+  let listUsersDisplay = listUsers.map((item, i) => {
     let tabGlobalRating = [];
-      for (let j = 0; j < 5; j++) {
+    for (let j = 0; j < 5; j++) {
       let color = "black";
       if (j < item.averageRating) {
         color = "#f1c40f";
       }
       tabGlobalRating.push(<AntDesign key={j} color={color} name="star" size={24} />);
     }
-  
 
-  
-  return (<Center
-    key={i}
-    w={"90%"}
-    h={62}
-    p={0}
-    mb={2}
-    bg="#079992"
-    rounded="lg"
-    shadow={8}
-    display="flex"
-    flexDirection="row"
-    justifyContent="space-around"
-  >
-    <Avatar
-      me="10"
-      bg="amber.500"
-      source={{
-        uri: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-      }}
-    ></Avatar>
-    <VStack space={2} alignItems="flex-start">
-      <Heading style={styles.contentText} size="xs">
-        {item.username}
-      </Heading>
-      <Flex direction="row" alignSelf="center">
-        {tabGlobalRating}
-      </Flex>
-    </VStack>
-    <Button
-      size="xs"
-      backgroundColor="#BBBBBB"
-      alignSelf="center"
-      onPress={() => searchUser(item._id)}>
-      <Text style={styles.contentText} fontSize="xs">
-        Voir Profil
-      </Text>
-    </Button>
-  </Center>)})
+
+
+    return (<Center
+      key={i}
+      w={"90%"}
+      h={62}
+      p={0}
+      mb={2}
+      bg="#079992"
+      rounded="lg"
+      shadow={8}
+      display="flex"
+      flexDirection="row"
+      justifyContent="space-around"
+    >
+      <Avatar
+        me="10"
+        bg="amber.500"
+        source={{
+          uri: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+        }}
+      ></Avatar>
+      <VStack space={2} alignItems="flex-start">
+        <Heading style={styles.contentText} size="xs">
+          {item.username}
+        </Heading>
+        <Flex direction="row" alignSelf="center">
+          {tabGlobalRating}
+        </Flex>
+      </VStack>
+      <Button
+        size="xs"
+        backgroundColor="#BBBBBB"
+        alignSelf="center"
+        onPress={() => searchUser(item._id)}>
+        <Text style={styles.contentText} fontSize="xs">
+          Voir Profil
+        </Text>
+      </Button>
+    </Center>)
+  })
 
 
   return (

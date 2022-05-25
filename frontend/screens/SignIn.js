@@ -22,19 +22,24 @@ function SignIn(props) {
           user = JSON.parse(user)
           console.log("user found in async storage");
           (async () => {
-            let rawresponse = await fetch(backendAdress + '/users/my-data?token=' + user.token)
-            if (rawresponse.ok) {
-              console.log('Ok response')
-              let response = await rawresponse.json();
-              console.log(typeof response.user)
-              if (response.result) {
-                await AsyncStorage.setItem('user', JSON.stringify(response.user))
-                props.signUp(response.user);
-              } else {
-                console.log(response)
-                props.signUp(JSON.parse(user));
+            try {
+              let rawresponse = await fetch(backendAdress + '/users/my-data?token=' + user.token)
+              if (rawresponse.ok) {
+                console.log('Ok response')
+                let response = await rawresponse.json();
+                console.log(typeof response.user)
+                if (response.result) {
+                  await AsyncStorage.setItem('user', JSON.stringify(response.user))
+                  props.signUp(response.user);
+                } else {
+                  console.log(response)
+                  props.signUp(JSON.parse(user));
+                }
+                props.navigation.replace("Home");
               }
-              props.navigation.replace("Home");
+            } catch (error) {
+              console.log(error)
+              Alert.alert('Erreur', 'Problème de connexion au serveur.')
             }
           })();
 
@@ -50,32 +55,42 @@ function SignIn(props) {
       Alert.alert("Erreur.", "Veuillez entrer les données.");
       return;
     }
-    let result = await fetch(backendAdress + "/users/sign-in", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    });
-    let data = await result.json();
-    if (!data.result) {
-      Alert.alert("Erreur", data.error);
-      return;
-    }
-    // store to redux here
-    props.signUp(data.user);
-    console.log(data.user);
-    // save in async storage
     try {
-      await AsyncStorage.setItem("user", JSON.stringify(data.user));
-      console.log("User data saved in storage.");
+      let result = await fetch(backendAdress + "/users/sign-in", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+      if (result.ok) {
+        let data = await result.json();
+        if (!data.result) {
+          Alert.alert("Erreur", data.error);
+          return;
+        }
+        // store to redux here
+        props.signUp(data.user);
+        console.log(data.user);
+        // save in async storage
+        try {
+          await AsyncStorage.setItem("user", JSON.stringify(data.user));
+          console.log("User data saved in storage.");
+        } catch (e) {
+          console.log(e);
+        }
+        props.navigation.replace("Home");
+      } else {
+        Alert.alert("Erreur", "Problème de connexion au serveur.");
+        console.log('Serveur pas connecté')
+      }
     } catch (e) {
       console.log(e);
+      Alert.alert("Erreur", "Problème de connexion au serveur.");
     }
-    props.navigation.replace("Home");
   };
 
   return (

@@ -1,4 +1,7 @@
-// import { LogBox } from "react-native";
+import { LogBox } from "react-native";
+LogBox.ignoreLogs([
+  "exported from 'deprecated-react-native-prop-types'.",
+])
 // LogBox.ignoreAllLogs(true);
 import React from 'react'
 import { StyleSheet, Platform } from 'react-native'

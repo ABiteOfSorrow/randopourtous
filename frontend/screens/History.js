@@ -17,7 +17,7 @@ function History(props) {
   const [tracksFilter, setTracksFilter] = useState(null)
   const [tracksFilterAdmin, setTracksFilterAdmin] = useState(false)
 
-
+  
   //Initialisation de toutes les randos de l'utilisateur à l'ouverture de composant et dès le changement de la variable d'état "tracksFilter"
   useEffect(() => {
 
@@ -25,11 +25,14 @@ function History(props) {
 
     //Récupérations des randos dans la BDD
     async function loadData() {
+      //****** si on vient du screen OtherProfile, on a le param props.params.user sinon on vient du screen MyProfile donc c'est l'user du store */
+     
+      let user = props.route.params?props.route.params:props.user
 
       var rawResponse = await fetch(backendAdress + '/get-tracks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(props.user)
+        body: JSON.stringify(user)
       });
 
       var response = await rawResponse.json();
@@ -104,7 +107,7 @@ function History(props) {
           {etat}
         </Box>
       </Box>
-      <Button w={100} h={8} p={0} mt={2} mr={2} style={{ backgroundColor:"green", marginLeft:"65%" }} onPress={()=> props.navigation.navigate('Detail', {rando})}>
+      <Button w={100} h={8} p={0} mt={2} mr={2} style={{ backgroundColor:"green", marginLeft:"65%" }} onPress={()=> rando.finished===false?props.navigation.navigate('Detail', {rando}):props.navigation.navigate('Resume', {rando})}>
               <Text fontSize="xs" style={{ fontWeight: 'bold', color:"white" }} >
                 Voir
               </Text>
@@ -129,7 +132,7 @@ function History(props) {
         {/* Titre */}
         <VStack space={2} >
           <Heading size="md" textAlign="center" mb={4}>
-            Mes randonnées
+            {!props.route.params?<Text>Mes Randonnées</Text>: <Text>Randonnées de {props.route.params.name}</Text>}
           </Heading>
 
           {/* Buttons Filter */}

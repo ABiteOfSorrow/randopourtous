@@ -76,11 +76,10 @@ router.post('/create-track', async function (req, res, next) {
 
 router.post('/search-track', async function (req, res, next) {
   let searchData = req.body
-  console.log('données recues: ', searchData)
 
   //***** Securisation des données de recherche: null si vide */
-  let citie = searchData.ville.nom ? searchData.ville.nom : undefined
-  let dpt = searchData.ville.dpt ? parseInt(searchData.ville.dpt) : undefined
+  let citie = searchData.ville.nom ? searchData.ville.nom : null
+  let dpt = searchData.ville.dpt ? parseInt(searchData.ville.dpt) : null
   let codePostal = searchData.ville.codePostal
     ? searchData.ville.codePostal
     : null
@@ -93,14 +92,24 @@ router.post('/search-track', async function (req, res, next) {
   let level = searchData.niveau ? searchData.niveau : null
   let date = searchData.date ? new Date(searchData.date) : null
 
-  console.log('type de la date reçue: ',typeof(date), 'date: ', date)
+  console.log('citie: ', citie)
+  console.log('level: ', level)
+  console.log('date: ', date)
+  console.log('CP: ', codePostal)
+  console.log('dpt: ', dpt)
 
 
   //console.log(codePostal.length)
-  if (!codePostal) {
-    return res.json({ success: false, error: 'Veuillez mettre un code postal' })
-  }
+  
 
+// if (!codePostal) {
+//   return res.json({ success: false, error: 'Veuillez mettre un code postal' })
+// }
+if(level===null && date===null &&citie===null&&dpt===null){
+  console.log('find all')
+  var result = await randoModel.find()}else{
+  
+  
   // cas où l'on indique un code postale à 2 chiffre ie département
   if (codePostal.length === 2) {
     var result = await randoModel.find({
@@ -111,12 +120,16 @@ router.post('/search-track', async function (req, res, next) {
     })
   } else {
     var result = await randoModel.find({
-      'departure.nom': citie,
+      'departure.nom': citie!==null?citie:{$exists:true},
       level: level !== null ? level : { $exists: true },
       date: date !== null ? {$gte: date} : { $exists: true },
-
+      finished:false
+      
     })
   }
+}
+  
+
   console.log(result)
   if(result.length!==0){
 

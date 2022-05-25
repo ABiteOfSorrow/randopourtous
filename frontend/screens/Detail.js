@@ -96,7 +96,7 @@ function Detail(props) {
     console.log(props.user._id)
     //*** Ajout de l'id du randonneur dans la base de donnée de la radonnée */
     let rawresponse = await fetch(backendAdress + '/add-user-track?userid=' + props.user._id + '&trackid=' + rando._id);
-    props.navigation.navigate('Profil', { screen: 'Chat', params: { rando } })
+    props.navigation.navigate( 'Randos', {screen:'Chat',params: {rando} } )
   }
 
   let listUsersDisplay = listUsers.map((item, i) => {
@@ -158,8 +158,10 @@ function Detail(props) {
       <ScrollView>
         <HamburgerMenu navigation={props.navigation} />
         <VStack space={2} alignItems="center">
+          <VStack style={{ width:"100%" ,borderBottomWidth: 1, borderColor: '#CCCCCC', alignItems:"center", paddingBottom:"1.5%",}}>
           <Heading size="xl">{rando.name}</Heading>
-          <Heading size="lg">{dateFormat} / {rando.departure.nom}</Heading>
+          <Heading size="lg"> Le {dateFormat.replace(' ', ' à ')} à {rando.departure.nom}</Heading>
+          </VStack>
           <MapView style={styles.map}
             initialRegion={{
               latitude: rando.coordinate.latitude,

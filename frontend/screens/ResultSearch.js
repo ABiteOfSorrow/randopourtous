@@ -41,19 +41,19 @@ function ResultSearch(props) {
 
         //**** si département, récupération de la première rando de la liste et zoom sur ses coordonnée */
 
-        //**** zoom sur la france sinon */
-
-        let mapSetUp
+      let mapSetUp
+      if(props.data.ville.codePostal){
 
         if (props.data.ville.codePostal.length === 2) {
+          //*******affichage à l'échelle du département */
           mapSetUp = {
             latitude: response.result[0].coordinate.latitude,
             longitude: response.result[0].coordinate.longitude,
             latitudeDelta: 1.5,
             longitudeDelta: 1,
           }
-        } else if (props.data.ville.nom) {
-          console.log('Affichage echelle ville')
+        } else{
+          //******* Affichage à l'échelle d'une ville */
           let resultGouv = await fetch(
             `https://api-adresse.data.gouv.fr/search/?q=${props.data.ville.codePostal}&limit=1`
           )
@@ -64,17 +64,18 @@ function ResultSearch(props) {
             latitudeDelta: 0.05,
             longitudeDelta: 0.05,
           }
-        } else {
-          mapSetUp = {
-            latitude: 46.22,
-            longitude: 2.21,
-            latitudeDelta: 10,
-            longitudeDelta: 10,
-          }
+        } 
+      }else {
+        //******* Affichage à l'échelle du pays */
+        mapSetUp = {
+          latitude: 46.22,
+          longitude: 2.21,
+          latitudeDelta: 10,
+          longitudeDelta: 10,
         }
         setMapConfig(mapSetUp)
       }
-    }
+    }}
 
     searchFunction()
   }, [])
@@ -209,7 +210,7 @@ function ResultSearch(props) {
 
         {/* Journey List */}
 
-        {mapdisplay === false ? (<ScrollView style={{ flex: 1, marginBottom: '18%' }}>
+        {mapdisplay === false ? (<ScrollView style={{ flex: 1  }}>
           {listRando}
 
         </ScrollView>

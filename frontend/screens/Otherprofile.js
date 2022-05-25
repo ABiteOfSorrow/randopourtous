@@ -1,6 +1,6 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { Button } from "native-base";
+import { Button, Avatar } from "native-base";
 import { Text, View, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HamburgerMenu from "../components/HamburgerMenu";
@@ -61,7 +61,7 @@ function OtherProfile(props) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff", alignItems: "center" }}>
-      <View style={{ display: "flex", width: "100%", flexDirection: "row", justifyContent: 'space-between', alignItems: 'center' }}>
+      <View style={{display:"flex", width:"100%", flexDirection:"row", justifyContent:'space-between', alignItems:'center', borderBottomWidth: 1, borderColor:'#CCCCCC', marginBottom:"5%"}}>
         <HamburgerMenu navigation={props.navigation} />
         <Button
           w={70}
@@ -108,7 +108,14 @@ function OtherProfile(props) {
               justifyContent: "center",
             }}
           >
-            <MaterialIcons name="account-circle" size={102} color="black" />
+          <Avatar
+            size={150}
+            me="10"
+            bg="amber.500"
+            source={{
+              uri: "https://file1.topsante.com/var/topsante/storage/images/medecine/troubles-orl/rhume-rhinopharingite/vivre-avec/on-a-trouve-l-origine-du-rhume-les-chameaux-612915/8708813-1-fre-FR/On-a-trouve-l-origine-du-rhume-les-chameaux.jpg?alias=original",
+            }}
+          ></Avatar>
           </View>
           <View
             style={{
@@ -166,7 +173,7 @@ function OtherProfile(props) {
           alignItems: "center",
         }}
       >
-        <Button my={1} bg={"#78E08F"} onPress={() => alert('Faut le faire!')} w={"80%"}>
+        <Button my={1} bg={"#78E08F"} onPress={() => props.navigation.navigate( 'Randos', {screen: 'History', params:{user}})} w={"80%"}>
           Voir ses randos
         </Button>
 

@@ -89,7 +89,14 @@ function MyProfile(props) {
       <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: '4%' }} >
         <View style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 8, paddingHorizontal: 12 }} >
           <View style={{ width: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
-            <MaterialIcons name="account-circle" size={102} color="black" />
+          <Avatar
+            size={102}
+            me="10"
+            bg="amber.500"
+            source={{
+              uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Macaca_nigra_self-portrait_large.jpg/800px-Macaca_nigra_self-portrait_large.jpg",
+            }}
+          ></Avatar>
           </View>
           <View style={{ display: 'flex', width: '50%', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }} >
             <Text style={{ fontSize: 18 }}>Prénom : {props.user.name}</Text>
@@ -108,7 +115,7 @@ function MyProfile(props) {
       </View>
       <Text>Note moyenne des randos: {props.user.averageRating === -1 ? 'Non connu' : props.user.averageRating}</Text>
       <View style={{ flex: 1, width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
-        <Button my={1} bg={'#78E08F'} onPress={() => props.navigation.navigate("History")} w={'80%'} mt={'15%'} >Voir mes randos</Button>
+        <Button my={1} bg={'#78E08F'} onPress={() => props.navigation.navigate('Randos', {screen:'History'})} w={'80%'} mt={'15%'} >Voir mes randos</Button>
         <Button my={1} bg={'#bbb'} onPress={() => props.navigation.navigate("Friend")} w={'80%'} >Voir mes amis</Button>
         <Button mt={'4%'} bg={'#bbb'} onPress={() => props.navigation.navigate('EditProfile')} w={'80%'} >Modifier mon compte</Button>
       </View>

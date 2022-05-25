@@ -211,7 +211,7 @@ function Resume(props) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
-      <HStack justifyContent="space-between" mb={4}>
+      <HStack justifyContent="space-between" mb={4} style={{borderBottomWidth: 1, borderColor: '#CCCCCC'}}>
         <HamburgerMenu navigation={props.navigation} />
         <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9" onPress={() => props.navigation.goBack()}>
           <Text fontSize="xs" bold color="#38ADA9">

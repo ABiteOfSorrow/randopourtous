@@ -107,7 +107,7 @@ function Create(props) {
           props.setUser(result.user)
 
           Alert.alert('Succès', 'Merci!')
-          props.navigation.navigate('Profil', { screen: 'Chat', params: { rando } })
+          props.navigation.navigate('Randos', { screen: 'Chat', params: { rando } })
         } else {
           alert('Une erreur est survenue.')
           console.log(JSON.stringify(result))

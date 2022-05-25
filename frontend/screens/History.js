@@ -29,7 +29,7 @@ function History(props) {
      
 
      // console.log('parames: ',typeof props.route.params.user)
-      let user = props.route.params?props.route.params.user:props.user
+      let user = props.route.params? props.route.params.user : props.user
 
       var rawResponse = await fetch(backendAdress + '/get-tracks', {
         method: 'POST',

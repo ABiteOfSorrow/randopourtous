@@ -275,8 +275,8 @@ router.post('/finish-track', async (req, res) => {
   } else {
     return res.json({ result: false})
   }
+})
 
-});
 
 
 router.post('/update-randorating', async (req, res) => {

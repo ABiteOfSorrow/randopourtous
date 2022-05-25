@@ -16,7 +16,7 @@ function History(props) {
   const [allTracks, setAllTracks] = useState([]);
   const [tracksFilter, setTracksFilter] = useState(null)
   const [tracksFilterAdmin, setTracksFilterAdmin] = useState(false)
-  const [colorBtnAdmin, setColorBtnAdmin] = useState('#FFFFFF')
+  const [colorBtnAdmin, setColorBtnAdmin] = useState('#BBBBBB')
 
 
   //Initialisation de toutes les randos de l'utilisateur à l'ouverture de composant et dès le changement de la variable d'état "tracksFilter"
@@ -135,13 +135,13 @@ function History(props) {
         </HStack>
 
         {/* Titre */}
-        <VStack space={2} style={{ alignItems: "center" }} >
-          <Heading size="md" mb={4}>
+        <VStack space={2} >
+          <Heading size="md" textAlign="center" mb={4}>
             Mes randonnées
           </Heading>
 
           {/* Buttons Filter */}
-          <Box style={{ alignItems: "center", flexDirection: "row", display: "flex" }} mb={5}>
+          <Box style={{ justifyContent: "center", flexDirection: "row", display: "flex" }} mx={"auto"} mb={5}>
             <Button w={90} h={8} p={0} mt={2} mr={2} style={{ borderColor: "#38ADA9" }} onPress={() => setTracksFilter(null)}>
               <Text fontSize="xs" style={{ color: "white", fontWeight: 'bold' }} >
                 Toutes

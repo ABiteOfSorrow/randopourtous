@@ -111,11 +111,11 @@ if(level===null && date===null &&citie===null&&dpt===null){
   
   
   // cas où l'on indique un code postale à 2 chiffre ie département
-  if (codePostal.length === 2) {
+  
+  if (codePostal!==null && codePostal.length === 2) {
     var result = await randoModel.find({
       'departure.dpt': parseInt(dpt),
       level: level !== null ? level : { $exists: true },
-     // level: level !== null ? level : { $exists: true },
       date: date !== null ? {$gte: date} : { $exists: true },
     })
   } else {
@@ -161,7 +161,7 @@ router.post('/get-tracks', async function (req, res, next) {
   
   for(oneRando of randosInBDD){
     for(participant of oneRando.users){
-      // console.log("oneRando ",oneRando)
+      //console.log("oneRando ",oneRando)
       //Si le participant dans la liste users est celui renvoyé dans la requete et qu'il est pas déjà dans la liste
       if(participant === userId && fullInfoTracks.find(e => e.id == oneRando.id) == undefined){
         fullInfoTracks.push(oneRando)

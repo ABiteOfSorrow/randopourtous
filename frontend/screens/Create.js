@@ -14,7 +14,7 @@ import {
 } from 'native-base'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import HamburgerMenu from '../components/HamburgerMenu'
-import { StyleSheet, TouchableOpacity, Alert } from 'react-native'
+import { StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 import { connect } from 'react-redux'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
@@ -205,15 +205,20 @@ function Create(props) {
         {listCities.length > 1 ? (
           <View
             style={{
-              width: '100%',
+              width: '84%',
               display: 'flex',
               justifyContent: 'center',
               flexDirection: 'row',
               alignItems: 'center',
+              maxHeight: '30%',
             }}>
             {/* Menu déroulant pour la selection de la ville */}
-            <View
+            <ScrollView
               style={{
+                width: '100%',
+                maxHeight: '100%',
+              }}
+              contentContainerStyle={{
                 width: '100%',
                 display: 'flex',
                 flexDirection: 'column',
@@ -223,9 +228,12 @@ function Create(props) {
                 <TouchableOpacity
                   key={i}
                   style={{
-                    backgroundColor: '#FFFFFF',
-                    width: '84%',
-                    backgroundColor: '#ddd',
+                    width: '100%',
+                    backgroundColor: '#fff',
+                    borderWidth: 1,
+                    borderColor: '#ddd',
+                    paddingVertical: 1,
+                    paddingHorizontal: 4,
                   }}
                   onPress={async () => {
                     setCitie(e)
@@ -242,7 +250,7 @@ function Create(props) {
                   <Text key={i}>{e.nom + ' (' + e.codePostal + ')'}</Text>
                 </TouchableOpacity>
               ))}
-            </View>
+            </ScrollView>
           </View>
         ) : null}
 

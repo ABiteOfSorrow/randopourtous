@@ -10,7 +10,7 @@ import { NavigationContainer, DefaultTheme, StackActions } from '@react-navigati
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import { FontAwesome5 } from '@expo/vector-icons'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+//import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import PresentScreen from './screens/PresentScreen'
 import SignInScreen from './screens/SignIn'

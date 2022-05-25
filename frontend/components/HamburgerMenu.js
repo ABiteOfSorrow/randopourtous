@@ -33,7 +33,7 @@ function HamburgerMenu(props) {
         w="190"
         trigger={(triggerProps) => {
           return (
-            <Pressable {...triggerProps}>
+            <Pressable {...triggerProps} style={{ padding: 2 }} >
               <HamburgerIcon size="7" />
             </Pressable>
           );

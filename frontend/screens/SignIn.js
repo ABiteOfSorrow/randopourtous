@@ -22,19 +22,24 @@ function SignIn(props) {
           user = JSON.parse(user)
           console.log("user found in async storage");
           (async () => {
-            let rawresponse = await fetch(backendAdress + '/users/my-data?token=' + user.token)
-            if (rawresponse.ok) {
-              console.log('Ok response')
-              let response = await rawresponse.json();
-              console.log(typeof response.user)
-              if (response.result) {
-                await AsyncStorage.setItem('user', JSON.stringify(response.user))
-                props.signUp(response.user);
-              } else {
-                console.log(response)
-                props.signUp(JSON.parse(user));
+            try {
+              let rawresponse = await fetch(backendAdress + '/users/my-data?token=' + user.token)
+              if (rawresponse.ok) {
+                console.log('Ok response')
+                let response = await rawresponse.json();
+                console.log(typeof response.user)
+                if (response.result) {
+                  await AsyncStorage.setItem('user', JSON.stringify(response.user))
+                  props.signUp(response.user);
+                } else {
+                  //console.log(response)
+                  props.signUp(JSON.parse(user));
+                }
+                props.navigation.replace("Home");
               }
-              props.navigation.replace("Home");
+            } catch (error) {
+              console.log(error)
+              Alert.alert('Erreur', 'Problème de connexion au serveur.')
             }
           })();
 
@@ -50,32 +55,42 @@ function SignIn(props) {
       Alert.alert("Erreur.", "Veuillez entrer les données.");
       return;
     }
-    let result = await fetch(backendAdress + "/users/sign-in", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    });
-    let data = await result.json();
-    if (!data.result) {
-      Alert.alert("Erreur", data.error);
-      return;
-    }
-    // store to redux here
-    props.signUp(data.user);
-    console.log(data.user);
-    // save in async storage
     try {
-      await AsyncStorage.setItem("user", JSON.stringify(data.user));
-      console.log("User data saved in storage.");
+      let result = await fetch(backendAdress + "/users/sign-in", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+      if (result.ok) {
+        let data = await result.json();
+        if (!data.result) {
+          Alert.alert("Erreur", data.error);
+          return;
+        }
+        // store to redux here
+        props.signUp(data.user);
+        console.log(data.user);
+        // save in async storage
+        try {
+          await AsyncStorage.setItem("user", JSON.stringify(data.user));
+          console.log("User data saved in storage.");
+        } catch (e) {
+          console.log(e);
+        }
+        props.navigation.replace("Home");
+      } else {
+        Alert.alert("Erreur", "Problème de connexion au serveur.");
+        console.log('Serveur pas connecté')
+      }
     } catch (e) {
       console.log(e);
+      Alert.alert("Erreur", "Problème de connexion au serveur.");
     }
-    props.navigation.replace("Home");
   };
 
   return (
@@ -89,7 +104,7 @@ function SignIn(props) {
     >
       <ScrollView
         style={{ width: "100%", height: "100%" }}
-        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', width: '100%', minHeight: '100%' }}>
         <Text style={{ fontSize: 26, marginBottom: '8%', marginTop: "3%" }}>RandoPourTous</Text>
         <Text style={{ fontSize: 20, marginBottom: '10%' }}>Connexion</Text>
         <View style={styles.inputContainer}>
@@ -101,8 +116,8 @@ function SignIn(props) {
         <Button style={styles.button} w={"80%"} onPress={async () => await handleSubmit()}>
           Connexion
         </Button>
-        <Divider orientation="horizontal" w={"80%"} mt={10} mb={5} />
-        <Text style={{ fontSize: 16, marginBottom: 14 }}>Se connecter avec</Text>
+        <Divider orientation="horizontal" w={"80%"} mt={'10%'} mb={'3%'} />
+        <Text style={{ fontSize: 16, marginBottom: '4%' }}>Se connecter avec</Text>
         <View
           style={{
             width: "80%",
@@ -111,8 +126,8 @@ function SignIn(props) {
             justifyContent: "center",
           }}
         >
-          <FontAwesome5 style={{ marginHorizontal: 16 }} name="google" size={48} color="#DB4437" onPress={() => alert("Sign up avec Google. Merci.")} />
-          <FontAwesome5 style={{ marginHorizontal: 16 }} name="facebook" size={48} color="#4267B2" />
+          <FontAwesome5 style={{ marginHorizontal: '8%' }} name="google" size={48} color="#DB4437" onPress={() => alert("Sign up avec Google. Merci.")} />
+          <FontAwesome5 style={{ marginHorizontal: '8%' }} name="facebook" size={48} color="#4267B2" />
         </View>
         <View
           style={{
@@ -127,8 +142,8 @@ function SignIn(props) {
             Créer un compte
           </Button>
         </View>
-        <StatusBar style="auto" />
       </ScrollView>
+      <StatusBar style="auto" />
     </SafeAreaView>
   );
 }
@@ -138,11 +153,11 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   inputContainer: {
-    marginBottom: 10,
+    marginBottom: '3%',
   },
   button: {
     backgroundColor: "#78E08F",
-    marginTop: 12,
+    marginTop: '3%',
   },
 });
 

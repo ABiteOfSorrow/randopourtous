@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Text, View, KeyboardAvoidingView } from 'react-native';
+import { Text, View, KeyboardAvoidingView, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Input, ScrollView } from 'native-base';
 import { connect } from 'react-redux';
@@ -20,7 +20,7 @@ function EditProfile(props) {
             if (isFocused) {
                let rawresponse = await fetch(backendAdress + '/users/my-data?token=' + props.user.token)
                //console.log(JSON.stringify(rawresponse))
-               if (rawresponse.status == 200) {
+               if (rawresponse.ok) {
                   let response = await rawresponse.json();
                   if (response.result) {
                      // save data in redux
@@ -43,14 +43,15 @@ function EditProfile(props) {
                         console.log(e)
                      }
                   } else {
-                     alert(response.error);
+                     Alert.alert('Erreur', response.error);
                   }
                } else {
-                  alert('Error while fetching user data.');
+                  Alert.alert('Erreur','Erreur de connexion au serveur.');
                }
             }
          } catch (e) {
-            alert(e);
+            console.log(e);
+            Alert.alert('Une erreur est survenue. L54');
          }
       })();
 
@@ -90,12 +91,12 @@ function EditProfile(props) {
             let response = await rawresponse.json();
             if (response.result) {
                props.login(response.user)
-               alert('Modifications enregistrées.')
+               Alert.alert('Succès','Modifications enregistrées.')
             } else {
-               alert(response.error);
+               Alert.alert('Erreur',response.error);
             }
          } else {
-            alert('Erreur de connexion au serveur.');
+            Alert.alert('Erreur', 'Erreur de connexion au serveur.');
          }
       } catch (e) {
          console.log(e)

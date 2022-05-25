@@ -135,7 +135,9 @@ router.post('/get-tracks', async function (req, res, next) {
   let tracks = req.body.tracks
   let userId = req.body._id
   let fullInfoTracks = []
-
+  if (!tracks || !userId ) {
+    return res.json({ result: false, error: 'Inputs incorrects' })
+  }
 
   for (let i = 0; i < tracks.length; i++) {
     var result = await randoModel.findById(tracks[i])

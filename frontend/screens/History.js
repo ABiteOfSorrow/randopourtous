@@ -16,7 +16,7 @@ function History(props) {
   const [allTracks, setAllTracks] = useState([]);
   const [tracksFilter, setTracksFilter] = useState(null)
   const [tracksFilterAdmin, setTracksFilterAdmin] = useState(false)
-  const [colorBtnAdmin, setColorBtnAdmin] = useState('#BBBBBB')
+  const [colorBtnAdmin, setColorBtnAdmin] = useState(false)
 
 
   //Initialisation de toutes les randos de l'utilisateur à l'ouverture de composant et dès le changement de la variable d'état "tracksFilter"
@@ -36,18 +36,17 @@ function History(props) {
       //console.log("props.user.tracks", props.user.tracks)
 
       var response = await rawResponse.json();
-      console.log("response ", tracksFilterAdmin)
-      console.log("response ", tracksFilter)
+      //console.log("response ", tracksFilterAdmin)
+      //console.log("response ", tracksFilter)
 
       //Filtrage dynamique
-     
       if(tracksFilterAdmin){
-        setColorBtnAdmin("#bbb")
+        setColorBtnAdmin(true)
         setAllTracks(response.fullInfoTracks.filter(track => track.finished !== tracksFilter && track.userId === props.user._id))
        
 
       }else{
-        setColorBtnAdmin("#FFFFF")
+        setColorBtnAdmin(false)
         setAllTracks(response.fullInfoTracks.filter(track => track.finished !== tracksFilter))
       }
 
@@ -76,7 +75,7 @@ function History(props) {
     }
     //Modèle des box adaptatif à l'affichage des rando selon leurs infos
     return( 
-      <Box key={i} w={"80%"} alignSelf="center" bg={colorBg} p={3} style={styles.allInput} shadow={2} mb={2}>
+      <Box key={i} w={"80%"} alignSelf="center" bg={colorBg} p={3} style={styles.allBox} shadow={2} mb={2}>
       <Box
         alignSelf="center"
         _text={{
@@ -141,7 +140,7 @@ function History(props) {
           </Heading>
 
           {/* Buttons Filter */}
-          <Box style={{ justifyContent: "center", flexDirection: "row", display: "flex" }} mx={"auto"} mb={5}>
+          <Box style={ styles.menu} mx={"auto"} mb={2}>
             <Button w={90} h={8} p={0} mt={2} mr={2} style={{ borderColor: "#38ADA9" }} onPress={() => setTracksFilter(null)}>
               <Text fontSize="xs" style={{ color: "white", fontWeight: 'bold' }} >
                 Toutes
@@ -157,7 +156,7 @@ function History(props) {
                 Achevées
               </Text>
             </Button>
-            <Button w={90} h={8} p={0} mt={2} style={{ backgroundColor:colorBtnAdmin }} onPress={() => setTracksFilterAdmin(!tracksFilterAdmin)} >
+            <Button w={90} h={8} p={0} mt={2} style={tracksFilterAdmin ? {backgroundColor: "#bbb"} : {backgroundColor: "#FFFFF"}} onPress={() => {setTracksFilterAdmin(!tracksFilterAdmin)}} >
               <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
                 Admin
               </Text>
@@ -181,12 +180,19 @@ const styles = StyleSheet.create({
   contentText: {
     color: "white",
   },
-  allInput: {
-    //backgroundColor: '#EEEEEE',
-    borderWidth: 2,
+  allBox: {
+    borderWidth: 1,
     borderColor: '#CCCCCC',
     color: '#000',
     borderRadius: 15,
+  },
+  menu: {
+    justifyContent: "center",
+    flexDirection: "row",
+    display: "flex",
+    borderBottomWidth: 1,
+    borderColor: '#CCCCCC',
+    paddingBottom: 10,
   },
 });
 

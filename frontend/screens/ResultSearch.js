@@ -210,7 +210,7 @@ function ResultSearch(props) {
 
         {/* Journey List */}
 
-        {mapdisplay === false ? (<ScrollView style={{ flex: 1, marginBottom: '18%' }}>
+        {mapdisplay === false ? (<ScrollView style={{ flex: 1  }}>
           {listRando}
 
         </ScrollView>

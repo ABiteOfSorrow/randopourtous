@@ -7,12 +7,33 @@ import { connect } from "react-redux";
 import { AntDesign } from "@expo/vector-icons";
 import HamburgerMenu from "../components/HamburgerMenu";
 
+import backendConfig from '../backend.config.json'
+const backendAdress = backendConfig.address
+
 function Management(props) {
-  let rando = props.route.params.params.rando
+  console.log("props.rando",props.route.params.params.rando)
+
+  async function handleSubmit(){
+
+    let rando = props.route.params.params.rando
+    console.log(rando)
+
+    var rawResponse = await fetch(backendAdress + '/finish-track', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(rando)
+    });
+
+    var response = await rawResponse.json();
+
+    props.navigation.navigate("Chercher", {screen:'Resume', params:{user: props.user, rando}})
+  }
+
+ 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
       <ScrollView>
-        <HStack justifyContent="space-between" mb={4}>
+        <HStack justifyContent="space-between" mb={4} style={{borderBottomWidth: 1, borderColor: '#CCCCCC'}}>
           <HamburgerMenu navigation={props.navigation} />
           <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9" onPress={() => props.navigation.goBack()}>
             <Text fontSize="xs" bold color="#38ADA9">
@@ -113,7 +134,7 @@ function Management(props) {
           </Box>
         </VStack>
       </ScrollView>
-      <Button w={"50%"} h={25} p={0} mb={3} mt={3} borderRadius={15} bg={"#E55039"} alignSelf={"center"} onPress={() => props.navigation.navigate("Chercher", {screen:'Resume', params:{user: props.user, rando}})}>
+      <Button w={"50%"} h={25} p={0} mb={3} mt={3} borderRadius={15} bg={"#E55039"} alignSelf={"center"} onPress={() => handleSubmit()}>
         <Text color="#ffffff">Terminer cette Rando</Text>
       </Button>
       {/* To prevent leaving the content area */}

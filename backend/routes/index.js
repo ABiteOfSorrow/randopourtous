@@ -5,9 +5,8 @@ var fs = require("fs");
 var uniqid = require("uniqid");
 var request = require("sync-request");
 
-var randoModel = require('../models/rando')
+var randoModel = require('../models/rando');
 var UserModel = require('../models/user');
-
 
 
 /* GET home page. */
@@ -16,7 +15,7 @@ router.get('/', function (req, res, next) {
 })
 
 router.post('/create-track', async function (req, res, next) {
-  var randoData = req.body
+  let randoData = req.body
   let estimation_time = randoData.estimation_time
   let description = randoData.description
 
@@ -164,6 +163,8 @@ router.post('/get-tracks', async function (req, res, next) {
   
   for(oneRando of randosInBDD){
     for(participant of oneRando.users){
+      console.log("oneRando ",oneRando)
+      //Si le participant dans la liste users est celui renvoyé dans la requete et qu'il est pas déjà dans la liste
       if(participant === userId && fullInfoTracks.find(e => e.id == oneRando.id) == undefined){
         fullInfoTracks.push(oneRando)
       }
@@ -259,6 +260,19 @@ router.get('/search-user-track', async (req, res) => {
     return res.json({ result: false, })
   }
 
+
+});
+
+router.post('/finish-track', async (req, res) => {
+  console.log(ok)
+  // if (!req.query.id) {
+  //   return res.json({ result: false, error: 'Token manquant svp' })
+  // }
+  // let foundRando = await randoModel.findById(req.query.id);
+  // if (!foundRando) {
+  //   return res.json({ result: false, error: 'Rando pas trouvé svp' })
+  // }
+  return res.json({ result: true, track: foundRando })
 
 });
 

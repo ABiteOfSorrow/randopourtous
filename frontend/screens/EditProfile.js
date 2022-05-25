@@ -106,7 +106,7 @@ function EditProfile(props) {
 
    return (
       <SafeAreaView style={{ flex: 1, alignItems: 'center', backgroundColor: '#fff' }} >
-         <View style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
+         <View style={{width:'100%', display:'flex', flexDirection:'row', justifyContent:'space-between', alignItems:'center', borderBottomWidth: 1, borderColor:'#CCCCCC', marginBottom:"5%"}}>
             <View style={{ width: 94 }} >
             <HamburgerMenu navigation={props.navigation} /> 
             </View>

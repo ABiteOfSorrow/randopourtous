@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import MapView from 'react-native-maps'
 import { StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
@@ -85,11 +85,13 @@ function Search(props) {
     listAge.push(i)
   }
 
-  let listAgeDisplay = listAge.map((e, i) => (
-    <Select.Item label={e.toString()} value={e.toString()} key={i} />
-  ))
+  // **** feature abandonnée  **////
+  // let listAgeDisplay = listAge.map((e, i) => (
+  //   <Select.Item label={e.toString()} value={e.toString()} key={i} />
+  // ))
 
   //***************************************** */
+
 
   var getSearch = function (data) {
 

@@ -25,6 +25,7 @@ function Resume(props) {
   let photos = [...image];
 
   let rando = props.route.params.rando
+  console.log(rando)
   // console.log(props)
 
   useEffect(() => {
@@ -42,7 +43,7 @@ function Resume(props) {
             body: JSON.stringify(defaultResume)
           })
           let response = await randoRawResponse.json()
-          console.log(response)
+          // console.log(response)
           if(response.averageNote > 0){
           setUserRating(response.averageNote)
           setPaysageValue(response.paysageNote)
@@ -228,7 +229,7 @@ function Resume(props) {
       {/* contents container for Demandes de partipation */}
       <VStack space={2} mb={2} alignItems="center">
         <Heading mb={5} size="md">
-          À: Lieu de la Rando
+        Point de départ : {rando.departure.nom}
         </Heading>
         <Heading size="md">Historique des photos partagées </Heading>
       </VStack>
@@ -283,7 +284,7 @@ function Resume(props) {
 
       <Button isDisabled={disable} w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mt={5} onPress={submitRating}>
         <Text style={styles.contentText} fontSize="md">
-          Submit évaluations
+        Soumettez votre évaluation
         </Text>
       </Button>
       </ScrollView>

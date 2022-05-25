@@ -11,12 +11,12 @@ import backendConfig from '../backend.config.json'
 const backendAdress = backendConfig.address
 
 function Management(props) {
-  console.log("props.rando",props.route.params.params.rando)
+  //  console.log("props.rando",props.route.params.params.rando)
 
   async function handleSubmit(){
 
     let rando = props.route.params.params.rando
-    console.log(rando)
+    // console.log(rando)
 
     var rawResponse = await fetch(backendAdress + '/finish-track', {
       method: 'POST',

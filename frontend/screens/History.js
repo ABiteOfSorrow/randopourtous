@@ -27,7 +27,6 @@ function History(props) {
     async function loadData() {
       //****** si on vient du screen OtherProfile, on a le param props.params.user sinon on vient du screen MyProfile donc c'est l'user du store */
 
-
       // console.log('parames: ',typeof props.route.params.user)
       let user = props.route.params ? props.route.params.user : props.user
 
@@ -116,7 +115,7 @@ function History(props) {
             {etat}
           </Box>
         </Box>
-        <Button w={100} h={6} p={0} mt={2} style={{ backgroundColor: "green" }} onPress={() => rando.finished === false ? props.navigation.navigate('Detail', { rando }) : props.navigation.navigate('Resume', { rando })}>
+        <Button w={100} h={8} p={0} mt={2} mr={2} style={{ backgroundColor: "green", marginLeft: "65%" }} onPress={() => rando.finished === false ? props.navigation.navigate('Detail', { rando }) : props.navigation.navigate('Chercher', { screen: 'Resume', params: { rando } })}>
           <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
             Voir
           </Text>

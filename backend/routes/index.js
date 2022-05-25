@@ -33,7 +33,7 @@ router.post('/create-track', async function (req, res, next) {
     return res.json({ result: false, error: 'Token manquant.' })
   }
   if (!token || !randoData.name || !randoData.coordinate || !randoData.date) {
-    console.log(JSON.stringify(randoData))
+    // console.log(JSON.stringify(randoData))
     return res.json({ result: false, error: 'Inputs incorrects' })
   }
 
@@ -92,11 +92,11 @@ router.post('/search-track', async function (req, res, next) {
   let level = searchData.niveau ? searchData.niveau : null
   let date = searchData.date ? new Date(searchData.date) : null
 
-  console.log('citie: ', citie)
-  console.log('level: ', level)
-  console.log('date: ', date)
-  console.log('CP: ', codePostal)
-  console.log('dpt: ', dpt)
+  // console.log('citie: ', citie)
+  // console.log('level: ', level)
+  // console.log('date: ', date)
+  // console.log('CP: ', codePostal)
+  // console.log('dpt: ', dpt)
 
 
   //console.log(codePostal.length)
@@ -111,11 +111,11 @@ if(level===null && date===null &&citie===null&&dpt===null){
   
   
   // cas où l'on indique un code postale à 2 chiffre ie département
-  if (codePostal.length === 2) {
+  
+  if (codePostal!==null && codePostal.length === 2) {
     var result = await randoModel.find({
       'departure.dpt': parseInt(dpt),
       level: level !== null ? level : { $exists: true },
-     // level: level !== null ? level : { $exists: true },
       date: date !== null ? {$gte: date} : { $exists: true },
     })
   } else {
@@ -128,9 +128,7 @@ if(level===null && date===null &&citie===null&&dpt===null){
     })
   }
 }
-  
-
-  console.log(result)
+  // console.log(result)
   if(result.length!==0){
 
     return res.json({ success: true, result: result })
@@ -264,17 +262,19 @@ router.get('/search-user-track', async (req, res) => {
 });
 
 router.post('/finish-track', async (req, res) => {
-  console.log(ok)
-  // if (!req.query.id) {
-  //   return res.json({ result: false, error: 'Token manquant svp' })
-  // }
-  // let foundRando = await randoModel.findById(req.query.id);
-  // if (!foundRando) {
-  //   return res.json({ result: false, error: 'Rando pas trouvé svp' })
-  // }
-  return res.json({ result: true, track: foundRando })
+  console.log("req.body ",req.body)
 
-});
+  let result = await randoModel.updateOne(
+    { _id: req.body._id},
+    {finished: true}
+  );
+  if (result) {
+    return res.json({ result: true})
+  } else {
+    return res.json({ result: false})
+  }
+})
+
 
 
 router.post('/update-randorating', async (req, res) => {
@@ -316,10 +316,10 @@ router.post('/update-randorating', async (req, res) => {
 
 });
 
-// Pour afficher default écran de ResumeScreen
+// Pour afficher écran de ResumeScreen par defaut
 router.post('/get-resume', async (req, res) => {
 
-  console.log(req.body)
+  // console.log(req.body)
  
   let averageNote = 0;
   let paysageNote = 0;

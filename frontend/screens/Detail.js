@@ -17,7 +17,7 @@ function Detail(props) {
   const [isParticipant, setIsParticipant]= useState(false)
   const [listUsers, setListUsers]=useState([])
   const [rando, setRando]=useState(props.route.params.rando)
-  console.log(props.user)
+  console.log(props.rando)
   
   //let rando=props.route.params.rando
   useEffect(() => {

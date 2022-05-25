@@ -94,7 +94,7 @@ function ResultSearch(props) {
 
 
       <VStack key={i} space={0.5} mt={3} alignItems='center'>
-        <Box w={'80%'} mb={0} borderRadius='12' bg='#78E08F'>
+        <Box w={'80%'} mb={0} borderRadius='12' bg='#78E08F' shadow="9" >
           <Heading size='sm' textAlign='center' my={0.5}>
             {rando.name}
           </Heading>
@@ -104,10 +104,10 @@ function ResultSearch(props) {
           py={1}
           p={0}
           mt={0}
-          mb={2}
+          mb={3}
           bg='#FAFAFA'
           rounded='md'
-          shadow={4}
+          shadow={9} 
           display='flex'
           flexDirection='row'
           justifyContent='space-around'>
@@ -125,6 +125,7 @@ function ResultSearch(props) {
             size='md'
             backgroundColor='#78E08F'
             alignSelf='center'
+            shadow="9" 
             onPress={() => props.navigation.navigate('Detail', { rando })}>
             <Text style={styles.contentText} fontSize='md'>
               Voir

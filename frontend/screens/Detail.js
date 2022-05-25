@@ -143,6 +143,7 @@ function Detail(props) {
         size="xs"
         backgroundColor="#BBBBBB"
         alignSelf="center"
+        shadow="9" 
         onPress={() => searchUser(item._id)}>
         <Text style={styles.contentText} fontSize="xs">
           Voir Profil
@@ -183,7 +184,7 @@ function Detail(props) {
 
 
           <Heading size="lg">Organisé par: </Heading>
-          <Button w={"80%"} h={10} bg="#bbbbbb" onPress={() => searchUser(rando.userId)}>
+          <Button w={"80%"} h={10} bg="#bbbbbb" shadow="9" onPress={() => searchUser(rando.userId)}>
             {rando.organisator}
           </Button>
           <Heading size="lg">Nombre de participant: {rando.users.length}/{rando.maxUsers} </Heading>
@@ -211,7 +212,7 @@ function Detail(props) {
         <Button w="42%" h={10} variant="outline" borderColor="#38ADA9" onPress={() => props.navigation.goBack()}>
           <Text color="#38ADA9">Retour</Text>
         </Button>
-        <Button w="42%" h={10} bg="#78E08F" onPress={() => participateClick(rando)}>
+        <Button w="42%" h={10} bg="#78E08F" shadow="9" onPress={() => participateClick(rando)}>
           {isParticipant === true ? "Aller au Chat" : "Pariticper"}
         </Button>
       </Stack>

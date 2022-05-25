@@ -43,9 +43,9 @@ function Home(props) {
         </Text>
 
         <View style={{ width: "100%", marginTop:'8%', flexDirection: "row",  justifyContent: 'center' }}>
-          <Button style={styles.buttonStyle} py={1} my={1} bg={'#78E08F'} onPress={() => props.navigation.navigate("Chercher")} ><Box style={styles.buttonBox} ><Text color={'#fff'}>Chercher une randonnée  </Text><Ionicons name="search-circle" size={34} color="white" /></Box></Button>
+          <Button style={styles.buttonStyle} py={1} my={1} bg={'#78E08F'} shadow="9" onPress={() => props.navigation.navigate("Chercher")} ><Box style={styles.buttonBox} ><Text color={'#fff'}>Chercher une randonnée  </Text><Ionicons name="search-circle" size={34} color="white" /></Box></Button>
         </View> 
-          <Button my={1} w={'84%'} bg={'#78E08F'} onPress={() => props.navigation.navigate("Create")} >Créer une randonnée</Button>
+          <Button my={1} w={'84%'} bg={'#78E08F'} shadow="9" onPress={() => props.navigation.navigate("Create")} >Créer une randonnée</Button>
         <View style={{ marginTop: '4%' }} >
           {/* <MaterialIcons name="account-circle" size={96} color="black" /> */}
           <Avatar
@@ -58,8 +58,8 @@ function Home(props) {
         </View>
         <View style={{ width: '100%', marginTop: '2%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
           <Text>{props.user.username}</Text>
-          <Button mt={'2%'} w={"84%"} bg={'#079992'} onPress={() => props.navigation.navigate('Profil')} >Mon compte</Button>
-          <Button my={'3%'} w={'84%'} bg={'#bbb'} onPress={() => props.navigation.navigate('SearchPeople')} >Chercher un utilisateur</Button>
+          <Button mt={'2%'} w={"84%"} bg={'#079992'} shadow="9" onPress={() => props.navigation.navigate('Profil')} >Mon compte</Button>
+          <Button my={'3%'} w={'84%'} bg={'#bbb'} shadow="9" onPress={() => props.navigation.navigate('SearchPeople')} >Chercher un utilisateur</Button>
         </View>
       </ScrollView>
       <StatusBar style='auto' />

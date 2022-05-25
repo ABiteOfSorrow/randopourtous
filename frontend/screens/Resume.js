@@ -221,9 +221,9 @@ function Resume(props) {
         </Button>
       </HStack>
     <ScrollView>
-      <Button w={"80%"} size="md" backgroundColor="#E55039" alignSelf="center" mb={10} onPress={() => console.log("I'm Pressed")}>
+      <Button w={"80%"} size="md" backgroundColor="#E55039" alignSelf="center" mb={10} shadow="9" onPress={() => console.log("I'm Pressed")}>
         <Text style={styles.contentText} fontSize="md">
-          {rando.name}
+          Nom de la Rando : {rando.name}
         </Text>
       </Button>
       {/* contents container for Demandes de partipation */}
@@ -241,7 +241,7 @@ function Resume(props) {
       }
 
       {/* Photo share Button */}
-      <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mb={5} onPress={pickImage}>
+      <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mb={5} shadow="9" onPress={pickImage}>
         <Text style={styles.contentText} fontSize="md">
           Partager des photos
         </Text>
@@ -282,7 +282,7 @@ function Resume(props) {
         </Flex>
       </VStack>
 
-      <Button isDisabled={disable} w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mt={5} onPress={submitRating}>
+      <Button isDisabled={disable} w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mt={5} shadow="9" onPress={submitRating}>
         <Text style={styles.contentText} fontSize="md">
         Soumettez votre évaluation
         </Text>

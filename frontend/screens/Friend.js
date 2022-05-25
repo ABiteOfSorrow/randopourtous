@@ -40,6 +40,51 @@ function Friend(props) {
     })();
   }, [])
 
+
+let FriendListDisplay =  friends.map((friend, index) => {
+  let tabGlobalRating = [];
+  for (let j = 0; j < 5; j++) {
+    let color = "black";
+    if (j < friend.averageRating) {
+      color = "#f1c40f";
+    }
+    tabGlobalRating.push(<AntDesign key={j} color={color} name="star" size={24} />);
+  }
+
+return (<Center
+      key={index}
+      w={'84%'}
+      h={62}
+      px={4}
+      mb={2}
+      bg="#079992"
+      rounded="lg"
+      shadow={8}
+      style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}
+    >
+      <MaterialIcons name="account-circle" size={52} color="black" />
+      <VStack space={2} style={{}} >
+        <Heading style={styles.contentText} size="xs">
+          {friend.username}
+        </Heading>
+        <Flex direction="row" alignSelf="center">
+          {tabGlobalRating}
+        </Flex>
+      </VStack>
+      <Button
+        size="xs"
+        bg= "#BBBBBB" 
+        alignSelf= "center"
+        shadow="9" 
+        onPress={() => props.navigation.navigate("OtherProfile", { user: friend })}
+      >
+        <Text style={styles.contentText} fontSize="xs">
+          Voir Profil
+        </Text>
+      </Button>
+    </Center>)
+})
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <ScrollView contentContainerStyle={{ flex:1 }} >
@@ -65,43 +110,7 @@ function Friend(props) {
             Mes amis
           </Heading>
           {/* User profil box */}
-          {friends.map((friend, index) => (
-          <Center
-            key={index}
-            w={'84%'}
-            h={62}
-            px={4}
-            mb={2}
-            bg="#079992"
-            rounded="lg"
-            shadow={8}
-            style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <MaterialIcons name="account-circle" size={52} color="black" />
-            <VStack space={2} style={{}} >
-              <Heading style={styles.contentText} size="xs">
-                {friend.username}
-              </Heading>
-              <Flex direction="row" alignSelf="center">
-                <AntDesign name="star" size={24} color="yellow" />
-                <AntDesign name="star" size={24} color="yellow" />
-                <AntDesign name="star" size={24} color="yellow" />
-                <AntDesign name="star" size={24} color="yellow" />
-                <AntDesign name="star" size={24} color="yellow" />
-              </Flex>
-            </VStack>
-            <Button
-              size="xs"
-              style={{ backgroundColor: "#BBBBBB", alignSelf: "center" }}
-              onPress={() => props.navigation.navigate("OtherProfile", { user: friend })}
-            >
-              <Text style={styles.contentText} fontSize="xs">
-                Voir Profil
-              </Text>
-            </Button>
-
-          </Center>
-          ))}
+         {FriendListDisplay}
         </VStack>
       </ScrollView>
       {/* To prevent leaving the content area */}

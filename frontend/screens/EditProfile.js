@@ -12,7 +12,7 @@ const backendAdress = backendConfig.address;
 
 
 function EditProfile(props) {
-
+// console.log(props)
    const isFocused = useIsFocused();
    useEffect(() => {
       (async function () {
@@ -131,9 +131,10 @@ function EditProfile(props) {
             </View>
          </View>
          <ScrollView style={{ width: '100%', paddingHorizontal: 20, marginTop: 10 }} >
-            <Text style={{ fontSize: 18, marginLeft: 10 }} >Email</Text>
-            <Text>toto@mail.com</Text>
-            <Text style={{ fontSize: 14, marginTop: 8, marginLeft: 10 }} >Compte créé le: {createdAccount.toLocaleDateString('fr-FR')}</Text>
+            <Text style={{ fontSize: 18, textAlign: "center",  marginBottom : "10%"}} >Email : {props.user.email}</Text>
+            <Text style={{ fontSize: 18, textAlign: "center",  marginBottom : "10%"}} >Nom : {props.user.lastname}</Text>
+            <Text style={{ fontSize: 18, textAlign: "center",  marginBottom : "10%"}} >Prénom : {props.user.name}</Text>
+            <Text style={{ fontSize: 14, textAlign: "center", marginBottom: "10%" }} >Compte créé le: {createdAccount.toLocaleDateString('fr-FR')}</Text>
             <Text style={{ marginTop: 12, marginLeft: 10 }} >Prénom</Text>
             <Input my={3} placeholder='Veuillez entrer le prénom...' value={name} onChangeText={(text) => setName(text)} />
             <Text style={{ marginTop: 12, marginLeft: 10 }} >Nom</Text>
@@ -143,7 +144,7 @@ function EditProfile(props) {
          </ScrollView>
          <View style={{ width: '100%', flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }} >
             <View style={{ width: '84%' }} >
-               <Button bg='#78E08F' onPress={async () => await handleSubmit()} style={{ width: '100%' }}>Sauvegarder</Button>
+               <Button bg='#78E08F' shadow="9" mb={2} onPress={async () => await handleSubmit()} style={{ width: '100%' }}>Sauvegarder</Button>
             </View>
          </View>
 

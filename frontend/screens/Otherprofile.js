@@ -173,11 +173,11 @@ function OtherProfile(props) {
           alignItems: "center",
         }}
       >
-        <Button my={1} bg={"#78E08F"} onPress={() => props.navigation.navigate( 'Randos', {screen: 'History', params:{user}})} w={"80%"}>
+        <Button my={1} bg={"#78E08F"} shadow="9" onPress={() => props.navigation.navigate( 'Randos', {screen: 'History', params:{user}})} w={"80%"}>
           Voir ses randos
         </Button>
 
-        {!alreadyFriends && <Button my={1} bg={"#bbb"} onPress={async () => await handleAddFriend(user)} w={"80%"}>
+        {!alreadyFriends && <Button my={1} bg={"#bbb"} shadow="9" onPress={async () => await handleAddFriend(user)} w={"80%"}>
           Ajouter en ami
           </Button>
         }

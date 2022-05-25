@@ -18,6 +18,7 @@ export default function PresentScreen(props) {
 
       <Button
         style={{backgroundColor: '#78E08F'}}
+        shadow="9" 
         onPress={() => props.navigation.replace('SignUp')}>
         Suivant
       </Button>

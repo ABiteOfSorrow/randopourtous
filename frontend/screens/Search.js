@@ -132,6 +132,7 @@ function Search(props) {
           mt='2'
           w='84%'
           h={8}
+          shadow="9" 
           placeholder='Ville / département'
           onChangeText={(e) => searchCities(e)}
           value={citie.nom}
@@ -217,6 +218,7 @@ function Search(props) {
           h={8}
           variant='outline'
           mt='1.5'
+          shadow="9" 
           colorScheme='secondary'
           onPress={showDatePicker}>
           <Text
@@ -238,6 +240,7 @@ function Search(props) {
           height={8}
           fontSize={10}
           mt='1'
+          shadow="9" 
           bg='#EEEEEE'
           accessibilityLabel='Niveau'
           placeholder='Niveau'
@@ -256,6 +259,7 @@ function Search(props) {
           w={'84%'}
           h={10}
           bg='#78E08F'
+          shadow="9" 
           onPress={() => {
             let sendObject = {
               ville: citie,

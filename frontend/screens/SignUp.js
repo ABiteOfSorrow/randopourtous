@@ -147,6 +147,7 @@ function SignUp(props) {
         w={'80%'}
         fontSize={20}
         fontWeight={'bold'}
+        shadow="9" 
         onPress={async () => await handleSubmit()}>
         Créer son compte
       </Button>
@@ -186,7 +187,9 @@ function SignUp(props) {
         <Button
           style={{backgroundColor: '#bbb'}}
           mt={2}
+          mb={2}
           w={'100%'}
+          shadow="9" 
           onPress={() => props.navigation.navigate('SignIn')}>
           Se connecter
         </Button>

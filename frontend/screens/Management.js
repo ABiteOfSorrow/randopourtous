@@ -44,7 +44,7 @@ function Management(props) {
 
         <VStack space={2} alignItems="center" mb={5}>
           <Heading size="lg">Gestion Rando</Heading>
-          <Box w={"75%"} mb={0} borderRadius="15" bg="#079992">
+          <Box w={"75%"} mb={0} borderRadius="15" bg="#079992" shadow="9" >
             <Text color="white" fontSize="md" textAlign="center">
               8 / 15 Participants
             </Text>
@@ -54,7 +54,7 @@ function Management(props) {
         <VStack space={2} mb={20} alignItems="center">
           <Heading size="lg">Demandes de partipation </Heading>
           {/* User profil box */}
-          <Box w={"90%"} h={110} bg={"#bbbbbb"} borderRadius={15} p={0} justifyContent={"center"} alignItems={"center"}>
+          <Box w={"90%"} h={110} bg={"#bbbbbb"} borderRadius={15} p={0} shadow="9" justifyContent={"center"} alignItems={"center"}>
             <Center w={"95%"} h={62} p={0} mb={2} bg="#079992" rounded="lg" shadow={8} display="flex" flexDirection="row" justifyContent="space-around">
               <Avatar
                 me="10"
@@ -75,7 +75,7 @@ function Management(props) {
                   <AntDesign name="star" size={24} color="yellow" />
                 </Flex>
               </VStack>
-              <Button size="xs" backgroundColor="#BBBBBB" alignSelf="center" onPress={() => console.log("I'm Pressed")}>
+              <Button size="xs" backgroundColor="#BBBBBB" alignSelf="center" shadow="9" onPress={() => console.log("I'm Pressed")}>
                 <Text style={styles.contentText} fontSize="xs">
                   Voir Profil
                 </Text>
@@ -83,11 +83,11 @@ function Management(props) {
             </Center>
             {/* Accepter & Refuser buttons */}
             <HStack>
-              <Button w={"30%"} h={25} p={0} mr={10} borderRadius={15} bg={"#079992"}>
+              <Button w={"30%"} h={25} p={0} mr={10} borderRadius={15} bg={"#079992"} shadow="9" >
                 {" "}
                 Accepter{" "}
               </Button>
-              <Button w={"30%"} h={25} p={0} borderRadius={15} bg={"#E55039"}>
+              <Button w={"30%"} h={25} p={0} borderRadius={15} bg={"#E55039"} shadow="9" >
                 {" "}
                 Refuser{" "}
               </Button>
@@ -99,7 +99,7 @@ function Management(props) {
         <VStack space={2} mb={2} alignItems="center">
           <Heading size="lg">Liste des participants </Heading>
           {/* User profil box */}
-          <Box w={"90%"} h={110} bg={"#bbbbbb"} borderRadius={15} p={0} justifyContent={"center"} alignItems={"center"}>
+          <Box w={"90%"} h={110} bg={"#bbbbbb"} borderRadius={15} p={0} shadow="9" justifyContent={"center"} alignItems={"center"}>
             <Center w={"95%"} h={62} p={0} mb={2} bg="#079992" rounded="lg" shadow={8} display="flex" flexDirection="row" justifyContent="space-around">
               <Avatar
                 me="10"
@@ -120,21 +120,21 @@ function Management(props) {
                   <AntDesign name="star" size={24} color="yellow" />
                 </Flex>
               </VStack>
-              <Button size="xs" backgroundColor="#BBBBBB" alignSelf="center" onPress={() => console.log("I'm Pressed")}>
+              <Button size="xs" backgroundColor="#BBBBBB" alignSelf="center" shadow="9" onPress={() => console.log("I'm Pressed")}>
                 <Text style={styles.contentText} fontSize="xs">
                   Voir Profil
                 </Text>
               </Button>
             </Center>
             {/* Ban buttons */}
-            <Button w={"30%"} h={25} p={0} borderRadius={15} bg={"#E55039"}>
+            <Button w={"30%"} h={25} p={0} borderRadius={15} bg={"#E55039"} shadow="9" >
               {" "}
               Ban{" "}
             </Button>
           </Box>
         </VStack>
       </ScrollView>
-      <Button w={"50%"} h={25} p={0} mb={3} mt={3} borderRadius={15} bg={"#E55039"} alignSelf={"center"} onPress={() => handleSubmit()}>
+      <Button w={"50%"} h={25} p={0} mb={3} mt={3} borderRadius={15} bg={"#E55039"} alignSelf={"center"} shadow="9" onPress={() => handleSubmit()}>
         <Text color="#ffffff">Terminer cette Rando</Text>
       </Button>
       {/* To prevent leaving the content area */}

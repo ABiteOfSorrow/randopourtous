@@ -115,7 +115,7 @@ function History(props) {
             {etat}
           </Box>
         </Box>
-        <Button w={100} h={8} p={0} mt={2} mr={2} style={{ backgroundColor: "green", marginLeft: "65%" }} onPress={() => rando.finished === false ? props.navigation.navigate('Detail', { rando }) : props.navigation.navigate('Chercher', { screen: 'Resume', params: { rando } })}>
+        <Button w={100} h={8} p={0} mt={2} mr={2} shadow="9" style={{ backgroundColor: "green", marginLeft: "65%" }} onPress={() => rando.finished === false ? props.navigation.navigate('Detail', { rando }) : props.navigation.navigate('Chercher', { screen: 'Resume', params: { rando } })}>
           <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
             Voir
           </Text>
@@ -137,22 +137,22 @@ function History(props) {
       <VStack space={2} >
         {/* Buttons Filter */}
         <Box style={styles.menu} mx={"auto"} mb={2}>
-          <Button w={90} h={8} p={0} mt={2} mr={2} bg={tracksFilter === null ? "#78E08F" : "grey"} onPress={() => setTracksFilter(null)}>
+          <Button w={90} h={8} p={0} mt={2} mr={2} shadow="9" bg={tracksFilter === null ? "#78E08F" : "grey"} onPress={() => setTracksFilter(null)}>
             <Text fontSize="xs" style={{ color: "white", fontWeight: 'bold' }} >
               Toutes
             </Text>
           </Button>
-          <Button w={90} h={8} p={0} mt={2} mr={2} style={tracksFilter === true ? { backgroundColor: "#78E08F" } : { backgroundColor: "grey" }} onPress={() => setTracksFilter(true)} >
+          <Button w={90} h={8} p={0} mt={2} mr={2} shadow="9" style={tracksFilter === true ? { backgroundColor: "#78E08F" } : { backgroundColor: "grey" }} onPress={() => setTracksFilter(true)} >
             <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
               En cours
             </Text>
           </Button>
-          <Button w={90} h={8} p={0} mt={2} mr={2} bg="#bbb" style={tracksFilter === false ? { backgroundColor: "#78E08F" } : { backgroundColor: "grey" }} onPress={() => setTracksFilter(false)} >
+          <Button w={90} h={8} p={0} mt={2} mr={2} bg="#bbb" shadow="9" style={tracksFilter === false ? { backgroundColor: "#78E08F" } : { backgroundColor: "grey" }} onPress={() => setTracksFilter(false)} >
             <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
               Achevées
             </Text>
           </Button>
-          <Button w={90} h={8} p={0} mt={2} style={tracksFilterAdmin ? { backgroundColor: "#78E08F" } : { backgroundColor: "grey" }} onPress={() => { setTracksFilterAdmin(!tracksFilterAdmin) }} >
+          <Button w={90} h={8} p={0} mt={2} shadow="9" style={tracksFilterAdmin ? { backgroundColor: "#78E08F" } : { backgroundColor: "grey" }} onPress={() => { setTracksFilterAdmin(!tracksFilterAdmin) }} >
             <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
               Créées
             </Text>

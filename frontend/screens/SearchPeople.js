@@ -51,11 +51,11 @@ function SearchPeople(props) {
               uri: "https://file1.topsante.com/var/topsante/storage/images/medecine/troubles-orl/rhume-rhinopharingite/vivre-avec/on-a-trouve-l-origine-du-rhume-les-chameaux-612915/8708813-1-fre-FR/On-a-trouve-l-origine-du-rhume-les-chameaux.jpg?alias=original",
             }}
           ></Avatar>
-            <Box style={{ flex: 1, display:'flex', alignItems: 'center', justifyContent:'center' }} >
+            <Box style={{ flex: 1, display:'flex', alignItems: 'center', justifyContent:'center', shadow: 9 }} >
                <Text style={{ color: '#fff', fontSize: 16 }} >{user.username}</Text>
             </Box>
             <Box>
-               <Button bg={'#bbb'} onPress={() => props.navigation.navigate(route, { user: user })} >Voir</Button>
+               <Button bg={'#bbb'} shadow="9" onPress={() => props.navigation.navigate(route, { user: user })} >Voir</Button>
             </Box>
          </Box>
       )
@@ -91,7 +91,7 @@ function SearchPeople(props) {
             <Box style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
                <Input placeholder="Nom d'utilisateur" type='text' mt={'1%'} w={'80%'} value={username} onChangeText={(text) => setUsername(text)} />
                <Box w={'80%'}>
-                  <Button bg={'#78E08F'} ml={'auto'} mt={'4%'} onPress={async () => await handleSubmit()} >Chercher</Button>
+                  <Button bg={'#78E08F'} ml={'auto'} mt={'4%'} shadow="9" onPress={async () => await handleSubmit()} >Chercher</Button>
                </Box>
                <Box style={{ width: '100%', marginTop: '3%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <Text style={{ fontSize: 16, marginBottom: '3%' }} >Résultats :</Text>

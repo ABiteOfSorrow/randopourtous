@@ -17,7 +17,7 @@ function Detail(props) {
   const [isParticipant, setIsParticipant] = useState(false)
   const [listUsers, setListUsers] = useState([])
   const [rando, setRando] = useState(props.route.params.rando)
-  console.log(props.rando)
+  // console.log(props.rando)
 
   //let rando=props.route.params.rando
   useEffect(() => {
@@ -93,7 +93,7 @@ function Detail(props) {
 
 
   var participateClick = async function (dataRando) {
-    console.log(props.user._id)
+    // console.log(props.user._id)
     //*** Ajout de l'id du randonneur dans la base de donnée de la radonnée */
     let rawresponse = await fetch(backendAdress + '/add-user-track?userid=' + props.user._id + '&trackid=' + rando._id);
     props.navigation.navigate( 'Randos', {screen:'Chat',params: {rando} } )

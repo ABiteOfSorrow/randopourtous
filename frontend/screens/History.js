@@ -21,12 +21,11 @@ function History(props) {
   //Initialisation de toutes les randos de l'utilisateur à l'ouverture de composant et dès le changement de la variable d'état "tracksFilter"
   useEffect(() => {
 
-    console.log(tracksFilterAdmin)
+    // console.log(tracksFilterAdmin)
 
     //Récupérations des randos dans la BDD
     async function loadData() {
       //****** si on vient du screen OtherProfile, on a le param props.params.user sinon on vient du screen MyProfile donc c'est l'user du store */
-     
 
      // console.log('parames: ',typeof props.route.params.user)
       let user = props.route.params? props.route.params.user : props.user
@@ -42,7 +41,7 @@ function History(props) {
       //console.log("props.user.tracks", props.user.tracks)
 
       var response = await rawResponse.json();
-      console.log(response)
+      // console.log(response)
       //console.log("response ", tracksFilterAdmin)
       //console.log("response ", tracksFilter)
 

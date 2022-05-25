@@ -33,7 +33,7 @@ router.post('/create-track', async function (req, res, next) {
     return res.json({ result: false, error: 'Token manquant.' })
   }
   if (!token || !randoData.name || !randoData.coordinate || !randoData.date) {
-    console.log(JSON.stringify(randoData))
+    // console.log(JSON.stringify(randoData))
     return res.json({ result: false, error: 'Inputs incorrects' })
   }
 
@@ -92,11 +92,11 @@ router.post('/search-track', async function (req, res, next) {
   let level = searchData.niveau ? searchData.niveau : null
   let date = searchData.date ? new Date(searchData.date) : null
 
-  console.log('citie: ', citie)
-  console.log('level: ', level)
-  console.log('date: ', date)
-  console.log('CP: ', codePostal)
-  console.log('dpt: ', dpt)
+  // console.log('citie: ', citie)
+  // console.log('level: ', level)
+  // console.log('date: ', date)
+  // console.log('CP: ', codePostal)
+  // console.log('dpt: ', dpt)
 
 
   //console.log(codePostal.length)
@@ -128,9 +128,7 @@ if(level===null && date===null &&citie===null&&dpt===null){
     })
   }
 }
-  
-
-  console.log(result)
+  // console.log(result)
   if(result.length!==0){
 
     return res.json({ success: true, result: result })
@@ -163,7 +161,7 @@ router.post('/get-tracks', async function (req, res, next) {
   
   for(oneRando of randosInBDD){
     for(participant of oneRando.users){
-      console.log("oneRando ",oneRando)
+      // console.log("oneRando ",oneRando)
       //Si le participant dans la liste users est celui renvoyé dans la requete et qu'il est pas déjà dans la liste
       if(participant === userId && fullInfoTracks.find(e => e.id == oneRando.id) == undefined){
         fullInfoTracks.push(oneRando)
@@ -318,10 +316,10 @@ router.post('/update-randorating', async (req, res) => {
 
 });
 
-// Pour afficher default écran de ResumeScreen
+// Pour afficher écran de ResumeScreen par defaut
 router.post('/get-resume', async (req, res) => {
 
-  console.log(req.body)
+  // console.log(req.body)
  
   let averageNote = 0;
   let paysageNote = 0;

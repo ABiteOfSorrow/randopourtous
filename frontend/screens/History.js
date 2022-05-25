@@ -19,6 +19,9 @@ function History(props) {
 
 
   //Initialisation de toutes les randos de l'utilisateur à l'ouverture de composant et dès le changement de la variable d'état "tracksFilter"
+  let user = props.route.params
+  console.log('parames: ',props.route.params._id, 'iduserStore: ', props.user._id)
+  console.log('parames: ',props.route.params.username, 'iduserStore: ', props.user.username)
   useEffect(() => {
 
     //console.log(tracksFilterAdmin)
@@ -27,8 +30,6 @@ function History(props) {
     async function loadData() {
       //****** si on vient du screen OtherProfile, on a le param props.params.user sinon on vient du screen MyProfile donc c'est l'user du store */
 
-      // console.log('parames: ',typeof props.route.params.user)
-      let user = props.route.params ? props.route.params.user : props.user
 
       var rawResponse = await fetch(backendAdress + '/get-tracks', {
         method: 'POST',
@@ -59,7 +60,7 @@ function History(props) {
       loadData()
     }
 
-  }, [tracksFilter, tracksFilterAdmin, isFocused]);
+  }, [tracksFilter, tracksFilterAdmin, isFocused, props.route.params]);
 
   //console.log("csl allTarcks ", allTracks)
   var sourceCard = allTracks.map((rando, i) => {
@@ -132,7 +133,7 @@ function History(props) {
 
       </HStack>
       <Heading size="md" mt='2' textAlign="center" mb={'1%'}>
-        {!props.route.params ? (<Text>Mes Randonnées</Text>) : (<Text>Randonnées de {props.route.params.user.name}</Text>)}
+        {props.route.params._id===props.user._id ? (<Text>Mes Randonnées</Text>) : (<Text>Randonnées de {props.route.params.name}</Text>)}
       </Heading>
       <VStack space={2} >
         {/* Buttons Filter */}

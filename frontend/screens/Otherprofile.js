@@ -13,6 +13,7 @@ const backendAdress = backendConfig.address;
 
 function OtherProfile(props) {
   const user = props.route.params.user;
+  console.log(user)
   let isFriend = false;
   if (props.user.friends.includes(user._id)) {
     isFriend = true;
@@ -173,7 +174,7 @@ function OtherProfile(props) {
           alignItems: "center",
         }}
       >
-        <Button my={1} bg={"#78E08F"} shadow="9" onPress={() => props.navigation.navigate( 'Randos', {screen: 'History', params:{user}})} w={"80%"}>
+        <Button my={1} bg={"#78E08F"} shadow="9" onPress={() => props.navigation.navigate( 'Randos', {screen: 'History', params:props.route.params.user})} w={"80%"}>
           Voir ses randos
         </Button>
 

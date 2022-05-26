@@ -41,6 +41,10 @@ function Resume(props) {
           },
           body: JSON.stringify(defaultResume)
         })
+        if (!randoRawResponse.ok) {
+          Alert.alert("Erreur", "Problème de connexion au serveur")
+          return ;
+        }
         let response = await randoRawResponse.json()
         // console.log(response)
         if (response.averageNote > 0) {
@@ -52,7 +56,7 @@ function Resume(props) {
           setDisable(true)
         }
       } catch (e) {
-        Alert.alert('Erreur...', 'Une erreur est survenue lors de la récupération des données.')
+        Alert.alert('Erreur...', 'Problème de connexion au serveur.')
         console.log(e)
       }
     }

@@ -12,7 +12,7 @@ import { StatusBar } from "expo-status-bar";
 const backendAdress = backendConfig.address
 
 function Management(props) {
-  console.log("props.rando",props.route.params.params.rando.users.length)
+  //console.log("props.rando",props.route.params.params.rando.users.length)
   
   //******* Statu d'acceptation pour faker */
   const [acceptStatus, setAcceptStatus]=useState(false)

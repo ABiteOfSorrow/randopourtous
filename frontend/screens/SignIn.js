@@ -126,8 +126,8 @@ function SignIn(props) {
             justifyContent: "center",
           }}
         >
-          <FontAwesome5 style={{ marginHorizontal: '8%' }} name="google" size={48} color="#DB4437" onPress={() => alert("Sign up avec Google. Merci.")} />
-          <FontAwesome5 style={{ marginHorizontal: '8%' }} name="facebook" size={48} color="#4267B2" />
+          <FontAwesome5 style={{ marginHorizontal: '8%' }} name="google" size={48} color="#DB4437" onPress={() => Alert.alert('Merci',"C'est une future fonctionnalité")} />
+          <FontAwesome5 style={{ marginHorizontal: '8%' }} name="facebook" size={48} color="#4267B2" onPress={() => Alert.alert("Merci","C'est une future fonctionnalité")} />
         </View>
         <View
           style={{

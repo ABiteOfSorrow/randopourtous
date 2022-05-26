@@ -87,7 +87,7 @@ function Create(props) {
         body: JSON.stringify(randoData),
       })
       if (rawresponse.ok) {
-        var result = await rawresponse.json()
+        var result = await rawresponse.json();
         var rando = result.rando
         //console.log('rando sauvergardée: ', rando)
 

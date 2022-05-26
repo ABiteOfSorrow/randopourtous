@@ -21,6 +21,7 @@ function SignUp(props) {
   const [password2, setPassword2] = useState('');
 
   let handleSubmit = async () => {
+
     if (password !== password2) {
       Alert.alert('Attention', 'Les mots de passe ne correspondent pas.');
       return
@@ -55,7 +56,7 @@ function SignUp(props) {
         }),
       })
       if (result.ok) {
-        let data = await result.json()
+        data = await result.json()
         if (!data.result) {
           Alert.alert('Erreur', data.error);
           return
@@ -107,7 +108,7 @@ function SignUp(props) {
         </View>
         <View style={styles.inputContainer}>
           <Input
-            placeholder="Nom d'utilisateur"
+            placeholder="Surnom d'utilisateur"
             value={username}
             onChangeText={(text) => setUsername(text)}
             w={'80%'}

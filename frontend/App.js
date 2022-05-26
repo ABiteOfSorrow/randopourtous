@@ -53,7 +53,8 @@ const HomeNavigator = () => {
   return (
     <Stack.Navigator
       initialRouteName='HomeScreen'
-      screenOptions={{ headerShown: false }}
+      screenOptions={{headerShown: false}} 
+      options={{ unmountOnBlur: true }}
     >
       <Stack.Screen name='HomeScreen' component={HomeScreen} />
       <Stack.Screen name='MyTrack' component={MyTrack} />
@@ -68,7 +69,8 @@ const ProfileNavigator = () => {
   return (
     <Stack.Navigator
     initialRouteName='MyProfile'
-    screenOptions={{ headerShown: false }}>
+    screenOptions={{headerShown: false}} 
+    options={{ unmountOnBlur: true }}>
       <Stack.Screen name='MyProfile' component={MyprofileScreen} />
       <Stack.Screen name='EditProfile' component={EditProfileScreen} />
       <Stack.Screen name='Friend' component={FriendScreen} />
@@ -80,8 +82,9 @@ const ProfileNavigator = () => {
 const SearchNavigator = () => {
   return (
     <Stack.Navigator
-    screenOptions={{ headerShown: false }}
-    initialRouteName='Search' >
+    initialRouteName='Search' 
+    screenOptions={{headerShown: false}} 
+    options={{ unmountOnBlur: true }}>
       <Stack.Screen name='Search' component={SearchScreen} />
       <Stack.Screen name='ResultSearch' component={ResultSearch} />
       <Stack.Screen name='Resume' component={ResumeScreen} />
@@ -91,8 +94,9 @@ const SearchNavigator = () => {
 const RandoNavigator = () => {
   return (
     <Stack.Navigator
-    screenOptions={{ headerShown: false }}
-    initialRouteName='History' >
+    initialRouteName='History'
+    screenOptions={{headerShown: false}} 
+    options={{ unmountOnBlur: true }} >
       <Stack.Screen name='History' component={HistoryScreen} />
       <Stack.Screen name='Detail' component={DetailScreen} />
       <Stack.Screen name='Management' component={ManagementScreen} />

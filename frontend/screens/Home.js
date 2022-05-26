@@ -45,7 +45,7 @@ function Home(props) {
         <View style={{ width: "100%", marginTop:'8%', flexDirection: "row",  justifyContent: 'center' }}>
           <Button style={styles.buttonStyle} py={1} my={1} bg={'#78E08F'} shadow="9" onPress={() => props.navigation.navigate("Chercher")} ><Box style={styles.buttonBox} ><Text color={'#fff'}>Chercher une randonnée  </Text><Ionicons name="search-circle" size={34} color="white" /></Box></Button>
         </View> 
-          <Button my={1} w={'84%'} bg={'#78E08F'} shadow="9" onPress={() => props.navigation.navigate("Create")} >Créer une randonnée</Button>
+        <Button style={styles.buttonStyle} py={1} my={1} bg={'#78E08F'} shadow="9"  onPress={() => props.navigation.navigate("Create")} ><Box style={styles.buttonBox} ><Text color={'#fff'}>Créer une randonnée        </Text><Ionicons name="navigate-circle" size={34} color="white" /></Box></Button>
         <View style={{ marginTop: '4%' }} >
           {/* <MaterialIcons name="account-circle" size={96} color="black" /> */}
           <Avatar

@@ -118,7 +118,7 @@ function History(props) {
         </Box>
         <Button w={100} h={8} p={0} mt={2} mr={2} shadow="9" style={{ backgroundColor: "green", marginLeft: "65%" }} onPress={() => rando.finished === false ? props.navigation.navigate('Detail', { rando }) : props.navigation.navigate('Chercher', { screen: 'Resume', params: { rando } })}>
           <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
-            Voir
+            Voir Détail
           </Text>
         </Button>
       </Box>

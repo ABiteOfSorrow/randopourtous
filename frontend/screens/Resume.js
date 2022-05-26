@@ -71,24 +71,32 @@ function Resume(props) {
   }, [ambianceValue, paysageValue, difficultyValue])
 
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
+    // Permissions request isn't necessary for launching the image library
     let photo = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       quality: 0.5,
       base64: true,
       exif: true
     });
+    
     var data = new FormData(photo);
     data.append("avatar", {
       uri: photo.uri,
       type: "image/jpeg",
       name: "image.jpg",
-    });
+    },
+    );
+
+    let photoData = {
+      Photo : data,
+      Rando : rando
+    }
+  
     // console.log(data)
     // Need to change IP when you start your APP (ipconfig)
     const rawResponse = await fetch(backendAdress + '/upload', {
       method: "post",
-      body: data,
+      body: photoData
     });
     const response = await rawResponse.json();
     // console.log(response.photo.url)
@@ -157,7 +165,7 @@ function Resume(props) {
 
 
 
-  //Rando rating stars average math Round or toFixed
+  //Rando rating stars average math Round or toFixed : option
   //setAvgTotal((totalNote / 3).toFixed(2));
   // var avgTotal = Math.round(totalNote / 3);
 

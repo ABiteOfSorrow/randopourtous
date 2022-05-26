@@ -76,7 +76,7 @@ router.post('/create-track', async function (req, res, next) {
 
 router.post('/search-track', async function (req, res, next) {
   let searchData = req.body
-
+  
   //***** Securisation des données de recherche: null si vide */
   let citie = searchData.ville.nom ? searchData.ville.nom : null
   let dpt = searchData.ville.dpt ? parseInt(searchData.ville.dpt) : null

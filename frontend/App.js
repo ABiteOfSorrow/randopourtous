@@ -1,7 +1,9 @@
 import { LogBox } from "react-native";
 LogBox.ignoreLogs([
   "exported from 'deprecated-react-native-prop-types'.",
-  "Method has been deprecated."
+  "Method has been deprecated.",
+  "Each child in a list should have a unique 'key' prop.",
+  "Encountered two children with the same key"
 ])
 // LogBox.ignoreAllLogs(true);
 import React from 'react'

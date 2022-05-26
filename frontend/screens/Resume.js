@@ -29,21 +29,21 @@ function Resume(props) {
 
   useEffect(() => {
     const ratingfetch = async () => {
-        try {
-          let defaultResume = {
-            randoId : rando._id,
-            userId : props.user._id
-          }
-          let randoRawResponse = await fetch(backendAdress + '/get-resume', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(defaultResume)
-          })
-          let response = await randoRawResponse.json()
-          // console.log(response)
-          if(response.averageNote > 0){
+      try {
+        let defaultResume = {
+          randoId: rando._id,
+          userId: props.user._id
+        }
+        let randoRawResponse = await fetch(backendAdress + '/get-resume', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(defaultResume)
+        })
+        let response = await randoRawResponse.json()
+        // console.log(response)
+        if (response.averageNote > 0) {
           setUserRating(response.averageNote)
           setPaysageValue(response.paysageNote)
           setAmbianceValue(response.ambianceNote)
@@ -51,13 +51,13 @@ function Resume(props) {
           setImage(response.randoPhotos)
           setDisable(true)
         }
-        } catch (e) {
-          Alert.alert('Erreur...', 'Une erreur est survenue lors de la récupération des données.')
-          console.log(e)
-        }
+      } catch (e) {
+        Alert.alert('Erreur...', 'Une erreur est survenue lors de la récupération des données.')
+        console.log(e)
       }
+    }
     ratingfetch()
- }, [])
+  }, [])
 
   useEffect(() => {
     //Rando rating stars average and voter count
@@ -88,8 +88,8 @@ function Resume(props) {
     },
     );
     data.append("rando", `${rando._id}`);
-  
-    console.log(data)
+
+    //console.log(data)
 
     // console.log(data)
     // Need to change IP when you start your APP (ipconfig)
@@ -180,41 +180,43 @@ function Resume(props) {
     if (i < userRating) {
       color = "#f1c40f";
     }
-      tabGlobalRating.push(<AntDesign key={i} color={color} name="star" size={24} />);
-    }
-  
+    tabGlobalRating.push(<AntDesign key={i} color={color} name="star" size={24} />);
+  }
+
 
 
   const submitRating = async () => {
     if (userRating > 0) {
-        let ratings = {
-          averageRating: userRating,
-          paysageValue: paysageValue,
-          ambianceValue: ambianceValue,
-          difficultyValue: difficultyValue,
-          userId: props.user._id,
-          randoId: rando._id
-        }
-        //console.log(ratings)
+      let ratings = {
+        averageRating: userRating,
+        paysageValue: paysageValue,
+        ambianceValue: ambianceValue,
+        difficultyValue: difficultyValue,
+        userId: props.user._id,
+        randoId: rando._id
+      }
+      //console.log(ratings)
 
-        try {
-          let randoRawResponse = await fetch(backendAdress + '/update-randorating', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(ratings)
-          })
+      try {
+        let randoRawResponse = await fetch(backendAdress + '/update-randorating', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(ratings)
+        })
 
-          alert("Merci pour votre participation!")
-          setDisable(true)
+        Alert.alert('Merci!',"Merci pour votre participation!")
+        setDisable(true)
 
-          // console.log(JSON.stringify(userRawResponse))
-          // console.log(JSON.stringify(randoRawResponse))
-        } catch (e) {
-          console.log(e)
-        }
-      } else (alert("D'abord mettez votre évaluation pour tous SVP"))
+        // console.log(JSON.stringify(userRawResponse))
+        // console.log(JSON.stringify(randoRawResponse))
+      } catch (e) {
+        console.log(e)
+      }
+    } else {
+      Alert.alert("Attention", "Veuillez tout noter.")
+    }
   }
 
 
@@ -223,7 +225,7 @@ function Resume(props) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
-      <HStack justifyContent="space-between" mb={0} style={{borderBottomWidth: 1, borderColor: '#CCCCCC'}}>
+      <HStack justifyContent="space-between" mb={0} style={{ borderBottomWidth: 1, borderColor: '#CCCCCC' }}>
         <HamburgerMenu navigation={props.navigation} />
         <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9" onPress={() => props.navigation.goBack()}>
           <Text fontSize="xs" bold color="#38ADA9">
@@ -231,73 +233,73 @@ function Resume(props) {
           </Text>
         </Button>
       </HStack>
-    <ScrollView style={{ flex:1 }}>
-      <Button w={"80%"} size="md" mt={2} backgroundColor="#E55039" alignSelf="center" mb={10} shadow="7" onPress={() => console.log("I'm Pressed")}>
-        <Text style={styles.contentText} fontSize="md">
-          Nom de la Rando : {rando.name}
-        </Text>
-      </Button>
-      {/* contents container for Demandes de partipation */}
-      <VStack space={2} mb={2} alignItems="center">
-        <Heading mb={5} size="md">
-        Point de départ : {rando.departure.nom}
-        </Heading>
-        <Heading size="md">Historique des photos partagées </Heading>
-      </VStack>
-
-      {/* Carousel for Photos, default = data / else cloudinary image */}
-      {image === "" ? (
-        <></>
-      ) : (<CustomSlider data={image} />)
-      }
-
-      {/* Photo share Button */}
-      <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mb={5} shadow="9" onPress={pickImage}>
-        <Text style={styles.contentText} fontSize="md">
-          Partager des photos
-        </Text>
-      </Button>
-
-      <VStack space={5}>
-        <Heading size="sm" textAlign="center"> Note moyenne : {userRating} </Heading>
-        {/* Average Stars */}
-        <Flex direction="row" alignSelf="center">
-          <Heading mr={5} size="md">
-            Note globale
+      <ScrollView style={{ flex: 1 }}>
+        <Button w={"80%"} size="md" mt={2} backgroundColor="#E55039" alignSelf="center" mb={10} shadow="7" onPress={() => console.log("I'm Pressed")}>
+          <Text style={styles.contentText} fontSize="md">
+            Nom de la Rando : {rando.name}
+          </Text>
+        </Button>
+        {/* contents container for Demandes de partipation */}
+        <VStack space={2} mb={2} alignItems="center">
+          <Heading mb={5} size="md">
+            Point de départ : {rando.departure.nom}
           </Heading>
-          {tabGlobalRating}
-        </Flex>
+          <Heading size="md">Historique des photos partagées </Heading>
+        </VStack>
 
-        {/* PaysageRating Stars */}
-        <Flex direction="row" alignSelf="center">
-          <Heading mr={5} size="md">
-            Paysage
-          </Heading>
-          {PaysageRating}
-        </Flex>
+        {/* Carousel for Photos, default = data / else cloudinary image */}
+        {image === "" ? (
+          <></>
+        ) : (<CustomSlider data={image} />)
+        }
 
-        {/* AmbianceRating Stars */}
-        <Flex direction="row" alignSelf="center">
-          <Heading mr={5} size="md">
-            Ambiance
-          </Heading>
-          {AmbianceRating}
-        </Flex>
+        {/* Photo share Button */}
+        <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mb={5} shadow="9" onPress={pickImage}>
+          <Text style={styles.contentText} fontSize="md">
+            Partager des photos
+          </Text>
+        </Button>
 
-        {/* DifficultyRating Stars */}
-        <Flex direction="row" alignSelf="center">
-          <Heading mr={5} size="md">
-            Difficulté
-          </Heading>
-          {DifficultyRating}
-        </Flex>
-      </VStack>
+        <VStack space={5}>
+          <Heading size="sm" textAlign="center"> Note moyenne : {userRating} </Heading>
+          {/* Average Stars */}
+          <Flex direction="row" alignSelf="center">
+            <Heading mr={5} size="md">
+              Note globale
+            </Heading>
+            {tabGlobalRating}
+          </Flex>
 
-      <Button isDisabled={disable} w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mt={5} shadow="9" onPress={submitRating}>
-        <Text style={styles.contentText} fontSize="md">
-         Donner mon avis
-        </Text>
-      </Button>
+          {/* PaysageRating Stars */}
+          <Flex direction="row" alignSelf="center">
+            <Heading mr={5} size="md">
+              Paysage
+            </Heading>
+            {PaysageRating}
+          </Flex>
+
+          {/* AmbianceRating Stars */}
+          <Flex direction="row" alignSelf="center">
+            <Heading mr={5} size="md">
+              Ambiance
+            </Heading>
+            {AmbianceRating}
+          </Flex>
+
+          {/* DifficultyRating Stars */}
+          <Flex direction="row" alignSelf="center">
+            <Heading mr={5} size="md">
+              Difficulté
+            </Heading>
+            {DifficultyRating}
+          </Flex>
+        </VStack>
+
+        <Button isDisabled={disable} w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mt={5} shadow="9" onPress={submitRating}>
+          <Text style={styles.contentText} fontSize="md">
+            Donner mon avis
+          </Text>
+        </Button>
       </ScrollView>
     </SafeAreaView>
   );

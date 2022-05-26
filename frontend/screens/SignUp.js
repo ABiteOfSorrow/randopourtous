@@ -149,6 +149,7 @@ function SignUp(props) {
         <Button
           style={styles.button}
           w={'80%'}
+          bg={'#78E08F'}
           fontSize={20}
           fontWeight={'bold'}
           shadow="9"
@@ -213,7 +214,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    backgroundColor: '#78E08F',
     marginTop: '4%',
   },
 })

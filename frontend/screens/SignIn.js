@@ -113,7 +113,7 @@ function SignIn(props) {
         <View style={styles.inputContainer}>
           <Input style={styles.input} value={password} onChangeText={(text) => setPassword(text)} type={"password"} width={"80%"} placeholder="Mot de passe" />
         </View>
-        <Button style={styles.button} w={"80%"} shadow="9" onPress={async () => await handleSubmit()}>
+        <Button bg={'#78E08F'} style={styles.button} w={"80%"} shadow="6" onPress={async () => await handleSubmit()}>
           Connexion
         </Button>
         <Divider orientation="horizontal" w={"80%"} mt={'10%'} mb={'3%'} />
@@ -138,7 +138,7 @@ function SignIn(props) {
           }}
         >
           <Text>Vous n'avez pas de compte?</Text>
-          <Button style={{ backgroundColor: "#bbb" }} mt={2} mb={5} w={"84%"} shadow="9" onPress={() => props.navigation.navigate("SignUp")}>
+          <Button bg={'#bbb'} mt={2} mb={5} w={"84%"} shadow="6" onPress={() => props.navigation.navigate("SignUp")}>
             Créer un compte
           </Button>
         </View>
@@ -156,7 +156,6 @@ const styles = StyleSheet.create({
     marginBottom: '3%',
   },
   button: {
-    backgroundColor: "#78E08F",
     marginTop: '3%',
   },
 });

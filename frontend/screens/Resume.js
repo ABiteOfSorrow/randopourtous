@@ -223,7 +223,7 @@ function Resume(props) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
-      <HStack justifyContent="space-between" mb={4} style={{borderBottomWidth: 1, borderColor: '#CCCCCC'}}>
+      <HStack justifyContent="space-between" mb={0} style={{borderBottomWidth: 1, borderColor: '#CCCCCC'}}>
         <HamburgerMenu navigation={props.navigation} />
         <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9" onPress={() => props.navigation.goBack()}>
           <Text fontSize="xs" bold color="#38ADA9">
@@ -231,8 +231,8 @@ function Resume(props) {
           </Text>
         </Button>
       </HStack>
-    <ScrollView>
-      <Button w={"80%"} size="md" backgroundColor="#E55039" alignSelf="center" mb={10} shadow="9" onPress={() => console.log("I'm Pressed")}>
+    <ScrollView style={{ flex:1 }}>
+      <Button w={"80%"} size="md" mt={2} backgroundColor="#E55039" alignSelf="center" mb={10} shadow="7" onPress={() => console.log("I'm Pressed")}>
         <Text style={styles.contentText} fontSize="md">
           Nom de la Rando : {rando.name}
         </Text>

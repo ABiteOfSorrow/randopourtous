@@ -95,7 +95,11 @@ function Detail(props) {
   var participateClick = async function (dataRando) {
     // console.log(props.user._id)
     //*** Ajout de l'id du randonneur dans la base de donnée de la radonnée */
-    let rawresponse = await fetch(backendAdress + '/add-user-track?userid=' + props.user._id + '&trackid=' + rando._id);
+    try {
+    await fetch(backendAdress + '/add-user-track?userid=' + props.user._id + '&trackid=' + rando._id);
+    } catch (error) {
+      console.log(error);
+    }
     props.navigation.navigate('Randos', { screen: 'Chat', params: { rando } })
   }
 

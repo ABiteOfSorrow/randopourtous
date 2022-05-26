@@ -127,7 +127,7 @@ function MyProfile(props) {
           </View>
           <Text style={{ fontSize: 16 }} >Note moyenne des randos: {user.averageRating === -1 ? 'Non connu' : props.user.averageRating.toFixed(2)}</Text>
           <View style={{ flex: 1, width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
-            <Button my={'2%'} bg={'#78E08F'} shadow="6" w={'80%'} mt={'15%'} onPress={() => props.navigation.navigate('Randos', { screen: 'History', params: props.user })}><Box style={styles.buttonContainer}><Text style={styles.buttonText} >Voir mes randos  </Text><FontAwesome5 name="hiking" size={24} color="white" /></Box></Button>
+            <Button my={'2%'} bg={'#78E08F'} shadow="6" w={'80%'} mt={'15%'} onPress={() => props.navigation.navigate('Randos', { user: props.user })}><Box style={styles.buttonContainer}><Text style={styles.buttonText} >Voir mes randos  </Text><FontAwesome5 name="hiking" size={24} color="white" /></Box></Button>
             <Button my={'2%'} bg={'#bbb'} shadow="6" w={'80%'} onPress={() => props.navigation.navigate("Friend")}><Box style={styles.buttonContainer}><Text style={styles.buttonText}>Voir mes amis   </Text><FontAwesome5 name="user-friends" size={24} color="white" /></Box></Button>
             <Button mt={'4%'} bg={'#bbb'} shadow="6" w={'80%'} onPress={() => props.navigation.navigate('EditProfile')}><Box style={styles.buttonContainer}><Text style={styles.buttonText} > Modifier mon compte </Text><FontAwesome5 name="edit" size={24} color="white" /></Box></Button>
           </View>

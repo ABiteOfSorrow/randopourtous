@@ -1,6 +1,7 @@
 import { LogBox } from "react-native";
 LogBox.ignoreLogs([
   "exported from 'deprecated-react-native-prop-types'.",
+  "Method has been deprecated."
 ])
 // LogBox.ignoreAllLogs(true);
 import React from 'react'
@@ -78,8 +79,8 @@ const SearchNavigator = () => {
   return (
     <Stack.Navigator
     screenOptions={{ headerShown: false }}
-    initialRouteName='Chercher' >
-      <Stack.Screen name='Chercher' component={SearchScreen} />
+    initialRouteName='Search' >
+      <Stack.Screen name='Search' component={SearchScreen} />
       <Stack.Screen name='ResultSearch' component={ResultSearch} />
       <Stack.Screen name='Resume' component={ResumeScreen} />
     </Stack.Navigator>

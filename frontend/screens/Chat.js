@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import HamburgerMenu from "../components/HamburgerMenu";
 //import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import { useIsFocused } from "@react-navigation/native";
 
 import backendConfig from '../backend.config.json';
 const backendAdress = backendConfig.address;
@@ -33,6 +34,7 @@ function Chat(props) {
 
   const ws = new WebSocket(URL);
 
+  const focused = useIsFocused();
 
   // useEffect(() => {
 
@@ -145,7 +147,7 @@ function Chat(props) {
         },
       },
     ])
-  }, [])
+  }, [focused])
 
   const onSend = useCallback((messages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
@@ -156,8 +158,8 @@ function Chat(props) {
     return (
       <Send {...props}>
         <View>
-          <Box w={20} h={"100%"} bg={"#079992"} justifyContent={"center"} alignItems={"center"} borderRadius={5}>
-            <FontAwesome name={"send"} size={28} color={"white"} />
+          <Box w={20} h={"100%"} bg={"#079992"} justifyContent={"center"} alignItems={"center"} borderBottomRightRadius={7}>
+            <FontAwesome name={"send"} size={26} color={"white"} />
           </Box>
         </View>
       </Send>
@@ -214,8 +216,8 @@ function Chat(props) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container} keyboardVerticalOffset={90}>
-        <HStack justifyContent="space-between" mb={'5%'} style={{borderBottomWidth: 1, borderColor: '#CCCCCC'}}>
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container} keyboardVerticalOffset={10}>
+        <HStack justifyContent="space-between" mb={'3%'} style={{ borderBottomWidth: 1, borderColor: '#CCCCCC' }}>
           <HamburgerMenu navigation={props.navigation} />
 
           <Button w={90} h={8} p={0} onPress={() => props.navigation.navigate('Profil')} mt={2} mr={2} variant="outline" borderColor="#38ADA9" >
@@ -225,7 +227,7 @@ function Chat(props) {
           </Button>
         </HStack>
         <VStack space={"0.5%"} alignItems="center">
-          <Heading size="lg" mb={'3%'}>
+          <Heading size="lg" fontWeight={'normal'} mb={'3%'}>
             {rando.name}
           </Heading>
         </VStack>
@@ -236,14 +238,13 @@ function Chat(props) {
               {rando.users.length} / {rando.maxUsers} Participants
             </Text>
           </Box>
-          <Button key={0} w={"84%"} mb={0} h={10} bg="#78E08F" alignSelf="center" shadow="9" onPress={() => props.navigation.navigate("Detail", { rando })}>
-            <Text fontSize="md">
+          <Button key={0} w={"84%"} mb={0} h={10} bg="#78E08F" alignSelf="center" shadow="7" onPress={() => props.navigation.navigate("Randos", { screen:"Detail", params: { rando }})}>
+            <Text fontSize="md" color={'white'}>
               Voir la Rando
             </Text>
           </Button>
           {props.user._id === rando.userId ? (
             <>
-
               <Badge // bg="red.400"
                 colorScheme="danger"
                 rounded="full"
@@ -258,7 +259,7 @@ function Chat(props) {
               >
                 2
               </Badge>
-              <Button w={"84%"} key={3} h={10} bg="#78E08F" alignSelf="center"  shadow="9" onPress={() => props.navigation.navigate("Management", { params: { user: props.user, rando: rando } })}>
+              <Button w={"84%"} key={3} h={10} bg="#78E08F" alignSelf="center" shadow="9" onPress={() => props.navigation.navigate("Management", { params: { user: props.user, rando: rando } })}>
                 <Text fontSize="md">
                   Gestion de la Rando
                 </Text>

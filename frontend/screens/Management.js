@@ -11,12 +11,12 @@ import backendConfig from '../backend.config.json'
 const backendAdress = backendConfig.address
 
 function Management(props) {
-  //  console.log("props.rando",props.route.params.params.rando)
+  console.log("props.rando",props.route.params.params.rando.users.length)
 
   async function handleSubmit() {
 
     let rando = props.route.params.params.rando
-    // console.log(rando)
+    //console.log(rando)
     try {
       var rawResponse = await fetch(backendAdress + '/finish-track', {
         method: 'POST',
@@ -52,7 +52,7 @@ function Management(props) {
           <Heading size="lg">Gestion Rando</Heading>
           <Box w={"75%"} mb={0} borderRadius="15" bg="#079992" shadow="9" >
             <Text color="white" fontSize="md" textAlign="center">
-              8 / 15 Participants
+              {props.route.params.params.rando.users.length} / {props.route.params.params.rando.maxUsers} Participants
             </Text>
           </Box>
         </VStack>
@@ -116,7 +116,7 @@ function Management(props) {
               ></Avatar>
               <VStack space={2} alignItems="flex-start">
                 <Heading style={styles.contentText} size="xs">
-                  Toto
+                  Test
                 </Heading>
                 <Flex direction="row" alignSelf="center">
                   <AntDesign name="star" size={24} color="yellow" />

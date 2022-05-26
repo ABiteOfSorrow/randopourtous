@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "native-base";
-import { Text } from "react-native";
+import { Text,Image,View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 
@@ -14,7 +14,12 @@ export default function PresentScreen(props) {
         justifyContent: "center",
       }}
     >
-      <Text style={{ fontSize: 20, marginBottom: 20 }}>Bienvenue à RandoPourTous!</Text>
+       <Image
+        style={{ width: 260, height: 101, marginBottom: '20%'}}
+        source={require('../assets/logo_large.png')}
+      />
+
+      <Text style={{ fontSize: 20, marginBottom: 20 }}>Bienvenue !</Text>
 
       <Button
         style={{backgroundColor: '#78E08F'}}

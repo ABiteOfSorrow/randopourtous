@@ -20,6 +20,10 @@ var tempEvaluationsSchema = mongoose.Schema({
   difficultyNote: Number
 })
 
+var randoImageSchema = mongoose.Schema({
+  imageSrc: String,
+})
+
 // create rando schema
 let randoSchema = new mongoose.Schema({
   mixed: Boolean,
@@ -34,6 +38,7 @@ let randoSchema = new mongoose.Schema({
   description: String,
   evaluations: Number,
   tempEvaluations: [tempEvaluationsSchema],
+  randoImage: [randoImageSchema],
   finished: Boolean,
   level: String,
   userId: String,

@@ -194,23 +194,27 @@ cloudinary.config({
 
 //Request Post for upload photo to cloudinary & send to frondend
 router.post("/upload", async function (req, res, next) {
-  var imagePath = "./tmp/" + uniqid() + ".jpg";
-  console.log(imagePath)
-  var resultCopy = await req.files.avatar.mv(imagePath);
+  console.log(req.body)
+  // var imagePath = "./tmp/" + uniqid() + ".jpg";
+  // // console.log(imagePath)
+  // var resultCopy = await req.files.avatar.mv(imagePath);
 
-  // console.log(req.files.avatar);
-  // console.log(req.files.avatar.name); // nom d'origine de l'image
-  // console.log(req.files.avatar.mimetype); // format de fichier
-  // console.log(req.files.avatar.data); // données brutes du fichier
+  // // console.log(req.files.avatar);
+  // // console.log(req.files.avatar.name); // nom d'origine de l'image
+  // // console.log(req.files.avatar.mimetype); // format de fichier
+  // // console.log(req.files.avatar.data); // données brutes du fichier
 
-  if (!resultCopy) {
-    var result = await cloudinary.uploader.upload(imagePath);
-    console.log(result);
-    res.json({ result: true, message: "File uploaded!", photo: result });
-  } else {
-    res.json({ result: false, message: resultCopy });
-  }
-  fs.unlinkSync(imagePath);
+  // if (!resultCopy) {
+  //   var result = await cloudinary.uploader.upload(imagePath);
+  //   // console.log(result);
+  //   // var result = await randoModel.updateOne({ _id: trackId }, { $addToSet: { users: userId } })
+
+    
+  //   res.json({ result: true, message: "File uploaded!", photo: result });
+  // } else {
+  //   res.json({ result: false, message: resultCopy });
+  // }
+  // fs.unlinkSync(imagePath);
 });
 
 
@@ -240,9 +244,7 @@ router.get('/add-user-track', async (req, res) => {
 router.get('/search-user-track', async (req, res) => {
 
   // var userId= req.query.userid
-
-
-  //console.log(req.query)
+  //console.log(req.query)\
   if (!req.query.trackid) {
     return res.json({ result: false, error: 'Id de rando manquant (serveur).' })
   }
@@ -276,7 +278,7 @@ router.post('/finish-track', async (req, res) => {
 })
 
 
-
+// Mise à jour des évaluations pour chaque rando
 router.post('/update-randorating', async (req, res) => {
 // Evaluation for each rando
   let privateNote = await randoModel.updateOne({ _id: req.body.randoId }, 

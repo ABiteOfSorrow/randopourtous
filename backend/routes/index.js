@@ -282,14 +282,17 @@ router.post('/update-randorating', async (req, res) => {
     { $addToSet : {tempEvaluations: 
       {_id: req.body.userId, averageNote: req.body.averageRating, paysageNote: req.body.paysageValue, 
         ambianceNote: req.body.ambianceValue, difficultyNote: req.body.difficultyValue} } })
+        console.log(privateNote)
 // Update average note for rando
   let randoNote = await randoModel.findById(req.body.randoId)
     let temp = 0;
       for(let i=0; i<randoNote.tempEvaluations.length; i++){
         temp += randoNote.tempEvaluations[i].averageNote
       }
+      console.log(temp)
 //Save result to DB
       randoNote.evaluations = (temp / randoNote.tempEvaluations.length).toFixed(2)
+      console.log(randoNote.evaluations)
       let savedRando = await randoNote.save();
 
 //Find user for update hie average evaluation

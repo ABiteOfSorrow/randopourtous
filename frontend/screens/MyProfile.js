@@ -115,7 +115,7 @@ function MyProfile(props) {
       </View>
       <Text>Note moyenne des randos: {props.user.averageRating === -1 ? 'Non connu' : props.user.averageRating}</Text>
       <View style={{ flex: 1, width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
-        <Button my={1} bg={'#78E08F'} shadow="9" onPress={() => props.navigation.navigate('Randos', {screen:'History'})} w={'80%'} mt={'15%'} >Voir mes randos</Button>
+        <Button my={1} bg={'#78E08F'} shadow="9" onPress={() => props.navigation.navigate('Randos', {screen:'History', params:props.user})} w={'80%'} mt={'15%'} >Voir mes randos</Button>
         <Button my={1} bg={'#bbb'} shadow="9" onPress={() => props.navigation.navigate("Friend")} w={'80%'} >Voir mes amis</Button>
         <Button mt={'4%'} bg={'#bbb'} shadow="9" onPress={() => props.navigation.navigate('EditProfile')} w={'80%'} >Modifier mon compte</Button>
       </View>

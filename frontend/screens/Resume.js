@@ -295,7 +295,7 @@ function Resume(props) {
 
       <Button isDisabled={disable} w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mt={5} shadow="9" onPress={submitRating}>
         <Text style={styles.contentText} fontSize="md">
-        Soumettez votre évaluation
+         Donner mon avis
         </Text>
       </Button>
       </ScrollView>

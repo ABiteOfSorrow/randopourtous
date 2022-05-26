@@ -8,6 +8,7 @@ import { AntDesign } from "@expo/vector-icons";
 import HamburgerMenu from "../components/HamburgerMenu";
 
 import backendConfig from '../backend.config.json'
+import { StatusBar } from "expo-status-bar";
 const backendAdress = backendConfig.address
 
 function Management(props) {
@@ -38,7 +39,7 @@ function Management(props) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
-      <ScrollView>
+      <ScrollView style={{ flex:1 }}>
         <HStack justifyContent="space-between" mb={4} style={{ borderBottomWidth: 1, borderColor: '#CCCCCC' }}>
           <HamburgerMenu navigation={props.navigation} />
           <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9" onPress={() => props.navigation.goBack()}>
@@ -50,7 +51,7 @@ function Management(props) {
 
         <VStack space={2} alignItems="center" mb={5}>
           <Heading size="lg">Gestion Rando</Heading>
-          <Box w={"75%"} mb={0} borderRadius="15" bg="#079992" shadow="9" >
+          <Box w={"80%"} mb={0} borderRadius="10" bg="#079992" shadow="7" >
             <Text color="white" fontSize="md" textAlign="center">
               {props.route.params.params.rando.users.length} / {props.route.params.params.rando.maxUsers} Participants
             </Text>
@@ -71,7 +72,7 @@ function Management(props) {
               ></Avatar>
               <VStack space={2} alignItems="flex-start">
                 <Heading style={styles.contentText} size="xs">
-                  Toto
+                  Laura
                 </Heading>
                 <Flex direction="row" alignSelf="center">
                   <AntDesign name="star" size={24} color="yellow" />
@@ -89,11 +90,11 @@ function Management(props) {
             </Center>
             {/* Accepter & Refuser buttons */}
             <HStack>
-              <Button w={"30%"} h={25} p={0} mr={10} borderRadius={15} bg={"#079992"} shadow="9" >
+              <Button w={"30%"} h={25} p={0} mr={10} borderRadius={15} bg={"#079992"} shadow="6" >
                 {" "}
                 Accepter{" "}
               </Button>
-              <Button w={"30%"} h={25} p={0} borderRadius={15} bg={"#E55039"} shadow="9" >
+              <Button w={"30%"} h={25} p={0} borderRadius={15} bg={"#E55039"} shadow="6" >
                 {" "}
                 Refuser{" "}
               </Button>
@@ -105,18 +106,18 @@ function Management(props) {
         <VStack space={2} mb={2} alignItems="center">
           <Heading size="lg">Liste des participants </Heading>
           {/* User profil box */}
-          <Box w={"90%"} h={110} bg={"#bbbbbb"} borderRadius={15} p={0} shadow="9" justifyContent={"center"} alignItems={"center"}>
-            <Center w={"95%"} h={62} p={0} mb={2} bg="#079992" rounded="lg" shadow={8} display="flex" flexDirection="row" justifyContent="space-around">
+          <Box w={"90%"} h={110} bg={"#bbbbbb"} borderRadius={15} p={0} shadow="5" justifyContent={"center"} alignItems={"center"}>
+            <Center w={"95%"} h={62} p={0} mb={2} bg="#079992" rounded="lg" shadow={4} display="flex" flexDirection="row" justifyContent="space-around">
               <Avatar
                 me="10"
                 bg="amber.500"
                 source={{
-                  uri: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+                  uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Macaca_nigra_self-portrait_large.jpg/800px-Macaca_nigra_self-portrait_large.jpg",
                 }}
               ></Avatar>
               <VStack space={2} alignItems="flex-start">
                 <Heading style={styles.contentText} size="xs">
-                  Test
+                  {props.user.username}
                 </Heading>
                 <Flex direction="row" alignSelf="center">
                   <AntDesign name="star" size={24} color="yellow" />
@@ -133,18 +134,17 @@ function Management(props) {
               </Button>
             </Center>
             {/* Ban buttons */}
-            <Button w={"30%"} h={25} p={0} borderRadius={15} bg={"#E55039"} shadow="9" >
-              {" "}
-              Ban{" "}
+            <Button w={"30%"} ml='auto' mr='4%'  p={0} borderRadius={15} bg={"#E55039"} shadow="4" >
+              Exclure
             </Button>
           </Box>
         </VStack>
       </ScrollView>
-      <Button w={"50%"} h={25} p={0} mb={3} mt={3} borderRadius={15} bg={"#E55039"} alignSelf={"center"} shadow="9" onPress={() => handleSubmit()}>
+      <Button w={"70%"} p={2} mb={2} mt={3} borderRadius={15} bg={"#E55039"} alignSelf={"center"} shadow="4" onPress={() => handleSubmit()}>
         <Text color="#ffffff">Terminer cette Rando</Text>
       </Button>
       {/* To prevent leaving the content area */}
-      <Box w="100%" h="8.5%" alignSelf="center" bg="#fff" />
+      <StatusBar style="auto" />
     </SafeAreaView>
   );
 }

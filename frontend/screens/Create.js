@@ -1,17 +1,5 @@
 import React, { useState } from 'react'
-import {
-  Button,
-  Input,
-  Text,
-  HStack,
-  VStack,
-  Heading,
-  Box,
-  Switch,
-  View,
-  Pressable,
-  Select,
-} from 'native-base'
+import { Button, Input, Text, HStack, VStack, Heading, Box, Switch, View, Pressable, Select } from 'native-base'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import HamburgerMenu from '../components/HamburgerMenu'
 import { StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native'

@@ -6,7 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import HamburgerMenu from '../components/HamburgerMenu';
 import { StyleSheet, View } from 'react-native';
-import { MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { MaterialIcons, Ionicons, FontAwesome5, MaterialCommunityIcons  } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
 function Home(props) {
@@ -63,7 +63,7 @@ function Home(props) {
           <View style={{ width: '100%', marginTop: '2%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
             <Text style={{ fontSize: 20, fontWeight: 'bold' }} >{props.user.username}</Text>
             <Button mt={'4%'} w={"84%"} bg={'#079992'} shadow="7" onPress={() => props.navigation.navigate('Profil')} ><Text color={'#fff'} fontSize={16} >Mon compte</Text></Button>
-            <Button p={1} my={'3%'} w={'84%'} bg={'#bbb'} shadow="7" onPress={() => props.navigation.navigate('SearchPeople')} ><Box style={styles.buttonBox} ><Text style={{ color:'#fff', fontSize: 16 }}>Chercher un utilisateur</Text><Ionicons name="search-circle" size={34} color="white" /></Box></Button>
+            <Button p={1} my={'3%'} w={'84%'} bg={'#bbb'} shadow="7" onPress={() => props.navigation.navigate('SearchPeople')} ><Box style={styles.buttonBox} ><Text style={{ color:'#fff', fontSize: 16 }}>Chercher un utilisateur  </Text><MaterialCommunityIcons  name="account-search" size={34} color="white" /></Box></Button>
           </View>
         </LinearGradient>
       </ScrollView>

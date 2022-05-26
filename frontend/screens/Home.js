@@ -30,9 +30,7 @@ function Home(props) {
     <SafeAreaView style={{ flex: 1, alignItems: 'center', backgroundColor: '#fff', width: '100%', justifyContent: 'center' }}>
 
       <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center', borderBottomWidth: 1, borderColor: '#CCCCCC' }} >
-        
         <Box w={'30%'} my={3} h={7} />
-        
         <View style={{ width: '30%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Text style={{ fontSize: 18, fontWeight: 'bold', padding: 0, margin: 0 }} >
             Accueil

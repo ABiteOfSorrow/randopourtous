@@ -170,7 +170,7 @@ const BottomMenuTabs = () => {
           ...styles.shadow,
         },
         labelStyle: {
-          fontSize: 12,
+          fontSize: 14,
         }
       }}
       initialRouteName='Home'

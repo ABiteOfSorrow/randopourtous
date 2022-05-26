@@ -19,9 +19,8 @@ function History(props) {
 
 
   //Initialisation de toutes les randos de l'utilisateur à l'ouverture de composant et dès le changement de la variable d'état "tracksFilter"
-  let user = props.route.params
-  console.log('parames: ',props.route.params._id, 'iduserStore: ', props.user._id)
-  console.log('parames: ',props.route.params.username, 'iduserStore: ', props.user.username)
+  let user = props.route.params?props.route.params:props.user
+
   useEffect(() => {
 
     //console.log(tracksFilterAdmin)
@@ -42,15 +41,11 @@ function History(props) {
       //console.log("props.user.tracks", props.user.tracks)
 
       var response = await rawResponse.json();
-      //console.log(response)
-      //console.log("response ", tracksFilterAdmin)
-      //console.log("response ", tracksFilter)
 
       //Filtrage dynamique
       if (tracksFilterAdmin) {
         setAllTracks(response.fullInfoTracks.filter(track => track.finished !== tracksFilter && track.userId == props.user._id))
-        //console.log(response.fullInfoTracks[4].userId)
-        //console.log(props.user._id)
+
       } else {
         setAllTracks(response.fullInfoTracks.filter(track => track.finished !== tracksFilter))
       }
@@ -133,7 +128,7 @@ function History(props) {
 
       </HStack>
       <Heading size="md" mt='2' textAlign="center" mb={'1%'}>
-        {props.route.params._id===props.user._id ? (<Text>Mes Randonnées</Text>) : (<Text>Randonnées de {props.route.params.name}</Text>)}
+        {user._id===props.user._id ? (<Text>Mes Randonnées</Text>) : (<Text>Randonnées de {user.name}</Text>)}
       </Heading>
       <VStack space={2} >
         {/* Buttons Filter */}

@@ -19,9 +19,8 @@ function History(props) {
 
 
   //Initialisation de toutes les randos de l'utilisateur à l'ouverture de composant et dès le changement de la variable d'état "tracksFilter"
-  let user = props.route.params
-  console.log('parames: ',props.route.params._id, 'iduserStore: ', props.user._id)
-  console.log('parames: ',props.route.params.username, 'iduserStore: ', props.user.username)
+  let user = props.route.params?props.route.params:props.user
+
   useEffect(() => {
 
     //console.log(tracksFilterAdmin)
@@ -42,15 +41,11 @@ function History(props) {
       //console.log("props.user.tracks", props.user.tracks)
 
       var response = await rawResponse.json();
-      //console.log(response)
-      //console.log("response ", tracksFilterAdmin)
-      //console.log("response ", tracksFilter)
 
       //Filtrage dynamique
       if (tracksFilterAdmin) {
         setAllTracks(response.fullInfoTracks.filter(track => track.finished !== tracksFilter && track.userId == props.user._id))
-        //console.log(response.fullInfoTracks[4].userId)
-        //console.log(props.user._id)
+
       } else {
         setAllTracks(response.fullInfoTracks.filter(track => track.finished !== tracksFilter))
       }
@@ -62,20 +57,18 @@ function History(props) {
 
   }, [tracksFilter, tracksFilterAdmin, isFocused, props.route.params]);
 
-  //console.log("csl allTarcks ", allTracks)
+ 
   var sourceCard = allTracks.map((rando, i) => {
-    //console.log(allTracks.length)
-    //console.log('boucle sur i :' + i)
 
     //Condition qui adapte la couleur et le status des cartes selon les randos
     if (rando.finished == true) {
-      var colorBg = "#bbbbbb"
+      var colorBg = "#ededed"
       var colorText = "black"
       var etat = "Achevée"
     }
     else {
-      var colorBg = "#079992"
-      var colorText = "white"
+      var colorBg = "#FFFFFF"
+      var colorText = "black"
       var etat = "En cours..."
     }
     //Modèle des box adaptatif à l'affichage des rando selon leurs infos
@@ -85,12 +78,21 @@ function History(props) {
           alignSelf="center"
           _text={{
             fontSize: "lg",
-            fontWeight: "medium",
+            fontWeight: "bold",
             color: colorText,
             letterSpacing: "lg",
           }}
-        >
-          {rando.name}
+          display='flex'
+          flexDirection='row'
+          justifyContent='space-between'
+          w='100%'
+          >
+          {rando.name.length>15?rando.name.slice(0,15)+'...':rando.name}
+          <Button w={100} h={8} p={0} mt={2} mr={2} shadow="9" style={{ backgroundColor: "#78E08F", }} onPress={() => rando.finished === false ? props.navigation.navigate('Detail', { rando }) : props.navigation.navigate('Chercher', { screen: 'Resume', params: { rando } })}>
+            <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
+              Voir Détail
+            </Text>
+          </Button>
         </Box>
         <Box style={{ width: '100%', flexDirection: "row", justifyContent: "space-between" }}>
           <Box
@@ -116,11 +118,6 @@ function History(props) {
             {etat}
           </Box>
         </Box>
-        <Button w={100} h={8} p={0} mt={2} mr={2} shadow="9" style={{ backgroundColor: "green", marginLeft: "65%" }} onPress={() => rando.finished === false ? props.navigation.navigate('Detail', { rando }) : props.navigation.navigate('Chercher', { screen: 'Resume', params: { rando } })}>
-          <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
-            Voir Détail
-          </Text>
-        </Button>
       </Box>
     );
   })
@@ -133,7 +130,7 @@ function History(props) {
 
       </HStack>
       <Heading size="md" mt='2' textAlign="center" mb={'1%'}>
-        {props.route.params._id===props.user._id ? (<Text>Mes Randonnées</Text>) : (<Text>Randonnées de {props.route.params.name}</Text>)}
+        {user._id===props.user._id ? (<Text>Mes Randonnées</Text>) : (<Text>Randonnées de {user.name}</Text>)}
       </Heading>
       <VStack space={2} >
         {/* Buttons Filter */}
@@ -179,8 +176,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#CCCCCC',
     color: '#000',
-    borderRadius: 15,
-    alignItems: 'center'
+    borderRadius: 5,
+
+
   },
   menu: {
     justifyContent: "center",

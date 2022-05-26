@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { HStack, VStack, Center, Heading, Box, Button, Text, Switch, View, Title } from 'native-base'
-import { StyleSheet, ScrollView } from 'react-native'
+import { StyleSheet, ScrollView, Alert } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import HamburgerMenu from '../components/HamburgerMenu'
 import { connect } from 'react-redux'
@@ -21,62 +21,75 @@ function ResultSearch(props) {
   //**** iniatilisation de la liste des résultat de recherche via requête dans la BDD */
   useEffect(() => {
     var searchFunction = async function () {
-      let result = await fetch(backendAdress + '/search-track', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(props.data),
-      })
-
-      let response = await result.json()
-      if (response.success === true) {
-        // console.log(response.success)
-        setResultSearch([...response.result])
-
-
-        //*** initialisation du zoom de la carte en fonction des paramètres de recherche */
-
-        //**** si ville dans le champe de recherche (reducer) alors on zoom sur la ville */
-
-        //**** si département, récupération de la première rando de la liste et zoom sur ses coordonnée */
-
-      let mapSetUp
-
-      if(props.data.ville.codePostal!==undefined){
-
-        if (props.data.ville.codePostal.length === 2) {
-          //*******affichage à l'échelle du département */
-          mapSetUp = {
-            latitude: response.result[0].coordinate.latitude,
-            longitude: response.result[0].coordinate.longitude,
-            latitudeDelta: 1.5,
-            longitudeDelta: 1,
-          }
-        } else{
-          //******* Affichage à l'échelle d'une ville */
-          let resultGouv = await fetch(
-            `https://api-adresse.data.gouv.fr/search/?q=${props.data.ville.codePostal}&limit=1`
-          )
-          var responseGouv = await resultGouv.json()
-          mapSetUp = {
-            latitude: responseGouv.features[0].geometry.coordinates[1],
-            longitude: responseGouv.features[0].geometry.coordinates[0],
-            latitudeDelta: 0.05,
-            longitudeDelta: 0.05,
-          }
-        } 
-      }else {
-        //******* Affichage à l'échelle du pays */
-        mapSetUp = {
-          latitude: 46.22,
-          longitude: 2.21,
-          latitudeDelta: 10,
-          longitudeDelta: 10,
+      try {
+        let result = await fetch(backendAdress + '/search-track', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(props.data),
+        })
+        if (!result.ok) {
+          Alert.alert('Erreur', 'Problème de connexion au serveur')
+          return;
         }
+        let response = await result.json()
+        if (response.success === true) {
+          // console.log(response.success)
+          setResultSearch([...response.result])
+
+
+          //*** initialisation du zoom de la carte en fonction des paramètres de recherche */
+
+          //**** si ville dans le champe de recherche (reducer) alors on zoom sur la ville */
+
+          //**** si département, récupération de la première rando de la liste et zoom sur ses coordonnée */
+
+          let mapSetUp
+
+          if (props.data.ville.codePostal !== undefined) {
+
+            if (props.data.ville.codePostal.length === 2) {
+              //*******affichage à l'échelle du département */
+              mapSetUp = {
+                latitude: response.result[0].coordinate.latitude,
+                longitude: response.result[0].coordinate.longitude,
+                latitudeDelta: 1.5,
+                longitudeDelta: 1,
+              }
+            } else {
+              //******* Affichage à l'échelle d'une ville */
+              let resultGouv = await fetch(
+                `https://api-adresse.data.gouv.fr/search/?q=${props.data.ville.codePostal}&limit=1`
+              )
+              if (!resultGouv.ok) {
+                Alert.alert('Erreur', 'Problème de connexion au serveur du gouvernement.')
+                return;
+              }
+              var responseGouv = await resultGouv.json()
+              mapSetUp = {
+                latitude: responseGouv.features[0].geometry.coordinates[1],
+                longitude: responseGouv.features[0].geometry.coordinates[0],
+                latitudeDelta: 0.05,
+                longitudeDelta: 0.05,
+              }
+            }
+          } else {
+            //******* Affichage à l'échelle du pays */
+            mapSetUp = {
+              latitude: 46.22,
+              longitude: 2.21,
+              latitudeDelta: 10,
+              longitudeDelta: 10,
+            }
+          }
+          setMapConfig(mapSetUp)
+        }
+      } catch (error) {
+        Alert.alert('Erreur', 'Une erreur est survenue')
+        console.log(error)
       }
-      setMapConfig(mapSetUp)
-    }}
+    }
 
     searchFunction()
   }, [props.data])
@@ -107,7 +120,7 @@ function ResultSearch(props) {
           mb={3}
           bg='#FAFAFA'
           rounded='md'
-          shadow={9} 
+          shadow={9}
           display='flex'
           flexDirection='row'
           justifyContent='space-around'>
@@ -125,7 +138,7 @@ function ResultSearch(props) {
             size='md'
             backgroundColor='#78E08F'
             alignSelf='center'
-            shadow="9" 
+            shadow="9"
             onPress={() => props.navigation.navigate('Detail', { rando })}>
             <Text style={styles.contentText} fontSize='md'>
               Voir
@@ -213,7 +226,7 @@ function ResultSearch(props) {
 
         {/* Journey List */}
 
-        {mapdisplay === false ? (<ScrollView style={{ flex: 1  }}>
+        {mapdisplay === false ? (<ScrollView style={{ flex: 1 }}>
           {listRando}
 
         </ScrollView>

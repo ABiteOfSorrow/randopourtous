@@ -32,15 +32,12 @@ import SearchPeopleScreen from './screens/SearchPeople'
 import ManagementScreen from './screens/Management'
 import MyTrack from './screens/MyTrack'
 
-
 import { combineReducers } from 'redux'
 import { configureStore } from '@reduxjs/toolkit'
 import user from './reducers/user.reducer'
 import searchData from './reducers/search.reducer'
 const store = configureStore({ reducer: combineReducers({ user, searchData }) })
 import { Provider } from 'react-redux'
-import { useEffect } from 'react'
-
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -141,7 +138,7 @@ function resetTabStackListener() {
 const BottomMenuTabs = () => {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
+      screenOptions={ ({ route }) => ({
         tabBarIcon: ({ color }) => {
           let iconName
           if (route.name === 'Home') {
@@ -156,6 +153,7 @@ const BottomMenuTabs = () => {
           return <FontAwesome5 name={iconName} size={25} color={color} />
         },
         headerShown: false,
+
       })}
       tabBarOptions={{
         keyboardHidesTabBar: true,
@@ -163,15 +161,17 @@ const BottomMenuTabs = () => {
         inactiveTintColor: '#FFFFFF',
         style: {
           backgroundColor: '#78E08F',
-
           marginVertical: 5,
           marginHorizontal: 10,
           elevation: 0,
           borderRadius: 15,
-          height: 60,
+          height: 62,
           paddingBottom: 4,
           ...styles.shadow,
         },
+        labelStyle: {
+          fontSize: 12,
+        }
       }}
       initialRouteName='Home'
     >

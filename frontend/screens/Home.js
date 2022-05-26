@@ -47,9 +47,9 @@ function Home(props) {
           </Text>
 
           <View style={{ width: "100%", marginTop: '10%', flexDirection: "row", justifyContent: 'center' }}>
-            <Button style={styles.buttonStyle} py={1} my={1} bg={'#78E08F'} shadow="9" onPress={() => props.navigation.navigate("Chercher")} ><Box style={styles.buttonBox} ><Text color={'#fff'}>Chercher une randonnée  </Text><Ionicons name="search-circle" size={34} color="white" /></Box></Button>
+            <Button style={styles.buttonStyle} py={1} my={2} bg={'#78E08F'} shadow="7" onPress={() => props.navigation.navigate("Chercher")} ><Box style={styles.buttonBox} ><Text fontSize={16} color={'#fff'}>Chercher une randonnée  </Text><Ionicons name="search-circle" size={34} color="white" /></Box></Button>
           </View>
-          <Button style={styles.buttonStyle} py={1} my={1} bg={'#78E08F'} shadow="9" onPress={() => props.navigation.navigate("Create")} ><Box style={styles.buttonBox} ><Text color={'#fff'}>Créer une randonnée  </Text><Ionicons name="navigate-circle" size={34} color="white" /></Box></Button>
+          <Button style={styles.buttonStyle} py={1} my={1} bg={'#78E08F'} shadow="7" onPress={() => props.navigation.navigate("Create")} ><Box style={styles.buttonBox} ><Text fontSize={16} color={'#fff'}>Créer une randonnée  </Text><Ionicons name="navigate-circle" size={34} color="white" /></Box></Button>
           <View style={{ marginTop: '10%' }} >
             {/* <MaterialIcons name="account-circle" size={96} color="black" /> */}
             <Avatar

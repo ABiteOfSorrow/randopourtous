@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { HStack, VStack, Center, Heading, Box, Button, Text, Switch, View, Title } from 'native-base'
-import { StyleSheet, ScrollView, Alert } from 'react-native'
+import { HStack, VStack, Center, Heading, Box, Button, Text, Switch, View, Spinner } from 'native-base'
+import { StyleSheet, ScrollView} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import HamburgerMenu from '../components/HamburgerMenu'
 import { connect } from 'react-redux'
@@ -17,6 +17,7 @@ function ResultSearch(props) {
   //*** state de l'affichage de la carte (changement d'état avec le switch) */
   const [mapdisplay, setMapDisplay] = useState(false)
   const [mapConfig, setMapConfig] = useState()
+  const [searchStatus, setSerchStatus]=useState(false)
 
   //**** iniatilisation de la liste des résultat de recherche via requête dans la BDD */
   useEffect(() => {
@@ -37,6 +38,7 @@ function ResultSearch(props) {
         if (response.success === true) {
           // console.log(response.success)
           setResultSearch([...response.result])
+          setSerchStatus(true)
 
 
           //*** initialisation du zoom de la carte en fonction des paramètres de recherche */
@@ -169,14 +171,17 @@ function ResultSearch(props) {
       description={rando.description + '\n Press to view'}>
       <MapView.Callout style={{ flex: 1 }} onPress={() => props.navigation.navigate('Detail', { rando })}>
         <View style={styles.callout}>
-          <Heading>{rando.name}</Heading>
-          <Text>{rando.description}</Text>
+          <Heading fontSize='15'>{rando.name.length>15?rando.name.slice(0,15)+'...':rando.name}</Heading>
+          <Text fontSize='12'>{rando.description.length>20?rando.description.slice(0,50)+'...':rando.description}</Text>
           <Button
-            size='md'
+w={70}
+            h={6}
+            p={0}
+            mt={2}
             backgroundColor='#78E08F'
             alignSelf='center'
           >
-            <Text style={styles.contentText} fontSize='md'>
+            <Text style={styles.contentText} fontSize='xs'>
               Voir
             </Text>
           </Button>
@@ -190,6 +195,7 @@ function ResultSearch(props) {
       <View
         style={{
           flex: 1,
+
         }}>
         <HStack justifyContent='space-between' mb={1}>
           <HamburgerMenu navigation={props.navigation} />
@@ -226,10 +232,19 @@ function ResultSearch(props) {
 
         {/* Journey List */}
 
-        {mapdisplay === false ? (<ScrollView style={{ flex: 1 }}>
-          {listRando}
+        {mapdisplay === false ? (
+          searchStatus===true?<ScrollView style={{ flex: 1  }}>{listRando}</ScrollView>
+          :<View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
+            <HStack alignSelf='center' space={2} justifyContent="center">
+               <Spinner color='#079992' accessibilityLabel="Loading posts" size="lg" />
+                 <Heading color="#079992" fontSize="30">
+                  Chargement
+                </Heading>
+            </HStack>
 
-        </ScrollView>
+           </View>
+
+
         ) : (
           <View style={styles.mapContainer}>
             <MapView
@@ -269,8 +284,7 @@ const styles = StyleSheet.create({
   callout: {
     flex: 1,
     maxWidth: 150,
-    // width: 150,
-    height: 100,
+    //height: 100,
     alignItems: 'center',
   },
 })

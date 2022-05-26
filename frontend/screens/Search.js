@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import MapView from 'react-native-maps'
 import { StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import { connect } from 'react-redux'
 import HamburgerMenu from '../components/HamburgerMenu'
-
 import { Entypo, Ionicons } from '@expo/vector-icons'
-
 import { Text, Input, Switch, Select, Button, CheckIcon, ScrollView, View, Heading, HStack, VStack, Pressable, Box, } from 'native-base'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
+import { LinearGradient } from 'expo-linear-gradient';
 
 function Search(props) {
   const [level, setLevel] = useState()
@@ -44,19 +43,19 @@ function Search(props) {
         try {
           var result = await fetch(`https://geo.api.gouv.fr/communes?nom=${e}`)
           if (result.ok) {
-          var response = await result.json()
+            var response = await result.json()
 
 
-          for (let item of response) {
-            listCities.push({
-              nom: item.nom,
-              dpt: item.codeDepartement,
-              codePostal: item.codesPostaux[0],
-            })
+            for (let item of response) {
+              listCities.push({
+                nom: item.nom,
+                dpt: item.codeDepartement,
+                codePostal: item.codesPostaux[0],
+              })
+            }
+          } else {
+            console.log('Problème de api du gouvernement')
           }
-         } else {
-           console.log('Problème de api du gouvernement')
-         }
         } catch (error) {
           console.log(error)
         }
@@ -103,216 +102,210 @@ function Search(props) {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
-      <HStack justifyContent='space-between' mb={1.5}>
-        <HamburgerMenu navigation={props.navigation} />
-        <Button
-          w={90}
-          h={8}
-          p={0}
-          mt={2}
-          mr={2}
-          variant='outline'
-          style={{ borderColor: '#38ADA9' }}
-          onPress={() => props.navigation.goBack()}>
-          <Text fontSize='xs' style={{ color: '#38ADA9', fontWeight: 'bold' }}>
-            Retour
-          </Text>
-        </Button>
-      </HStack>
-
-      <VStack
-        space={1}
-        style={{ alignItems: 'center', flex: 1 }}>
-        <Heading size='md'> Chercher une randonnée </Heading>
-
-        {/* sélection de la ville */}
-        <Input
-          style={styles.allInput}
-          mt='2'
-          w='84%'
-          h={8}
-          shadow="9" 
-          placeholder='Ville / département'
-          onChangeText={(e) => searchCities(e)}
-          value={citie.nom}
-        />
-        {listCities.length >= 1 ? (
-          <View style={{ width: '84%' }}>
-            <ScrollView style={{ width: '100%', minHeight: '100%' }} >
-              {listCities.map((e, i) => (
-                <TouchableOpacity
-                  key={i}
-                  style={{
-                    borderWidth: 1,
-                    borderColor: '#ddd',
-                    paddingVertical: 1,
-                    width: '100%',
-                  }}
-                  onPress={async () => {
-                    setCitie(e)
-                    // console.log(e)
-                    setListCities([])
-
-                    // si la longueur du CP>2 cela veut dire que ce n'est pas un département, on zoom donc sur la ville
-                    if (e.codePostal.length > 2) {
-                      try {
-                      var result = await fetch(
-                        `https://api-adresse.data.gouv.fr/search/?q=${e.nom}&limit=1`
-                      )
-                      var response = await result.json()
-                      setCoord({
-                        lat: response.features[0].geometry.coordinates[1],
-                        long: response.features[0].geometry.coordinates[0],
-                      })
-                      } catch (error) {
-                        console.log(error)
-                      }
-                    }
-                  }}>
-                  <Text key={i}>{e.nom + ' (' + e.codePostal + ')'}</Text>
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-          </View>
-        ) : (
-          <></>
-        )}
-
-        <Box
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <Switch
-            mt={0}
-            padding={0}
-            offTrackColor='#C4C4C4'
-            onTrackColor='#78E08F'
-            size='md'
-            onValueChange={() => {
-              setMixte(!mixte)
-              // console.log(mixte)
-            }}
-          />
-          <Heading size='md'>Rando mixte </Heading>
-          <Entypo
-            name='info-with-circle'
-            size={14}
-            color='black'
-            onPress={() =>
-              Alert.alert(
-                'Randonnée mixte',
-                'Une rando mixte veut dire que les participants sont mixés.'
-              )
-            }
-          />
+    <SafeAreaView style={{ flex: 1, width: '100%', backgroundColor: '#fff' }}>
+      <HStack alignItems='center' justifyContent='space-between' style={{ borderBottomWidth: 1, borderColor: '#CCCCCC' }}>
+        <Box w={'20%'}>
+          <HamburgerMenu navigation={props.navigation} />
         </Box>
+        <Heading fontSize={18}> Chercher une randonnée </Heading>
+        <Box w={'20%'} />
+      </HStack>
+      <LinearGradient colors={['#e3ffde', 'white']} style={styles.gradient} >
+        <VStack
+          mt={'3%'}
+          space={1}
+          style={{ alignItems: 'center', flex: 1 }}>
 
-        {/* sélection de la date */}
-        <Pressable
-          style={styles.allInputPressable}
-          w='84%'
-          h={8}
-          variant='outline'
-          mt='1.5'
-          shadow="9" 
-          colorScheme='secondary'
-          onPress={showDatePicker}>
-          <Text
-            style={{ marginLeft: 11, fontSize: 10, color: '#bbb', marginTop: 5 }}>
-            {!date
-              ? 'Date & Heure'
-              : date.toLocaleDateString('fr') +
-              ' ' +
-              date.getHours() +
-              ':' +
-              date.getMinutes()}
-          </Text>
-        </Pressable>
 
-        <Select
-          style={styles.allInputSelect}
-          selectedValue={level}
-          w={'84%'}
-          height={8}
-          fontSize={10}
-          mt='1'
-          shadow="9" 
-          bg='#EEEEEE'
-          accessibilityLabel='Niveau'
-          placeholder='Niveau'
-          onValueChange={(itemValue) => setLevel(itemValue)}>
-          <Select.Item label='Débutant' value='Débutant' />
-          <Select.Item label='Amateur' value='Amateur' />
-          <Select.Item label='Sportif' value='Sportif' />
-          <Select.Item label='Expert' value='Expert' />
-          <Select.Item label='Bouc' value='Bouc' />
-        </Select>
+          {/* sélection de la ville */}
+          <Input
+            style={styles.allInput}
+            mt='2'
+            w='84%'
+            h={8}
+            shadow="9"
+            placeholder='Ville / département'
+            onChangeText={(e) => searchCities(e)}
+            value={citie.nom}
+          />
+          {listCities.length >= 1 ? (
+            <View style={{ width: '84%' }}>
+              <ScrollView style={{ width: '100%', minHeight: '100%' }} >
+                {listCities.map((e, i) => (
+                  <TouchableOpacity
+                    key={i}
+                    style={{
+                      borderWidth: 1,
+                      borderColor: '#ddd',
+                      paddingVertical: 1,
+                      width: '100%',
+                    }}
+                    onPress={async () => {
+                      setCitie(e)
+                      // console.log(e)
+                      setListCities([])
 
-        <Button
-          style={styles.shadow}
-          mt='1.5'
-          mb='1'
-          w={'84%'}
-          h={10}
-          p={0}
-          bg='#78E08F'
-          shadow="9" 
-          onPress={() => {
-            let sendObject = {
-              ville: citie,
-              mixte: mixte,
-              age: age,
-              date: date ? date.toString() : undefined,
-              niveau: level,
-            }
-            getSearch(sendObject)
-          }}>
+                      // si la longueur du CP>2 cela veut dire que ce n'est pas un département, on zoom donc sur la ville
+                      if (e.codePostal.length > 2) {
+                        try {
+                          var result = await fetch(
+                            `https://api-adresse.data.gouv.fr/search/?q=${e.nom}&limit=1`
+                          )
+                          var response = await result.json()
+                          setCoord({
+                            lat: response.features[0].geometry.coordinates[1],
+                            long: response.features[0].geometry.coordinates[0],
+                          })
+                        } catch (error) {
+                          console.log(error)
+                        }
+                      }
+                    }}>
+                    <Text key={i}>{e.nom + ' (' + e.codePostal + ')'}</Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </View>
+          ) : (
+            <></>
+          )}
+
+          <Box
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Switch
+              m={0}
+              p={0}
+              offTrackColor='#C4C4C4'
+              onTrackColor='#78E08F'
+              size='md'
+              onValueChange={() => {
+                setMixte(!mixte)
+                // console.log(mixte)
+              }}
+            />
+            <Heading fontSize={20} fontWeight={'semibold'} mx={1} my={0} >Rando mixte </Heading>
+            <Entypo
+              name='info-with-circle'
+              size={14}
+              color='black'
+              onPress={() =>
+                Alert.alert(
+                  'Randonnée mixte',
+                  'Une rando mixte veut dire que les participants sont mixés.'
+                )
+              }
+            />
+          </Box>
+
+
+          {/* sélection de la date */}
+          <Pressable
+            style={styles.allInputPressable}
+            w='84%'
+            h={8}
+            variant='outline'
+            mt='0.5'
+            shadow="5"
+            colorScheme='secondary'
+            onPress={showDatePicker}>
+            <Text
+              style={{ marginLeft: 11, fontSize: 10, color: '#aaa', paddingVertical: 5 }}>
+              {!date
+                ? 'Date & Heure'
+                : date.toLocaleDateString('fr') +
+                ' ' +
+                date.getHours() +
+                ':' +
+                date.getMinutes()}
+            </Text>
+          </Pressable>
+
+          <Select
+            style={styles.allInputSelect}
+            selectedValue={level}
+            w={'84%'}
+            height={8}
+            fontSize={10}
+            mt='0.5'
+            shadow="5"
+            bg='#EEEEEE'
+            accessibilityLabel='Niveau'
+            placeholder='Niveau'
+            onValueChange={(itemValue) => setLevel(itemValue)}>
+            <Select.Item label='Débutant' value='Débutant' />
+            <Select.Item label='Amateur' value='Amateur' />
+            <Select.Item label='Sportif' value='Sportif' />
+            <Select.Item label='Expert' value='Expert' />
+            <Select.Item label='Bouc' value='Bouc' />
+          </Select>
+
+          <Button
+            style={styles.shadow}
+            mt='3%'
+            mb='1%'
+            w={'84%'}
+            h={10}
+            p={0}
+            bg='#78E08F'
+            shadow="9"
+            onPress={() => {
+              let sendObject = {
+                ville: citie,
+                mixte: mixte,
+                age: age,
+                date: date ? date.toString() : undefined,
+                niveau: level,
+              }
+              getSearch(sendObject)
+            }}>
             <Box style={styles.buttonBox} ><Text color={'#fff'}>Rechercher  </Text><Ionicons name="search-circle" size={34} color="white" /></Box>
-        </Button>
-        <View style={styles.mapContainer}>
-          <MapView
-            style={styles.map}
-            initialRegion={{
-              latitude: coord.lat,
-              longitude: coord.long,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}
-            region={{
-              latitude: coord.lat,
-              longitude: coord.long,
-              latitudeDelta: 0.0992,
-              longitudeDelta: 0.0421,
-            }}></MapView>
-        </View>
-      </VStack>
+          </Button>
+          <View style={styles.mapContainer}>
+            <MapView
+              style={styles.map}
+              initialRegion={{
+                latitude: coord.lat,
+                longitude: coord.long,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              }}
+              region={{
+                latitude: coord.lat,
+                longitude: coord.long,
+                latitudeDelta: 0.0992,
+                longitudeDelta: 0.0421,
+              }}></MapView>
+          </View>
+        </VStack>
 
-      <DateTimePickerModal
-        isVisible={isDatePickerVisible}
-        mode='date'
-        date={date}
-        onConfirm={(date) => {
-          setDatePickerVisibility(false)
-          setDate(date)
-          setHourPickerVisibility(true)
-        }}
-        onCancel={hidePicker}
-      />
-      <DateTimePickerModal
-        isVisible={isHourPickerVisible}
-        mode='time'
-        locale='fr-FR'
-        date={date}
-        onConfirm={(date) => {
-          setHourPickerVisibility(false)
-          setDate(date)
-        }}
-        onCancel={hidePicker}
-      />
+        <DateTimePickerModal
+          isVisible={isDatePickerVisible}
+          mode='date'
+          date={date}
+          onConfirm={(date) => {
+            setDatePickerVisibility(false)
+            setDate(date)
+            setHourPickerVisibility(true)
+          }}
+          onCancel={hidePicker}
+        />
+        <DateTimePickerModal
+          isVisible={isHourPickerVisible}
+          mode='time'
+          locale='fr-FR'
+          date={date}
+          onConfirm={(date) => {
+            setHourPickerVisibility(false)
+            setDate(date)
+          }}
+          onCancel={hidePicker}
+        />
+      </LinearGradient>
       <StatusBar style='auto' />
     </SafeAreaView>
   )
@@ -358,7 +351,7 @@ const styles = StyleSheet.create({
     borderColor: '#CCCCCC',
     flex: 1,
     minHeight: 150,
-    width: '95%',
+    width: '100%',
   },
   map: {
     width: '100%',
@@ -372,6 +365,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  gradient: {
+    flex: 1,
+    width: '100%',
+    minHeight: '100%',
+    height: '100%',
+
+  }
 })
 
 function mapDispatchToProps(dispatch) {

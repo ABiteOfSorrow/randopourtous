@@ -204,9 +204,9 @@ router.post("/upload", async function (req, res, next) {
   // // console.log(req.files.photo.name); // nom d'origine de l'image
   // // console.log(req.files.photo.mimetype); // format de fichier
   // // console.log(req.files.photo.data); // données brutes du fichier
-
   if (!resultCopy) {
     var result = await cloudinary.uploader.upload(imagePath);
+    //Ajouter des photos au BD
     var randoImages = await randoModel.updateOne({ _id: req.body.rando }, { $addToSet: { randoImage: {source: result.url} }})
     res.json({ result: true, message: "File uploaded!", photo: result});
   } else {

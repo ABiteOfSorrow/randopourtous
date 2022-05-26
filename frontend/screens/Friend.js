@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
 import { Avatar, HStack, VStack, Center, Heading, Button, Text, Flex, Box } from "native-base";
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { AntDesign } from "@expo/vector-icons";
-import { Alert } from "react-native";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { connect } from "react-redux";
-import { MaterialIcons } from "@expo/vector-icons";
 import HamburgerMenu from "../components/HamburgerMenu";
 
 import backendConfig from '../backend.config.json';

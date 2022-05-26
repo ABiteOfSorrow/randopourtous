@@ -3,12 +3,12 @@ import MapView from 'react-native-maps'
 import { StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import { connect } from 'react-redux'
-import { Entypo } from '@expo/vector-icons'
-import { Text, Input, Switch, Select, Button, ScrollView, View, Heading, HStack, VStack, Pressable, Box, } from 'native-base';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { StatusBar } from 'expo-status-bar';
-import { LinearGradient } from 'expo-linear-gradient';
 import HamburgerMenu from '../components/HamburgerMenu'
+import { Entypo, Ionicons } from '@expo/vector-icons'
+import { Text, Input, Switch, Select, Button, CheckIcon, ScrollView, View, Heading, HStack, VStack, Pressable, Box, } from 'native-base'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { StatusBar } from 'expo-status-bar'
+import { LinearGradient } from 'expo-linear-gradient';
 
 function Search(props) {
   const [level, setLevel] = useState()
@@ -200,6 +200,7 @@ function Search(props) {
             />
           </Box>
 
+
           {/* sélection de la date */}
           <Pressable
             style={styles.allInputPressable}
@@ -247,6 +248,7 @@ function Search(props) {
             mb='1%'
             w={'84%'}
             h={10}
+            p={0}
             bg='#78E08F'
             shadow="9"
             onPress={() => {
@@ -259,9 +261,8 @@ function Search(props) {
               }
               getSearch(sendObject)
             }}>
-            Rechercher
+            <Box style={styles.buttonBox} ><Text color={'#fff'}>Rechercher  </Text><Ionicons name="search-circle" size={34} color="white" /></Box>
           </Button>
-
           <View style={styles.mapContainer}>
             <MapView
               style={styles.map}
@@ -355,6 +356,12 @@ const styles = StyleSheet.create({
     height: '100%',
     borderWidth: 10,
     borderColor: '#CCCCCC',
+  },
+  buttonBox: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   gradient: {
     flex: 1,

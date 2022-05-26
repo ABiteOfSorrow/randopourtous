@@ -241,11 +241,6 @@ function Chat(props) {
               Voir la Rando
             </Text>
           </Button>
-          <Button key={1} w={"84%"} h={10} bg="#78E08F" shadow="9" onPress={() => props.navigation.navigate("Management", { params: { user: props.user, rando: rando } })}>
-            <Text fontSize="md" textAlign={'center'}>
-              testbutton
-            </Text>
-          </Button>
           {props.user._id === rando.userId ? (
             <>
 
@@ -263,8 +258,8 @@ function Chat(props) {
               >
                 2
               </Badge>
-              <Button w={"84%"} key={3} h={10} bg="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Management", { params: { user: props.user, rando: rando } })}>
-                <Text>
+              <Button w={"84%"} key={3} h={10} bg="#78E08F" alignSelf="center"  shadow="9" onPress={() => props.navigation.navigate("Management", { params: { user: props.user, rando: rando } })}>
+                <Text fontSize="md">
                   Gestion de la Rando
                 </Text>
               </Button>

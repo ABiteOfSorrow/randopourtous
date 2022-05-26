@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { Text, ScrollView, Box, Input, Button } from 'native-base';
+import { Text, ScrollView, Box, Input, Button, Avatar } from 'native-base';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { MaterialIcons } from '@expo/vector-icons';
 import HamburgerMenu from '../components/HamburgerMenu';
 import { connect } from 'react-redux';
-import { Avatar } from 'native-base';
 
 import backendConfig from '../backend.config.json';
 const backendAdress = backendConfig.address;

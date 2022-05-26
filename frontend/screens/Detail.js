@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, VStack, Center, Heading, Box, Button, Text, Flex, Stack, } from "native-base";
+import { Avatar, VStack, HStack, Center, Heading, Box, Button, Text, Flex, Stack, } from "native-base";
 import { StyleSheet, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MapView, { Marker } from "react-native-maps";
@@ -198,19 +198,9 @@ function Detail(props) {
           {listUsersDisplay}
         </VStack>
       </ScrollView>
-      <Stack
-        p={0}
-        mb="1"
-        mt={2}
-        direction={{
-          base: "row",
-          md: "row",
-        }}
-        space={5}
-        mx={{
-          base: "auto",
-          md: "0",
-        }}
+      <HStack h={"5%"}
+        my={2}
+        justifyContent="space-around"
       >
         <Button w="42%" h={10} variant="outline" borderColor="#38ADA9" onPress={() => props.navigation.goBack()}>
           <Text color="#38ADA9">Retour</Text>
@@ -218,8 +208,8 @@ function Detail(props) {
         <Button w="42%" h={10} bg="#78E08F" shadow="9" onPress={() => participateClick(rando)}>
           {isParticipant === true ? "Aller au Chat" : "Pariticper"}
         </Button>
-      </Stack>
-    </SafeAreaView>
+      </HStack>
+    </SafeAreaView >
   );
 }
 

@@ -4,8 +4,7 @@ import { Button, Avatar } from "native-base";
 import { Text, View, Alert, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HamburgerMenu from "../components/HamburgerMenu";
-import { MaterialIcons } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
+import { MaterialIcons, FontAwesome5, AntDesign } from "@expo/vector-icons";
 import { connect } from "react-redux";
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -177,7 +176,7 @@ function OtherProfile(props) {
           }}
         >
           <Button my={1} bg={"#78E08F"} shadow="9" onPress={() => props.navigation.navigate('Randos', { screen: 'History', params: props.route.params.user })} w={"80%"}>
-            Voir ses randos
+          <Box style={styles.buttonContainer}><Text style={styles.buttonText} >Voir ses randos  </Text><FontAwesome5 name="hiking" size={24} color="white" /></Box>
           </Button>
 
           {!alreadyFriends && <Button my={1} bg={"#bbb"} shadow="6" onPress={async () => await handleAddFriend(user)} w={"80%"}>
@@ -194,6 +193,14 @@ function OtherProfile(props) {
 }
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  buttonText: {
+    color: '#fff',
+    marginHorizontal: '2%'
+  },
   gradient: {
     width: '100%',
     minHeight: '100%',

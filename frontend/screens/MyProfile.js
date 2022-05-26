@@ -4,13 +4,11 @@ import { Button, Avatar, Box, ScrollView } from "native-base";
 import { Text, View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HamburgerMenu from "../components/HamburgerMenu";
-import { MaterialIcons } from '@expo/vector-icons';
 import { connect } from "react-redux";
 import { useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AntDesign } from "@expo/vector-icons";
-import { FontAwesome5 } from '@expo/vector-icons';
 import backendConfig from '../backend.config.json';
+import { AntDesign, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from 'expo-linear-gradient';
 
 const backendAdress = backendConfig.address;
@@ -122,15 +120,16 @@ function MyProfile(props) {
                 <Text style={{ fontSize: 20 }} >{user.friends.length === 0 ? "Pas encore d'" : user.friends.length + ' '}amis</Text>
               </View>
             </View>
+
           </View>
           <View style={{ marginTop: '10%', marginBottom: '2%', display: 'flex', flexDirection: 'row', justifyContent: 'center' }} >
             {tabGlobalRating}
           </View>
           <Text style={{ fontSize: 16 }} >Note moyenne des randos: {user.averageRating === -1 ? 'Non connu' : props.user.averageRating.toFixed(2)}</Text>
           <View style={{ flex: 1, width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
-            <Button my={'2%'} bg={'#78E08F'} shadow="6" onPress={() => props.navigation.navigate('Randos', { screen: 'History', params: user })} w={'84%'} mt={'8%'} >Voir mes randos</Button>
-            <Button my={'2%'} bg={'#bbb'} shadow="6" onPress={() => props.navigation.navigate("Friend")} w={'84%'} ><Box style={styles.buttonContainer}><Text style={styles.buttonText}>Voir mes amis</Text><FontAwesome5 name="user-friends" size={24} color="white" /></Box></Button>
-            <Button mt={'4%'} bg={'#bbb'} shadow="6" onPress={() => props.navigation.navigate('EditProfile')} w={'84%'} ><Box style={styles.buttonContainer}><Text style={styles.buttonText} >Modifier mon compte</Text><MaterialIcons name="edit" size={24} color="white" /></Box></Button>
+            <Button my={'2%'} bg={'#78E08F'} shadow="6" w={'80%'} mt={'15%'} onPress={() => props.navigation.navigate('Randos', { screen: 'History', params: props.user })}><Box style={styles.buttonContainer}><Text style={styles.buttonText} >Voir mes randos  </Text><FontAwesome5 name="hiking" size={24} color="white" /></Box></Button>
+            <Button my={'2%'} bg={'#bbb'} shadow="6" w={'80%'} onPress={() => props.navigation.navigate("Friend")}><Box style={styles.buttonContainer}><Text style={styles.buttonText}>Voir mes amis   </Text><FontAwesome5 name="user-friends" size={24} color="white" /></Box></Button>
+            <Button mt={'4%'} bg={'#bbb'} shadow="6" w={'80%'} onPress={() => props.navigation.navigate('EditProfile')}><Box style={styles.buttonContainer}><Text style={styles.buttonText} > Modifier mon compte </Text><FontAwesome5 name="edit" size={24} color="white" /></Box></Button>
           </View>
         </LinearGradient>
       </ScrollView>

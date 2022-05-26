@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { Button, Input, Divider } from 'native-base'
+import { Button, Input, Divider, Modal } from 'native-base'
 import { Text, StyleSheet, View, Alert, ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { FontAwesome5 } from '@expo/vector-icons'
@@ -15,6 +15,7 @@ function SignUp(props) {
   const handleClick = () => setShow(!show);
 
   //const [isLogin, setIsLogin] = useState(false)
+  const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -42,6 +43,7 @@ function SignUp(props) {
       return;
     }
     try {
+      setLoading(true);
       // fetch to backend ici
       let result = await fetch(backendAdress + '/users/sign-up', {
         method: 'POST',
@@ -56,26 +58,30 @@ function SignUp(props) {
         }),
       })
       if (result.ok) {
-        data = await result.json()
+        let data = await result.json()
         if (!data.result) {
           Alert.alert('Erreur', data.error);
+          setLoading(false);
           return
         }
         // store in redux here
         props.signUp(data.user)
+        // save in async storage
+        try {
+          await AsyncStorage.setItem('user', JSON.stringify(data.user));
+        } catch (e) {
+          console.log(e);
+        }
+        setLoading(false);
+        props.navigation.replace('Home');
       }
-    
-    // save in async storage
-    try {
-      await AsyncStorage.setItem('user', JSON.stringify(data.user));
+
+
     } catch (e) {
-      console.log(e);
+      setLoading(false);
+      console.log(e)
+      Alert.alert('Erreur', 'Problème de connexion au serveur.')
     }
-    props.navigation.replace('Home');
-  } catch (e) {
-    console.log(e)
-    Alert.alert('Erreur', 'Problème de connexion au serveur.')
-  }
   }
 
   useEffect(() => { }, [])
@@ -92,6 +98,15 @@ function SignUp(props) {
       <ScrollView
         style={{ width: "100%", height: "100%" }}
         contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', minHeight: '100%' }}>
+        <Modal isOpen={loading} onClose={() => setLoading(false)}>
+          <Modal.Content maxWidth="90%">
+            <Modal.CloseButton />
+            <Modal.Header>Chargement...</Modal.Header>
+            <Modal.Body>
+              <Text>Attendez s'il-vous-plait.</Text>
+            </Modal.Body>
+          </Modal.Content>
+        </Modal>
         <Text style={{ fontSize: 26, marginBottom: '8%', marginTop: "15%" }}>
           RandoPourTous
         </Text>
@@ -184,7 +199,7 @@ function SignUp(props) {
             alignItems: 'flex-end',
             marginTop: '10%',
             display: 'flex',
-            flex:1,
+            flex: 1,
             width: '80%',
             display: 'flex',
             alignItems: 'center',

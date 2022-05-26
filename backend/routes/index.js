@@ -194,29 +194,26 @@ cloudinary.config({
 
 //Request Post for upload photo to cloudinary & send to frondend
 router.post("/upload", async function (req, res, next) {
-  console.log(req.body)
-  // var imagePath = "./tmp/" + uniqid() + ".jpg";
-  // // console.log(imagePath)
-  // var resultCopy = await req.files.avatar.mv(imagePath);
+//  console.log(req.files)
+//  console.log(req.body.rando)
+  var imagePath = "./tmp/" + uniqid() + ".jpg";
+  // console.log(imagePath)
+  var resultCopy = await req.files.avatar.mv(imagePath);
+  // // console.log(resultCopy)
+  // // console.log(req.files.photo);
+  // // console.log(req.files.photo.name); // nom d'origine de l'image
+  // // console.log(req.files.photo.mimetype); // format de fichier
+  // // console.log(req.files.photo.data); // données brutes du fichier
 
-  // // console.log(req.files.avatar);
-  // // console.log(req.files.avatar.name); // nom d'origine de l'image
-  // // console.log(req.files.avatar.mimetype); // format de fichier
-  // // console.log(req.files.avatar.data); // données brutes du fichier
-
-  // if (!resultCopy) {
-  //   var result = await cloudinary.uploader.upload(imagePath);
-  //   // console.log(result);
-  //   // var result = await randoModel.updateOne({ _id: trackId }, { $addToSet: { users: userId } })
-
-    
-  //   res.json({ result: true, message: "File uploaded!", photo: result });
-  // } else {
-  //   res.json({ result: false, message: resultCopy });
-  // }
-  // fs.unlinkSync(imagePath);
+  if (!resultCopy) {
+    var result = await cloudinary.uploader.upload(imagePath);
+    var randoImages = await randoModel.updateOne({ _id: req.body.rando }, { $addToSet: { randoImage: {source: result.url} }})
+    res.json({ result: true, message: "File uploaded!", photo: result});
+  } else {
+    res.json({ result: false, message: resultCopy });
+  }
+  fs.unlinkSync(imagePath);
 });
-
 
 
 
@@ -327,6 +324,7 @@ router.post('/get-resume', async (req, res) => {
   let paysageNote = 0;
   let ambianceNote = 0;
   let difficultyNote = 0;
+  let randoPhotos = []
 
   var result = await randoModel.findById(req.body.randoId)
   if(!result){
@@ -339,8 +337,8 @@ router.post('/get-resume', async (req, res) => {
         ambianceNote = result.tempEvaluations[i].ambianceNote
         difficultyNote = result.tempEvaluations[i].difficultyNote
       }
-    }
-    return res.json({ result: true, averageNote, paysageNote, ambianceNote, difficultyNote})
+    } randoPhotos = result.randoImage
+    return res.json({ result: true, averageNote, paysageNote, ambianceNote, difficultyNote, randoPhotos})
   } 
 });
 

@@ -358,7 +358,7 @@ const styles = StyleSheet.create({
     borderColor: '#CCCCCC',
     flex: 1,
     minHeight: 150,
-    width: '90%',
+    width: '95%',
   },
   map: {
     width: '100%',

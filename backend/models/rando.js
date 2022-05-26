@@ -21,7 +21,7 @@ var tempEvaluationsSchema = mongoose.Schema({
 })
 
 var randoImageSchema = mongoose.Schema({
-  imageSrc: String,
+  source: String,
 })
 
 // create rando schema

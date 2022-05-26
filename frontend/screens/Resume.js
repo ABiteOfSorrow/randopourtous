@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { HStack, VStack, Heading, Box, Button, Text, Flex } from "native-base";
-import { StyleSheet, ScrollView} from "react-native";
+import { StyleSheet, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from 'expo-image-picker';
 // import * as MediaLibrary from 'expo-media-library';
@@ -49,9 +49,11 @@ function Resume(props) {
           setPaysageValue(response.paysageNote)
           setAmbianceValue(response.ambianceNote)
           setDifficultyValue(response.difficultyNote)
+          setImage(response.randoPhotos)
           setDisable(true)
         }
         } catch (e) {
+          Alert.alert('Erreur...', 'Une erreur est survenue lors de la récupération des données.')
           console.log(e)
         }
       }
@@ -78,25 +80,27 @@ function Resume(props) {
       base64: true,
       exif: true
     });
-    
-    var data = new FormData(photo);
+
+    var data = new FormData();
     data.append("avatar", {
       uri: photo.uri,
       type: "image/jpeg",
       name: "image.jpg",
     },
     );
-
-    let photoData = {
-      Photo : data,
-      Rando : rando
-    }
+    data.append("rando", `${rando._id}`);
   
+    console.log(data)
+
     // console.log(data)
     // Need to change IP when you start your APP (ipconfig)
     const rawResponse = await fetch(backendAdress + '/upload', {
       method: "post",
-      body: photoData
+      // headers: {
+      //   'Content-Type': 'application/x-www-form-urlencoded'
+      // },
+      body: data
+
     });
     const response = await rawResponse.json();
     // console.log(response.photo.url)
@@ -296,8 +300,6 @@ function Resume(props) {
         </Text>
       </Button>
       </ScrollView>
-      {/* To prevent leaving the content area */}
-      <Box w="100%" h="8.5%" alignSelf="center" bg="#fff" />
     </SafeAreaView>
   );
 }

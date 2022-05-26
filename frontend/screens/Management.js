@@ -1,6 +1,6 @@
 import React from "react";
 import { Avatar, HStack, VStack, Center, Heading, Box, Button, Text, Flex, Stack } from "native-base";
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { connect } from "react-redux";
@@ -13,27 +13,33 @@ const backendAdress = backendConfig.address
 function Management(props) {
   //  console.log("props.rando",props.route.params.params.rando)
 
-  async function handleSubmit(){
+  async function handleSubmit() {
 
     let rando = props.route.params.params.rando
     // console.log(rando)
+    try {
+      var rawResponse = await fetch(backendAdress + '/finish-track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(rando)
+      });
+      if (!rawResponse.ok) {
+        Alert.alert("Erreur", "Problème de connexion au serveur")
+        return ;
+      }
+      var response = await rawResponse.json();
 
-    var rawResponse = await fetch(backendAdress + '/finish-track', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(rando)
-    });
-
-    var response = await rawResponse.json();
-
-    props.navigation.navigate("Chercher", {screen:'Resume', params:{user: props.user, rando}})
+      props.navigation.navigate("Chercher", { screen: 'Resume', params: { user: props.user, rando } })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
- 
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
       <ScrollView>
-        <HStack justifyContent="space-between" mb={4} style={{borderBottomWidth: 1, borderColor: '#CCCCCC'}}>
+        <HStack justifyContent="space-between" mb={4} style={{ borderBottomWidth: 1, borderColor: '#CCCCCC' }}>
           <HamburgerMenu navigation={props.navigation} />
           <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9" onPress={() => props.navigation.goBack()}>
             <Text fontSize="xs" bold color="#38ADA9">

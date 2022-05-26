@@ -73,12 +73,11 @@ function History(props) {
     }
     //Modèle des box adaptatif à l'affichage des rando selon leurs infos
     return (
-      <Box key={i} w={"90%"} alignSelf="center" bg={colorBg} p={2} style={styles.allBox} shadow={2} mb={2}>
+      <Box key={i} w={"90%"} alignSelf="center" bg={colorBg} p={2} style={styles.allBox} shadow={4} mb={2}>
         <Box
           alignSelf="center"
           _text={{
             fontSize: "lg",
-            fontWeight: "bold",
             color: colorText,
             letterSpacing: "lg",
           }}
@@ -88,13 +87,13 @@ function History(props) {
           w='100%'
           >
           {rando.name.length>15?rando.name.slice(0,15)+'...':rando.name}
-          <Button w={100} h={8} p={0} mt={2} mr={2} shadow="9" style={{ backgroundColor: "#78E08F", }} onPress={() => rando.finished === false ? props.navigation.navigate('Detail', { rando }) : props.navigation.navigate('Chercher', { screen: 'Resume', params: { rando } })}>
+          <Button w={'25%'} h={8} p={0} mt={2} mr={2} shadow="9" style={{ backgroundColor: "#78E08F", }} onPress={() => rando.finished === false ? props.navigation.navigate('Detail', { rando }) : props.navigation.navigate('Chercher', { screen: 'Resume', params: { rando } })}>
             <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
-              Voir Détail
+              Voir
             </Text>
           </Button>
         </Box>
-        <Box style={{ width: '100%', flexDirection: "row", justifyContent: "space-between" }}>
+        <Box style={{ margintTop: 2, width: '100%', flexDirection: "row", justifyContent: "space-between" }}>
           <Box
             alignSelf="center"
             _text={{
@@ -134,23 +133,23 @@ function History(props) {
       </Heading>
       <VStack space={2} >
         {/* Buttons Filter */}
-        <Box style={styles.menu} mx={"auto"} mb={2}>
-          <Button w={90} h={8} p={0} mt={2} mr={2} shadow="9" bg={tracksFilter === null ? "#78E08F" : "grey"} onPress={() => setTracksFilter(null)}>
+        <Box style={styles.menu} mx={"auto"} mt={2} mb={2}>
+          <Button w={'22%'} h={8} p={0} mr={2} shadow="7" bg={tracksFilter === null ? "#78E08F" : "grey"} onPress={() => setTracksFilter(null)}>
             <Text fontSize="xs" style={{ color: "white", fontWeight: 'bold' }} >
               Toutes
             </Text>
           </Button>
-          <Button w={90} h={8} p={0} mt={2} mr={2} shadow="9" style={tracksFilter === true ? { backgroundColor: "#78E08F" } : { backgroundColor: "grey" }} onPress={() => setTracksFilter(true)} >
+          <Button w={'22%'} h={8} p={0} mr={2} shadow="7" bg={tracksFilter === true ? "#78E08F" : "grey" } onPress={() => setTracksFilter(true)} >
             <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
               En cours
             </Text>
           </Button>
-          <Button w={90} h={8} p={0} mt={2} mr={2} bg="#bbb" shadow="9" style={tracksFilter === false ? { backgroundColor: "#78E08F" } : { backgroundColor: "grey" }} onPress={() => setTracksFilter(false)} >
+          <Button w={'22%'} h={8} p={0} mr={2} shadow="7" bg={tracksFilter === false ? "#78E08F" : "grey" } onPress={() => setTracksFilter(false)} >
             <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
               Achevées
             </Text>
           </Button>
-          <Button w={90} h={8} p={0} mt={2} shadow="9" style={tracksFilterAdmin ? { backgroundColor: "#78E08F" } : { backgroundColor: "grey" }} onPress={() => { setTracksFilterAdmin(!tracksFilterAdmin) }} >
+          <Button w={'22%'} h={8} p={0} shadow="7" style={tracksFilterAdmin ? { backgroundColor: "#78E08F" } : { backgroundColor: "grey" }} onPress={() => { setTracksFilterAdmin(!tracksFilterAdmin) }} >
             <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
               Créées
             </Text>

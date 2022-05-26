@@ -197,8 +197,8 @@ function Detail(props) {
       </ScrollView>
       <Stack
         p={0}
-        mb="5"
-        mt="1.5"
+        mb="1"
+        mt={2}
         direction={{
           base: "row",
           md: "row",

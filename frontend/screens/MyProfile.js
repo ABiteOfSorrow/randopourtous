@@ -18,11 +18,22 @@ const backendAdress = backendConfig.address;
 function MyProfile(props) {
   //console.log(JSON.stringify(props.user))
   const focused = useIsFocused();
+  let user = props.user? props.user : { friends: [] };
 
   useEffect(() => {
     if (focused) {
       (async function () {
         try {
+          if (!props.user) {
+            let user = await AsyncStorage.getItem("user");
+            if (user) {
+              user = JSON.parse(user);
+              props.signUp(user);
+            } else {
+              props.navigation.replace("SignIn");
+              return;
+            }
+          }
           let rawresponse = await fetch(backendAdress + '/users/my-data?token=' + props.user.token);
           //console.log(JSON.stringify(rawresponse))
           if (rawresponse.status == 200) {
@@ -86,7 +97,7 @@ function MyProfile(props) {
         <View style={{ width: '30%' }}></View>
       </View>
       <LinearGradient colors={['#e3ffde', 'white']} style={styles.gradient} >
-        <Text style={{ fontSize: 22, marginTop: '7%', fontWeight: 'bold' }} >{props.user.username}</Text>
+        <Text style={{ fontSize: 22, marginTop: '7%', fontWeight: 'bold' }} >{user.username}</Text>
         <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: '2%' }} >
           <View style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 8, paddingHorizontal: 12 }} >
             <View style={{ width: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
@@ -100,25 +111,25 @@ function MyProfile(props) {
               ></Avatar>
             </View>
             <View style={{ display: 'flex', width: '50%', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }} >
-              <Text style={{ fontSize: 18 }}>Prénom : {props.user.name}</Text>
-              <Text style={{ fontSize: 18 }}>Nom : {props.user.lastname}</Text>
+              <Text style={{ fontSize: 18 }}>Prénom : {user.name}</Text>
+              <Text style={{ fontSize: 18 }}>Nom : {user.lastname}</Text>
             </View>
           </View>
           <View style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', paddingHorizontal: 12 }} >
             <View style={{ width: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
-              <Text style={{ fontSize: 20 }} >{props.user.age === -1 ? 'X' : props.user.age} ans</Text>
-              <Text style={{ fontSize: 20 }} >{props.user.friends.length === 0 ? "Pas encore d'" : props.user.friends.length + ' '}amis</Text>
+              <Text style={{ fontSize: 20 }} >{user.age === -1 ? 'X' : user.age} ans</Text>
+              <Text style={{ fontSize: 20 }} >{user.friends.length === 0 ? "Pas encore d'" : user.friends.length + ' '}amis</Text>
             </View>
           </View>
         </View>
         <View style={{ marginTop: '10%', marginBottom: '2%', display: 'flex', flexDirection: 'row', justifyContent: 'center' }} >
           {tabGlobalRating}
         </View>
-        <Text style={{ fontSize: 16 }} >Note moyenne des randos: {props.user.averageRating === -1 ? 'Non connu' : props.user.averageRating.toFixed(2)}</Text>
+        <Text style={{ fontSize: 16 }} >Note moyenne des randos: {user.averageRating === -1 ? 'Non connu' : props.user.averageRating.toFixed(2)}</Text>
         <View style={{ flex: 1, width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
-          <Button my={'2%'} bg={'#78E08F'} shadow="6" onPress={() => props.navigation.navigate('Randos', { screen: 'History', params: props.user })} w={'80%'} mt={'15%'} >Voir mes randos</Button>
+          <Button my={'2%'} bg={'#78E08F'} shadow="6" onPress={() => props.navigation.navigate('Randos', { screen: 'History', params: user })} w={'80%'} mt={'15%'} >Voir mes randos</Button>
           <Button my={'2%'} bg={'#bbb'} shadow="6" onPress={() => props.navigation.navigate("Friend")} w={'80%'} ><Box style={styles.buttonContainer}><Text style={styles.buttonText}>Voir mes amis</Text><FontAwesome5 name="user-friends" size={24} color="white" /></Box></Button>
-          <Button mt={'4%'} bg={'#bbb'} shadow="6" onPress={() => props.navigation.navigate('EditProfile')} w={'80%'} ><Box style={styles.buttonContainer}><MaterialIcons name="edit" size={24} color="white" /><Text style={styles.buttonText} >Modifier mon compte</Text><MaterialIcons name="edit" size={24} color="white" /></Box></Button>
+          <Button mt={'4%'} bg={'#bbb'} shadow="6" onPress={() => props.navigation.navigate('EditProfile')} w={'80%'} ><Box style={styles.buttonContainer}><Text style={styles.buttonText} >Modifier mon compte</Text><MaterialIcons name="edit" size={24} color="white" /></Box></Button>
         </View>
         </LinearGradient>
         <StatusBar style="auto" />

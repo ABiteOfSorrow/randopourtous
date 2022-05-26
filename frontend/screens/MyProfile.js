@@ -80,13 +80,12 @@ function MyProfile(props) {
         <View style={{ width: '30%' }} >
           <HamburgerMenu navigation={props.navigation} />
         </View>
-
         <View style={{ width: '30%', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
           <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>Mon profil</Text>
         </View>
         <View style={{ width: '30%' }}></View>
       </View>
-      <LinearGradient colors={['#e8eaec', 'white', 'white']} style={styles.gradient} >
+      <LinearGradient colors={['#e3ffde', 'white']} style={styles.gradient} >
         <Text style={{ fontSize: 22, marginTop: '7%', fontWeight: 'bold' }} >{props.user.username}</Text>
         <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', marginTop: '2%' }} >
           <View style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 8, paddingHorizontal: 12 }} >
@@ -107,19 +106,19 @@ function MyProfile(props) {
           </View>
           <View style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', paddingHorizontal: 12 }} >
             <View style={{ width: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
-              <Text>{props.user.age === -1 ? 'X' : props.user.age} ans</Text>
-              <Text>{props.user.friends.length === 0 ? "Pas encore d'" : props.user.friends.length + ' '}amis</Text>
+              <Text style={{ fontSize: 20 }} >{props.user.age === -1 ? 'X' : props.user.age} ans</Text>
+              <Text style={{ fontSize: 20 }} >{props.user.friends.length === 0 ? "Pas encore d'" : props.user.friends.length + ' '}amis</Text>
             </View>
           </View>
         </View>
         <View style={{ marginTop: '10%', marginBottom: '2%', display: 'flex', flexDirection: 'row', justifyContent: 'center' }} >
           {tabGlobalRating}
         </View>
-        <Text>Note moyenne des randos: {props.user.averageRating === -1 ? 'Non connu' : props.user.averageRating}</Text>
+        <Text style={{ fontSize: 16 }} >Note moyenne des randos: {props.user.averageRating === -1 ? 'Non connu' : props.user.averageRating.toFixed(2)}</Text>
         <View style={{ flex: 1, width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
-          <Button my={'2%'} bg={'#78E08F'} shadow="9" onPress={() => props.navigation.navigate('Randos', { screen: 'History', params: props.user })} w={'80%'} mt={'15%'} >Voir mes randos</Button>
-          <Button my={'2%'} bg={'#bbb'} shadow="9" onPress={() => props.navigation.navigate("Friend")} w={'80%'} ><Box style={styles.buttonContainer}><Text style={styles.buttonText}>Voir mes amis</Text><FontAwesome5 name="user-friends" size={24} color="white" /></Box></Button>
-          <Button mt={'4%'} bg={'#bbb'} shadow="9" onPress={() => props.navigation.navigate('EditProfile')} w={'80%'} ><Box style={styles.buttonContainer}><MaterialIcons name="edit" size={24} color="white" /><Text style={styles.buttonText} >Modifier mon compte</Text><MaterialIcons name="edit" size={24} color="white" /></Box></Button>
+          <Button my={'2%'} bg={'#78E08F'} shadow="6" onPress={() => props.navigation.navigate('Randos', { screen: 'History', params: props.user })} w={'80%'} mt={'15%'} >Voir mes randos</Button>
+          <Button my={'2%'} bg={'#bbb'} shadow="6" onPress={() => props.navigation.navigate("Friend")} w={'80%'} ><Box style={styles.buttonContainer}><Text style={styles.buttonText}>Voir mes amis</Text><FontAwesome5 name="user-friends" size={24} color="white" /></Box></Button>
+          <Button mt={'4%'} bg={'#bbb'} shadow="6" onPress={() => props.navigation.navigate('EditProfile')} w={'80%'} ><Box style={styles.buttonContainer}><MaterialIcons name="edit" size={24} color="white" /><Text style={styles.buttonText} >Modifier mon compte</Text><MaterialIcons name="edit" size={24} color="white" /></Box></Button>
         </View>
         </LinearGradient>
         <StatusBar style="auto" />

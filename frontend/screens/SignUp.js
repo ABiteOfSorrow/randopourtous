@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react'
-import {StatusBar} from 'expo-status-bar'
-import {Button, Input, Divider} from 'native-base'
-import {Text, StyleSheet, View, Alert, ScrollView} from 'react-native'
-import {SafeAreaView} from 'react-native-safe-area-context'
-import {FontAwesome5} from '@expo/vector-icons'
-import {connect} from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { StatusBar } from 'expo-status-bar'
+import { Button, Input, Divider } from 'native-base'
+import { Text, StyleSheet, View, Alert, ScrollView } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { FontAwesome5 } from '@expo/vector-icons'
+import { connect } from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import backendConfig from '../backend.config.json';
@@ -41,30 +41,29 @@ function SignUp(props) {
       return;
     }
     try {
-    // fetch to backend ici
-    let result = await fetch(backendAdress + '/users/sign-up', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: email,
-        username: username,
-        password: password,
-        
-      }),
-    })
-    let data = await result.json()
-    if (!data.result) {
-      Alert.alert('Erreur', data.error);
-      return
-    }
-    // store in redux here
-    props.signUp(data.user)
-    } catch (e) {
-      console.log(e)
-      Alert.alert('Erreur', 'Problème de connexion au serveur.')
-    }
+      // fetch to backend ici
+      let result = await fetch(backendAdress + '/users/sign-up', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          username: username,
+          password: password,
+
+        }),
+      })
+      if (result.ok) {
+        let data = await result.json()
+        if (!data.result) {
+          Alert.alert('Erreur', data.error);
+          return
+        }
+        // store in redux here
+        props.signUp(data.user)
+      }
+    
     // save in async storage
     try {
       await AsyncStorage.setItem('user', JSON.stringify(data.user));
@@ -72,9 +71,13 @@ function SignUp(props) {
       console.log(e);
     }
     props.navigation.replace('Home');
+  } catch (e) {
+    console.log(e)
+    Alert.alert('Erreur', 'Problème de connexion au serveur.')
+  }
   }
 
-  useEffect(() => {}, [])
+  useEffect(() => { }, [])
 
   return (
     <SafeAreaView
@@ -85,117 +88,118 @@ function SignUp(props) {
         backgroundColor: '#fff',
         width: '100%',
       }}>
-        <ScrollView 
-        style={{width: "100%", height: "100%"}}
-        contentContainerStyle ={{justifyContent: 'center', alignItems: 'center',}}>
-      <Text style={{fontSize: 26, marginBottom: '8%', marginTop: "15%"}}>
-        RandoPourTous
-      </Text>
-      <Text style={{fontSize: 20, marginBottom: '10%'}}>Créer un compte</Text>
-      <View style={styles.inputContainer}>
-        <Input
-          placeholder='Email'
-          w={'80%'}
-          type='text'
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          style={styles.input}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Input
-          placeholder="Nom d'utilisateur"
-          value={username}
-          onChangeText={(text) => setUsername(text)}
-          w={'80%'}
-          style={styles.input}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Input
-          style={styles.input}
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          type={show ? 'text' : 'password'}
-          w={'80%'}
-          InputRightElement={
-            <Button
-              size='xs'
-              style={{backgroundColor: '#78E08F'}}
-              rounded='none'
-              w='1/5'
-              h='full'
-              onPress={handleClick}>
-              {show ? 'Cacher' : 'Montrer'}
-            </Button>
-          }
-          placeholder='Mot de passe'
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Input
-          style={styles.input}
-          value={password2}
-          onChangeText={(text) => setPassword2(text)}
-          type={show ? 'text' : 'password'}
-          w={'80%'}
-          placeholder='Confirmation mot de passe'
-        />
-      </View>
-      <Button
-        style={styles.button}
-        w={'80%'}
-        fontSize={20}
-        fontWeight={'bold'}
-        shadow="9" 
-        onPress={async () => await handleSubmit()}>
-        Créer son compte
-      </Button>
-      <Divider orientation='horizontal' w={'80%'} mt={'6%'} mb={'4%'} />
-      <Text style={{fontSize: 16, marginBottom: 10}}>Se connecter avec</Text>
-      <View
-        style={{
-          width: '80%',
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-        }}>
-        <FontAwesome5
-          style={{marginHorizontal: 16}}
-          name='google'
-          size={48}
-          color='#DB4437'
-          onPress={() => alert('Sign up avec Google. Merci.')}
-        />
-        <FontAwesome5
-          style={{marginHorizontal: 16}}
-          name='facebook'
-          size={48}
-          color='#4267B2'
-        />
-      </View>
-      <View
-        style={{
-          alignItems: 'flex-end',
-          marginTop: '10%',
-          display: 'flex',
-          width: '80%',
-          display: 'flex',
-          alignItems: 'center',
-        }}>
-        <Text>Vous avez déjà un compte?</Text>
+      <ScrollView
+        style={{ width: "100%", height: "100%" }}
+        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', minHeight: '100%' }}>
+        <Text style={{ fontSize: 26, marginBottom: '8%', marginTop: "15%" }}>
+          RandoPourTous
+        </Text>
+        <Text style={{ fontSize: 20, marginBottom: '10%' }}>Créer un compte</Text>
+        <View style={styles.inputContainer}>
+          <Input
+            placeholder='Email'
+            w={'80%'}
+            type='text'
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+            style={styles.input}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Input
+            placeholder="Nom d'utilisateur"
+            value={username}
+            onChangeText={(text) => setUsername(text)}
+            w={'80%'}
+            style={styles.input}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Input
+            style={styles.input}
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+            type={show ? 'text' : 'password'}
+            w={'80%'}
+            InputRightElement={
+              <Button
+                size='xs'
+                style={{ backgroundColor: '#78E08F' }}
+                rounded='none'
+                w='1/5'
+                h='full'
+                onPress={handleClick}>
+                {show ? 'Cacher' : 'Montrer'}
+              </Button>
+            }
+            placeholder='Mot de passe'
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Input
+            style={styles.input}
+            value={password2}
+            onChangeText={(text) => setPassword2(text)}
+            type={show ? 'text' : 'password'}
+            w={'80%'}
+            placeholder='Confirmation mot de passe'
+          />
+        </View>
         <Button
-          style={{backgroundColor: '#bbb'}}
-          mt={2}
-          mb={2}
-          w={'100%'}
-          shadow="9" 
-          onPress={() => props.navigation.navigate('SignIn')}>
-          Se connecter
+          style={styles.button}
+          w={'80%'}
+          fontSize={20}
+          fontWeight={'bold'}
+          shadow="9"
+          onPress={async () => await handleSubmit()}>
+          Créer son compte
         </Button>
-      </View>
-      <StatusBar style='auto' />
+        <Divider orientation='horizontal' w={'80%'} mt={'6%'} mb={'4%'} />
+        <Text style={{ fontSize: 16, marginBottom: 10 }}>Se connecter avec</Text>
+        <View
+          style={{
+            width: '80%',
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}>
+          <FontAwesome5
+            style={{ marginHorizontal: 16 }}
+            name='google'
+            size={48}
+            color='#DB4437'
+            onPress={() => alert('Sign up avec Google. Merci.')}
+          />
+          <FontAwesome5
+            style={{ marginHorizontal: 16 }}
+            name='facebook'
+            size={48}
+            color='#4267B2'
+          />
+        </View>
+        <View
+          style={{
+            alignItems: 'flex-end',
+            marginTop: '10%',
+            display: 'flex',
+            flex:1,
+            width: '80%',
+            display: 'flex',
+            alignItems: 'center',
+          }}>
+          <Text>Vous avez déjà un compte?</Text>
+          <Button
+            style={{ backgroundColor: '#bbb' }}
+            mt={2}
+            mb={2}
+            w={'100%'}
+            shadow="7"
+            onPress={() => props.navigation.navigate('SignIn')}>
+            Se connecter
+          </Button>
+        </View>
       </ScrollView>
+      <StatusBar style='auto' />
     </SafeAreaView>
   )
 }
@@ -215,7 +219,7 @@ const styles = StyleSheet.create({
 
 function mapDispatchToProps(dispatch) {
   return {
-    signUp: (user) => dispatch({type: 'USER_LOGIN', user: user}),
+    signUp: (user) => dispatch({ type: 'USER_LOGIN', user: user }),
   }
 }
 function mapStateToProps(state) {

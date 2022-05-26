@@ -48,7 +48,7 @@ function Home(props) {
           <View style={{ width: "100%", marginTop: '4%', flexDirection: "row", justifyContent: 'center' }}>
             <Button style={styles.buttonStyle} py={1} my={2} bg={'#78E08F'} shadow="7" onPress={() => props.navigation.navigate("Chercher")} ><Box style={styles.buttonBox} ><Text fontSize={16} color={'#fff'}>Chercher une randonnée  </Text><Ionicons name="search-circle" size={34} color="white" /></Box></Button>
           </View>
-          <Button style={styles.buttonStyle} my={1} bg={'#78E08F'} shadow="7" onPress={() => props.navigation.navigate("Create")} ><Box style={styles.buttonBox} ><Text fontSize={14} color={'#fff'}>Créer une randonnée  </Text><Ionicons name="navigate-circle" size={22} color="white" /></Box></Button>
+          <Button style={styles.buttonStyle} py={1} my={1} bg={'#78E08F'} shadow="7" onPress={() => props.navigation.navigate("Create")} ><Box style={styles.buttonBox} ><Text fontSize={16} color={'#fff'}>Créer une randonnée  </Text><Ionicons name="navigate-circle" size={34} color="white" /></Box></Button>
           <View style={{ marginTop: '8%' }} >
             {/* <MaterialIcons name="account-circle" size={96} color="black" /> */}
             <Avatar
@@ -61,7 +61,7 @@ function Home(props) {
           </View>
           <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: 1.5 }} >{props.user.username}</Text>
           <Button alignItems='center' mt={'4%'} w={"84%"} bg={'#079992'} shadow="7" onPress={() => props.navigation.navigate('Profil')} ><Text color={'#fff'} fontSize={15} >Mon compte</Text></Button>
-          <Button mt={'3%'} w={'84%'} bg={'#bbb'} alignItems='center' shadow="7" onPress={() => props.navigation.navigate('SearchPeople')} ><Box style={styles.buttonBox} ><Text style={{ color: '#fff', fontSize: 16 }}>Chercher un utilisateur</Text><Ionicons name="search-circle" size={22} color="white" /></Box></Button>
+          <Button mt={'3%'} w={'84%'} bg={'#bbb'} alignItems='center' shadow="7" py={1} onPress={() => props.navigation.navigate('SearchPeople')} ><Box style={styles.buttonBox} ><Text style={{ color: '#fff', fontSize: 16 }}>Chercher un utilisateur  </Text><Ionicons name="search-circle" size={34} color="white" /></Box></Button>
         </LinearGradient>
       </ScrollView>
       <StatusBar style='auto' />

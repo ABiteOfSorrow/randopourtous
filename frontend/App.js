@@ -141,7 +141,7 @@ function resetTabStackListener() {
 const BottomMenuTabs = () => {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
+      screenOptions={ ({ route }) => ({
         tabBarIcon: ({ color }) => {
           let iconName
           if (route.name === 'Home') {
@@ -156,6 +156,7 @@ const BottomMenuTabs = () => {
           return <FontAwesome5 name={iconName} size={25} color={color} />
         },
         headerShown: false,
+
       })}
       tabBarOptions={{
         keyboardHidesTabBar: true,

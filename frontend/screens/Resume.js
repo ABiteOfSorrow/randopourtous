@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { HStack, VStack, Heading, Box, Button, Text, Flex } from "native-base";
-import { StyleSheet, ScrollView} from "react-native";
+import { StyleSheet, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from 'expo-image-picker';
 // import * as MediaLibrary from 'expo-media-library';
@@ -25,6 +25,7 @@ function Resume(props) {
   let photos = [...image];
 
   let rando = props.route.params.rando
+  // console.log(rando)
   // console.log(props)
 
   useEffect(() => {
@@ -42,7 +43,7 @@ function Resume(props) {
             body: JSON.stringify(defaultResume)
           })
           let response = await randoRawResponse.json()
-          console.log(response)
+          // console.log(response)
           if(response.averageNote > 0){
           setUserRating(response.averageNote)
           setPaysageValue(response.paysageNote)
@@ -51,6 +52,7 @@ function Resume(props) {
           setDisable(true)
         }
         } catch (e) {
+          Alert.alert('Erreur...', 'Une erreur est survenue lors de la récupération des données.')
           console.log(e)
         }
       }
@@ -70,24 +72,32 @@ function Resume(props) {
   }, [ambianceValue, paysageValue, difficultyValue])
 
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
+    // Permissions request isn't necessary for launching the image library
     let photo = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       quality: 0.5,
       base64: true,
       exif: true
     });
+    
     var data = new FormData(photo);
     data.append("avatar", {
       uri: photo.uri,
       type: "image/jpeg",
       name: "image.jpg",
-    });
+    },
+    );
+
+    let photoData = {
+      Photo : data,
+      Rando : rando
+    }
+  
     // console.log(data)
     // Need to change IP when you start your APP (ipconfig)
     const rawResponse = await fetch(backendAdress + '/upload', {
       method: "post",
-      body: data,
+      body: photoData
     });
     const response = await rawResponse.json();
     // console.log(response.photo.url)
@@ -156,7 +166,7 @@ function Resume(props) {
 
 
 
-  //Rando rating stars average math Round or toFixed
+  //Rando rating stars average math Round or toFixed : option
   //setAvgTotal((totalNote / 3).toFixed(2));
   // var avgTotal = Math.round(totalNote / 3);
 
@@ -198,7 +208,7 @@ function Resume(props) {
           setDisable(true)
 
           // console.log(JSON.stringify(userRawResponse))
-          console.log(JSON.stringify(randoRawResponse))
+          // console.log(JSON.stringify(randoRawResponse))
         } catch (e) {
           console.log(e)
         }
@@ -220,15 +230,15 @@ function Resume(props) {
         </Button>
       </HStack>
     <ScrollView>
-      <Button w={"80%"} size="md" backgroundColor="#E55039" alignSelf="center" mb={10} onPress={() => console.log("I'm Pressed")}>
+      <Button w={"80%"} size="md" backgroundColor="#E55039" alignSelf="center" mb={10} shadow="9" onPress={() => console.log("I'm Pressed")}>
         <Text style={styles.contentText} fontSize="md">
-          {rando.name}
+          Nom de la Rando : {rando.name}
         </Text>
       </Button>
       {/* contents container for Demandes de partipation */}
       <VStack space={2} mb={2} alignItems="center">
         <Heading mb={5} size="md">
-          À: Lieu de la Rando
+        Point de départ : {rando.departure.nom}
         </Heading>
         <Heading size="md">Historique des photos partagées </Heading>
       </VStack>
@@ -240,7 +250,7 @@ function Resume(props) {
       }
 
       {/* Photo share Button */}
-      <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mb={5} onPress={pickImage}>
+      <Button w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mb={5} shadow="9" onPress={pickImage}>
         <Text style={styles.contentText} fontSize="md">
           Partager des photos
         </Text>
@@ -281,9 +291,9 @@ function Resume(props) {
         </Flex>
       </VStack>
 
-      <Button isDisabled={disable} w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mt={5} onPress={submitRating}>
+      <Button isDisabled={disable} w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mt={5} shadow="9" onPress={submitRating}>
         <Text style={styles.contentText} fontSize="md">
-          Submit évaluations
+        Soumettez votre évaluation
         </Text>
       </Button>
       </ScrollView>

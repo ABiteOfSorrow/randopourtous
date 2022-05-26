@@ -75,7 +75,7 @@ function Create(props) {
       return
     }
     if (!date) {
-      alert('Veuillez entrer une date.')
+      Alert.alert('Attention','Veuillez entrer une date.')
     }
     let coordinate = thePOI.coordinate
     var randoData = {
@@ -101,7 +101,7 @@ function Create(props) {
       if (rawresponse.ok) {
         var result = await rawresponse.json()
         var rando = result.rando
-        console.log('rando sauvergardée: ', rando)
+        //console.log('rando sauvergardée: ', rando)
 
         if (result.result) { // Tout se passe bien
           props.setUser(result.user)
@@ -110,7 +110,7 @@ function Create(props) {
           props.navigation.navigate('Randos', { screen: 'Chat', params: { rando } })
         } else {
           alert('Une erreur est survenue.')
-          console.log(JSON.stringify(result))
+          // console.log(JSON.stringify(result))
         }
       } else {
         alert('Le serveur ne répond pas.')
@@ -121,9 +121,9 @@ function Create(props) {
   }
   //Fontion recupère les infos du press listener sur la carte
   const addPress = async (nativeEvent) => {
-    console.log(nativeEvent)
+    //console.log(nativeEvent)
     setThePOI(nativeEvent)
-    console.log('thePOI', thePOI)
+    //console.log('thePOI', thePOI)
   }
   //Marqueur de map appelé sur le map view
   var trackMarker = () => {
@@ -191,6 +191,7 @@ function Create(props) {
           placeholder='Nom de la randonnée'
           w='84%'
           h={8}
+          shadow="9" 
           onChangeText={(e) => setRandoName(e)}
         />
         <Input
@@ -199,6 +200,7 @@ function Create(props) {
           placeholder='Ville de départ'
           w='84%'
           h={8}
+          shadow="9" 
           value={citie.nom}
           onChangeText={(e) => searchCities(e)}
         />
@@ -262,6 +264,7 @@ function Create(props) {
           value={estim_time}
           w='84%'
           h={8}
+          shadow="9" 
           onChangeText={(e) => setEstimation(e.replace(/[^0-9]/g, ''))}
         />
         <Input
@@ -271,6 +274,7 @@ function Create(props) {
           value={maxRunner}
           w='84%'
           h={8}
+          shadow="9" 
           onChangeText={(e) => setMaxRunner(e.replace(/[^0-9]/g, ''))}
         />
 
@@ -279,6 +283,7 @@ function Create(props) {
           style={styles.allInputPressable}
           w='84%'
           h={8}
+          shadow="9" 
           onPress={showDatePicker}>
           <Text
             fontSize={10}
@@ -304,6 +309,7 @@ function Create(props) {
           placeholder='Description'
           w='84%'
           h={8}
+          shadow="9" 
           onChangeText={(e) => setDescription(e)}
         />
 
@@ -321,6 +327,7 @@ function Create(props) {
             selectedValue={level}
             minWidth={'84%'}
             height={8}
+            shadow="9" 
             fontSize={10}
             bg='#EEEEEE'
             onValueChange={(text) => setLevel(text)}>
@@ -358,7 +365,7 @@ function Create(props) {
           </Pressable>
         </View>
 
-        <Button w={'84%'} h={10} bg='#78E08F' onPress={() => handleSubmit()}>
+        <Button w={'84%'} h={10} mb={2} bg='#78E08F' shadow="9" onPress={() => handleSubmit()}>
           Créer
         </Button>
       </VStack>

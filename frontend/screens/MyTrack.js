@@ -17,7 +17,7 @@ function Detail(props) {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
       <ScrollView>
-      <HamburgerMenu navigation={props.navigation} /> 
+        <HamburgerMenu navigation={props.navigation} />
 
         <VStack space={2} alignItems="center">
           <Heading size="xl">Ma rando</Heading>
@@ -77,7 +77,7 @@ function Detail(props) {
         </VStack>
       </ScrollView>
       <Stack
-      p={0}
+        p={0}
         mb="5"
         mt="1.5"
         direction={{
@@ -90,7 +90,7 @@ function Detail(props) {
           md: "0",
         }}
       >
-        <Button w="42%" h={10} variant="outline" borderColor="#38ADA9" onPress={()=>props.navigation.goBack()}>
+        <Button w="42%" h={10} variant="outline" borderColor="#38ADA9" onPress={() => props.navigation.goBack()}>
           <Text color="#38ADA9">Retour</Text>
         </Button>
 

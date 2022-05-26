@@ -1,6 +1,6 @@
 import React from "react";
 import { Avatar, HStack, VStack, Center, Heading, Box, Button, Text, Flex, Stack } from "native-base";
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { connect } from "react-redux";
@@ -11,29 +11,35 @@ import backendConfig from '../backend.config.json'
 const backendAdress = backendConfig.address
 
 function Management(props) {
-  console.log("props.rando",props.route.params.params.rando)
+  console.log("props.rando",props.route.params.params.rando.users.length)
 
-  async function handleSubmit(){
+  async function handleSubmit() {
 
     let rando = props.route.params.params.rando
-    console.log(rando)
+    //console.log(rando)
+    try {
+      var rawResponse = await fetch(backendAdress + '/finish-track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(rando)
+      });
+      if (!rawResponse.ok) {
+        Alert.alert("Erreur", "Problème de connexion au serveur")
+        return ;
+      }
+      var response = await rawResponse.json();
 
-    var rawResponse = await fetch(backendAdress + '/finish-track', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(rando)
-    });
-
-    var response = await rawResponse.json();
-
-    props.navigation.navigate("Chercher", {screen:'Resume', params:{user: props.user, rando}})
+      props.navigation.navigate("Chercher", { screen: 'Resume', params: { user: props.user, rando } })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
- 
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
       <ScrollView>
-        <HStack justifyContent="space-between" mb={4} style={{borderBottomWidth: 1, borderColor: '#CCCCCC'}}>
+        <HStack justifyContent="space-between" mb={4} style={{ borderBottomWidth: 1, borderColor: '#CCCCCC' }}>
           <HamburgerMenu navigation={props.navigation} />
           <Button w={90} h={8} p={0} mt={2} mr={2} variant="outline" borderColor="#38ADA9" onPress={() => props.navigation.goBack()}>
             <Text fontSize="xs" bold color="#38ADA9">
@@ -44,9 +50,9 @@ function Management(props) {
 
         <VStack space={2} alignItems="center" mb={5}>
           <Heading size="lg">Gestion Rando</Heading>
-          <Box w={"75%"} mb={0} borderRadius="15" bg="#079992">
+          <Box w={"75%"} mb={0} borderRadius="15" bg="#079992" shadow="9" >
             <Text color="white" fontSize="md" textAlign="center">
-              8 / 15 Participants
+              {props.route.params.params.rando.users.length} / {props.route.params.params.rando.maxUsers} Participants
             </Text>
           </Box>
         </VStack>
@@ -54,7 +60,7 @@ function Management(props) {
         <VStack space={2} mb={20} alignItems="center">
           <Heading size="lg">Demandes de partipation </Heading>
           {/* User profil box */}
-          <Box w={"90%"} h={110} bg={"#bbbbbb"} borderRadius={15} p={0} justifyContent={"center"} alignItems={"center"}>
+          <Box w={"90%"} h={110} bg={"#bbbbbb"} borderRadius={15} p={0} shadow="9" justifyContent={"center"} alignItems={"center"}>
             <Center w={"95%"} h={62} p={0} mb={2} bg="#079992" rounded="lg" shadow={8} display="flex" flexDirection="row" justifyContent="space-around">
               <Avatar
                 me="10"
@@ -75,7 +81,7 @@ function Management(props) {
                   <AntDesign name="star" size={24} color="yellow" />
                 </Flex>
               </VStack>
-              <Button size="xs" backgroundColor="#BBBBBB" alignSelf="center" onPress={() => console.log("I'm Pressed")}>
+              <Button size="xs" backgroundColor="#BBBBBB" alignSelf="center" shadow="9" onPress={() => console.log("I'm Pressed")}>
                 <Text style={styles.contentText} fontSize="xs">
                   Voir Profil
                 </Text>
@@ -83,11 +89,11 @@ function Management(props) {
             </Center>
             {/* Accepter & Refuser buttons */}
             <HStack>
-              <Button w={"30%"} h={25} p={0} mr={10} borderRadius={15} bg={"#079992"}>
+              <Button w={"30%"} h={25} p={0} mr={10} borderRadius={15} bg={"#079992"} shadow="9" >
                 {" "}
                 Accepter{" "}
               </Button>
-              <Button w={"30%"} h={25} p={0} borderRadius={15} bg={"#E55039"}>
+              <Button w={"30%"} h={25} p={0} borderRadius={15} bg={"#E55039"} shadow="9" >
                 {" "}
                 Refuser{" "}
               </Button>
@@ -99,7 +105,7 @@ function Management(props) {
         <VStack space={2} mb={2} alignItems="center">
           <Heading size="lg">Liste des participants </Heading>
           {/* User profil box */}
-          <Box w={"90%"} h={110} bg={"#bbbbbb"} borderRadius={15} p={0} justifyContent={"center"} alignItems={"center"}>
+          <Box w={"90%"} h={110} bg={"#bbbbbb"} borderRadius={15} p={0} shadow="9" justifyContent={"center"} alignItems={"center"}>
             <Center w={"95%"} h={62} p={0} mb={2} bg="#079992" rounded="lg" shadow={8} display="flex" flexDirection="row" justifyContent="space-around">
               <Avatar
                 me="10"
@@ -110,7 +116,7 @@ function Management(props) {
               ></Avatar>
               <VStack space={2} alignItems="flex-start">
                 <Heading style={styles.contentText} size="xs">
-                  Toto
+                  Test
                 </Heading>
                 <Flex direction="row" alignSelf="center">
                   <AntDesign name="star" size={24} color="yellow" />
@@ -120,21 +126,21 @@ function Management(props) {
                   <AntDesign name="star" size={24} color="yellow" />
                 </Flex>
               </VStack>
-              <Button size="xs" backgroundColor="#BBBBBB" alignSelf="center" onPress={() => console.log("I'm Pressed")}>
+              <Button size="xs" backgroundColor="#BBBBBB" alignSelf="center" shadow="9" onPress={() => console.log("I'm Pressed")}>
                 <Text style={styles.contentText} fontSize="xs">
                   Voir Profil
                 </Text>
               </Button>
             </Center>
             {/* Ban buttons */}
-            <Button w={"30%"} h={25} p={0} borderRadius={15} bg={"#E55039"}>
+            <Button w={"30%"} h={25} p={0} borderRadius={15} bg={"#E55039"} shadow="9" >
               {" "}
               Ban{" "}
             </Button>
           </Box>
         </VStack>
       </ScrollView>
-      <Button w={"50%"} h={25} p={0} mb={3} mt={3} borderRadius={15} bg={"#E55039"} alignSelf={"center"} onPress={() => handleSubmit()}>
+      <Button w={"50%"} h={25} p={0} mb={3} mt={3} borderRadius={15} bg={"#E55039"} alignSelf={"center"} shadow="9" onPress={() => handleSubmit()}>
         <Text color="#ffffff">Terminer cette Rando</Text>
       </Button>
       {/* To prevent leaving the content area */}

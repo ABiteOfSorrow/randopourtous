@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import MapView from 'react-native-maps'
 import { StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
@@ -85,11 +85,13 @@ function Search(props) {
     listAge.push(i)
   }
 
-  let listAgeDisplay = listAge.map((e, i) => (
-    <Select.Item label={e.toString()} value={e.toString()} key={i} />
-  ))
+  // **** feature abandonnée  **////
+  // let listAgeDisplay = listAge.map((e, i) => (
+  //   <Select.Item label={e.toString()} value={e.toString()} key={i} />
+  // ))
 
   //***************************************** */
+
 
   var getSearch = function (data) {
 
@@ -130,6 +132,7 @@ function Search(props) {
           mt='2'
           w='84%'
           h={8}
+          shadow="9" 
           placeholder='Ville / département'
           onChangeText={(e) => searchCities(e)}
           value={citie.nom}
@@ -215,6 +218,7 @@ function Search(props) {
           h={8}
           variant='outline'
           mt='1.5'
+          shadow="9" 
           colorScheme='secondary'
           onPress={showDatePicker}>
           <Text
@@ -236,6 +240,7 @@ function Search(props) {
           height={8}
           fontSize={10}
           mt='1'
+          shadow="9" 
           bg='#EEEEEE'
           accessibilityLabel='Niveau'
           placeholder='Niveau'
@@ -254,6 +259,7 @@ function Search(props) {
           w={'84%'}
           h={10}
           bg='#78E08F'
+          shadow="9" 
           onPress={() => {
             let sendObject = {
               ville: citie,
@@ -352,7 +358,7 @@ const styles = StyleSheet.create({
     borderColor: '#CCCCCC',
     flex: 1,
     minHeight: 150,
-    width: '90%',
+    width: '95%',
   },
   map: {
     width: '100%',

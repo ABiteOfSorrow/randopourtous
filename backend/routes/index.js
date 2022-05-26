@@ -33,7 +33,7 @@ router.post('/create-track', async function (req, res, next) {
     return res.json({ result: false, error: 'Token manquant.' })
   }
   if (!token || !randoData.name || !randoData.coordinate || !randoData.date) {
-    console.log(JSON.stringify(randoData))
+    // console.log(JSON.stringify(randoData))
     return res.json({ result: false, error: 'Inputs incorrects' })
   }
 
@@ -92,11 +92,11 @@ router.post('/search-track', async function (req, res, next) {
   let level = searchData.niveau ? searchData.niveau : null
   let date = searchData.date ? new Date(searchData.date) : null
 
-  console.log('citie: ', citie)
-  console.log('level: ', level)
-  console.log('date: ', date)
-  console.log('CP: ', codePostal)
-  console.log('dpt: ', dpt)
+  // console.log('citie: ', citie)
+  // console.log('level: ', level)
+  // console.log('date: ', date)
+  // console.log('CP: ', codePostal)
+  // console.log('dpt: ', dpt)
 
 
   //console.log(codePostal.length)
@@ -111,11 +111,11 @@ if(level===null && date===null &&citie===null&&dpt===null){
   
   
   // cas où l'on indique un code postale à 2 chiffre ie département
-  if (codePostal.length === 2) {
+  
+  if (codePostal!==null && codePostal.length === 2) {
     var result = await randoModel.find({
       'departure.dpt': parseInt(dpt),
       level: level !== null ? level : { $exists: true },
-     // level: level !== null ? level : { $exists: true },
       date: date !== null ? {$gte: date} : { $exists: true },
     })
   } else {
@@ -128,9 +128,7 @@ if(level===null && date===null &&citie===null&&dpt===null){
     })
   }
 }
-  
-
-  console.log(result)
+  // console.log(result)
   if(result.length!==0){
 
     return res.json({ success: true, result: result })
@@ -163,7 +161,7 @@ router.post('/get-tracks', async function (req, res, next) {
   
   for(oneRando of randosInBDD){
     for(participant of oneRando.users){
-      console.log("oneRando ",oneRando)
+      //console.log("oneRando ",oneRando)
       //Si le participant dans la liste users est celui renvoyé dans la requete et qu'il est pas déjà dans la liste
       if(participant === userId && fullInfoTracks.find(e => e.id == oneRando.id) == undefined){
         fullInfoTracks.push(oneRando)
@@ -196,23 +194,27 @@ cloudinary.config({
 
 //Request Post for upload photo to cloudinary & send to frondend
 router.post("/upload", async function (req, res, next) {
-  var imagePath = "./tmp/" + uniqid() + ".jpg";
-  console.log(imagePath)
-  var resultCopy = await req.files.avatar.mv(imagePath);
+  console.log(req.body)
+  // var imagePath = "./tmp/" + uniqid() + ".jpg";
+  // // console.log(imagePath)
+  // var resultCopy = await req.files.avatar.mv(imagePath);
 
-  // console.log(req.files.avatar);
-  // console.log(req.files.avatar.name); // nom d'origine de l'image
-  // console.log(req.files.avatar.mimetype); // format de fichier
-  // console.log(req.files.avatar.data); // données brutes du fichier
+  // // console.log(req.files.avatar);
+  // // console.log(req.files.avatar.name); // nom d'origine de l'image
+  // // console.log(req.files.avatar.mimetype); // format de fichier
+  // // console.log(req.files.avatar.data); // données brutes du fichier
 
-  if (!resultCopy) {
-    var result = await cloudinary.uploader.upload(imagePath);
-    console.log(result);
-    res.json({ result: true, message: "File uploaded!", photo: result });
-  } else {
-    res.json({ result: false, message: resultCopy });
-  }
-  fs.unlinkSync(imagePath);
+  // if (!resultCopy) {
+  //   var result = await cloudinary.uploader.upload(imagePath);
+  //   // console.log(result);
+  //   // var result = await randoModel.updateOne({ _id: trackId }, { $addToSet: { users: userId } })
+
+    
+  //   res.json({ result: true, message: "File uploaded!", photo: result });
+  // } else {
+  //   res.json({ result: false, message: resultCopy });
+  // }
+  // fs.unlinkSync(imagePath);
 });
 
 
@@ -242,9 +244,7 @@ router.get('/add-user-track', async (req, res) => {
 router.get('/search-user-track', async (req, res) => {
 
   // var userId= req.query.userid
-
-
-  //console.log(req.query)
+  //console.log(req.query)\
   if (!req.query.trackid) {
     return res.json({ result: false, error: 'Id de rando manquant (serveur).' })
   }
@@ -275,10 +275,10 @@ router.post('/finish-track', async (req, res) => {
   } else {
     return res.json({ result: false})
   }
+})
 
-});
 
-
+// Mise à jour des évaluations pour chaque rando
 router.post('/update-randorating', async (req, res) => {
 // Evaluation for each rando
   let privateNote = await randoModel.updateOne({ _id: req.body.randoId }, 
@@ -318,10 +318,10 @@ router.post('/update-randorating', async (req, res) => {
 
 });
 
-// Pour afficher default écran de ResumeScreen
+// Pour afficher écran de ResumeScreen par defaut
 router.post('/get-resume', async (req, res) => {
 
-  console.log(req.body)
+  // console.log(req.body)
  
   let averageNote = 0;
   let paysageNote = 0;

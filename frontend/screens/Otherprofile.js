@@ -13,6 +13,7 @@ const backendAdress = backendConfig.address;
 
 function OtherProfile(props) {
   const user = props.route.params.user;
+  console.log(user)
   let isFriend = false;
   if (props.user.friends.includes(user._id)) {
     isFriend = true;
@@ -29,13 +30,13 @@ function OtherProfile(props) {
         },
         body: JSON.stringify({ token: props.user.token, username: user.username }),
       });
-      if (rawresponse.status == 200) {
+      if (rawresponse.ok) {
         let response = await rawresponse.json();
         if (response.result) {
           Alert.alert('Succès.', "Ajouté à la liste d'amis");
           props.setUser(response.user);
         } else {
-          Alert.alert('Attention.', response.error);
+          Alert.alert('Erreur.', response.error);
         }
       } else {
         Alert.alert('Erreur...', 'Problème de connexion au serveur.')
@@ -173,11 +174,11 @@ function OtherProfile(props) {
           alignItems: "center",
         }}
       >
-        <Button my={1} bg={"#78E08F"} onPress={() => props.navigation.navigate( 'Randos', {screen: 'History', params:{user}})} w={"80%"}>
+        <Button my={1} bg={"#78E08F"} shadow="9" onPress={() => props.navigation.navigate( 'Randos', {screen: 'History', params:props.route.params.user})} w={"80%"}>
           Voir ses randos
         </Button>
 
-        {!alreadyFriends && <Button my={1} bg={"#bbb"} onPress={async () => await handleAddFriend(user)} w={"80%"}>
+        {!alreadyFriends && <Button my={1} bg={"#bbb"} shadow="9" onPress={async () => await handleAddFriend(user)} w={"80%"}>
           Ajouter en ami
           </Button>
         }

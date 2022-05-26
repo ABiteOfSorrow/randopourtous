@@ -27,7 +27,7 @@ function Chat(props) {
   const [isOwner, setIsOwner] = useState(false);
 
   let rando = props.route.params.rando;
-  console.log('rando de Détail: ', rando)
+  // console.log('rando de Détail: ', rando)
 
   //console.log(JSON.stringify(ws));
 
@@ -231,19 +231,14 @@ function Chat(props) {
         </VStack>
         <VStack space={2} alignItems="center">
           {/* Journey List */}
-          <Box w={"80%"} mb={0} borderRadius="15" style={{ paddingVertical: 1 }} bg="#079992">
+          <Box w={"80%"} mb={0} borderRadius="15" style={{ paddingVertical: 1 }} bg="#079992" shadow="9" >
             <Text color="white" fontSize="md" textAlign="center">
               {rando.users.length} / {rando.maxUsers} Participants
             </Text>
           </Box>
-          <Button key={0} w={"84%"} mb={0} h={10} bg="#78E08F" alignSelf="center" onPress={() => props.navigation.navigate("Detail", { rando })}>
+          <Button key={0} w={"84%"} mb={0} h={10} bg="#78E08F" alignSelf="center" shadow="9" onPress={() => props.navigation.navigate("Detail", { rando })}>
             <Text fontSize="md">
               Voir la Rando
-            </Text>
-          </Button>
-          <Button key={1} w={"84%"} h={10} bg="#78E08F" onPress={() => props.navigation.navigate("Management", { params: { user: props.user, rando: rando } })}>
-            <Text fontSize="md" textAlign={'center'}>
-              testbutton
             </Text>
           </Button>
           {props.user._id === rando.userId ? (

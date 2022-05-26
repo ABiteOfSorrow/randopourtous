@@ -30,13 +30,13 @@ function OtherProfile(props) {
         },
         body: JSON.stringify({ token: props.user.token, username: user.username }),
       });
-      if (rawresponse.status == 200) {
+      if (rawresponse.ok) {
         let response = await rawresponse.json();
         if (response.result) {
           Alert.alert('Succès.', "Ajouté à la liste d'amis");
           props.setUser(response.user);
         } else {
-          Alert.alert('Attention.', response.error);
+          Alert.alert('Erreur.', response.error);
         }
       } else {
         Alert.alert('Erreur...', 'Problème de connexion au serveur.')

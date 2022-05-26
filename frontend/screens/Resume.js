@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { HStack, VStack, Heading, Box, Button, Text, Flex } from "native-base";
-import { StyleSheet, ScrollView} from "react-native";
+import { StyleSheet, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from 'expo-image-picker';
 // import * as MediaLibrary from 'expo-media-library';
@@ -52,6 +52,7 @@ function Resume(props) {
           setDisable(true)
         }
         } catch (e) {
+          Alert.alert('Erreur...', 'Une erreur est survenue lors de la récupération des données.')
           console.log(e)
         }
       }

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
-import { Button, Avatar } from "native-base";
-import { Text, View } from "react-native";
+import { Button, Avatar, Box } from "native-base";
+import { Text, View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HamburgerMenu from "../components/HamburgerMenu";
 import { MaterialIcons } from '@expo/vector-icons';
@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AntDesign } from "@expo/vector-icons";
+import { FontAwesome5 } from '@expo/vector-icons';
 import backendConfig from '../backend.config.json';
 
 const backendAdress = backendConfig.address;
@@ -90,8 +91,8 @@ function MyProfile(props) {
         <View style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 8, paddingHorizontal: 12 }} >
           <View style={{ width: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
           <Avatar
-            size={102}
-            me="10"
+            size={122}
+            me="2"
             bg="amber.500"
             source={{
               uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Macaca_nigra_self-portrait_large.jpg/800px-Macaca_nigra_self-portrait_large.jpg",
@@ -115,15 +116,25 @@ function MyProfile(props) {
       </View>
       <Text>Note moyenne des randos: {props.user.averageRating === -1 ? 'Non connu' : props.user.averageRating}</Text>
       <View style={{ flex: 1, width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} >
-        <Button my={1} bg={'#78E08F'} shadow="9" onPress={() => props.navigation.navigate('Randos', {screen:'History', params:props.user})} w={'80%'} mt={'15%'} >Voir mes randos</Button>
-        <Button my={1} bg={'#bbb'} shadow="9" onPress={() => props.navigation.navigate("Friend")} w={'80%'} >Voir mes amis</Button>
-        <Button mt={'4%'} bg={'#bbb'} shadow="9" onPress={() => props.navigation.navigate('EditProfile')} w={'80%'} >Modifier mon compte</Button>
+        <Button my={'2%'} bg={'#78E08F'} shadow="9" onPress={() => props.navigation.navigate('Randos', {screen:'History', params:props.user})} w={'80%'} mt={'15%'} >Voir mes randos</Button>
+        <Button my={'2%'} bg={'#bbb'} shadow="9" onPress={() => props.navigation.navigate("Friend")} w={'80%'} ><Box style={styles.buttonContainer}><Text style={styles.buttonText}>Voir mes amis</Text><FontAwesome5 name="user-friends" size={24} color="white" /></Box></Button>
+        <Button mt={'4%'} bg={'#bbb'} shadow="9" onPress={() => props.navigation.navigate('EditProfile')} w={'80%'} ><Box style={styles.buttonContainer}><MaterialIcons name="edit" size={24} color="white" /><Text style={styles.buttonText} >Modifier mon compte</Text><MaterialIcons name="edit" size={24} color="white" /></Box></Button>
       </View>
 
       <StatusBar style="auto" />
     </SafeAreaView>
   );
 }
+const styles = StyleSheet.create({
+  buttonContainer: {
+    flexDirection:'row',
+    alignItems:'center'
+  },
+  buttonText: {
+    color:'#fff',
+    marginHorizontal: '2%' 
+  }
+})
 
 function mapStateToProps(state) {
   return {

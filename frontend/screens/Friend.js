@@ -26,7 +26,9 @@ function Friend(props) {
         if (rawresponse.ok) {
           let response = await rawresponse.json();
           if (response.result) {
+            // tout se passe bien, on ajoute l'ami à la liste
             setFriends(prevState => [...prevState, response.user]);
+
           } else {
             Alert.alert('Erreur.', response.error);
           }
@@ -87,7 +89,7 @@ return (<Center
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
-      <ScrollView contentContainerStyle={{ flex:1 }} >
+      <ScrollView contentContainerStyle={{ minHeight: '100%', width:'100%' }} >
         <HStack justifyContent="space-between" mb={'4%'} style={{borderBottomWidth: 1, borderColor: '#CCCCCC'}}>
           <HamburgerMenu navigation={props.navigation} />
           <Button
@@ -114,7 +116,7 @@ return (<Center
         </VStack>
       </ScrollView>
       {/* To prevent leaving the content area */}
-      <Box w={320} h={60} alignSelf="center" />
+      
     </SafeAreaView>
   );
 }

@@ -94,14 +94,14 @@ function Create(props) {
         if (result.result) { // Tout se passe bien
           props.setUser(result.user)
 
-          Alert.alert('Succès', 'Merci!')
+          Alert.alert('Succès', 'Merci! Votre randonnée a été créée.')
           props.navigation.navigate('Randos', { screen: 'Chat', params: { rando } })
         } else {
-          alert('Une erreur est survenue.')
+          Alert.alert('Erreur','Une erreur est survenue. Le serveur a mal répondu.')
           // console.log(JSON.stringify(result))
         }
       } else {
-        alert('Le serveur ne répond pas.')
+        Alert.alert('Erreur','Le serveur ne répond pas.')
       }
     } catch (e) {
       console.log(e)

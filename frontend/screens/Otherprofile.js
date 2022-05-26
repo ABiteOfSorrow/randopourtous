@@ -79,7 +79,7 @@ function OtherProfile(props) {
           </Text>
         </Button>
       </View>
-      <LinearGradient colors={['#e3ffde',  'white']} style={styles.gradient} >
+      <LinearGradient colors={['#e8eaec',  'white']} style={styles.gradient} >
         <Text style={{ fontSize: 22, marginVertical: '6%', fontWeight: "bold" }}>Profil d'un utilisateur</Text>
         <Text style={{ fontSize: 20 }}>{user.username}</Text>
         <View

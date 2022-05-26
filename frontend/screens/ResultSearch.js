@@ -104,49 +104,47 @@ function ResultSearch(props) {
     )
   } else {
     listRando = resultSearch.map((rando, i) => (
+      <Box style={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }} >
+      <Center
+        w={'90%'}
+        px={2}
+        py={2}
+        mt={3}
+        bg='#FAFAFA'
+        rounded='md'
+        shadow={4}
+        display='flex'
+        flexDirection='column'
+        justifyContent='space-between'>
+        <Heading size='sm' textAlign='center' fontWeight={'medium'}>
+          {rando.name}
+        </Heading>
+        <Box flexDirection={'row'} style={{ justifyContent: 'space-between', width: '100%', alignItems: 'center' }} >
+          <Box>
+            <Heading size='sm' fontWeight={'medium'}>{rando.departure.nom}</Heading>
+          </Box>
 
-
-      <VStack key={i} space={0.5} mt={3} alignItems='center'>
-        <Box w={'80%'} mb={0} borderRadius='12' bg='#78E08F' shadow="9" >
-          <Heading size='sm' textAlign='center' my={0.5}>
-            {rando.name}
-          </Heading>
-        </Box>
-        <Center
-          w={'90%'}
-          py={1}
-          p={0}
-          mt={0}
-          mb={3}
-          bg='#FAFAFA'
-          rounded='md'
-          shadow={9}
-          display='flex'
-          flexDirection='row'
-          justifyContent='space-around'>
-          <Heading size='sm' fw={''} >{rando.departure.nom}</Heading>
-
-          <VStack space={2} alignItems='flex-start'>
-            <Text fontSize='sm' bold>
+          <Box space={2} alignItems='center'>
+            <Text fontSize='sm'>
               {rando.level}
             </Text>
-            <Text fontSize='sm' bold>
-              {rando.users.length} / {rando.maxUsers} particpants
+            <Text fontSize='sm'>
+              {rando.users.length} / {rando.maxUsers} participants
             </Text>
-          </VStack>
+          </Box>
           <Button
             size='md'
-            backgroundColor='#78E08F'
+            bg='#78E08F'
             alignSelf='center'
-            shadow="9"
+            shadow="5"
             onPress={() => props.navigation.navigate('Detail', { rando })}>
             <Text style={styles.contentText} fontSize='md'>
               Voir
             </Text>
           </Button>
-        </Center>
-      </VStack>
-
+        </Box>
+      </Center>
+      </Box>
     ))
   }
 
@@ -162,8 +160,6 @@ function ResultSearch(props) {
         longitude: rando.coordinate.longitude,
       }}
       title={rando.name}
-
-
       //*** Redirection vers la page du détail de la rando avec la rando en paramètre */
 
       description={rando.description + '\n Press to view'}>
@@ -192,7 +188,7 @@ function ResultSearch(props) {
           flex: 1,
         }}>
         <HStack justifyContent='space-between' mb={1}>
-          <HamburgerMenu navigation={props.navigation} />
+          <Box />
           <Button
             w={90}
             h={8}
@@ -209,8 +205,8 @@ function ResultSearch(props) {
         </HStack>
         {/* List Body */}
         <VStack space={2} alignItems='center' style={{ borderBottomWidth: 1, borderColor: '#CCCCCC' }}>
-          <Heading size='lg' mb={'2%'}>
-            Resultat de la recherche
+          <Heading size='lg' mb={'2%'} fontWeight='normal' >
+            Résultats
           </Heading>
           {/* Switch Line */}
           <Box display='flex' flexDirection='row' alignItems='center' mb={5}>
@@ -220,7 +216,7 @@ function ResultSearch(props) {
               mr={4}
               onValueChange={setMapDisplay}
             />
-            <Heading size='md'>Vue carte</Heading>
+            <Heading size='md'fontWeight={'medium'} >Vue carte</Heading>
           </Box>
         </VStack>
 

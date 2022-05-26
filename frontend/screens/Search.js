@@ -104,13 +104,11 @@ function Search(props) {
   return (
     <SafeAreaView style={{ flex: 1, width: '100%', backgroundColor: '#fff' }}>
       <HStack alignItems='center' justifyContent='space-between' style={{ borderBottomWidth: 1, borderColor: '#CCCCCC' }}>
-        <Box w={'20%'}>
-          <HamburgerMenu navigation={props.navigation} />
-        </Box>
+        <Box w={'20%'} my={3} h={7} />
         <Heading fontSize={18}> Chercher une randonnée </Heading>
         <Box w={'20%'} />
       </HStack>
-      <LinearGradient colors={['#e3ffde', 'white']} style={styles.gradient} >
+      <LinearGradient colors={['#e8eaec', 'white']} style={styles.gradient} >
         <VStack
           mt={'3%'}
           space={1}
@@ -123,7 +121,7 @@ function Search(props) {
             mt='2'
             w='84%'
             h={8}
-            shadow="9"
+            shadow="4"
             placeholder='Ville / département'
             onChangeText={(e) => searchCities(e)}
             value={citie.nom}
@@ -209,7 +207,7 @@ function Search(props) {
             h={8}
             variant='outline'
             mt='0.5'
-            shadow="5"
+            shadow="3"
             colorScheme='secondary'
             onPress={showDatePicker}>
             <Text
@@ -231,7 +229,7 @@ function Search(props) {
             height={8}
             fontSize={10}
             mt='0.5'
-            shadow="5"
+            shadow="3"
             bg='#EEEEEE'
             accessibilityLabel='Niveau'
             placeholder='Niveau'

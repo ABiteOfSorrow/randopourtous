@@ -96,7 +96,7 @@ function Detail(props) {
     // console.log(props.user._id)
     //*** Ajout de l'id du randonneur dans la base de donnée de la radonnée */
     let rawresponse = await fetch(backendAdress + '/add-user-track?userid=' + props.user._id + '&trackid=' + rando._id);
-    props.navigation.navigate( 'Randos', {screen:'Chat',params: {rando} } )
+    props.navigation.navigate('Randos', { screen: 'Chat', params: { rando } })
   }
 
   let listUsersDisplay = listUsers.map((item, i) => {
@@ -143,7 +143,7 @@ function Detail(props) {
         size="xs"
         backgroundColor="#BBBBBB"
         alignSelf="center"
-        shadow="9" 
+        shadow="9"
         onPress={() => searchUser(item._id)}>
         <Text style={styles.contentText} fontSize="xs">
           Voir Profil
@@ -156,13 +156,16 @@ function Detail(props) {
   return (
 
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
-      <ScrollView>
-        <HamburgerMenu navigation={props.navigation} />
+
+      <HamburgerMenu navigation={props.navigation} />
+      <VStack style={{ width: "100%", borderBottomWidth: 1, borderColor: '#CCCCCC', alignItems: "center", paddingBottom: "1.5%", }}>
+        <Heading fontWeight={'medium'} size="lg">{rando.name}</Heading>
+        <Heading fontWeight='normal' size="md"> Le {dateFormat.replace(' ', ' à ')} à {rando.departure.nom}</Heading>
+      </VStack>
+      <ScrollView style={{ flex: 1 }} >
+
         <VStack space={2} alignItems="center">
-          <VStack style={{ width:"100%" ,borderBottomWidth: 1, borderColor: '#CCCCCC', alignItems:"center", paddingBottom:"1.5%",}}>
-          <Heading size="xl">{rando.name}</Heading>
-          <Heading size="lg"> Le {dateFormat.replace(' ', ' à ')} à {rando.departure.nom}</Heading>
-          </VStack>
+
           <MapView style={styles.map}
             initialRegion={{
               latitude: rando.coordinate.latitude,
@@ -183,14 +186,14 @@ function Detail(props) {
 
 
 
-          <Heading size="lg">Organisé par: </Heading>
+          <Heading fontWeight='light' size="lg">Organisé par: </Heading>
           <Button w={"80%"} h={10} bg="#bbbbbb" shadow="9" onPress={() => searchUser(rando.userId)}>
             {rando.organisator}
           </Button>
-          <Heading size="lg">Nombre de participant: {rando.users.length}/{rando.maxUsers} </Heading>
+          <Heading size="md" fontWeight='normal' >Nombre de participants: {rando.users.length}/{rando.maxUsers} </Heading>
         </VStack>
         <VStack space={2} alignItems="center">
-          <Heading size="lg">Liste des participants: </Heading>
+          <Heading fontWeight='medium' size="sm">Participants:</Heading>
           {/* User profil box */}
           {listUsersDisplay}
         </VStack>
@@ -216,7 +219,7 @@ function Detail(props) {
           {isParticipant === true ? "Aller au Chat" : "Pariticper"}
         </Button>
       </Stack>
-    </SafeAreaView >
+    </SafeAreaView>
   );
 }
 

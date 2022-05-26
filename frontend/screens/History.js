@@ -19,7 +19,7 @@ function History(props) {
 
 
   //Initialisation de toutes les randos de l'utilisateur à l'ouverture de composant et dès le changement de la variable d'état "tracksFilter"
-  let user = props.route.params?props.route.params:props.user
+  let user = props.route.params ? props.route.params : props.user
 
   useEffect(() => {
 
@@ -57,7 +57,7 @@ function History(props) {
 
   }, [tracksFilter, tracksFilterAdmin, isFocused, props.route.params]);
 
- 
+
   var sourceCard = allTracks.map((rando, i) => {
 
     //Condition qui adapte la couleur et le status des cartes selon les randos
@@ -85,8 +85,8 @@ function History(props) {
           flexDirection='row'
           justifyContent='space-between'
           w='100%'
-          >
-          {rando.name.length>15?rando.name.slice(0,15)+'...':rando.name}
+        >
+          {rando.name.length > 15 ? rando.name.slice(0, 15) + '...' : rando.name}
           <Button w={'25%'} h={8} p={0} mt={2} mr={2} shadow="9" style={{ backgroundColor: "#78E08F", }} onPress={() => rando.finished === false ? props.navigation.navigate('Detail', { rando }) : props.navigation.navigate('Chercher', { screen: 'Resume', params: { rando } })}>
             <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
               Voir
@@ -124,13 +124,15 @@ function History(props) {
   //Affichage
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-      <HStack style={{ justifyContent: "space-between" }} mb={'1%'}>
-        <HamburgerMenu navigation={props.navigation} />
-
+      <HStack style={{ justifyContent: "space-between", alignItems: 'center', borderBottomWidth: 1, borderColor: '#CCCCCC' }} mb={'1%'} >
+        <Box w='20%'>
+          <HamburgerMenu navigation={props.navigation} />
+        </Box>
+        <Heading fontSize={16} textAlign="center">
+          {user._id === props.user._id ? (<Text>Mes Randonnées</Text>) : (<Text>Randonnées de {user.name}</Text>)}
+        </Heading>
+        <Box w='20%' />
       </HStack>
-      <Heading size="md" mt='2' textAlign="center" mb={'1%'}>
-        {user._id===props.user._id ? (<Text>Mes Randonnées</Text>) : (<Text>Randonnées de {user.name}</Text>)}
-      </Heading>
       <VStack space={2} >
         {/* Buttons Filter */}
         <Box style={styles.menu} mx={"auto"} mt={2} mb={2}>
@@ -139,12 +141,12 @@ function History(props) {
               Toutes
             </Text>
           </Button>
-          <Button w={'22%'} h={8} p={0} mr={2} shadow="7" bg={tracksFilter === true ? "#78E08F" : "grey" } onPress={() => setTracksFilter(true)} >
+          <Button w={'22%'} h={8} p={0} mr={2} shadow="7" bg={tracksFilter === true ? "#78E08F" : "grey"} onPress={() => setTracksFilter(true)} >
             <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
               En cours
             </Text>
           </Button>
-          <Button w={'22%'} h={8} p={0} mr={2} shadow="7" bg={tracksFilter === false ? "#78E08F" : "grey" } onPress={() => setTracksFilter(false)} >
+          <Button w={'22%'} h={8} p={0} mr={2} shadow="7" bg={tracksFilter === false ? "#78E08F" : "grey"} onPress={() => setTracksFilter(false)} >
             <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
               Achevées
             </Text>

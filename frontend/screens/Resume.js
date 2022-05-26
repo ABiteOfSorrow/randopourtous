@@ -75,7 +75,7 @@ function Resume(props) {
     // Permissions request isn't necessary for launching the image library
     let photo = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      quality: 0.5,
+      quality: 0.7,
       base64: true,
       exif: true
     });
@@ -295,7 +295,7 @@ function Resume(props) {
           </Flex>
         </VStack>
 
-        <Button isDisabled={disable} w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mt={5} shadow="9" onPress={submitRating}>
+        <Button isDisabled={disable} w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mt={5} shadow="6" onPress={submitRating}>
           <Text style={styles.contentText} fontSize="md">
             Donner mon avis
           </Text>

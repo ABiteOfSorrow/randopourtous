@@ -40,7 +40,6 @@ function ResultSearch(props) {
           setResultSearch([...response.result])
           setSerchStatus(true)
 
-
           //*** initialisation du zoom de la carte en fonction des paramètres de recherche */
 
           //**** si ville dans le champe de recherche (reducer) alors on zoom sur la ville */
@@ -86,6 +85,9 @@ function ResultSearch(props) {
             }
           }
           setMapConfig(mapSetUp)
+        } else {
+          console.log(JSON.stringify(response))
+          setSerchStatus(true)
         }
       } catch (error) {
         Alert.alert('Erreur', 'Une erreur est survenue')

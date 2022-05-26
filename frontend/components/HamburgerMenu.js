@@ -18,13 +18,13 @@ function HamburgerMenu(props) {
     props.logoutUser();
     // clear async storage
     try {
-    await AsyncStorage.clear();
-    // navigate to login screen
-    props.navigation.navigate('SignIn');
+      await AsyncStorage.clear();
+      // navigate to login screen
+      props.navigation.navigate('SignUp');
     } catch (e) {
-    
-    console.log(e)
-    } 
+
+      console.log(e)
+    }
   }
 
   return (

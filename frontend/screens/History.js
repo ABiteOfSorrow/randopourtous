@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { HStack, VStack, Heading, Box, Button, Text } from "native-base";
+import { HStack, VStack, Heading, Box, Button, Text, Alert } from "native-base";
 import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import HamburgerMenu from "../components/HamburgerMenu";
 import { connect } from "react-redux";
 import { useIsFocused } from '@react-navigation/native';
 
@@ -29,27 +28,30 @@ function History(props) {
     async function loadData() {
       //****** si on vient du screen OtherProfile, on a le param props.params.user sinon on vient du screen MyProfile donc c'est l'user du store */
 
+      try {
+        var rawResponse = await fetch(backendAdress + '/get-tracks', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(user)
+        });
 
-      var rawResponse = await fetch(backendAdress + '/get-tracks', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
-      });
 
 
+        //console.log("props.user.tracks", props.user.tracks)
 
-      //console.log("props.user.tracks", props.user.tracks)
+        var response = await rawResponse.json();
 
-      var response = await rawResponse.json();
+        //Filtrage dynamique
+        if (tracksFilterAdmin) {
+          setAllTracks(response.fullInfoTracks.filter(track => track.finished !== tracksFilter && track.userId == props.user._id))
 
-      //Filtrage dynamique
-      if (tracksFilterAdmin) {
-        setAllTracks(response.fullInfoTracks.filter(track => track.finished !== tracksFilter && track.userId == props.user._id))
-
-      } else {
-        setAllTracks(response.fullInfoTracks.filter(track => track.finished !== tracksFilter))
+        } else {
+          setAllTracks(response.fullInfoTracks.filter(track => track.finished !== tracksFilter))
+        }
+      } catch (e) {
+        Alert.alert('Erreur...', 'Une erreur est survenue lors de la récupération des données.')
+        console.log(e);
       }
-
     }
     if (isFocused) {
       loadData()
@@ -125,9 +127,7 @@ function History(props) {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <HStack style={{ justifyContent: "space-between", alignItems: 'center', borderBottomWidth: 1, borderColor: '#CCCCCC' }} mb={'1%'} >
-        <Box w='20%'>
-          <HamburgerMenu navigation={props.navigation} />
-        </Box>
+        <Box w='20%' my={3} h={7} />
         <Heading fontSize={16} textAlign="center">
           {user._id === props.user._id ? (<Text>Mes Randonnées</Text>) : (<Text>Randonnées de {user.name}</Text>)}
         </Heading>

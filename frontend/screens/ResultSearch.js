@@ -233,7 +233,7 @@ w={70}
         {/* Journey List */}
 
         {mapdisplay === false ? (
-          searchStatus===true?<ScrollView style={{ flex: 1  }} contentContainerStyle={{ flex:1 }}>{listRando}</ScrollView>
+          searchStatus===true?<ScrollView style={{ flex: 1  }} >{listRando}</ScrollView>
           :<View style={{flex:1, alignItems:'center', justifyContent:'center' }}>
             <HStack alignSelf='center' space={2} justifyContent="center">
                <Spinner color='#079992' accessibilityLabel="Loading posts" size="lg" />

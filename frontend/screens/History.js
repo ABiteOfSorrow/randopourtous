@@ -89,7 +89,7 @@ function History(props) {
           w='100%'
         >
           {rando.name.length > 15 ? rando.name.slice(0, 15) + '...' : rando.name}
-          <Button w={'25%'} h={8} p={0} mt={2} mr={2} shadow="9" style={{ backgroundColor: "#78E08F", }} onPress={() => rando.finished === false ? props.navigation.navigate('BottomMenuTabs', { screen: 'Randos', params: { screen: 'Detail', params:{ rando }}}) : props.navigation.navigate('Chercher', { screen: 'Resume', params: { rando } })}>
+          <Button w={'25%'} h={8} p={0} mt={2} mr={2} shadow="9" style={{ backgroundColor: "#78E08F", }} onPress={() => rando.finished === false ? props.navigation.navigate('BottomMenuTabs', { screen: 'Randos', params: { screen: 'Detail', params:{ rando }, initial: false}}) : props.navigation.navigate('Chercher', { screen: 'Resume', params: { rando }, initial: false })}>
             <Text fontSize="xs" style={{ fontWeight: 'bold', color: "white" }} >
               Voir
             </Text>

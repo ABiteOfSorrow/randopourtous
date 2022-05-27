@@ -106,7 +106,7 @@ function ResultSearch(props) {
     )
   } else {
     listRando = resultSearch.map((rando, i) => (
-      <Box style={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }} >
+      <Box key={i} style={{ width: '100%', flexDirection: 'row', justifyContent: 'center' }} mb={1} >
       <Center
         w={'90%'}
         px={2}
@@ -118,14 +118,15 @@ function ResultSearch(props) {
         display='flex'
         flexDirection='column'
         justifyContent='space-between'>
-        <Heading size='sm' textAlign='center' fontWeight={'medium'}>
-          {rando.name}
-        </Heading>
+
         <Box flexDirection={'row'} style={{ justifyContent: 'space-between', width: '100%', alignItems: 'center' }} >
           <Box>
             <Heading size='sm' fontWeight={'medium'}>{rando.departure.nom}</Heading>
           </Box>
-
+          <VStack>
+          <Heading size='sm' textAlign='center' fontWeight={'medium'}>
+          {rando.name}
+        </Heading>
           <Box space={2} alignItems='center'>
             <Text fontSize='sm'>
               {rando.level}
@@ -134,6 +135,7 @@ function ResultSearch(props) {
               {rando.users.length} / {rando.maxUsers} participants
             </Text>
           </Box>
+          </VStack>
           <Button
             size='md'
             bg='#78E08F'
@@ -229,7 +231,7 @@ w={70}
         {/* Journey List */}
 
         {mapdisplay === false ? (
-          searchStatus===true?<ScrollView style={{ flex: 1  }}>{listRando}</ScrollView>
+          searchStatus===true?<ScrollView style={{ flex: 1}}>{listRando}</ScrollView>
           :<View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
             <HStack alignSelf='center' space={2} justifyContent="center">
                <Spinner color='#079992' accessibilityLabel="Loading posts" size="lg" />

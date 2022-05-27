@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import backendConfig from '../backend.config.json';
-import { AntDesign, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
+import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import { LinearGradient } from 'expo-linear-gradient';
 
 const backendAdress = backendConfig.address;

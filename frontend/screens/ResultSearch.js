@@ -40,7 +40,6 @@ function ResultSearch(props) {
           setResultSearch([...response.result])
           setSerchStatus(true)
 
-
           //*** initialisation du zoom de la carte en fonction des paramètres de recherche */
 
           //**** si ville dans le champe de recherche (reducer) alors on zoom sur la ville */
@@ -86,6 +85,9 @@ function ResultSearch(props) {
             }
           }
           setMapConfig(mapSetUp)
+        } else {
+          console.log(JSON.stringify(response))
+          setSerchStatus(true)
         }
       } catch (error) {
         Alert.alert('Erreur', 'Une erreur est survenue')
@@ -231,8 +233,8 @@ w={70}
         {/* Journey List */}
 
         {mapdisplay === false ? (
-          searchStatus===true?<ScrollView style={{ flex: 1}}>{listRando}</ScrollView>
-          :<View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
+          searchStatus===true?<ScrollView style={{ flex: 1  }} contentContainerStyle={{ flex:1 }}>{listRando}</ScrollView>
+          :<View style={{flex:1, alignItems:'center', justifyContent:'center' }}>
             <HStack alignSelf='center' space={2} justifyContent="center">
                <Spinner color='#079992' accessibilityLabel="Loading posts" size="lg" />
                  <Heading color="#079992" fontSize="30">

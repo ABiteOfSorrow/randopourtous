@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Text, Button, ScrollView, Avatar, Box } from 'native-base';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import HamburgerMenu from '../components/HamburgerMenu';
 import { StyleSheet, View } from 'react-native';
-import { MaterialIcons, Ionicons, FontAwesome5, MaterialCommunityIcons  } from '@expo/vector-icons';
+import { Ionicons,  } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
 function Home(props) {

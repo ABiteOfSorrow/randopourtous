@@ -41,6 +41,10 @@ function Resume(props) {
           },
           body: JSON.stringify(defaultResume)
         })
+        if (!randoRawResponse.ok) {
+          Alert.alert("Erreur", "Problème de connexion au serveur")
+          return ;
+        }
         let response = await randoRawResponse.json()
         // console.log(response)
         if (response.averageNote > 0) {
@@ -52,7 +56,7 @@ function Resume(props) {
           setDisable(true)
         }
       } catch (e) {
-        Alert.alert('Erreur...', 'Une erreur est survenue lors de la récupération des données.')
+        Alert.alert('Erreur...', 'Problème de connexion au serveur.')
         console.log(e)
       }
     }
@@ -75,7 +79,7 @@ function Resume(props) {
     // Permissions request isn't necessary for launching the image library
     let photo = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      quality: 0.5,
+      quality: 0.7,
       base64: true,
       exif: true
     });
@@ -295,7 +299,7 @@ function Resume(props) {
           </Flex>
         </VStack>
 
-        <Button isDisabled={disable} w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mt={5} shadow="9" onPress={submitRating}>
+        <Button isDisabled={disable} w={"80%"} size="md" backgroundColor="#78E08F" alignSelf="center" mt={5} shadow="6" onPress={submitRating}>
           <Text style={styles.contentText} fontSize="md">
             Donner mon avis
           </Text>

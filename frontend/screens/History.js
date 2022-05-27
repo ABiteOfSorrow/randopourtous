@@ -123,6 +123,13 @@ function History(props) {
     );
   })
 
+  if (allTracks.length == 0) {
+    sourceCard = [];
+    sourceCard.push(<Box key={0} w={"90%"} alignSelf="center" bg="#FFFFFF" p={2} mb={2} >
+      <Text textAlign={'center'} fontSize={16} >Vous n'avez pas encore de randonnées</Text>
+    </Box>)
+  }
+
   //Affichage
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -158,7 +165,7 @@ function History(props) {
           </Button>
         </Box>
       </VStack>
-      <ScrollView style={{ width: '100%', flex: 1 }} >
+      <ScrollView style={{ width: '100%', flex: 1 }} contentContainerStyle={{ width: '100%', minHeight: '85%' }} >
         {/* Titre */}
 
         {/* History contents Line */}

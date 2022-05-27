@@ -15,7 +15,7 @@ function SignUp(props) {
   const handleClick = () => setShow(!show);
 
   //const [isLogin, setIsLogin] = useState(false)
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

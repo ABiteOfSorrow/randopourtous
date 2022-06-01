@@ -31,9 +31,12 @@ function Management(props) {
         Alert.alert("Erreur", "Problème de connexion au serveur")
         return ;
       }
-      var response = await rawResponse.json();
-
-      props.navigation.navigate("Chercher", { screen: 'Resume', params: { user: props.user, rando } })
+      //var response = await rawResponse.json();
+      if (rawResponse.ok) {
+        props.navigation.navigate("Chercher", { screen: 'Resume', params: { user: props.user, rando } });
+      } else {
+        Alert.alert("Erreur", "Problème de connexion au serveur")
+      }
     } catch (error) {
       console.log(error)
     }
@@ -62,7 +65,7 @@ function Management(props) {
         </VStack>
         {/* contents container for Demandes de partipation */}
         <VStack space={2} mb={20} alignItems="center">
-          <Heading size="lg">Demandes de partipation </Heading>
+          <Heading size="lg">Demandes de participation</Heading>
           {/* User profil box */}
           {acceptStatus===false? 
           <Box w={"90%"} h={110} bg={"#bbbbbb"} borderRadius={15} p={0} shadow="9" justifyContent={"center"} alignItems={"center"}>

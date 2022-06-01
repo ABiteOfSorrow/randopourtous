@@ -134,20 +134,20 @@ function Chat(props) {
   //   });
 
 
-  useEffect(() => {
+  /*useEffect(() => {
     setMessages([
-      {
+      /*{
         _id: 1,
         text: 'Bonjour! Comment ça va?',
         createdAt: new Date(),
         user: {
           _id: 2,
-          name: 'Jean Pierre',
+          name: '',
           avatar: 'https://placeimg.com/140/140/any',
         },
       },
     ])
-  }, [focused])
+  }, [focused])*/
 
   const onSend = useCallback((messages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))

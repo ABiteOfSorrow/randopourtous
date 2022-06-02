@@ -1,41 +1,26 @@
-/////////////already installed////////////
+Cette application est le projet final de l'équipe **Rando Pour Tous** dans le Batch#50 du Coding Boot Camp La Capsule.
 
-npm install @react-navigation/native --save
+<br>
 
-expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
+Grâce à cette application, les utilisateurs
 
-npm install @react-navigation/stack --save
+<br>
 
-npm install @react-navigation/bottom-tabs --save
+Vous pouvez créer vos propres randonnées que vous souhaitez.
 
-npm install --save redux react-redux
+<br>
 
-express --view=ejs --git
+Vous pouvez également participer à des randonnées faites par d'autres.
 
-/////////////if you want (front)/////////////////
+<br>
 
-npm install react-native-elements --force --save
+Nous espérons que vous voyagerez vers la même destination avec différentes personnes 
 
-npm install @react-native-async-storage/async-storage --save (local storage)
+<br>
 
-expo install expo-camera
+et que vous construirez diverses expériences et souvenirs.
 
-npm install --save express-fileupload
+<br>
 
-npm install --save uniqid
+![title](https://res.cloudinary.com/rupo/image/upload/v1654206810/splash_az3ikg.png)   
 
-npm install --save cloudinary
-
-npm install --save sync-request
-
-npm install --save socket.io-client
-
-expo install react-native-maps expo-location expo-permissions
-
-/////////////if you want (backend)/////////////////
-
-npm install mongoose --save
-
-npm install socket.io --save
-
-npm install --save bcrypt uid2

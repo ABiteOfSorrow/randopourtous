@@ -1,8 +1,8 @@
-var express = require('express')
-var router = express.Router()
-var cloudinary = require("cloudinary").v2;
-var fs = require("fs");
-var uniqid = require("uniqid");
+let express = require('express')
+let router = express.Router()
+let cloudinary = require("cloudinary").v2;
+let fs = require("fs");
+let uniqid = require("uniqid");
 //var request = require("sync-request");
 
 let randoModel = require('../models/rando');
@@ -81,8 +81,7 @@ router.post('/create-track', async function (req, res, next) {
 })
 
 router.post('/search-track', async function (req, res, next) {
-  let searchData = req.body
-
+  let searchData = req.body;
   //***** Securisation des données de recherche: null si vide */
   let citie = searchData.ville.nom ? searchData.ville.nom : null
   let dpt = searchData.ville.dpt ? parseInt(searchData.ville.dpt) : null
@@ -163,20 +162,18 @@ router.post('/get-tracks', async function (req, res, next) {
       }
     }
   }
-
-  return res.json({ success: true, fullInfoTracks })
+  return res.json({ success: true, fullInfoTracks });
 })
 
 router.get('/get-track', async (req, res) => {
   if (!req.query.id) {
-    return res.json({ result: false, error: 'Token manquant svp' })
+    return res.json({ result: false, error: 'Token manquant svp' });
   }
   let foundRando = await randoModel.findById(req.query.id);
   if (!foundRando) {
-    return res.json({ result: false, error: 'Rando pas trouvé svp' })
+    return res.json({ result: false, error: 'Rando pas trouvé svp' });
   }
-  return res.json({ result: true, track: foundRando })
-
+  return res.json({ result: true, track: foundRando });
 });
 
 //Request Post for upload photo to cloudinary & send to frontend

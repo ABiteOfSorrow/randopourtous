@@ -179,10 +179,7 @@ router.get('/get-track', async (req, res) => {
 
 });
 
-
-
-
-//Request Post for upload photo to cloudinary & send to frondend
+//Request Post for upload photo to cloudinary & send to frontend
 router.post("/upload", async function (req, res) {
   //  console.log(req.body.rando)
   var imagePath = "./tmp/" + uniqid() + ".jpg";
@@ -205,21 +202,22 @@ router.post("/upload", async function (req, res) {
   });
 });
 
-
-
 //*** route qui permet d'ajouter un nouveau participant à la randonnée */
-
 router.get('/add-user-track', async (req, res) => {
-  let userId = req.query.userid
-  let trackId = req.query.trackid
+  try {
+    let userId = req.query.userid
+    let trackId = req.query.trackid
+    //*** on ajoute au tableau users l'Id du nouveau participant */
+    let result = await randoModel.updateOne({ _id: trackId }, { $addToSet: { users: userId } })
+    if (!result) {
+      return res.json({ result: false, })
+    }
+    // tout se passe bien
+    return res.json({ result: true, });
 
-  //*** on ajoute au tableau users l'Id du nouveau participant */
-
-  let result = await randoModel.updateOne({ _id: trackId }, { $addToSet: { users: userId } })
-  if (result) {
-    return res.json({ result: true, })
+  } catch (err) {
+    return res.json({ result: false, error: JSON.stringify(err) })
   }
-  return res.json({ result: false, })
 });
 
 //*** route de vérification de la présence d'un utisateur dans la liste des participants */
@@ -234,11 +232,11 @@ router.get('/search-user-track', async (req, res) => {
   }
   try {
     let result = await randoModel.findById(req.query.trackid)
-
     if (!result) {
       return res.json({ result: false, });
     }
     return res.json({ result: true, rando: result });
+
   } catch (error) {
     console.log(error);
     return res.json({ result: false, error: 'Erreur serveur.' })
@@ -250,8 +248,7 @@ router.post('/finish-track', async (req, res) => {
 
   let result = await randoModel.updateOne(
     { _id: req.body._id },
-    { finished: true }
-  );
+    { finished: true } );
   if (!result) {
     return res.json({ result: false });
   }
@@ -263,8 +260,7 @@ router.post('/finish-track', async (req, res) => {
 router.post('/update-randorating', async (req, res) => {
   // Evaluation for each rando
   let privateNote = await randoModel.updateOne({ _id: req.body.randoId },
-    {
-      $addToSet: {
+    { $addToSet: {
         tempEvaluations:
         {
           _id: req.body.userId, averageNote: req.body.averageRating, paysageNote: req.body.paysageValue,
@@ -279,7 +275,6 @@ router.post('/update-randorating', async (req, res) => {
   for (let i = 0; i < randoNote.tempEvaluations.length; i++) {
     temp += randoNote.tempEvaluations[i].averageNote
   }
-  //console.log(temp)
   //Save result to DB
   randoNote.evaluations = (temp / randoNote.tempEvaluations.length).toFixed(2)
   //console.log(randoNote.evaluations)

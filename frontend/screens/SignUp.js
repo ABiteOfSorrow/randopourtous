@@ -136,7 +136,7 @@ function SignUp(props) {
             InputRightElement={
               <Button
                 size='xs'
-                style={{ backgroundColor: '#78E08F' }}
+                bg={'#78E08F'}
                 rounded='none'
                 w='1/5'
                 h='full'

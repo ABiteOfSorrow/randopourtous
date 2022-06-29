@@ -20,18 +20,15 @@ function Home(props) {
       console.log(err);
     });
     // fetch data from backend
-
     props.navigation.canGoBack(false);
   }, []);
 
-
   return (
     <SafeAreaView style={{ flex: 1, alignItems: 'center', backgroundColor: '#fff', width: '100%', justifyContent: 'center' }}>
-
-      <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center', borderBottomWidth: 1, borderColor: '#CCCCCC' }} >
+      <View style={styles.topBar} >
         <Box w={'30%'} my={3} h={7} />
         <View style={{ width: '30%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={{ fontSize: 18, fontWeight: 'bold', padding: 0, margin: 0 }} >
+          <Text style={{ fontSize: 18, fontWeight: '500', padding: 0, margin: 0 }} >
             Accueil
           </Text>
         </View>
@@ -43,7 +40,9 @@ function Home(props) {
             RandoPourTous !
           </Text>
           <View style={{ width: "100%", marginTop: '4%', flexDirection: "row", justifyContent: 'center' }}>
-            <Button style={styles.buttonStyle} py={1} my={2} bg={'#78E08F'} shadow="7" onPress={() => props.navigation.navigate("Chercher")} ><Box style={styles.buttonBox} ><Text fontSize={16} color={'#fff'}>Chercher une randonnée  </Text><Ionicons name="search-circle" size={34} color="white" /></Box></Button>
+            <Button style={styles.buttonStyle} py={1} my={2} bg={'#78E08F'} shadow="7" onPress={() => props.navigation.navigate("Chercher")} >
+              <Box style={styles.buttonBox} ><Text fontSize={16} color={'#fff'}>Chercher une randonnée  </Text><Ionicons name="search-circle" size={34} color="white" /></Box>
+            </Button>
           </View>
           <Button style={styles.buttonStyle} py={1} my={1} bg={'#78E08F'} shadow="7" onPress={() => props.navigation.navigate("Create")} ><Box style={styles.buttonBox} ><Text fontSize={16} color={'#fff'}>Créer une randonnée  </Text><Ionicons name="navigate-circle" size={34} color="white" /></Box></Button>
           <View style={{ marginTop: '8%' }} >
@@ -56,9 +55,9 @@ function Home(props) {
                 uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Macaca_nigra_self-portrait_large.jpg/800px-Macaca_nigra_self-portrait_large.jpg",
               }} />
           </View>
-          <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: 1.5 }} >{props.user.username}</Text>
-          <Button alignItems='center' mt={'4%'} w={"84%"} bg={'#079992'} shadow="7" onPress={() => props.navigation.navigate('Profil')} ><Text color={'#fff'} fontSize={15} >Mon compte</Text></Button>
-          <Button mt={'3%'} w={'84%'} bg={'#bbb'} alignItems='center' shadow="7" py={1} onPress={() => props.navigation.navigate('SearchPeople')} ><Box style={styles.buttonBox} ><Text style={{ color: '#fff', fontSize: 16 }}>Chercher un utilisateur  </Text><Ionicons name="search-circle" size={34} color="white" /></Box></Button>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', marginTop: '3%' }} >{props.user.username}</Text>
+          <Button alignItems='center' mt={'4%'} w={"84%"} bg={'#079992'} shadow="5" onPress={() => props.navigation.navigate('Profil')} ><Text color={'#fff'} fontSize={15} >Mon compte</Text></Button>
+          <Button mt={'3%'} w={'84%'} bg={'#bbb'} alignItems='center' shadow="5" py={1} onPress={() => props.navigation.navigate('SearchPeople')} ><Box style={styles.buttonBox} ><Text style={{ color: '#fff', fontSize: 16 }}>Chercher un utilisateur  </Text><Ionicons name="search-circle" size={34} color="white" /></Box></Button>
         </LinearGradient>
       </ScrollView>
       <StatusBar style='auto' />
@@ -67,6 +66,15 @@ function Home(props) {
 }
 
 const styles = StyleSheet.create({
+  topBar : { 
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderColor: '#CCCCCC'
+  },
   buttonStyle: {
     width: '84%',
     color: "white",

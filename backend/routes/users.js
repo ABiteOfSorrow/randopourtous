@@ -4,11 +4,11 @@ let bcrypt = require('bcrypt');
 let uid = require('uid2');
 let mongoose = require('mongoose');
 let UserModel = require('../models/user');
-var RandoModel = require('../models/rando')
+//var RandoModel = require('../models/rando')
 const cost = 10;
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
+router.get('/', function (req, res) {
   res.json({ result: false, error: 'Please use a correct route.' });
 });
 
@@ -77,7 +77,7 @@ router.post('/edit-profile', async (req, res) => {
   if (!foundUser) {
     return res.json({ result: false, error: 'Mauvais token.' })
   }
-  console.log(JSON.stringify(req.body));
+  //console.log(JSON.stringify(req.body));
   if (typeof req.body.name !== 'string' || typeof req.body.lastname !== 'string' || typeof req.body.age !== 'string') {
     return res.json({ result: false, error: 'Mauvais type de données.' })
   }
@@ -92,18 +92,29 @@ router.post('/edit-profile', async (req, res) => {
   foundUser.name = name;
   foundUser.lastname = lastname;
   foundUser.age = age;
-  let savedUser = await foundUser.save();
-  if (savedUser) {
-    return res.json({ result: true, user: savedUser })
+  try {
+    let savedUser = await foundUser.save();
+
+    if (savedUser) {
+      return res.json({ result: true, user: savedUser })
+    }
+    return res.json({ result: false, error: 'Erreur lors de la sauvegarde.', user: foundUser })
+  } catch (error) {
+    return res.json({ result: false, error: 'Erreur lors de la sauvegarde.', user: foundUser })
   }
-  return res.json({ result: false, error: 'Erreur lors de la sauvegarde.', user: foundUser })
 })
 
 router.get('/search-people', async (req, res) => {
   if (!req.query.username) {
-    return res.json({ result: false, error: 'Username is missing.' });
+    return res.json({ result: false, error: "Il manque le nom d'utisateur." });
   }
-  let foundUsers = await UserModel.find({ username: req.query.username }).populate('tracks').exec();
+  let foundUsers;
+  try {
+    foundUsers = await UserModel.find({ username: req.query.username }).populate('tracks').exec();
+  } catch (error) {
+    console.log(error)
+    return res.json({ result: false, error: "Erreur lors de la recherche." });
+  }
   let cleanUsers = [];
   foundUsers.forEach(user => {
     cleanUsers.push({
@@ -124,28 +135,33 @@ router.get('/search-people', async (req, res) => {
 
 router.post('/add-friend', async (req, res) => {
   if (!req.body.token || !req.body.username) {
-    return res.json({ result: false, error: 'Token or username is missing.' });
+    return res.json({ result: false, error: "Le token ou le nom d'utilisateur est manquant." });
   }
-  let foundUser = await UserModel.findOne({ token: req.body.token });
-  if (!foundUser) {
-    return res.json({ result: false, error: 'User token not found.' });
-  }
-  let foundFriend = await UserModel.findOne({ username: req.body.username });
-  if (!foundFriend) {
-    return res.json({ result: false, error: 'User to friend not found.' });
-  }
-  // check if not already friends
-  if (foundUser.friends.includes(foundFriend._id)) {
-    return res.json({ result: false, error: 'Vous etes déjà amis.' });
-  }
+  try {
+    let foundUser = await UserModel.findOne({ token: req.body.token });
+    if (!foundUser) {
+      return res.json({ result: false, error: 'Mauvais token. Utilisateur non trouvé.' });
+    }
+    let foundFriend = await UserModel.findOne({ username: req.body.username });
+    if (!foundFriend) {
+      return res.json({ result: false, error: 'User to friend not found.' });
+    }
+    // check if not already friends
+    if (foundUser.friends.includes(foundFriend._id)) {
+      return res.json({ result: false, error: 'Vous etes déjà amis.' });
+    }
 
-  foundUser.friends.push(foundFriend._id);
-  await foundUser.save();
-  return res.json({ result: true, user: foundUser });
+    foundUser.friends.push(foundFriend._id);
+    await foundUser.save();
+    return res.json({ result: true, user: foundUser });
+  } catch (error) {
+    console.log(error)
+    return res.json({ result: false, error: "Une erreur du serveur est survenue." });
+  }
 });
 
 router.get('/user/:id', async (req, res) => {
-  console.log(req.params.id)
+  //console.log(req.params.id)
   if (!req.params.id) {
     return res.json({ result: false, error: 'Id est manquant.' });
   }

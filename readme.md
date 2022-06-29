@@ -13,4 +13,14 @@ Nous espérons que vous voyagerez vers la même destination avec différentes pe
 
 et que vous construirez diverses expériences et souvenirs.
 
+Pour démarrer:
+
+```bash
+npm install
+
+npm run dev
+# ou pour lancer en production
+npm start
+```
+
 ![title](https://res.cloudinary.com/rupo/image/upload/v1654206810/splash_az3ikg.png?raw=true)

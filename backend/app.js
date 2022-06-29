@@ -4,21 +4,19 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var fileUpload = require("express-fileupload");
-
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
 var fs = require('fs');
-var dir = './tmp';
 
+let indexRouter = require('./routes/index');
+let usersRouter = require('./routes/users');
+
+
+let dir = './tmp';
 if (!fs.existsSync(dir)){
-    fs.mkdirSync(dir, { recursive: true });
+  fs.mkdirSync(dir, { recursive: true });
 }
 
 var app = express();
 app.use(fileUpload());
-
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -43,7 +41,7 @@ app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-  console.log(req.ip)
+  console.log(req.ip);
   // render the error page
   res.status(err.status || 500);
   res.render('error');

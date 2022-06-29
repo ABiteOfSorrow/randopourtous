@@ -18,6 +18,7 @@ let randoModel = require('../models/rando')
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({ port: 8080 });
 
+// work in progress
 wss.on('connection', function (ws) {
   ws.on('message', function (data) {
 

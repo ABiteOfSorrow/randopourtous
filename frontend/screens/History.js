@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { HStack, VStack, Heading, Box, Button, Text, Alert } from "native-base";
 import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { connect } from "react-redux";
 import { useIsFocused } from '@react-navigation/native';
 
-import backendConfig from '../backend.config.json'
-const backendAdress = backendConfig.address
+import backendConfig from '../backend.config.json';
+const backendAdress = backendConfig.address;
 
 function History(props) {
   //Vérifie si l'utilisateur est bien sur cette page
@@ -15,36 +15,31 @@ function History(props) {
   const [allTracks, setAllTracks] = useState([]);
   const [tracksFilter, setTracksFilter] = useState(null)
   const [tracksFilterAdmin, setTracksFilterAdmin] = useState(false)
-
+  const [loading, setLoading] = useState(false);
 
   //Initialisation de toutes les randos de l'utilisateur à l'ouverture de composant et dès le changement de la variable d'état "tracksFilter"
-  let user = props.route.params ? props.route.params : props.user
+  let user = props.route.params ? props.route.params : props.user;
 
   useEffect(() => {
-
-    //console.log(tracksFilterAdmin)
-
-    //Récupérations des randos dans la BDD
     async function loadData() {
+      setLoading(true);
+      //Récupérations des randos depuis le backend
       //****** si on vient du screen OtherProfile, on a le param props.params.user sinon on vient du screen MyProfile donc c'est l'user du store */
-
       try {
-        var rawResponse = await fetch(backendAdress + '/get-tracks', {
+        let rawResponse = await fetch(backendAdress + '/get-tracks', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(user)
         });
-
-
-
         //console.log("props.user.tracks", props.user.tracks)
-
-        var response = await rawResponse.json();
-
+        if (!rawResponse.ok) {
+          console.log('Server connection error.')
+          //Alert.alert('Erreur', 'Problème de connexion au serveur.')
+        }
+        let response = await rawResponse.json();
         //Filtrage dynamique
         if (tracksFilterAdmin) {
           setAllTracks(response.fullInfoTracks.filter(track => track.finished !== tracksFilter && track.userId == props.user._id))
-
         } else {
           setAllTracks(response.fullInfoTracks.filter(track => track.finished !== tracksFilter))
         }
@@ -52,23 +47,21 @@ function History(props) {
         Alert.alert('Erreur...', 'Une erreur est survenue lors de la récupération des données.')
         console.log(e);
       }
+      setLoading(false);
     }
     if (isFocused) {
-      loadData()
+      loadData();
     }
-
   }, [tracksFilter, tracksFilterAdmin, isFocused, props.route.params]);
 
 
-  var sourceCard = allTracks.map((rando, i) => {
-
+  let sourceCard = allTracks.map((rando, i) => {
     //Condition qui adapte la couleur et le status des cartes selon les randos
     if (rando.finished == true) {
       var colorBg = "#ededed"
       var colorText = "black"
       var etat = "Achevée"
-    }
-    else {
+    } else {
       var colorBg = "#FFFFFF"
       var colorText = "black"
       var etat = "En cours..."
@@ -165,12 +158,10 @@ function History(props) {
           </Button>
         </Box>
       </VStack>
-      <ScrollView style={{ width: '100%', flex: 1 }} contentContainerStyle={{ width: '100%', minHeight: '85%' }} >
-        {/* Titre */}
-
-        {/* History contents Line */}
+      <ScrollView style={{ width: '100%', flex: 1 }} contentContainerStyle={{ width: '100%', flex:1 }} >
+        {/* History contents */}
         {sourceCard}
-
+        { loading && <Text textAlign={'center'} fontSize={24} >Chargement...</Text>}
       </ScrollView>
     </SafeAreaView>
   );
@@ -185,8 +176,6 @@ const styles = StyleSheet.create({
     borderColor: '#CCCCCC',
     color: '#000',
     borderRadius: 5,
-
-
   },
   menu: {
     justifyContent: "center",

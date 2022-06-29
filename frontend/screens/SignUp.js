@@ -54,7 +54,6 @@ function SignUp(props) {
           email: email,
           username: username,
           password: password,
-
         }),
       })
       if (result.ok) {
@@ -76,15 +75,12 @@ function SignUp(props) {
         props.navigation.replace('Home');
       }
 
-
     } catch (e) {
       setLoading(false);
       console.log(e)
-      Alert.alert('Erreur', 'Problème de connexion au serveur.')
+      Alert.alert('Erreur', 'Problème de connexion au serveur.');
     }
   }
-
-  useEffect(() => { }, [])
 
   return (
     <SafeAreaView
@@ -206,7 +202,7 @@ function SignUp(props) {
           }}>
           <Text>Vous avez déjà un compte?</Text>
           <Button
-            style={{ backgroundColor: '#bbb' }}
+            bg={'#bbb'}
             mt={2}
             mb={2}
             w={'100%'}

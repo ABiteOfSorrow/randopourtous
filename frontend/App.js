@@ -3,7 +3,8 @@ LogBox.ignoreLogs([
   "exported from 'deprecated-react-native-prop-types'.",
   "Method has been deprecated.",
   "Each child in a list should have a unique",
-  "Encountered two children with the same key"
+  "Encountered two children with the same key",
+  "ViewPropTypes will be removed from React Native. Migrate to ViewPropTypes exported from 'deprecated-react-native-prop-types'."
 ])
 // LogBox.ignoreAllLogs(true);
 import React from 'react'
@@ -118,7 +119,6 @@ function resetTabStackListener() {
       return {
         tabPress: (e) => {
           const state = navigation.dangerouslyGetState();
-
           if (state) {
             const nonTargetTabs = state.routes.filter((r) => r.key !== e.target);
 

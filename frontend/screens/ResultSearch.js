@@ -21,7 +21,7 @@ function ResultSearch(props) {
 
   //**** iniatilisation de la liste des résultat de recherche via requête dans la BDD */
   useEffect(() => {
-    var searchFunction = async function () {
+    let searchFunction = async () => {
       try {
         let result = await fetch(backendAdress + '/search-track', {
           method: 'POST',
@@ -90,11 +90,10 @@ function ResultSearch(props) {
           setSerchStatus(true)
         }
       } catch (error) {
-        Alert.alert('Erreur', 'Une erreur est survenue')
+        Alert.alert('Erreur', 'Une erreur est survenue. Problème de connexion.')
         console.log(error)
       }
     }
-
     searchFunction()
   }, [props.data])
 
@@ -102,8 +101,8 @@ function ResultSearch(props) {
   //**** si pas de résultats, affichage d'une message d'erreur, sinon affichage de la liste des randos */
   if (resultSearch.length === 0) {
     listRando = (
-      <Heading size='lg' mb={5} textAlign='center'>
-        pas de Resultat
+      <Heading size='lg' mb={5} mt={5} textAlign='center' fontWeight={'semibold'}>
+        Pas de résultat.
       </Heading>
     )
   } else {
@@ -173,8 +172,7 @@ function ResultSearch(props) {
         <View style={styles.callout}>
           <Heading fontSize='15'>{rando.name.length>15?rando.name.slice(0,15)+'...':rando.name}</Heading>
           <Text fontSize='12'>{rando.description.length>20?rando.description.slice(0,50)+'...':rando.description}</Text>
-          <Button
-w={70}
+          <Button w={70}
             h={6}
             p={0}
             mt={2}
@@ -192,11 +190,7 @@ w={70}
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
-      <View
-        style={{
-          flex: 1,
-
-        }}>
+      <View style={{ flex: 1 }}>
         <HStack justifyContent='space-between' mb={1}>
           <Box />
           <Button
@@ -257,7 +251,6 @@ w={70}
           </View>
         )}
       </View>
-      {/* To prevent leaving the content area */}
       <StatusBar style='auto' />
     </SafeAreaView>
   )

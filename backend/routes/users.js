@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 let bcrypt = require('bcrypt');
 let uid = require('uid2');
 let mongoose = require('mongoose');
@@ -185,9 +185,5 @@ router.get('/user/:id', async (req, res) => {
   }
   return res.json({ result: true, user: cleanUser });
 });
-
-
-
-
 
 module.exports = router;

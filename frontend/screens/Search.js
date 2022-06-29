@@ -17,7 +17,7 @@ function Search(props) {
   const [isHourPickerVisible, setHourPickerVisibility] = useState(false)
   const [citie, setCitie] = useState({})
   const [listCities, setListCities] = useState([])
-  const [age, setAge] = useState()
+  const [age, setAge] = useState();
   const [mixte, setMixte] = useState(false)
   const [coord, setCoord] = useState({ lat: 48.856614, long: 2.3522219 })
 
@@ -25,12 +25,10 @@ function Search(props) {
   const showDatePicker = () => {
     setDatePickerVisibility(true)
   }
-
   const hidePicker = () => {
     setDatePickerVisibility(false)
     setHourPickerVisibility(false)
   }
-
   //************************* */
 
   // gestion de l'autocompletion des villes avec l'API du gouvernement
@@ -44,15 +42,13 @@ function Search(props) {
           var result = await fetch(`https://geo.api.gouv.fr/communes?nom=${e}`)
           if (result.ok) {
             var response = await result.json()
-
-
-            for (let item of response) {
+            response.forEach((item) => {
               listCities.push({
                 nom: item.nom,
                 dpt: item.codeDepartement,
                 codePostal: item.codesPostaux[0],
               })
-            }
+            });
           } else {
             console.log('Problème de api du gouvernement')
           }
@@ -76,7 +72,41 @@ function Search(props) {
     setListCities([...listCities])
   }
 
-  //*************************************** */
+  const getSearch = (data) => {
+    // ajout des données de recherche dans le reduceur
+    props.addData(data);
+    props.navigation.navigate('ResultSearch');
+  }
+
+  const handleSearchButton = () => {
+    let sendObject = {
+      ville: citie,
+      mixte: mixte,
+      age: age,
+      date: date ? date.toString() : undefined,
+      niveau: level,
+    }
+    getSearch(sendObject)
+  }
+
+  const handleCityPress = async (e) => {
+    setCitie(e)
+    setListCities([])
+    // si la longueur du CP>2 cela veut dire que ce n'est pas un département, on zoom donc sur la ville
+    if (e.codePostal.length > 2) {
+      try {
+        let result = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${e.nom}&limit=1`);
+        if (!result.ok) Alert.alert('Erreur', 'Problème de connexion')
+        var response = await result.json();
+        setCoord({
+          lat: response.features[0].geometry.coordinates[1],
+          long: response.features[0].geometry.coordinates[0],
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
 
   // initialisation de la liste déroulante des ages
   let listAge = []
@@ -89,18 +119,6 @@ function Search(props) {
   //   <Select.Item label={e.toString()} value={e.toString()} key={i} />
   // ))
 
-  //***************************************** */
-
-
-  var getSearch = function (data) {
-
-    // ajout des données de recherche dans le reduceur
-    props.addData(data)
-
-    props.navigation.navigate('ResultSearch')
-
-  }
-
   return (
     <SafeAreaView style={{ flex: 1, width: '100%', backgroundColor: '#fff' }}>
       <HStack alignItems='center' justifyContent='space-between' style={{ borderBottomWidth: 1, borderColor: '#CCCCCC' }}>
@@ -108,12 +126,11 @@ function Search(props) {
         <Heading fontSize={18}> Chercher une randonnée </Heading>
         <Box w={'20%'} />
       </HStack>
-      <LinearGradient colors={['#e8eaec', 'white']} style={styles.gradient} >
+      <LinearGradient colors={['#eeeeee', 'white']} style={styles.gradient} >
         <VStack
           mt={'3%'}
           space={1}
           style={{ alignItems: 'center', flex: 1 }}>
-
 
           {/* sélection de la ville */}
           <Input
@@ -127,46 +144,24 @@ function Search(props) {
             value={citie.nom}
           />
           {listCities.length >= 1 ? (
-            <View style={{ width: '84%' }}>
-              <ScrollView style={{ width: '100%', minHeight: '100%' }} >
-                {listCities.map((e, i) => (
-                  <TouchableOpacity
-                    key={i}
-                    style={{
-                      borderWidth: 1,
-                      borderColor: '#ddd',
-                      paddingVertical: 1,
-                      width: '100%',
-                    }}
-                    onPress={async () => {
-                      setCitie(e)
-                      // console.log(e)
-                      setListCities([])
-
-                      // si la longueur du CP>2 cela veut dire que ce n'est pas un département, on zoom donc sur la ville
-                      if (e.codePostal.length > 2) {
-                        try {
-                          var result = await fetch(
-                            `https://api-adresse.data.gouv.fr/search/?q=${e.nom}&limit=1`
-                          )
-                          var response = await result.json()
-                          setCoord({
-                            lat: response.features[0].geometry.coordinates[1],
-                            long: response.features[0].geometry.coordinates[0],
-                          })
-                        } catch (error) {
-                          console.log(error)
-                        }
-                      }
-                    }}>
-                    <Text key={i}>{e.nom + ' (' + e.codePostal + ')'}</Text>
-                  </TouchableOpacity>
-                ))}
-              </ScrollView>
-            </View>
-          ) : (
-            <></>
-          )}
+            <ScrollView style={{ width: '84%', maxHeight: '32%', borderColor: '#ddd', borderWidth: 1, alignSelf: 'baseline', marginLeft: '8%' }} >
+              {listCities.map((el, i) => (
+                <TouchableOpacity
+                  key={i + ' city'}
+                  style={{
+                    borderWidth: 1,
+                    borderColor: '#ddd',
+                    paddingVertical: 1,
+                    width: '100%',
+                    paddingHorizontal: '2%',
+                    paddingVertical: '0.3%'
+                  }}
+                  onPress={() => handleCityPress(el)}>
+                  <Text key={i}>{el.nom + ' (' + el.codePostal + ')'}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          ) : (<></>)}
 
           <Box
             style={{
@@ -211,8 +206,7 @@ function Search(props) {
             shadow="3"
             colorScheme='secondary'
             onPress={showDatePicker}>
-            <Text
-              style={{ marginLeft: 11, fontSize: 10, color: '#aaa', paddingVertical: 5 }}>
+            <Text style={{ marginLeft: 11, fontSize: 10, color: '#aaa', paddingVertical: 5 }}>
               {!date
                 ? 'Date & Heure'
                 : date.toLocaleDateString('fr') +
@@ -251,16 +245,7 @@ function Search(props) {
             p={0}
             bg='#78E08F'
             shadow="9"
-            onPress={() => {
-              let sendObject = {
-                ville: citie,
-                mixte: mixte,
-                age: age,
-                date: date ? date.toString() : undefined,
-                niveau: level,
-              }
-              getSearch(sendObject)
-            }}>
+            onPress={handleSearchButton}>
             <Box style={styles.buttonBox} ><Text color={'#fff'}>Rechercher  </Text><Ionicons name="search-circle" size={34} color="white" /></Box>
           </Button>
           <View style={styles.mapContainer}>

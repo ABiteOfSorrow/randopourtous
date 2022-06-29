@@ -19,7 +19,7 @@ function SignIn(props) {
     AsyncStorage.getItem("user")
       .then((user) => {
         if (user) {
-          user = JSON.parse(user)
+          user = JSON.parse(user);
           console.log("user found in async storage");
           (async () => {
             try {

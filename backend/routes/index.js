@@ -16,8 +16,8 @@ cloudinary.config({
 });
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express' })
+router.get('/', function (req, res) {
+  res.json({ title: "Welcome to Backend REST api." })
 })
 
 router.post('/create-track', async function (req, res, next) {

@@ -8,6 +8,8 @@ let uniqid = require("uniqid");
 let randoModel = require('../models/rando');
 let UserModel = require('../models/user');
 
+const IndexController = require('../controllers/index');
+
 // cloudinary for upload photos
 cloudinary.config({
   cloud_name: "rupo",
@@ -24,7 +26,6 @@ router.post('/create-track', async function (req, res, next) {
   let randoData = req.body
   let estimation_time = randoData.estimation_time
   let description = randoData.description
-
   //sécurité contre champs vide
   if (!description) {
     description = ''

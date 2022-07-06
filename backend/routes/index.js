@@ -77,7 +77,6 @@ router.post('/create-track', async function (req, res, next) {
     foundUser.tracks.push(randoSaved._id)
     await foundUser.save()
   }
-
   return res.json({ result: true, rando: randoSaved, user: foundUser })
 })
 
@@ -243,10 +242,9 @@ router.get('/search-user-track', async (req, res) => {
 
 router.post('/finish-track', async (req, res) => {
   //console.log("req.body ", req.body)
-
   let result = await randoModel.updateOne(
     { _id: req.body._id },
-    { finished: true } );
+    { finished: true });
   if (!result) {
     return res.json({ result: false });
   }
@@ -258,7 +256,8 @@ router.post('/finish-track', async (req, res) => {
 router.post('/update-randorating', async (req, res) => {
   // Evaluation for each rando
   let privateNote = await randoModel.updateOne({ _id: req.body.randoId },
-    { $addToSet: {
+    {
+      $addToSet: {
         tempEvaluations:
         {
           _id: req.body.userId, averageNote: req.body.averageRating, paysageNote: req.body.paysageValue,
@@ -314,17 +313,16 @@ router.post('/get-resume', async (req, res) => {
   }
   if (!result) {
     return res.json({ result: false, error: `Il n'y a pas de rando` })
-  } else if (result) {
-    for (let i = 0; i < result.tempEvaluations.length; i++) {
-      if (result.tempEvaluations[i]._id == req.body.userId) {
-        averageNote = result.tempEvaluations[i].averageNote
-        paysageNote = result.tempEvaluations[i].paysageNote
-        ambianceNote = result.tempEvaluations[i].ambianceNote
-        difficultyNote = result.tempEvaluations[i].difficultyNote
-      }
-    } randoPhotos = result.randoImage
-    return res.json({ result: true, averageNote, paysageNote, ambianceNote, difficultyNote, randoPhotos })
   }
+  for (let i = 0; i < result.tempEvaluations.length; i++) {
+    if (result.tempEvaluations[i]._id == req.body.userId) {
+      averageNote = result.tempEvaluations[i].averageNote
+      paysageNote = result.tempEvaluations[i].paysageNote
+      ambianceNote = result.tempEvaluations[i].ambianceNote
+      difficultyNote = result.tempEvaluations[i].difficultyNote
+    }
+  } randoPhotos = result.randoImage
+  return res.json({ result: true, averageNote, paysageNote, ambianceNote, difficultyNote, randoPhotos })
 });
 
 

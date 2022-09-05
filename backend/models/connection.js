@@ -1,14 +1,16 @@
 let mongoose = require('mongoose');
 
+require("dotenv").config();
+const { MONGOLINK } = process.env;
+
+
 const options = {
    useNewUrlParser: true,
    useUnifiedTopology: true,
    connectTimeoutMS: 5000,
 }
 
-const mongoLink = 'mongodb+srv://rupo:randopourtous50@randopourtous.1w4rx.mongodb.net/randoPourTous?retryWrites=true&w=majority';
-
-mongoose.connect(mongoLink, options, (err) => {
+mongoose.connect(MONGOLINK, options, (err) => {
    if (err) {
       console.log(err);
    } else {

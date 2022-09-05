@@ -47,12 +47,15 @@ function Resume(props) {
         }
         let response = await randoRawResponse.json()
         // console.log(response)
+        if (response.randoPhotos.length > 0){
+            setImage(response.randoPhotos);
+        }
+
         if (response.averageNote > 0) {
           setUserRating(response.averageNote)
           setPaysageValue(response.paysageNote)
           setAmbianceValue(response.ambianceNote)
           setDifficultyValue(response.difficultyNote)
-          setImage(response.randoPhotos)
           setDisable(true)
         }
       } catch (e) {

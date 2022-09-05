@@ -3,6 +3,7 @@ let router = express.Router()
 let cloudinary = require("cloudinary").v2;
 let fs = require("fs");
 let uniqid = require("uniqid");
+require("dotenv").config();
 //var request = require("sync-request");
 
 let randoModel = require('../models/rando');
@@ -13,8 +14,8 @@ const IndexController = require('../controllers/index');
 // cloudinary for upload photos
 cloudinary.config({
   cloud_name: "rupo",
-  api_key: "844975946581267",
-  api_secret: "vxmNTX3GRyB5KMi8xWp9IM8u2zs",
+  api_key: process.env.ApiKey,
+  api_secret: process.env.ApiSecret,
 });
 
 /* GET home page. */

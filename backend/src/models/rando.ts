@@ -1,31 +1,44 @@
-let mongoose = require('./connection')
+import mongoose from './connection'
+const Schema = mongoose.Schema;
 
-var messageSchema = mongoose.Schema({
+const messageSchema = new Schema({
   id: Number,
   author: String,
   text: String,
   createdAt: Date,
   user: {},
 })
-var departureSchema = mongoose.Schema({
+const departureSchema = new Schema({
   nom: String,
   dpt: Number,
   codePostal: Number,
 })
 
-var tempEvaluationsSchema = mongoose.Schema({
-  averageNote: Number,
-  paysageNote: Number,
-  ambianceNote: Number,
-  difficultyNote: Number
+const tempEvaluationsSchema = new Schema({
+  averageNote: {
+    type: Number,
+    required: true
+  },
+  paysageNote: {
+    type: Number,
+    required: true
+  },
+  ambianceNote: {
+    type: Number,
+    required: true
+  },
+  difficultyNote: {
+    type: Number,
+    required: true
+  }
 })
 
-var randoImageSchema = mongoose.Schema({
+const randoImageSchema = new Schema({
   source: String,
 })
 
 // create rando schema
-let randoSchema = new mongoose.Schema({
+const randoSchema = new Schema({
   mixed: Boolean,
   name: String,
   departure: departureSchema, //Ne pas oublier la log et lat
@@ -46,6 +59,7 @@ let randoSchema = new mongoose.Schema({
 })
 
 // link schema to collection
-let rando = mongoose.model('rando', randoSchema)
+let RandoModel = mongoose.model('rando', randoSchema)
 
-module.exports = rando
+module.exports = RandoModel
+export default RandoModel

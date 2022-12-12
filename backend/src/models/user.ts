@@ -19,3 +19,4 @@ let userSchema = new mongoose.Schema({
 let Track = mongoose.model('users', userSchema);
 
 module.exports = Track;
+export default Track

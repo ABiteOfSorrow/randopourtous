@@ -1,7 +1,8 @@
-let express = require('express');
+import express from 'express';
+import UserController from '../controllers/user';
+
 let router = express.Router();
 
-const UserController = require('../controllers/user');
 
 /* GET users listing. */
 router.get('/', function (req, res) {
